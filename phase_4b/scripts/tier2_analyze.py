@@ -55,7 +55,7 @@ def run_tier2(parquet_file: Path, output_dir: Path):
     target_rows = []
     cardinality_sets = {m: set() for m in ['Lambda_total', 'Drive_Raw', 'p_act', 'Psi_local', 'Local_Density']}
     
-    # Batch Processing
+    # Batch Processing Loop for Memory Hygiene
     for batch in dataset.to_batches():
         df = batch.to_pandas()
         
@@ -63,7 +63,7 @@ def run_tier2(parquet_file: Path, output_dir: Path):
         for m in cardinality_sets.keys():
             cardinality_sets[m].update(np.round(df[m].dropna(), 6).unique())
             
-        # Target isolation
+        # Target isolation for ticks
         target_rows.append(df[df['Tick'].isin(target_ticks)])
         
         # Base batch metrics
@@ -113,19 +113,24 @@ def run_tier2(parquet_file: Path, output_dir: Path):
         
     t21_df.to_csv(output_dir / f"global_timeseries_{run_id}.csv", index=False)
     
-    # T2.2 Epoch Summary
+    # T2.2 Epoch Summary (Corrected Variance Logic)
+    epoch_cols = ['Lambda_total_mean', 'Drive_Raw_mean', 'p_act_mean', 
+                  'Psi_local_mean', 'b_i_v_mean', 'b_i_u_mean', 'b_i_r_mean', 
+                  'Local_Density_mean']
+    t22_agg = t21_df.groupby('epoch')[epoch_cols].agg(['mean', 'std', 'min', 'max']).reset_index()
+    t22_agg.columns = ['_'.join(col).strip('_') for col in t22_agg.columns.values]
+    
     rename_map = {
-        'Local_Density_mean': 'rho_mean', 'Local_Density_std': 'rho_std',
-        'Psi_local_mean': 'psi_global_mean', 'Lambda_total_mean': 'mean_Lambda_mean',
-        'p_act_mean': 'mean_p_act_mean', 'b_i_v_mean': 'mean_v_mean',
-        'b_i_u_mean': 'mean_u_mean', 'b_i_r_mean': 'mean_r_mean'
+        'Local_Density_mean_mean': 'rho_mean', 'Local_Density_mean_std': 'rho_std',
+        'Psi_local_mean_mean': 'psi_global_mean', 'Lambda_total_mean_mean': 'mean_Lambda_mean',
+        'p_act_mean_mean': 'mean_p_act_mean', 'b_i_v_mean_mean': 'mean_v_mean',
+        'b_i_u_mean_mean': 'mean_u_mean', 'b_i_r_mean_mean': 'mean_r_mean'
     }
-    t22_df = t21_df.groupby('epoch').mean().reset_index()
-    t22_df.rename(columns=rename_map, inplace=True)
-    t22_df['run_id'] = run_id
-    t22_df['f_variant'] = f_variant
-    t22_df['scale'] = scale
-    t22_df.to_csv(output_dir / f"epoch_summary_{run_id}.csv", index=False)
+    t22_agg.rename(columns=rename_map, inplace=True)
+    t22_agg['run_id'] = run_id
+    t22_agg['f_variant'] = f_variant
+    t22_agg['scale'] = scale
+    t22_agg.to_csv(output_dir / f"epoch_summary_{run_id}.csv", index=False)
     
     # T2.3-T2.6 Target Execution
     df_targets = pd.concat(target_rows)
@@ -135,7 +140,7 @@ def run_tier2(parquet_file: Path, output_dir: Path):
         t_df = df_targets[df_targets['Tick'] == t]
         if t_df.empty: continue
         
-        # T2.3 Quantiles - canonical 11-statistic wide schema
+        # T2.3 Quantiles (11-quantile schema match)
         for m in metrics:
             d = t_df[m]
             t23_records.append({
@@ -156,7 +161,7 @@ def run_tier2(parquet_file: Path, output_dir: Path):
             'neg_mean': t_df.loc[t_df['Psi_local'] < 0, 'Psi_local'].mean()
         })
         
-        # T2.5 Spatial - canonical 6-value pos/neg component decomposition
+        # T2.5 Spatial
         t_df = t_df.sort_values(['Agent_X', 'Agent_Y'])
         xs = t_df['Agent_X'].nunique()
         psi_grid = t_df['Psi_local'].values.reshape((xs, xs))
@@ -225,7 +230,7 @@ def run_tier2(parquet_file: Path, output_dir: Path):
         for k, v in cardinality_sets.items(): f.write(f"{k},{len(v)}\n")
 
     print(f"Tier 2 Analysis complete for {run_id}. Outputs in {output_dir}")
-    print("Methodological Note: Cardinality counted at 1e-6 precision. Connected component labeling non-toroidal. Moran's I toroidal.")
+    print("Methodological Note: Cardinality counted at 1e-6 precision. Connected component labeling non-toroidal. Moran's I toroidal. Tick-level variance uses ddof=0 (population).")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
