@@ -1,0 +1,127 @@
+﻿# Phase 4B Tier 3 Pre-Registration: reg_01_scale_interactions
+# Interaction family: IF5 (Scale interactions)
+# Outcome: O2 (logit(p_base))
+# Per Phase 4B Specification v1.1, Section 4.4
+
+data_files:
+  - flight6_probe1_overcrowding_20x20.parquet
+  - flight6_probe1_overcrowding_40x40.parquet
+  - flight6_probe2_starvation_FLR_20x20.parquet
+  - flight6_probe2_starvation_FLR_40x40.parquet
+
+outcome:
+  name: logit_p_base
+  construction: |
+    p_base = (p_act - ETA) / (1 - ETA)
+    logit_p_base = log(p_base / (1 - p_base))
+  ETA: 0.01
+  notes: |
+    Per Phase 4B spec Section 4.1 O2. Inverts the nucleation floor to recover
+    p_base, the sigmoid output before the floor. Modeling logit(p_base) yields
+    logit(p_base) = Drive_Raw, mapping directly to the cascade equation.
+
+model_family: linear
+estimation: ordinary_least_squares
+library: statsmodels
+
+predictors:
+  - Lambda_total
+  - Local_Density
+  - Local_Density_squared
+  - Term_Lambda
+  - Term_Density_Pos
+  - Term_Overcrowding
+  - Psi_local
+  - b_i_v
+  - b_i_u
+  - b_i_r
+  - F_variant
+  - scale
+  - epoch
+
+interactions:
+  family: IF5
+  family_name: Scale interactions
+  terms:
+    - scale * F_variant
+    - scale * rho_global
+    - scale * psi_global
+  sensitivity_version: false
+  notes: |
+    Core IF5 family per Phase 4B spec Section 4.2. No sensitivity-version
+    extensions. rho_global and psi_global computed as per-tick population
+    means of is_active and Psi_local respectively, joined to cellular rows
+    by tick from the Tier 2 global_timeseries.csv outputs.
+
+excluded_variables:
+  - name: p_act
+    rationale: Part of outcome construction; including would cause perfect collinearity.
+  - name: p_base
+    rationale: Identical to outcome before logit transformation; including would cause perfect collinearity.
+  - name: Drive_Raw
+    rationale: |
+      Drive_Raw equals logit(p_base) by substrate definition (Phase 4B spec
+      V4 verifies this). Including Drive_Raw as predictor of logit(p_base)
+      is tautological. The point of regressing logit(p_base) on decomposed
+      drive components is to recover the decomposition empirically; including
+      the recomposed Drive_Raw defeats that purpose.
+  - name: PRNG_draw
+    rationale: |
+      Realization-level random variable; carries no structural information
+      about activation dynamics. Per Phase 4B spec Section 4.1 O2
+      (logit(p_base) is pre-realization), inclusion is meaningless for this
+      outcome.
+  - name: Delta_v
+    rationale: |
+      Q update; affects bases at t+1 but logit(p_base) at t is fully
+      determined by t-state predictors. Including would be temporally
+      misaligned.
+  - name: Delta_u
+    rationale: Same as Delta_v.
+  - name: Delta_r
+    rationale: Same as Delta_v.
+
+uncertainty_method:
+  primary: cluster_robust
+  cluster_variable: run_x_tick
+  library: statsmodels
+  sensitivity:
+    - method: cluster_robust
+      cluster_variable: cell
+      rationale: |
+        Per Phase 4B spec Section 4.3, cell-level clustering checks
+        cell-level persistence. Reported as sensitivity, not primary.
+  notes: |
+    Four runs provide weak run-level clustering. Tick-level clustering within
+    run is more meaningful for population aggregates per Section 4.3. Cluster
+    counts at run x tick are large (12000 levels); cluster-robust SEs are
+    reliable.
+
+interpretation_boundary:
+  licenses: |
+    1. Quantification of F-form main effect on logit(p_base) at the cellular
+       level, controlling for density pathway, base structure, Psi_local, and
+       epoch.
+    2. Quantification of scale main effect on logit(p_base) at the cellular
+       level, similarly controlled.
+    3. Test of scale-stability of F-form effect via the scale x F_variant
+       interaction term: small/null interaction supports scale-stable
+       characterization (yesterday's Tier 2 cross-scale verdict).
+    4. Test of scale-dependence of population-level density (rho_global) and
+       coherence (psi_global) effects via scale x rho_global and scale x
+       psi_global.
+    5. Two-field classification of each estimated effect per Phase 4B spec
+       Section 6.
+
+  does_not_adjudicate: |
+    1. Architectural selection of F_LR vs F_2_symmetric for Open Element 14.
+       Per Phase 4B spec Section 6.4: F-form selection is structural_status =
+       open_element_not_resolved regardless of regression results.
+    2. Finite-size scaling functional form. Two scales is insufficient per
+       Section 5.3; this is outside_phase_4b_scope.
+    3. PRNG-realization variance. Matched-seed design; this is
+       requires_additional_probe (Flight 3a-style).
+    4. Causal interpretation of any coefficient. Per Phase 4B spec Section
+       4.6: Tier 3 describes statistical structure in the Flight 2 record;
+       the record was produced by known mechanisms, so coefficient signs
+       trace to mechanisms by construction, not by causal inference.
