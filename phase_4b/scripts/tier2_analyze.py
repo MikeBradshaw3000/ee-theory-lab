@@ -230,7 +230,14 @@ def run_tier2(parquet_file: Path, output_dir: Path):
         for k, v in cardinality_sets.items(): f.write(f"{k},{len(v)}\n")
 
     print(f"Tier 2 Analysis complete for {run_id}. Outputs in {output_dir}")
-    print("Methodological Note: Cardinality counted at 1e-6 precision. Connected component labeling non-toroidal. Moran's I toroidal. Tick-level variance uses ddof=0 (population).")
+    print("Methodological Notes:")
+    print("  - Cardinality counted at 1e-6 precision.")
+    print("  - Connected component labeling non-toroidal. Moran's I toroidal.")
+    print("  - Tick-level variance uses ddof=0 (population).")
+    print("  - Tick 0 Psi_local reflects initialization-to-first-step transition.")
+    print("    Subsequent target ticks (100, 500, 1000, etc.) reflect transitions")
+    print("    between two persisted simulation states. Tick 0 is included in T2.3")
+    print("    selected-tick distributions per spec, with this regime caveat.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
