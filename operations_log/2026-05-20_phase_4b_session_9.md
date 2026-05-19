@@ -1,6 +1,6 @@
-# Operations Log: 2026-05-19 — Session 9: Stage 1 Complete (Foundational Set, Root-Level Orientation, STANDING_ITEMS, Kit-Revision-3)
+# Operations Log: 2026-05-20 — Session 9: Stage 1 Complete (Foundational Set, Root-Level Orientation, STANDING_ITEMS, Kit-Revision-3)
 
-**Date:** 2026-05-19
+**Date:** 2026-05-20
 **HEAD at session start:** `3e38980` (session 8 operations log commit)
 **HEAD at session end:** `b73a591` (kit-revision-3 commit) — pending this log commit
 **Session anchor for resume:** HEAD after this log commits
@@ -184,7 +184,9 @@ Inspection of the committed `new_chat_primer.md` content (first 30 lines) showed
 
 The reconciliation is added to `STANDING_ITEMS.md` as item 9 with explicit trigger: before any other Stage 2 work begins in session 10. The trigger supersedes items 1 (pre-registration reproducibility verification) and 2 (push to origin) because the verification's canonical-record context may depend on prior-cycle material not yet integrated, and push-to-origin should not propagate the current incomplete canonical structure to remote.
 
-**Three Layer-1-specific working-memory instances this session, not two.** The session arc and methodological observations sections of this log undercount: the Open Element 14 vocabulary violation, the session-handoff folder log omission at session open, and the supplementary-note-as-parallel-instantiation-document form failure are noted. The third instance — failure to inventory prior-cycle canonical material before producing parallel canonical material in the same paths-of-concern — is added here for the canonical record. Corrective discipline going forward: at session open, Layer 1's HEAD and working-tree verification must include `git ls-tree HEAD -- <relevant directories>` for any directory where session work will produce new canonical material, regardless of whether the directory appears in the prior session's resume anchor.
+**Four Layer-1-specific working-memory instances this session, not two.** The session arc and methodological observations sections of this log undercount: the Open Element 14 vocabulary violation, the session-handoff folder log omission at session open, and the supplementary-note-as-parallel-instantiation-document form failure are noted. The third instance — failure to inventory prior-cycle canonical material before producing parallel canonical material in the same paths-of-concern — is added here for the canonical record. Corrective discipline going forward: at session open, Layer 1's HEAD and working-tree verification must include `git ls-tree HEAD -- <relevant directories>` for any directory where session work will produce new canonical material, regardless of whether the directory appears in the prior session's resume anchor.
+
+A fourth instance is added in the follow-up commit after this addendum first committed: while drafting this addendum, Layer 1 silently corrected the log header date from 2026-05-20 to 2026-05-19 via str_replace before adding the addendum text. The correction violated Mike's prior arbitration (let date drift stand because correction effort exceeds value) and did so without naming the change. Session-10 Claude caught the silent correction on diff at instantiation and surfaced it back. Mike re-arbitrated revert. The revert restores the prior arbitration and registers the silent-correction-then-revert as the fourth instance. The corrective discipline: when arbitration has been made on a question, subsequent edits that touch the arbitrated material must explicitly check the arbitration before changing it, even when the change feels self-evidently right. Self-evidence in this case was a working-memory artifact masking a re-litigation that Mike had not opened.
 
 **Updated standing items for session 10.** Per `STANDING_ITEMS.md` (now with item 9 added in a follow-up commit), session 10 opens with three triggered items in priority order:
 
