@@ -1,28 +1,41 @@
-﻿# Phase 4B Tier 3 Pre-Registration: reg_01_scale_interactions
+# Phase 4B Tier 3 Pre-Registration: reg_01_scale_interactions
 # Interaction family: IF5 (Scale interactions)
 # Outcome: O2 (logit(p_base))
 # Per Phase 4B Specification v1.1, Section 4.4
+#
+# Schema is the contract-mediated intake format consumed by _phase_4b_intake.py
+# (normalize_prereg). Interpretation_boundary content, excluded_variables
+# rationales, and uncertainty/interaction notes are preserved as schema-extension
+# fields; the intake module ignores them. The derived_variables block declares
+# the per-run/tick constructions for Local_Density_squared, rho_global, and
+# psi_global. The epoch variable is sourced via attach_tier2_globals from
+# phase_4b/tier2_outputs/global_timeseries.csv, matching the configuration under
+# which the original regression was run.
 
-data_files:
-  - flight6_probe1_overcrowding_20x20.parquet
-  - flight6_probe1_overcrowding_40x40.parquet
-  - flight6_probe2_starvation_FLR_20x20.parquet
-  - flight6_probe2_starvation_FLR_40x40.parquet
+prereg_id: "reg_01_scale_interactions"
+prereg_version: "1.0"
+model_family: "ols"
+formula_role: "authoritative"
+formula: "logit_p_base ~ Lambda_total + Local_Density + Local_Density_squared + Term_Lambda + Term_Density_Pos + Term_Overcrowding + Psi_local + b_i_v + b_i_u + b_i_r + F_variant + scale + epoch + scale*F_variant + scale*rho_global + scale*psi_global"
+
+canonical_input_filenames:
+  - "flight6_probe1_overcrowding_20x20.parquet"
+  - "flight6_probe1_overcrowding_40x40.parquet"
+  - "flight6_probe2_starvation_FLR_20x20.parquet"
+  - "flight6_probe2_starvation_FLR_40x40.parquet"
+
+tier2_globals_path: "phase_4b/tier2_outputs/global_timeseries.csv"
 
 outcome:
-  name: logit_p_base
-  construction: |
-    p_base = (p_act - ETA) / (1 - ETA)
+  name: "logit_p_base"
+  construction: "eta_floor_inversion_of_p_base"
+  eta: 0.01
+  construction_notes: |
+    p_base = (p_act - eta) / (1 - eta)
     logit_p_base = log(p_base / (1 - p_base))
-  ETA: 0.01
-  notes: |
     Per Phase 4B spec Section 4.1 O2. Inverts the nucleation floor to recover
     p_base, the sigmoid output before the floor. Modeling logit(p_base) yields
     logit(p_base) = Drive_Raw, mapping directly to the cascade equation.
-
-model_family: linear
-estimation: ordinary_least_squares
-library: statsmodels
 
 predictors:
   - Lambda_total
@@ -40,62 +53,71 @@ predictors:
   - epoch
 
 interactions:
-  family: IF5
-  family_name: Scale interactions
-  terms:
-    - scale * F_variant
-    - scale * rho_global
-    - scale * psi_global
-  sensitivity_version: false
-  notes: |
-    Core IF5 family per Phase 4B spec Section 4.2. No sensitivity-version
-    extensions. rho_global and psi_global computed as per-tick population
-    means of is_active and Psi_local respectively, joined to cellular rows
-    by tick from the Tier 2 global_timeseries.csv outputs.
+  - "scale:F_variant"
+  - "scale:rho_global"
+  - "scale:psi_global"
+
+interaction_family: "IF5"
+interaction_family_name: "Scale interactions"
+interaction_notes: |
+  Core IF5 family per Phase 4B spec Section 4.2. No sensitivity-version
+  extensions. rho_global and psi_global computed as per-tick population
+  means of is_active and Psi_local respectively (declared in derived_variables
+  below). The 'scale*' notation in the formula expands to main effects plus
+  interaction in statsmodels; the interactions list above declares the
+  interaction terms specifically for intake-contract validation.
+
+derived_variables:
+  Local_Density_squared: "square_of_local_density"
+  rho_global: "groupwise_mean_is_active_by_run_and_tick"
+  psi_global: "groupwise_mean_psi_local_by_run_and_tick"
 
 excluded_variables:
-  - name: p_act
-    rationale: Part of outcome construction; including would cause perfect collinearity.
-  - name: p_base
-    rationale: Identical to outcome before logit transformation; including would cause perfect collinearity.
-  - name: Drive_Raw
-    rationale: |
-      Drive_Raw equals logit(p_base) by substrate definition (Phase 4B spec
-      V4 verifies this). Including Drive_Raw as predictor of logit(p_base)
-      is tautological. The point of regressing logit(p_base) on decomposed
-      drive components is to recover the decomposition empirically; including
-      the recomposed Drive_Raw defeats that purpose.
-  - name: PRNG_draw
-    rationale: |
-      Realization-level random variable; carries no structural information
-      about activation dynamics. Per Phase 4B spec Section 4.1 O2
-      (logit(p_base) is pre-realization), inclusion is meaningless for this
-      outcome.
-  - name: Delta_v
-    rationale: |
-      Q update; affects bases at t+1 but logit(p_base) at t is fully
-      determined by t-state predictors. Including would be temporally
-      misaligned.
-  - name: Delta_u
-    rationale: Same as Delta_v.
-  - name: Delta_r
-    rationale: Same as Delta_v.
+  - "p_act"
+  - "p_base"
+  - "Drive_Raw"
+  - "PRNG_draw"
+  - "Delta_v"
+  - "Delta_u"
+  - "Delta_r"
+
+excluded_variables_rationales:
+  p_act: |
+    Part of outcome construction; including would cause perfect collinearity.
+  p_base: |
+    Identical to outcome before logit transformation; including would cause
+    perfect collinearity.
+  Drive_Raw: |
+    Drive_Raw equals logit(p_base) by substrate definition (Phase 4B spec
+    V4 verifies this). Including Drive_Raw as predictor of logit(p_base)
+    is tautological. The point of regressing logit(p_base) on decomposed
+    drive components is to recover the decomposition empirically; including
+    the recomposed Drive_Raw defeats that purpose.
+  PRNG_draw: |
+    Realization-level random variable; carries no structural information
+    about activation dynamics. Per Phase 4B spec Section 4.1 O2
+    (logit(p_base) is pre-realization), inclusion is meaningless for this
+    outcome.
+  Delta_v: |
+    Q update; affects bases at t+1 but logit(p_base) at t is fully
+    determined by t-state predictors. Including would be temporally
+    misaligned.
+  Delta_u: |
+    Same as Delta_v.
+  Delta_r: |
+    Same as Delta_v.
 
 uncertainty_method:
-  primary: cluster_robust
-  cluster_variable: run_x_tick
-  library: statsmodels
+  primary: "cluster_robust"
+  cluster_variable: "run_x_tick"
   sensitivity:
-    - method: cluster_robust
-      cluster_variable: cell
-      rationale: |
-        Per Phase 4B spec Section 4.3, cell-level clustering checks
-        cell-level persistence. Reported as sensitivity, not primary.
+    - "cell"
   notes: |
     Four runs provide weak run-level clustering. Tick-level clustering within
     run is more meaningful for population aggregates per Section 4.3. Cluster
     counts at run x tick are large (12000 levels); cluster-robust SEs are
-    reliable.
+    reliable. Cell-level clustering reported as sensitivity per Phase 4B spec
+    Section 4.3, checks cell-level persistence.
 
 interpretation_boundary:
   licenses: |
