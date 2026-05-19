@@ -101,11 +101,29 @@
 
 ---
 
+### 9. Prior-cycle canonical material reconciliation
+
+**What.** Inventory and reconcile prior-cycle canonical material discovered at the close of session 9. Specifically: the committed contents of `protocols/onboarding/` (four files: `new_chat_primer.md`, `chatgpt_new_chat_primer.md`, `gemini_new_chat_primer.md`, `chatgpt_routing_note.md`); the prior-cycle operations log conventions referenced by those files (including `operations_log/README.md` if it exists, and the 2026-05-14 emulation-discovery and 2026-05-15 Flight 2 closure logs); the `protocols/architectural_reviews/` directory if present; any other pre-`5d91828` canonical material not engaged by session 9's Stage 1 work.
+
+Provenance of the gap: session 9 produced `protocols/foundational/` (six documents) and kit-revision-3 as canonical orientation infrastructure without inventorying pre-existing canonical material in adjacent paths. This is a Layer-1-specific working-memory instance — Layer 1 drafted parallel canonical material without primary-source verification of what was already at canonical paths. Rule 7.4 applies symmetrically; the gap is registered for corrective discipline.
+
+**Trigger.** **Before any other Stage 2 work begins in session 10.** This includes superseding the trigger order in items 1 (pre-registration reproducibility verification) and 2 (push to origin) — the reconciliation is a precondition to those because reg_01's canonical-record context may depend on prior-cycle material not yet integrated, and push-to-origin should not propagate the current incomplete canonical structure to remote.
+
+**Acceptance.** Three deliverables:
+
+1. **Inventory.** Full listing of prior-cycle canonical material with provenance (which commit introduced each item, which cycle, which substantive content). Committed as part of the reconciliation commit.
+2. **Reconciliation plan.** For each item, a determination: superseded (and by what session-7-onward canonical material), still authoritative (and how it relates to the current foundational set), or requires structural integration (and into what new or existing canonical location). Committed alongside the inventory.
+3. **Canonical record update.** `protocols/foundational/canonical_artifacts_index.md` updated to reflect the reconciliation. `protocols/onboarding/` either marked as prior-cycle (via in-directory README explaining the supersession) or restructured per the reconciliation plan. Stage 1's "Stage 1 complete" framing in `protocols/foundational/current_state.md` Section 1 and elsewhere updated to "Stage 1 complete after reconciliation."
+
+**Estimated scope.** Substantial. Possibly its own session. Acceptable to defer items 1-8 (currently in this document) until item 9 closes; the bullet-proof deferral process tolerates trigger-ordering changes when newly discovered conditions require it.
+
+---
+
 ## Maintenance log
 
 This section records when items closed or new items added. Each entry references the operations log of the session in which the change occurred.
 
-*(Empty as of session 9 commit; entries added as items execute.)*
+- **Item 9 added (session 9 close).** Prior-cycle canonical material discovered via primary-source verification at session-9 close. The session 9 operations log addendum records the discovery; this STANDING_ITEMS.md update commits the trigger structure for session 10 reconciliation.
 
 ---
 

@@ -1,6 +1,6 @@
-# Operations Log: 2026-05-20 — Session 9: Stage 1 Complete (Foundational Set, Root-Level Orientation, STANDING_ITEMS, Kit-Revision-3)
+# Operations Log: 2026-05-19 — Session 9: Stage 1 Complete (Foundational Set, Root-Level Orientation, STANDING_ITEMS, Kit-Revision-3)
 
-**Date:** 2026-05-20
+**Date:** 2026-05-19
 **HEAD at session start:** `3e38980` (session 8 operations log commit)
 **HEAD at session end:** `b73a591` (kit-revision-3 commit) — pending this log commit
 **Session anchor for resume:** HEAD after this log commits
@@ -162,3 +162,42 @@ Standing items spanning sessions: pre-registration reproducibility verification 
 **Foundational set updates this session:** all six foundational documents committed for the first time (pairs 1-3). Root-level orientation committed. STANDING_ITEMS.md committed. Kit-revision-3 committed. Stage 1 substantively complete with this log commit closing the session.
 
 — Drafted by Claude as Layer 1 central node, session 9 end operations log entry, post-Stage-1-substantive-completion, pre-session-10-handoff
+
+---
+
+## Post-commit addendum: prior-cycle canonical material discovered at session close
+
+After the session 9 operations log committed at `ff2704d`, while preparing the session 10 handoff folder, a primary-source check on an unrelated file (`new_claude_primer_distribution_workflow.md`, found at workspace root) surfaced a reference to `protocols/onboarding/`. Verification against primary source (`git ls-tree HEAD -- protocols/onboarding/`) returned four committed canonical files:
+
+- `protocols/onboarding/new_chat_primer.md`
+- `protocols/onboarding/chatgpt_new_chat_primer.md`
+- `protocols/onboarding/gemini_new_chat_primer.md`
+- `protocols/onboarding/chatgpt_routing_note.md`
+
+Provenance verification (`git log --oneline --all -- protocols/onboarding/`) returned two commits both predating `5d91828` (origin/main): `0522639` ("Initial Cycle 1 artifacts: substrate spec v1.1, Mesa setup, cross-instance primers") and `e3d7014` ("Update new_chat_primer.md for Cycle 2 Round 1 post-Flight 2 closure state").
+
+Inspection of the committed `new_chat_primer.md` content (first 30 lines) showed substantial prior-cycle canonical material including: a reading sequence pointing at `operations_log/README.md`, `operations_log/2026-05-14_emulation_discovery.md`, and `operations_log/2026-05-15_flight_2_closure.md`; a "two-paper structure" framing (AMR mean-field foundation paper plus substrate-work paper) not engaged by any session-7-onward canonical material; references to "standing rules 1-4" originating in the May 14 emulation-discovery event (different rule numbering than the current Rule 1-10); references to `protocols/architectural_reviews/2026-05-15_*` as review-template material.
+
+**Implication.** Session 9's Stage 1 work produced `protocols/foundational/` (six canonical documents) and `kit-revision-3` as canonical orientation infrastructure without inventorying pre-existing canonical material at adjacent canonical paths. Both directories now sit at canonical paths in HEAD with no documentation reconciling them; a fresh reader has no way to determine which is current operational truth. This is a Layer-1-specific working-memory instance — Layer 1 enforced primary-source verification discipline on session-7-onward material but did not extend the verification to the pre-existing canonical record at session 9 open. Rule 1 (no complexity floor) and Rule 7.4 (memory-based reconstruction without canonical source verification prohibited symmetrically including for Layer 1) both apply.
+
+**Correction by reframing, not by retroactive completion.** The session 9 operations log claim of "Stage 1 substantively complete" is corrected to "Stage 1 substantively complete *modulo a discovered reconciliation requirement.*" The reconciliation work is too substantial to land within the remaining context-window budget of session 9; attempting it under time pressure would replicate the working-memory failure that produced the gap.
+
+The reconciliation is added to `STANDING_ITEMS.md` as item 9 with explicit trigger: before any other Stage 2 work begins in session 10. The trigger supersedes items 1 (pre-registration reproducibility verification) and 2 (push to origin) because the verification's canonical-record context may depend on prior-cycle material not yet integrated, and push-to-origin should not propagate the current incomplete canonical structure to remote.
+
+**Three Layer-1-specific working-memory instances this session, not two.** The session arc and methodological observations sections of this log undercount: the Open Element 14 vocabulary violation, the session-handoff folder log omission at session open, and the supplementary-note-as-parallel-instantiation-document form failure are noted. The third instance — failure to inventory prior-cycle canonical material before producing parallel canonical material in the same paths-of-concern — is added here for the canonical record. Corrective discipline going forward: at session open, Layer 1's HEAD and working-tree verification must include `git ls-tree HEAD -- <relevant directories>` for any directory where session work will produce new canonical material, regardless of whether the directory appears in the prior session's resume anchor.
+
+**Updated standing items for session 10.** Per `STANDING_ITEMS.md` (now with item 9 added in a follow-up commit), session 10 opens with three triggered items in priority order:
+
+1. Item 9: Prior-cycle canonical material reconciliation (supersedes the trigger order of items 1 and 2)
+2. Item 1: Pre-registration reproducibility verification (eligible after item 9 closes)
+3. Item 2: Push to origin (eligible after item 9 closes; sequencing relative to item 1 at Mike's arbitration)
+
+**Resume anchor for session 10 (revised).** When this conversation resumes:
+
+1. Verify HEAD; the follow-up commit (this addendum + STANDING_ITEMS.md update) will be the new HEAD, not `ff2704d`.
+2. Verify working-tree state.
+3. Read this operations log entry (including this addendum) to orient.
+4. Check `STANDING_ITEMS.md` for triggered items. Item 9 is the first action.
+5. First substantive action: item 9 inventory and reconciliation per the acceptance criteria in `STANDING_ITEMS.md`.
+
+— Addendum drafted by Claude as Layer 1 central node, post-commit at session 9 close, on discovery of the prior-cycle canonical material gap. Honesty-of-record discipline prioritized over end-of-session closure framing.
