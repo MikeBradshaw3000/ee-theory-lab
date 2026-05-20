@@ -12,6 +12,7 @@
 - `protocol_primer.md` specifies who uses these artifacts and how.
 - `standing_rules.md` specifies the disciplines (especially Rule 1) under which artifacts are consulted.
 - `vocabulary_quarantine.md` specifies the language used when discussing the artifacts.
+- `current_state.md` tracks session-volatile state; `theoretical_context.md` tracks stable theoretical/historical content; `environment_reference.md` tracks operational/environmental detail; `personal_context.md` tracks personal-context discipline.
 
 ---
 
@@ -21,7 +22,7 @@
 
 The committed theoretical architecture; ten sections; "hard core." Authority: formal theoretical commitments. Defines the four open elements (μ(ρ), F(v,c,r), Q, nucleation mechanism), the two-stage Landau cascade structure, the critical ontological constraint (ACTION not decision), and the architecture's exclusionary clauses.
 
-**Path:** Mike's local file (not in the repository's tracked tree as of session 9).
+**Path:** Mike's local file (not in the repository's tracked tree as of session 10).
 
 **Operational locatability:** requires Mike-provided attachment for any verification-against-primary-source check. Stage 2 will move this to `theory\state_of_theory\state_of_theory_v1_1.md` per session 6's v1.1 naming-collision resolution; until then, Layer 1 cannot verify content claims about this document without explicit Mike-provided access.
 
@@ -31,7 +32,7 @@ The committed theoretical architecture; ten sections; "hard core." Authority: fo
 
 Manuscript foundation Phil writes from; v1.4 MFA underneath. Authority: manuscript-facing material. The leading edge of the team's worked-out positions has moved past v1.5 in places (e.g., the flagged "modest-resources-outperform-abundant" passage); v1.5 absorbs back-flow from those developments as Phil revises.
 
-**Path:** Mike's local file (not in the repository's tracked tree as of session 9).
+**Path:** Mike's local file (not in the repository's tracked tree as of session 10).
 
 **Operational locatability:** requires Mike-provided attachment for verification. No committed Stage 2 target yet; the v1.5 Overview's repository placement is a question for Mike to arbitrate when manuscript work surfaces a need.
 
@@ -185,26 +186,39 @@ Per the Stage 0 canonical diagnostics directory convention (adopted session 8), 
 
 ### Operations logs
 
-All committed. Paths under `operations_log\`:
+All committed. Paths under `operations_log\`. The directory has a `README.md` documenting filename conventions, authorship, the honest-record principle, and pointers to the current standing-rules location.
 
-| Session | Path | Commit |
-|---------|------|--------|
-| 1–4 | `operations_log\` (older naming) | various commits up to `5d91828` |
+**Authority:** Canonical historical record of session-by-session decisions, gate closures, discipline events, and protocol additions. Per the README's honest-record principle, entries are not retroactively edited; later entries that correct earlier ones preserve both.
+
+The directory spans prior-cycle work (May 14-19 entries documenting Cycle 2 Round 1 work) and current Phase 4B work (sessions 2-onward).
+
+| Session/event | Path | Commit |
+|---------------|------|--------|
+| Prior-cycle work (May 14-19) | `operations_log\2026-05-14_*` through `operations_log\2026-05-19_*` (16 entries) | various commits up to `5d91828` |
 | 5 | `operations_log\2026-05-18_phase_4b_session_5.md` | `3189ab7` |
 | 6 | `operations_log\2026-05-19_phase_4b_session_6.md` | `3189ab7` |
 | 7 | `operations_log\2026-05-19_phase_4b_session_7.md` | `4e66f27` |
 | 8 | `operations_log\2026-05-19_phase_4b_session_8.md` | `3e38980` |
-| 9 | (pending; drafted at session-end) | (pending commit) |
+| 9 | `operations_log\2026-05-20_phase_4b_session_9.md` | `ff2704d` (original log), addendum at `53aa62e`, date-revert at `5f5a762` |
+| 10 (pending) | (drafted at session-end) | (pending commit) |
 
-### Layer 1 routing package (session 5)
+### Architectural reviews
 
-The `LAYER_1_ROUTING_PACKAGE.txt` file at workspace root is a canonical-record candidate (from session 5's Layer 2 routing on reg_01 interpretation). Stage 2 will place it under an appropriate routing-archive path per `RESTRUCTURE_INVENTORY.md`.
+Five Layer 1 architectural review documents from May 14-15 2026, covering A3 parity code, Flight 1 v1.1 implementation, v1.1/A3 divergence, Flight 2 analysis script, and Flight 2 substrate.
 
-### Stage 1 routing packages (session 9)
+**Path:** `protocols\architectural_reviews\`
 
-**Path (pre-Stage-2):** `LAYER_2_ROUTING_STAGE1_PAIR1.md`, `LAYER_2_ROUTING_STAGE1_PAIR1_V2_ACCEPTANCE.md` at workspace root.
+**Authority:** Canonical historical record of Layer 1 review outputs, parallel to operations logs. Each review documents what was checked, what passed, what was deferred or flagged. The directory has a `README.md` documenting its role.
 
-These will move to a routing-archive path during Stage 2 alongside the session 5 routing package.
+The directory is open for new entries (Layer 1 architectural reviews of future substrate/analysis code).
+
+**Verified:** session 10 (item 9 reconciliation in progress, primary-source read of all five reviews completed).
+
+### Routing artifacts
+
+**Layer 1 routing package (session 5).** The `LAYER_1_ROUTING_PACKAGE.txt` file at workspace root is a canonical-record candidate (from session 5's Layer 2 routing on reg_01 interpretation). Stage 2 will place it under an appropriate routing-archive path per `RESTRUCTURE_INVENTORY.md`.
+
+**Stage 1 routing packages (session 9).** `LAYER_2_ROUTING_STAGE1_PAIR1.md`, `LAYER_2_ROUTING_STAGE1_PAIR1_V2_ACCEPTANCE.md`, and the other Stage 1 routing artifacts at workspace root. Stage 2 will move these to a routing-archive path alongside the session 5 routing package.
 
 ---
 
@@ -218,36 +232,80 @@ The Stage 0 deliverable. Categorizes the 31 untracked items as of session 8 inve
 
 **Commit:** `1a68ca6`.
 
+### PRIOR_CYCLE_INVENTORY.md and PRIOR_CYCLE_RECONCILIATION_PLAN.md
+
+One-time task-shaped artifacts produced as deliverables 1 and 2 of STANDING_ITEMS item 9 (prior-cycle canonical material reconciliation). Workspace root placement parallels `RESTRUCTURE_INVENTORY.md`. Finite life — close out when reconciliation completes (this commit).
+
+**Paths:** `PRIOR_CYCLE_INVENTORY.md`, `PRIOR_CYCLE_RECONCILIATION_PLAN.md` (workspace root)
+
+**Commits:** session 10 reconciliation commit cluster (pending).
+
 ---
 
 ## Section 9: Foundational document set
 
-The current document plus its peers in `protocols/foundational/`. Committed in Stage 1 of the restructure.
+The current document plus its peers in `protocols/foundational/`. Stage 1 documents committed during session 9; session 10 reconciliation cluster (pending commit) adds three new documents and updates several existing ones as part of item 9 reconciliation.
 
 | Document | Path | Status |
 |----------|------|--------|
-| Protocol primer | `protocols\foundational\protocol_primer.md` | committed `79db966` |
-| Standing rules | `protocols\foundational\standing_rules.md` | committed `79db966` |
-| Vocabulary quarantine | `protocols\foundational\vocabulary_quarantine.md` | (this commit pending) |
-| Canonical artifacts index | `protocols\foundational\canonical_artifacts_index.md` | (this commit pending) |
-| Current state | `protocols\foundational\current_state.md` | (pending later Stage 1 work) |
-| README | `protocols\foundational\README.md` | (pending later Stage 1 work) |
+| Protocol primer | `protocols\foundational\protocol_primer.md` | committed `79db966` (session 9 pair 1) |
+| Standing rules | `protocols\foundational\standing_rules.md` | committed `79db966` (session 9 pair 1); historical lineage section added in session 10 reconciliation cluster (pending commit) |
+| Vocabulary quarantine | `protocols\foundational\vocabulary_quarantine.md` | committed `6603799` (session 9 pair 2); eligibility prohibition, source-domain scrubs section, and Open Element 14 cross-reference added in session 10 reconciliation cluster (pending commit) |
+| Canonical artifacts index | `protocols\foundational\canonical_artifacts_index.md` | committed `6603799` (session 9 pair 2); updated in session 10 reconciliation cluster to reflect new directories and foundational documents (pending commit) |
+| Current state | `protocols\foundational\current_state.md` | committed `a8bc52c` (session 9 pair 3); Stage-1-complete framing updated in session 10 reconciliation cluster (pending commit) |
+| README | `protocols\foundational\README.md` | committed `a8bc52c` (session 9 pair 3) |
+| Theoretical context | `protocols\foundational\theoretical_context.md` | new, pending session 10 commit (item 9 reconciliation) |
+| Personal context | `protocols\foundational\personal_context.md` | new, pending session 10 commit (item 9 reconciliation) |
+| Environment reference | `protocols\foundational\environment_reference.md` | new, pending session 10 commit (item 9 reconciliation) |
 
-Root-level orientation documents (`ORIENTATION.md`, `CURRENT_STATE.md`, `MANIFEST.md`) and `STANDING_ITEMS.md` are also pending later Stage 1 work.
+Root-level orientation documents (`ORIENTATION.md`, `CURRENT_STATE.md`, `MANIFEST.md`) and `STANDING_ITEMS.md` were committed during session 9 Stage 1 work.
+
+### Foundational document role distinctions (added session 10)
+
+The foundational set decomposes by what each document tracks:
+
+- **Stable theoretical/historical content:** `theoretical_context.md` (Two-paper structure, Four Grand Challenges, Cycle 1/Cycle 2 framework, A3 reference baseline, vocabulary scrub history).
+- **Stable operational/environmental content:** `environment_reference.md` (workspace, Python environment, dependencies, PowerShell hazards, tools).
+- **Stable personal-context discipline:** `personal_context.md` (Mike's intellectual lineage, contemplative practice, Mokie; discipline of not raising unprompted).
+- **Stable protocol content:** `protocol_primer.md`, `standing_rules.md`, `vocabulary_quarantine.md`.
+- **Index over stable content:** `canonical_artifacts_index.md` (this document).
+- **Session-volatile state:** `current_state.md` (current phase, latest finding, open items, next anticipated work, working pattern, protocol state).
 
 ---
 
-## Section 10: Instantiation kit
+## Section 10: Prior-cycle canonical material (added session 10)
+
+This section indexes the directories containing prior-cycle (pre-session-9) canonical material that the session-9 foundational set did not initially engage. Item 9 reconciliation (session 10) inventoried these and made determinations about each; full inventory at `PRIOR_CYCLE_INVENTORY.md`, reconciliation plan at `PRIOR_CYCLE_RECONCILIATION_PLAN.md`.
+
+### protocols\onboarding\
+
+Four prior-cycle primer documents drafted 15 May 2026 for fresh AI partner instantiation: `new_chat_primer.md`, `chatgpt_new_chat_primer.md`, `gemini_new_chat_primer.md`, `chatgpt_routing_note.md`.
+
+**Status:** Superseded by `protocols/foundational/` plus the instantiation kit as cold-start primer surface. The directory has a `README.md` (added session 10) documenting the supersession and explaining what carry-forward content moved where in the session-10 reconciliation.
+
+**Path:** `protocols\onboarding\`
+
+### protocols\architectural_reviews\
+
+See Section 7 above. Architectural review outputs preserved as historical canonical record.
+
+### operations_log\
+
+See Section 7 above. Prior-cycle operations logs (May 14-19) preserved per the honest-record principle.
+
+---
+
+## Section 11: Instantiation kit
 
 The compressed instantiation surface for fresh Claude chats. Becomes a derived/compressed surface over the foundational document set as Stage 1 completes; not authoritative on its own once Stage 1 is committed.
 
-**Current revision:** kit-revision-2 (drafted at session 7 end). kit-revision-3 is pending Stage 1 work and will absorb the eleven kit-improvement items accumulated across sessions 7-9.
+**Current revision:** kit-revision-3 (drafted at session 9 end). Kit-revision-4 is anticipated for post-item-9 closure work, incorporating: the "path-space land grab" framing into Rule 7.4 territory; the "any copy-target, not just PS" principle; the "informational content does not need a copy-pane" principle; the v1_1_divergence_review footnote as discipline precedent.
 
-**Path:** typically delivered as a session-handoff artifact under `claude_session_handoffs\YYYY-MM-DD[-N]\` rather than committed to the repository tree. Whether the kit lives at a stable repository path or remains a handoff artifact is a question for kit-revision-3 to resolve.
+**Path:** typically delivered as a session-handoff artifact under `claude_session_handoffs\YYYY-MM-DD[-N]\` rather than committed to the repository tree. Whether the kit lives at a stable repository path or remains a handoff artifact is a question carrying forward from session 9's pending decisions.
 
 ---
 
-## Section 11: Naming-collision and citation discipline
+## Section 12: Naming-collision and citation discipline
 
 Three documents share the "v1.1" designation:
 
@@ -267,7 +325,9 @@ These are the targets; Stage 2 executes the moves. This document updates accordi
 
 ---
 
-## Section 12: Workspace and tools
+## Section 13: Workspace and tools
+
+Detailed operational reference for the production environment is in `protocols/foundational/environment_reference.md`. The summary below is for quick lookup.
 
 ### Canonical workspace
 
@@ -290,6 +350,8 @@ These are the targets; Stage 2 executes the moves. This document updates accordi
 - **ReportLab** — PDF transcripts.
 - **Python + NumPy** — analytical work, Tier 3 regression execution.
 
+For Python version, dependency versions, and PowerShell hazards (Notepad UTF-8 BOM, paste-back failure modes, etc.), see `environment_reference.md`.
+
 ---
 
-— Drafted by Claude as Layer 1 central node, Stage 1 pair-2 of repository restructure, session 9. v2 incorporates Layer 2 review (operational locatability notes added for Mike-local theory files). Pending Layer 2 acceptance of v2 before commit per `protocol_primer.md` Section 3's protocol-infrastructure routing convention.
+— Drafted by Claude as Layer 1 central node, Stage 1 pair-2 of repository restructure, session 9. v2 incorporates Layer 2 review (operational locatability notes added for Mike-local theory files). Section 9 updated, Section 10 added, Section 11 updated for kit-revision-4 anticipation, Section 13 condensed with cross-reference to `environment_reference.md`, all session 10 as deliverable 3 of item 9 reconciliation. Pending Layer 2 sanity scan before commit.

@@ -22,16 +22,17 @@ The theory's primitive observable is **ACTION**, not decision. The following ter
 - **Any optimization language applied to agents.** No "maximizing," "minimizing," "optimizing," "selecting the best," etc. The theory excludes optimization frameworks by design.
 - **Any utility language applied to agents.** No "utility," "preference," "valuation," "expected value," etc. Agents are not utility-bearing entities in this framework.
 - **Any cognitive-response language applied to agents.** "Perceiving," "evaluating," "responding to" (in a cognitive sense), "interpreting" — all prohibited when describing how agents engage structural conditions. The structural-conditions-shape-action-streams relation is not cognitive.
+- **"eligibility"** (gatekeeping connotation). The architecture has no gatekeeper — agents do not become "eligible" to participate; their action streams either project onto the bases or do not. Cleaner phrasing: "action streams that project onto the bases."
 
 ### Architectural-vocabulary drift (excluded by formal commitments)
 
 - **"terrain favorability"** — drifts the structural bases (v, c, r) into a single composite property, collapsing the architecture's multi-base structure into a scalar field. The bases are independent by construction; "terrain favorability" reads them as components of a single quantity.
 - **"viability-seeking"** — agent-teleological framing; agents do not seek viability or anything else. Cognitive-response vocabulary applied to agents.
 - **"alignment"** (in the agent-behavioral sense). When used for agent behavior matching structural conditions, this is decision/cognitive vocabulary. The term is permitted in protocol-discussion contexts ("Layer 2's review aligned with Layer 1's framing") where it refers to AI/process alignment, not agent behavior.
-- **"homeostatic imperative"** (as a formal primitive). May appear in informal discussion of biological analogy; never as a formal primitive of the theoretical architecture. The architecture's formal elements include ACTION as primitive observable, structural bases, activation drive, coherence, and the slow-timescale Q operator — homeostasis is not among them.
+- **"homeostatic imperative"** (as a formal primitive). May appear in informal discussion of biological analogy; never as a formal primitive of the theoretical architecture. The architecture's formal elements include ACTION as primitive observable, structural bases, activation drive, coherence, and the slow-timescale Q operator — homeostasis is not among them. (See Section 4 on source-domain scrubs for the Damasio lineage.)
 - **"autocatalytic"** — implies chemical-reaction self-reinforcement that the architecture does not commit to. The architecture has feedback structure through Q, but Q is not autocatalytic; the term imports a mechanism the theory does not include.
 - **"field"** (in the physics-borrowed sense). The theory uses Λ, ρ, Ψ as scalar quantities on a discrete substrate. "Field" suggests continuum-physics formalism that the theory does not adopt as architectural commitment. Lake Vision history aside, "field" in the architectural document is drift toward physics-borrowed framing.
-- **"entrainment"** — coordination-dynamics vocabulary (Kelso, HKB). The theory's coordination structure differs from HKB in three architectural ways (two-stage cascade vs single bifurcation, supercritical pitchforks vs saddle-node-like switching, Q-mediated terrain reshaping vs fixed potential). Citing Kelso at the approach level is fine; using "entrainment" as architectural vocabulary imports the HKB mechanism into a framework that does not commit to it.
+- **"entrainment"** — coordination-dynamics vocabulary (Kelso, HKB). The theory's coordination structure differs from HKB in three architectural ways (two-stage cascade vs single bifurcation, supercritical pitchforks vs saddle-node-like switching, Q-mediated structural-base updating vs fixed potential). Citing Kelso at the approach level is fine; using "entrainment" as architectural vocabulary imports the HKB mechanism into a framework that does not commit to it.
 - **"fraction of the population"** — population-share framing that obscures the substrate-level dynamics. ρ is a substrate-aggregated activation density, not a fraction of an unmodeled population.
 
 ### Formal-primitive substitution
@@ -109,24 +110,55 @@ Means *one of the four open elements of the committed architecture*: μ(ρ), F(v
 
 Drift risk: a numeric Open Element label appearing in a routing artifact, operations log, or Layer 3 output, framed as if it were architectural commitment when it is local working vocabulary. Session 5 surfaced this pattern with "Open Element 14," which was quarantined and restated in committed vocabulary as "the architectural selection between F_LR and F_2_symmetric for the functional form of F(v,c,r)."
 
+**Prior-cycle cross-reference (added session 10):** The "Open Element 14" label originates in pre-session-9 prior-cycle work. It appears in `protocols/onboarding/chatgpt_new_chat_primer.md` Section 8 as a real working label in canonical content from 15 May 2026. The label is preserved as historical canonical example of drift-prone vocabulary; the quarantine instructs that such non-canonical numeric labels be restated in committed terms when drafting new material. Session 5's quarantine work and session 9's discipline addition here are the corrective discipline against the original drift instance.
+
 Discipline: if a numeric Open Element label appears that does not map to the committed four, quarantine the label, restate in committed terms (the architectural element being referred to), and surface to Mike. Restatement preserves the substantive question; quarantine prevents the numbering from becoming a parallel labeling system competing with the canonical four.
 
 Future ratification: if Mike ratifies a new Open Element with formal architectural status, the State of the Theory document is amended accordingly and this entry updates. Casual numbering does not qualify.
 
 ---
 
-## Section 4: Quarantine evolution
+## Section 4: Source-domain scrubs (historical record)
 
-This document captures the state as of session 9 (2026-05-20). Items added or amended since the kit's prior summary:
+The architectural vocabulary in current canonical documents went through scrubs to remove source-domain language while preserving structural patterns. This section documents the scrubs as historical record. The principle: when borrowing structural patterns from a source domain, invoke the pattern without importing the source-domain vocabulary; source-domain language imports an ontology the theory may not commit to.
+
+### Damasio biological language wrapper
+
+Early project material engaged Damasio's biological framings (homeostatic regulation, somatic markers, etc.) as source language. Scrubbed early in the project's development. The current architecture's "homeostatic imperative" prohibition (Section 1) is the residue of that scrub. The structural patterns Damasio's framework gestured at (regulatory feedback, slow timescales for structural-base updating) remain in the architecture under different vocabulary — Q's slow-timescale base evolution, structural conditions shaping action streams — but the biological source language does not enter the canonical record.
+
+### Haken laser source
+
+The architecture's order-parameter and bifurcation apparatus is structurally Haken's synergetics. Early material engaged Haken with the laser as canonical source domain (order parameter as laser amplitude, mean-field treatment, supercritical pitchfork at the lasing threshold). Scrubbed: invoke the structural pattern (order parameters, mean-field, supercritical pitchfork), not the laser as source. Current canonical work cites Haken at the *approach level* — structural framework — not as architectural analogue.
+
+Citing Kelso (HKB coordination dynamics) follows the same discipline: approach-level only, not as architectural commitment. The "entrainment" entry in Section 1 documents this for the HKB case specifically.
+
+### The scrub principle generalized
+
+When borrowing a structural pattern from a source domain, the discipline is:
+- Import the *structural* pattern (the equation form, the bifurcation topology, the order-parameter apparatus).
+- Do not import the *source-domain* vocabulary (laser amplitude, somatic markers, coordination phase-locking, etc.).
+- Cite the source at the approach level (Haken's framework, Damasio's framework, Kelso's framework) when the framework is doing structural work.
+- Do not cite the source as architectural analogue when the architecture's actual elements (v, c, r, Λ, ρ, Ψ, Q) are doing the work.
+
+For more on the theoretical context of these scrubs and their relation to the architectural framework, see `theoretical_context.md` Section 5.
+
+---
+
+## Section 5: Quarantine evolution
+
+This document captures the state as of session 10. Items added or amended:
 
 - **Layer 2 review surfaced "solid" as drift-prone (session 9 pair-1 review).** Added to Section 3.
 - **"Central node," "convergence," "verification," "stage" added to Section 3** based on session 6-9 operational experience.
 - **Per-term rationale added to Section 1** for future Claude instances who instantiate without prior operations logs in context.
 - **"Open Element" labeling discipline added to Section 3 (session 9 pair-2 review).** Layer 2 surfaced the omission; the discipline captures the "Open Element 14" quarantine/restatement pattern from session 5 as protocol-level vocabulary discipline.
 - **"Homeostatic imperative" rationale tightened (session 9 pair-2 review)** to name ACTION as primitive observable explicitly, preserving the hard-core statement.
+- **"Eligibility" prohibition added to Section 1 (session 10, item 9 reconciliation).** Prior-cycle primer documents (`protocols/onboarding/chatgpt_new_chat_primer.md` Section 6 and `protocols/onboarding/gemini_new_chat_primer.md` Section 5) carry this prohibition; reconciliation work surfaced its absence from the session-9 canonical record.
+- **Section 4 "Source-domain scrubs" added (session 10, item 9 reconciliation).** Damasio and Haken scrub history from prior-cycle primer documents incorporated into the canonical record.
+- **"Open Element 14" prior-cycle cross-reference added to Section 3 (session 10, item 9 reconciliation).** The label's origin in pre-session-9 primer content documented as historical canonical example.
 
 Future updates will be recorded here when committed.
 
 ---
 
-— Drafted by Claude as Layer 1 central node, Stage 1 pair-2 of repository restructure, session 9. v2 incorporates Layer 2 review (Open Element discipline addition, "homeostatic imperative" rationale tightening). Pending Layer 2 acceptance of v2 before commit per `protocol_primer.md` Section 3's protocol-infrastructure routing convention.
+— Drafted by Claude as Layer 1 central node, Stage 1 pair-2 of repository restructure, session 9. v2 incorporates Layer 2 review (Open Element discipline addition, "homeostatic imperative" rationale tightening). Section 1 "eligibility" entry, Section 3 prior-cycle cross-reference, Section 4 source-domain scrubs, and Section 5 maintenance log entries added session 10 as deliverable 3 of item 9 reconciliation, integrating prior-cycle vocabulary content into the canonical record. Pending Layer 2 sanity scan before commit.
