@@ -125,3 +125,193 @@ When this conversation resumes:
 **Foundational set updates this session:** three new foundational documents (`theoretical_context.md`, `personal_context.md`, `environment_reference.md`), four foundational document updates (`standing_rules.md`, `vocabulary_quarantine.md`, `canonical_artifacts_index.md`, `current_state.md`), three directory READMEs (`operations_log/README.md` updated, `protocols/onboarding/README.md` new, `protocols/architectural_reviews/README.md` new). Item 9 closed in STANDING_ITEMS; item 10 added. Two workspace-root deliverables (`PRIOR_CYCLE_INVENTORY.md`, `PRIOR_CYCLE_RECONCILIATION_PLAN.md`) committed.
 
 — Drafted by Claude as Layer 1 central node, session 10 end operations log entry, post-item-9-closure, pre-session-11-handoff.
+# Operations Log Addendum: 2026-05-20 — Session 10 Post-Item-9-Closure
+
+## Item 1 execution: pipeline gap surfaced
+
+After item 9's six-commit closure cluster committed (HEAD `93e6dbb`), Mike opened item 1 (pre-registration reproducibility verification) as substantive work to land in session 10. Item 1's acceptance criteria specify: re-run `tier3_regression.py` against the committed yaml at `3189ab7`, diff outputs against the committed reg_01 outputs at the same commit, commit the diff to the operations log.
+
+The re-run did not produce outputs. Instead it surfaced a gap that supersedes item 1: the committed canonical pipeline at `3189ab7` cannot produce the committed reg_01 outputs at `3189ab7`.
+
+## What surfaced
+
+### Pre-flight verification cleared
+
+- Toolchain present: `merge_globals.py`, `inspect_tier3_provenance.py` at workspace root; `tier3_regression.py` at `phase_4b/scripts/`. STANDING_ITEMS item 1's toolchain note has stale path assumption for `tier3_regression.py` (says workspace-root pending Stage 2; primary source shows already at canonical path).
+- Pre-registration yaml present at `phase_4b/pre_registrations/reg_01_scale_interactions.yaml`; `git diff 3189ab7 -- <path>` returns empty (working-tree matches committed-at-3189ab7).
+- Committed reg_01 outputs present at `phase_4b/tier3_outputs/`: primary coefficients CSV, sensitivity coefficients CSV, regression report MD.
+- Python 3.14.4 venv active; environment-reference matches.
+
+### Re-run failure
+
+Command:
+
+```
+python phase_4b\scripts\tier3_regression.py --prereg phase_4b\pre_registrations\reg_01_scale_interactions.yaml
+```
+
+Error:
+
+```
+_phase_4b_intake.FormulaVariableError: FormulaVariableError [validate_formula_variables]: Formula variables missing from DataFrame: ['logit_p_base']. Available: [...]
+```
+
+The pipeline fails at `validate_formula_variables` because the outcome variable `logit_p_base` was never constructed in the dataframe.
+
+### Diagnostic trace
+
+The intake module `_phase_4b_intake.py` (committed `3189ab7`) contains a CONSTRUCTION_REGISTRY mapping `eta_floor_inversion_of_p_base` to `_eta_floor_inversion`, which when applied to a dataframe constructs `df['logit_p_base']` from `df['p_act']`. The yaml's outcome block specifies `construction: "eta_floor_inversion_of_p_base"`. The function exists; the registry key is correctly referenced.
+
+However, `construct_derived_variables(df, normalized)` iterates only `normalized.derived_variable_specs` (from the yaml's `derived_variables` block, which contains only `Local_Density_squared`, `rho_global`, `psi_global` — not `logit_p_base`). The outcome block's construction key is never used to fire `_eta_floor_inversion`. No other function in the pipeline calls it.
+
+The kept conditional `if normalized.outcome_construction == "eta_floor_inversion_of_p_base":` (in `tier3_regression.py`) only computes a boundary count for the report — it does not construct `logit_p_base`.
+
+### Provenance trace via git log
+
+Three commits matter:
+
+- `b10682a` — yaml first commit, freeform schema with `outcome.construction` as inline block scalar
+- `89b85f4` — `tier3_regression.py` initial implementation; outcome construction inline via `eta_floor_inversion` imported from `_phase_4b_common`
+- `3189ab7` — reconciliation introducing `_phase_4b_intake.py`, restructuring yaml to contract-mediated schema with registry-key reference, updating regression script to consume the intake module
+
+`git diff 89b85f4 3189ab7 -- phase_4b/scripts/tier3_regression.py` shows the reconciliation deleted the inline construction line:
+
+```
+- df['logit_p_base'], boundary_count = eta_floor_inversion(df['p_act'])
+```
+
+and added imports from the intake module. The function moved into the intake module's CONSTRUCTION_REGISTRY but was not wired into the pipeline; the inline call was removed without an equivalent contract-mediated call replacing it.
+
+`git log --oneline -- phase_4b/scripts/_phase_4b_intake.py` shows the intake module's single commit is `3189ab7`. Module has not been modified post-reconciliation.
+
+### Conclusion
+
+The committed canonical pipeline at `3189ab7` cannot produce the committed reg_01 outputs at `3189ab7`. The pipeline fails at validation before model fitting. The committed outputs were produced by something other than this pipeline — possibly the pre-`3189ab7` regression script (`89b85f4`) which had inline outcome construction, or a manual pipeline run before the reconciliation commit, or a code path not currently in the repository.
+
+The substantive reg_01 finding from session 6 (R²=1.000 identity-recovery, the most recent substantive analytical finding per `current_state.md` Section 2) depends on the committed outputs being real. The outputs may still be substantively correct — produced by an earlier valid pipeline that the reconciliation refactored — but the canonical-record integrity is compromised: the committed code cannot reproduce the committed outputs.
+
+This is exactly what item 1 was designed to surface. Per its acceptance criteria: "If outputs do not match, a gap exists; the gap is surfaced as a routed task and remains tracked under a new item that supersedes this one."
+
+## Action taken
+
+Item 1 closes via this finding (gap surfaced, routed task per item 1's acceptance criteria). Item 11 added to `STANDING_ITEMS.md` superseding item 1 with three sub-deliverables:
+
+1. **Determine whether the committed outputs are substantively correct.** Either by running the pre-reconciliation pipeline (`89b85f4` regression script with inline outcome construction) and confirming it produces the committed outputs, or by identifying the actual pipeline that produced them.
+
+2. **Wire the outcome-construction step into the current pipeline.** Either by extending `construct_derived_variables` to also process the outcome block's construction key, or by adding a `construct_outcome(df, normalized)` function that runs the registry against `outcome_construction` after `construct_derived_variables`. The fix is small in code terms; correctness verification is the substantive work.
+
+3. **Re-run with the fixed pipeline and diff against committed outputs.** Per the original item 1 acceptance criteria, with the corrected pipeline. Clean diff confirms substantive correctness of committed outputs. Non-clean diff surfaces a further gap requiring Mike's arbitration on what's canonical.
+
+Item 1's structural priority transfers to item 11. Items 2 (push to origin) and 3 (Stage 2 execution) remain subordinate to item 11 — push should not propagate a pipeline that cannot reproduce its committed outputs, and Stage 2 moves should not proceed against an unstable canonical record.
+
+## Substantive implications
+
+The reg_01 finding from session 6 — pipeline-validation regression at R²=1.000 — is **not invalidated by this finding**, but it is now under flag pending item 11 closure. The substantive interpretation (deterministic probability chain recovery at machine precision) remains the canonical reading; the question is whether the committed outputs at `3189ab7` are the artifacts of that recovery or artifacts of a different run.
+
+`protocols/foundational/current_state.md` Section 2 will require update at item 11 closure to reflect whatever item 11 surfaces. Until then, the framing should preserve the reg_01 finding as substantively committed-but-pipeline-flagged, rather than retracted.
+
+## Methodological observation
+
+Item 1 was conceived as a low-risk mechanical verification — re-run, diff, confirm. The actual finding required substantial diagnostic work: tracing imports, reading three function definitions in the intake module, three `git log` queries on the pipeline files, and two `git diff` reviews between commits. The discipline that produced the finding cleanly: working primary-source-first through the failure rather than assuming the failure was environmental or operational.
+
+The discipline that almost lost it: the initial failure mode (FormulaVariableError on `logit_p_base`) looked like a possible runtime issue that could have been worked around (e.g., manually constructing the outcome variable, or running an older script version). Working around the failure would have produced outputs that diff-matched the committed CSVs and closed item 1 cleanly — but would have buried the canonical-record gap. Rule 1 (no complexity floor) and Rule 7.4 (memory-based reconstruction prohibited symmetrically) held: the discipline required tracing the gap, not patching it.
+
+This is the second substantive finding of session 10 (the first being item 9's reconciliation closure). Both produced under sustained Layer 1 discipline against substantial cold-start cost. The session's substantive yield matters; without item 1's diagnostic close-out, the canonical-record gap would have stayed buried indefinitely.
+
+— Drafted by Claude as Layer 1 central node, session 10 operations log addendum, post-item-9-closure, post-item-1-execution. Pending commit alongside `STANDING_ITEMS.md` update closing item 1 with item 11 superseding.
+
+# Operations Log Addendum: 2026-05-20 — Session 10 Post-Item-9-Closure
+
+## Item 1 execution: pipeline gap surfaced
+
+After item 9's six-commit closure cluster committed (HEAD `93e6dbb`), Mike opened item 1 (pre-registration reproducibility verification) as substantive work to land in session 10. Item 1's acceptance criteria specify: re-run `tier3_regression.py` against the committed yaml at `3189ab7`, diff outputs against the committed reg_01 outputs at the same commit, commit the diff to the operations log.
+
+The re-run did not produce outputs. Instead it surfaced a gap that supersedes item 1: the committed canonical pipeline at `3189ab7` cannot produce the committed reg_01 outputs at `3189ab7`.
+
+## What surfaced
+
+### Pre-flight verification cleared
+
+- Toolchain present: `merge_globals.py`, `inspect_tier3_provenance.py` at workspace root; `tier3_regression.py` at `phase_4b/scripts/`. STANDING_ITEMS item 1's toolchain note has stale path assumption for `tier3_regression.py` (says workspace-root pending Stage 2; primary source shows already at canonical path).
+- Pre-registration yaml present at `phase_4b/pre_registrations/reg_01_scale_interactions.yaml`; `git diff 3189ab7 -- <path>` returns empty (working-tree matches committed-at-3189ab7).
+- Committed reg_01 outputs present at `phase_4b/tier3_outputs/`: primary coefficients CSV, sensitivity coefficients CSV, regression report MD.
+- Python 3.14.4 venv active; environment-reference matches.
+
+### Re-run failure
+
+Command:
+
+```
+python phase_4b\scripts\tier3_regression.py --prereg phase_4b\pre_registrations\reg_01_scale_interactions.yaml
+```
+
+Error:
+
+```
+_phase_4b_intake.FormulaVariableError: FormulaVariableError [validate_formula_variables]: Formula variables missing from DataFrame: ['logit_p_base']. Available: [...]
+```
+
+The pipeline fails at `validate_formula_variables` because the outcome variable `logit_p_base` was never constructed in the dataframe.
+
+### Diagnostic trace
+
+The intake module `_phase_4b_intake.py` (committed `3189ab7`) contains a CONSTRUCTION_REGISTRY mapping `eta_floor_inversion_of_p_base` to `_eta_floor_inversion`, which when applied to a dataframe constructs `df['logit_p_base']` from `df['p_act']`. The yaml's outcome block specifies `construction: "eta_floor_inversion_of_p_base"`. The function exists; the registry key is correctly referenced.
+
+However, `construct_derived_variables(df, normalized)` iterates only `normalized.derived_variable_specs` (from the yaml's `derived_variables` block, which contains only `Local_Density_squared`, `rho_global`, `psi_global` — not `logit_p_base`). The outcome block's construction key is never used to fire `_eta_floor_inversion`. No other function in the pipeline calls it.
+
+The kept conditional `if normalized.outcome_construction == "eta_floor_inversion_of_p_base":` (in `tier3_regression.py`) only computes a boundary count for the report — it does not construct `logit_p_base`.
+
+### Provenance trace via git log
+
+Three commits matter:
+
+- `b10682a` — yaml first commit, freeform schema with `outcome.construction` as inline block scalar
+- `89b85f4` — `tier3_regression.py` initial implementation; outcome construction inline via `eta_floor_inversion` imported from `_phase_4b_common`
+- `3189ab7` — reconciliation introducing `_phase_4b_intake.py`, restructuring yaml to contract-mediated schema with registry-key reference, updating regression script to consume the intake module
+
+`git diff 89b85f4 3189ab7 -- phase_4b/scripts/tier3_regression.py` shows the reconciliation deleted the inline construction line:
+
+```
+- df['logit_p_base'], boundary_count = eta_floor_inversion(df['p_act'])
+```
+
+and added imports from the intake module. The function moved into the intake module's CONSTRUCTION_REGISTRY but was not wired into the pipeline; the inline call was removed without an equivalent contract-mediated call replacing it.
+
+`git log --oneline -- phase_4b/scripts/_phase_4b_intake.py` shows the intake module's single commit is `3189ab7`. Module has not been modified post-reconciliation.
+
+### Conclusion
+
+The committed canonical pipeline at `3189ab7` cannot produce the committed reg_01 outputs at `3189ab7`. The pipeline fails at validation before model fitting. The committed outputs were produced by something other than this pipeline — possibly the pre-`3189ab7` regression script (`89b85f4`) which had inline outcome construction, or a manual pipeline run before the reconciliation commit, or a code path not currently in the repository.
+
+The substantive reg_01 finding from session 6 (R²=1.000 identity-recovery, the most recent substantive analytical finding per `current_state.md` Section 2) depends on the committed outputs being real. The outputs may still be substantively correct — produced by an earlier valid pipeline that the reconciliation refactored — but the canonical-record integrity is compromised: the committed code cannot reproduce the committed outputs.
+
+This is exactly what item 1 was designed to surface. Per its acceptance criteria: "If outputs do not match, a gap exists; the gap is surfaced as a routed task and remains tracked under a new item that supersedes this one."
+
+## Action taken
+
+Item 1 closes via this finding (gap surfaced, routed task per item 1's acceptance criteria). Item 11 added to `STANDING_ITEMS.md` superseding item 1 with three sub-deliverables:
+
+1. **Determine whether the committed outputs are substantively correct.** Either by running the pre-reconciliation pipeline (`89b85f4` regression script with inline outcome construction) and confirming it produces the committed outputs, or by identifying the actual pipeline that produced them.
+
+2. **Wire the outcome-construction step into the current pipeline.** Either by extending `construct_derived_variables` to also process the outcome block's construction key, or by adding a `construct_outcome(df, normalized)` function that runs the registry against `outcome_construction` after `construct_derived_variables`. The fix is small in code terms; correctness verification is the substantive work.
+
+3. **Re-run with the fixed pipeline and diff against committed outputs.** Per the original item 1 acceptance criteria, with the corrected pipeline. Clean diff confirms substantive correctness of committed outputs. Non-clean diff surfaces a further gap requiring Mike's arbitration on what's canonical.
+
+Item 1's structural priority transfers to item 11. Items 2 (push to origin) and 3 (Stage 2 execution) remain subordinate to item 11 — push should not propagate a pipeline that cannot reproduce its committed outputs, and Stage 2 moves should not proceed against an unstable canonical record.
+
+## Substantive implications
+
+The reg_01 finding from session 6 — pipeline-validation regression at R²=1.000 — is **not invalidated by this finding**, but it is now under flag pending item 11 closure. The substantive interpretation (deterministic probability chain recovery at machine precision) remains the canonical reading; the question is whether the committed outputs at `3189ab7` are the artifacts of that recovery or artifacts of a different run.
+
+`protocols/foundational/current_state.md` Section 2 will require update at item 11 closure to reflect whatever item 11 surfaces. Until then, the framing should preserve the reg_01 finding as substantively committed-but-pipeline-flagged, rather than retracted.
+
+## Methodological observation
+
+Item 1 was conceived as a low-risk mechanical verification — re-run, diff, confirm. The actual finding required substantial diagnostic work: tracing imports, reading three function definitions in the intake module, three `git log` queries on the pipeline files, and two `git diff` reviews between commits. The discipline that produced the finding cleanly: working primary-source-first through the failure rather than assuming the failure was environmental or operational.
+
+The discipline that almost lost it: the initial failure mode (FormulaVariableError on `logit_p_base`) looked like a possible runtime issue that could have been worked around (e.g., manually constructing the outcome variable, or running an older script version). Working around the failure would have produced outputs that diff-matched the committed CSVs and closed item 1 cleanly — but would have buried the canonical-record gap. Rule 1 (no complexity floor) and Rule 7.4 (memory-based reconstruction prohibited symmetrically) held: the discipline required tracing the gap, not patching it.
+
+This is the second substantive finding of session 10 (the first being item 9's reconciliation closure). Both produced under sustained Layer 1 discipline against substantial cold-start cost. The session's substantive yield matters; without item 1's diagnostic close-out, the canonical-record gap would have stayed buried indefinitely.
+
+— Drafted by Claude as Layer 1 central node, session 10 operations log addendum, post-item-9-closure, post-item-1-execution. Pending commit alongside `STANDING_ITEMS.md` update closing item 1 with item 11 superseding.
+

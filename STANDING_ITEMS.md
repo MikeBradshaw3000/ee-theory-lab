@@ -19,18 +19,6 @@
 
 ## Items
 
-### 1. Pre-registration reproducibility verification
-
-**What.** Re-run `phase_4b/scripts/tier3_regression.py` against the committed yaml at commit `3189ab7` (`phase_4b/pre_registrations/reg_01_scale_interactions.yaml`). Diff outputs against the committed reg_01 outputs at the same commit (primary coefficients CSV, sensitivity CSV, regression report).
-
-**Trigger.** First substantive action of the session immediately following Stage 1 completion (i.e., when this document, kit-revision-3, and the session 9 operations log have committed). Not Stage 2 — verification before further restructure work eliminates the risk of verifying against material that has moved.
-
-**Acceptance.** Diff output committed to the operations log of the executing session. If outputs match the committed reg_01 outputs, the registered-scope-vs-actually-ran correspondence is clean and the item closes. If outputs do not match, a gap exists; the gap is surfaced as a routed task and remains tracked under a new item that supersedes this one.
-
-**Toolchain.** `merge_globals.py` + `inspect_tier3_provenance.py` + `tier3_regression.py` together constitute the reproducibility toolchain (per session 8 inventory). All three are at workspace root pending Stage 2 move to `phase_4b/scripts/`; the reproducibility check should reference the workspace-root paths until Stage 2 executes.
-
----
-
 ### 2. Push to origin
 
 **What.** `git push` to send the local main commits to `origin/main`.
@@ -113,6 +101,30 @@ Provenance: item 9 reconciliation Section 1.1 (in `PRIOR_CYCLE_RECONCILIATION_PL
 
 ---
 
+### 11. Pipeline gap: outcome-construction not wired into intake (supersedes item 1)
+
+**What.** The session 10 execution of item 1 (pre-registration reproducibility verification) surfaced that the committed canonical pipeline at `3189ab7` cannot produce the committed reg_01 outputs at `3189ab7`. The pipeline fails at `validate_formula_variables` because outcome variable `logit_p_base` is never constructed. The intake module's CONSTRUCTION_REGISTRY contains `_eta_floor_inversion` (which when applied constructs `logit_p_base` from `p_act`), and the yaml's outcome block correctly references the registry key (`eta_floor_inversion_of_p_base`). However, `construct_derived_variables` iterates only the yaml's `derived_variables` block, not the outcome block. The function exists and is registered; it is never called.
+
+The pre-reconciliation regression script at `89b85f4` had inline outcome construction (`df['logit_p_base'], boundary_count = eta_floor_inversion(df['p_act'])`). The reconciliation commit `3189ab7` deleted this line, moved the function into the intake module's CONSTRUCTION_REGISTRY, and updated imports — but did not wire the registry into the pipeline.
+
+This item supersedes item 1. The substantive reg_01 finding from session 6 is not invalidated but is under flag pending item 11 closure; the committed outputs may be substantively correct (produced by an earlier valid pipeline) but cannot be reproduced by the current committed code.
+
+**Trigger.** Open. Immediate priority; supersedes items 2 (push to origin) and 3 (Stage 2 execution) because push should not propagate a pipeline that cannot reproduce its committed outputs and Stage 2 moves should not proceed against an unstable canonical record.
+
+**Acceptance.** Three sub-deliverables:
+
+1. **Determine whether the committed outputs are substantively correct.** Run the pre-reconciliation pipeline (the `89b85f4` regression script with inline outcome construction, against the `b10682a` yaml schema or with appropriate adaptation) and check whether it produces outputs matching the committed `3189ab7` outputs. Or identify the actual code path that produced the committed outputs through git history, file timestamps, or operations-log archaeology. Findings documented in the executing session's operations log.
+
+2. **Wire the outcome-construction step into the current pipeline.** Code fix to `_phase_4b_intake.py`. Likely shape: add a `construct_outcome(df, normalized)` function that runs the CONSTRUCTION_REGISTRY against `normalized.outcome_construction` after `construct_derived_variables`. Call site added to `run_tier3` in `tier3_regression.py` between the existing `construct_derived_variables` call and `validate_formula_variables`. Layer 1 architectural review before commit per protocol-infrastructure-routing discipline.
+
+3. **Re-run with the fixed pipeline and diff against committed outputs.** Per the original item 1 acceptance criteria, with the corrected pipeline. Clean diff confirms substantive correctness of committed outputs. Non-clean diff surfaces a further gap requiring Mike's arbitration on what the canonical outputs should be.
+
+**Substantive implications for the canonical record.** `protocols/foundational/current_state.md` Section 2 (latest substantive finding: reg_01 identity-recovery) requires update at item 11 closure. Until then, the framing preserves the reg_01 finding as substantively committed-but-pipeline-flagged.
+
+**Toolchain.** `tier3_regression.py` at `phase_4b/scripts/`; `_phase_4b_intake.py` at `phase_4b/scripts/`; `_phase_4b_common.py` at `phase_4b/scripts/` (contains the `eta_floor_inversion` function the intake module imports); pre-registration yaml at `phase_4b/pre_registrations/reg_01_scale_interactions.yaml`. Committed reg_01 outputs at `phase_4b/tier3_outputs/`. All paths verified during item 1 execution.
+
+---
+
 ## Maintenance log
 
 This section records when items closed or new items added. Each entry references the operations log of the session in which the change occurred.
@@ -120,7 +132,9 @@ This section records when items closed or new items added. Each entry references
 - **Item 9 added (session 9 close).** Prior-cycle canonical material discovered via primary-source verification at session-9 close. The session 9 operations log addendum records the discovery; this STANDING_ITEMS.md update commits the trigger structure for session 10 reconciliation.
 - **Item 9 closed and removed (session 10).** Three deliverables completed: `PRIOR_CYCLE_INVENTORY.md` (workspace root), `PRIOR_CYCLE_RECONCILIATION_PLAN.md` (workspace root), and the canonical record update commit cluster (foundational set updates, three new foundational documents, two new in-directory READMEs, operations_log README update). Layer 2 sanity scan returned PASS-with-notes; patches incorporated before commit. Item 9's acceptance criteria fully met. Per the maintenance discipline (items removed when acceptance is met), item 9 is removed from this list. The reconciliation cluster's operations log records the closure.
 - **Item 10 added (session 10).** ChatGPT and Gemini onboarding under session-9 framework, deferred during item 9 reconciliation as out-of-scope for that item. The session 10 operations log records the deferral arbitration.
+- **Item 1 closed and removed (session 10).** Item 1 execution surfaced a pipeline gap: the committed canonical pipeline at `3189ab7` cannot produce the committed reg_01 outputs at `3189ab7` because outcome-construction is not wired into the intake pipeline. Per item 1's acceptance criteria ("If outputs do not match, a gap exists; the gap is surfaced as a routed task and remains tracked under a new item that supersedes this one"), item 1 closes via the surfacing of the gap. Item 11 added to supersede.
+- **Item 11 added (session 10).** Pipeline gap: outcome-construction not wired into intake. Three sub-deliverables: determine substantive correctness of committed outputs, wire the construction step into the pipeline, re-run and diff. Supersedes items 1, 2 (push to origin), and 3 (Stage 2 execution) in priority. The session 10 operations log addendum documents the diagnostic trace.
 
 ---
 
-— Drafted by Claude as Layer 1 central node, Stage 1 root-level operational process artifact, session 9. Updated session 10 with item 9 removal (acceptance criteria met by reconciliation deliverables and Layer 2 sanity scan), item 10 addition (deferred ChatGPT/Gemini onboarding), and maintenance log entries. No Layer 2 routing per the agreed sanity-scan-distribution convention (operational process artifact, not architectural deliverable). Ready for commit.
+— Drafted by Claude as Layer 1 central node, Stage 1 root-level operational process artifact, session 9. Updated session 10 with item 9 removal (acceptance criteria met by reconciliation deliverables and Layer 2 sanity scan), item 10 addition (deferred ChatGPT/Gemini onboarding), item 1 closure (gap surfaced per acceptance criteria), and item 11 addition (pipeline gap superseding item 1). No Layer 2 routing per the agreed sanity-scan-distribution convention (operational process artifact, not architectural deliverable). Ready for commit.
