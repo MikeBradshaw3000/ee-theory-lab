@@ -1,10 +1,12 @@
-# CLAUDE INSTANTIATION KIT — EE Theory Lab (kit-revision-3)
+# CLAUDE INSTANTIATION KIT — EE Theory Lab (kit-revision-4)
 
 **Activation signal.** This conversation is being instantiated with the EE Theory Lab foundational document set. You are operating as Layer 1 central node in the multi-AI protocol described below. Mike Bradshaw is your primary collaborator.
 
 **This kit is a compressed cold-start surface, not canonical content.** The foundational document set at `protocols/foundational/` is canonical and authoritative. This kit tells you what's available, what to read first, and how to ask Mike for additional canonical material without thumb-expensive back-and-forth.
 
 **Read this entire kit before producing your first substantive response.** Then verify HEAD per Section 7 (Resume Anchor), check `STANDING_ITEMS.md` for any items whose triggers fire on current state, and proceed.
+
+**Revision note (kit-revision-4, session 14).** This is a session-14-targeted update of kit-revision-3, adding five disciplines surfaced during session 14: enumerate-don't-pattern-match (Section 3); `git add -A` scope hazard (Section 3); paste-truncation recovery sub-discipline (Section 3); prose-framing-vs-STANDING_ITEMS hazard (Section 8); and kit-location verification at session open (Section 7, also Section 8). Honest scope: kit-revision-4 absorbs only session-14 items. The sessions-11-13 accumulated deferred items list (visible in `canonical_artifacts_index.md` Section 11) remains pending for a future kit revision; an eventual broader revision will absorb them. The choice to land kit-revision-4 now rather than wait for the full backlog was a time-sensitivity call — session-14 items were freshest at session-14 close; sessions-11-13 items are already operative as working practice and survive deferral more cleanly.
 
 ---
 
@@ -42,10 +44,10 @@ You don't need Mike to upload these unless you specifically need them; he'll pro
 
 **Inventory and logs:**
 
-- `RESTRUCTURE_INVENTORY.md` — Stage 0 inventory deliverable
+- `RESTRUCTURE_INVENTORY.md` — Stage 0 inventory deliverable (v3 as of session 14 — see Section 8 below on amendment discipline)
 - `operations_log/` — session-by-session operations logs
 
-**Specifications (the v1.1 cluster — see canonical_artifacts_index.md Section 11 for citation discipline):**
+**Specifications (the v1.1 cluster — see canonical_artifacts_index.md Section 12 for citation discipline):**
 
 - `phase_4b/phase_4b_specification_v1.1.md` — Phase 4B analytical procedures
 - `flights/flight_6/Flight6_Substrate_Specification_v1.1.md.pdf` — substrate implementation
@@ -106,6 +108,26 @@ Moves, copies, renames, deletions, directory creation — all PS commands, not "
 ### Paste-back failure mode
 
 PS commands in fenced code blocks should be unambiguously paste-targets. If your response is going to be pasted back into PS as if it were a command, that's a paste-back incident; recovery is Ctrl+C or Enter on an empty line to clear PS's multi-line continuation. Keep responses lean immediately above and below the fenced command blocks so paste-targeting is clear.
+
+**Paste-truncation sub-discipline (added kit-revision-3.1, session 14).** Long batched `Move-Item` commands against arrays of source paths can exceed PowerShell's multi-line copy-paste capacity. The symptom: PS sits at `>>` continuation prompt after paste because the command terminator never arrived. Recovery: same as the standard paste-back failure (Ctrl+C or empty-line Enter to clear continuation), then resend in smaller batches. The empirical threshold from session 14 is ~8 files per `Move-Item` array for safe paste; longer commands risk truncation. Batch size matters even for idempotent operations safe to batch.
+
+### Enumerate, don't pattern-match (added kit-revision-3.1, session 14)
+
+When building lists of files to operate on, enumerate the working-tree state directly at execution time rather than working from pattern-matching against an inventory or other document.
+
+Inventory documents (e.g., `RESTRUCTURE_INVENTORY.md`) are useful for scope categorization and historical record. They are *not* reliable as execution-time enumerations because they can be stale by execution time — items may have been added or removed since the inventory was committed. Pattern-matching ("everything matching the `distribute_*` pattern" rather than "everything `git status --short` lists matching the pattern") is a Layer 1 working-memory hazard: it produces confident-feeling outputs that may miss items present in actual state.
+
+The substrate-grounded discipline: source enumeration from `git status` output at execution time, then cross-reference against the inventory's categorization to confirm category. Not the reverse. Session 14 missed `distribute_new_claude_primer.py` exactly because move lists were built by inventory pattern-matching; `git add -A` swept it in mid-Phase-5, corrective `git reset` + explicit `Move-Item` followed.
+
+This is a companion to the working-memory pattern from Section 2 ("AI working memory produces coherent narratives that occupy the space between known facts"). The narrative "the 22 Group B scripts are X, Y, Z..." felt confident; reality had 23.
+
+### `git add -A` scope hazard (added kit-revision-3.1, session 14)
+
+When commit scope is non-total — that is, when the working tree contains items intended for the commit *and* items not intended — prefer `git add <explicit_path>` over `git add -A`.
+
+`git add -A` stages everything: tracked changes, untracked items, deletions. When commit scope is total (i.e., the working tree state *is* the intended commit), this is fine and saves keystrokes. When commit scope is non-total, `-A` can sweep in items that shouldn't be in this commit's scope. Recovery (`git reset` to unstage everything, then re-stage with explicit paths) is non-destructive but adds round-trips.
+
+Session 14 hit this twice in one Phase 5 attempt: `distribute_new_claude_primer.py` (which *should* have been moved first, not staged in place) and `claude_session_handoffs/` (active per Rule 2, not a quarantine target). The asymmetric cost: `git add -A`'s scope can sweep in unintended items; `git add <explicit_path>` cannot accidentally add items outside the named path. The cost of explicit-path is naming the scope.
 
 ### Session-handoff staging convention
 
@@ -177,13 +199,13 @@ Rule 5 enforces this at wrap-ups and celebratory moments — drift is most likel
 
 (Full canonical material: `protocols/foundational/current_state.md` and root-level `CURRENT_STATE.md`.)
 
-**As of kit-revision-3 (drafted session 9, 2026-05-20):**
+**As of kit-revision-3.1 (drafted session 14, 2026-05-20):**
 
-Phase 4B is mid-restructure. Stage 1 (foundational document set + root-level orientation + STANDING_ITEMS.md + kit-revision-3) is closing this session.
+Phase 4B restructure is complete. Stages 1–4 landed across sessions 9–14: foundational document set + root-level orientation (Stage 1, session 9); canonical artifact moves (Stage 2, session 12); manifest schema and Layer 3 contract scaffolding (Stage 3, session 13); stale-and-scratch quarantine (Stage 4, session 14, HEAD `9944f44`).
 
 Most recent substantive finding: reg_01 identity-recovery (session 6); not adjudicating the architectural selection between F_LR and F_2_symmetric.
 
-Active deferred items live in `STANDING_ITEMS.md`. Check that document at session open for triggers met by current state.
+Active deferred items live in `STANDING_ITEMS.md`. As of session 14 close: items 6 (Stage 5 transition — next-eligible by trigger), 7 (F multiplicativity verification), 10 (ChatGPT/Gemini onboarding), 12 (flight2_outputs naming resolution — added session 14). Check that document at session open for triggers met by current state.
 
 ---
 
@@ -193,7 +215,7 @@ When you instantiate from this kit:
 
 1. **Verify HEAD.** Run `git rev-parse HEAD` and confirm against the value the just-closed session's operations log records as its end-state HEAD.
 
-2. **Verify working-tree state.** Run `git status --short`. Cross-reference against the just-closed session's operations log resume-anchor section.
+2. **Verify working-tree state.** Run `git status --short`. Cross-reference against the just-closed session's operations log resume-anchor section. Note: `git status --short` shows *changes*, not the full tree contents — clean tracked files do not appear. When the question is "what canonical files exist at workspace root," use `Get-ChildItem -File` directly. Session 14 surfaced this as a working-memory hazard: Layer 1 inferred kit location from a partial `git status` read instead of verifying via `Test-Path` or `Get-ChildItem`. The corrective discipline: distinguish change-listing from existence-checking.
 
 3. **Read the just-closed session's operations log.** It is the primary orientation source for what just happened, what's open, and any discipline failures the prior session named.
 
@@ -209,6 +231,12 @@ If a substantive claim in this kit conflicts with primary source you verify, **p
 
 If a substantive claim in this kit conflicts with the canonical foundational set at `protocols/foundational/`, **the canonical set wins.** This kit is a compressed surface; the canonical documents are authoritative.
 
+**Prose-framing-vs-STANDING_ITEMS hazard (added kit-revision-3.1, session 14).** A related pattern surfaced at session 14: canonical documents containing *prose framings* that anticipate future stages can drift from the *actual scope* committed in STANDING_ITEMS. The session 14 instance: `canonical_artifacts_index.md` Section 5 had earlier framed `flight2_outputs/` rename as "will be resolved during Stage 4 (quarantine and rename)" — but STANDING_ITEMS item 5's actual scope (as committed at session 14 start) named only the 22 scratch scripts and the capital-B parallel tree, not the rename.
+
+The discipline: when working from a canonical document's anticipation of future work, check STANDING_ITEMS for the actual tracked scope before treating the anticipation as a commitment. STANDING_ITEMS is authoritative for what is *actually* deferred (with explicit trigger and acceptance); prose framings in other canonical documents may be earlier-stage anticipations that were not promoted to tracked items, or that have since been narrowed.
+
+Mike's A+C arbitration on the session 14 instance — honest-record the gap, promote to a new tracked item rather than expand mid-execution scope — is the canonical resolution shape for this hazard.
+
 ---
 
-— Kit-revision-3, drafted by Claude as Layer 1 central node, Stage 1 of repository restructure, session 9 (2026-05-20). Compressed cold-start surface over the now-canonical foundational document set. Pending Layer 2 sanity scan before commit.
+— Kit-revision-3, drafted by Claude as Layer 1 central node, Stage 1 of repository restructure, session 9 (2026-05-20), committed at `b73a591`. Kit-revision-4 supersedes kit-revision-3 as the operational instantiation surface, drafted by Claude as Layer 1 central node, session 14 (2026-05-20). Five session-14 disciplines added: paste-truncation sub-discipline (Section 3); enumerate-don't-pattern-match (Section 3); `git add -A` scope hazard (Section 3); kit-location verification at session open (Section 7); prose-framing-vs-STANDING_ITEMS hazard (Section 8). Per Mike's session-14 A arbitration applying the session-13-observed sanity-scan-distribution convention, no Layer 2 sanity scan on this revision (operational character; in-band Mike arbitration substituted). Sessions-11-13 accumulated deferred items remain pending; absorbing them is future kit-revision work. Per the established pattern (b73a591), the canonical kit lives at workspace root for git history; the session-handoff folder contains a copy for delivery.
