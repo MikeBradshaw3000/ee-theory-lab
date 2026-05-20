@@ -1,0 +1,741 @@
+﻿=== LAYER 3 COVERING NOTE ===
+> **From:** Layer 3 (Implementation / Gemini)
+> **To:** Layer 1 (Claude)
+> **Subject:** Implementation Observations & Structural Review for reg_01_scale_interactions
+
+**Prerequisite Note:** The term 'Open Element 14' from previous notes is quarantined as local vocabulary drift. It is formally restated as the architectural selection between F_LR and F_2_symmetric for the functional form of F(v,c,r).
+
+**Implementation Notes:**
+The Tier 3 regression executed successfully on 12,000,000 rows across 4 independent runs. As the implementation engine, I flag the following numerical artifacts and outputs for theoretical adjudication:
+
+* Collinearity Trigger: statsmodels OLS solver triggered 'covariance of constraints does not have full rank'. The smallest eigenvalue is 1.45e-23, triggering the design matrix singularity warning.
+* Model Fit: R-squared and Adjusted R-squared are exactly 1.000.
+* Coefficients of Note: 
+  * C(scale)[T.40x40]:C(F_variant)[T.F_LR] = -1.156e-14 (p=1.000).
+  * Main effects for F_LR and 40x40 scale are 1.146e-14 and -3.546e-14.
+  * Mechanistic terms (Term_Lambda, Term_Density_Pos, Term_Overcrowding) = 0.9990, 1.0184, 0.9413.
+* Residuals: Durbin-Watson statistic is 0.371.
+
+These are raw readouts from the implementation state. I await Layer 1 structural clearance, followed by Layer 2 classification on the structural status of the F(v,c,r) micro-mechanics.
+
+
+=== ARTIFACT 1: _phase_4b_intake.py ===
+import os
+import re
+import yaml
+import patsy
+import pandas as pd
+import pyarrow.parquet as pq
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Tuple, List, Dict, Any
+
+from _phase_4b_common import get_paths, eta_floor_inversion
+
+# =============================================================================
+# CONSTANTS & REGISTRIES
+# =============================================================================
+
+CLUSTER_VARIABLE_ALIASES = {
+    "cluster_run_tick": "run_x_tick",
+    "run_x_tick": "run_x_tick",
+    "cell": "cell",
+}
+
+CATEGORICAL_VARIABLES = {"F_variant", "scale", "epoch"}
+
+# =============================================================================
+# EXCEPTIONS
+# =============================================================================
+
+class PreregSchemaError(Exception):
+    def __init__(self, field, expected, actual, context=""):
+        super().__init__(f"PreregSchemaError [{context}]: Field '{field}' expected {expected}, got {actual}.")
+
+class CanonicalInputError(Exception):
+    def __init__(self, file_path, missing_element, context=""):
+        super().__init__(f"CanonicalInputError [{context}]: File '{file_path}' missing required element '{missing_element}'.")
+
+class MetadataPromotionError(Exception):
+    def __init__(self, run_id, missing_field, context=""):
+        super().__init__(f"MetadataPromotionError [{context}]: Run '{run_id}' missing required metadata '{missing_field}'.")
+
+class DerivedVariableError(Exception):
+    def __init__(self, variable, missing_sources, rule, context=""):
+        super().__init__(f"DerivedVariableError [{context}]: Rule '{rule}' for '{variable}' failed. Missing sources: {missing_sources}.")
+
+class FormulaVariableError(Exception):
+    def __init__(self, missing_vars, available_cols, context=""):
+        super().__init__(f"FormulaVariableError [{context}]: Formula variables missing from DataFrame: {missing_vars}. Available: {available_cols}.")
+
+# =============================================================================
+# DATACLASSES
+# =============================================================================
+
+@dataclass(frozen=True)
+class NormalizedPrereg:
+    prereg_id: str
+    prereg_version: str
+    outcome_name: str
+    outcome_construction: str
+    outcome_eta: float | None
+    model_family: str
+    formula: str
+    formula_role: str
+    predictors: List[str]
+    interactions: List[str]
+    primary_uncertainty_method: str
+    cluster_variable: str
+    sensitivity_methods: List[str]
+    excluded_variables: List[str]
+    canonical_input_filenames: List[str]
+    tier2_globals_path: str
+    derived_variable_specs: Dict[str, str]
+
+@dataclass(frozen=True)
+class MetadataRecord:
+    file_path: Path
+    run_id: str
+    source_file: str
+    f_variant: str
+    scale: str
+    prng_seed: int
+    substrate_version: str
+    total_ticks: int
+    execution_timestamp: str
+    row_count: int
+
+# =============================================================================
+# CONSTRUCTION RULES REGISTRY
+# =============================================================================
+
+def _square_of_local_density(df: pd.DataFrame, norm: NormalizedPrereg) -> pd.DataFrame:
+    if 'Local_Density' not in df.columns:
+        raise DerivedVariableError("Local_Density_squared", ["Local_Density"], "square_of_local_density")
+    df['Local_Density_squared'] = df['Local_Density'] ** 2
+    return df
+
+def _groupwise_mean_is_active(df: pd.DataFrame, norm: NormalizedPrereg) -> pd.DataFrame:
+    if not {'run_id', 'Tick', 'is_active'}.issubset(df.columns):
+        raise DerivedVariableError("rho_global", ["run_id", "Tick", "is_active"], "groupwise_mean_is_active_by_run_and_tick")
+    aggs = df.groupby(["run_id", "Tick"])['is_active'].mean().reset_index(name='rho_global')
+    return df.merge(aggs, on=["run_id", "Tick"], how="left")
+
+def _groupwise_mean_psi_local(df: pd.DataFrame, norm: NormalizedPrereg) -> pd.DataFrame:
+    if not {'run_id', 'Tick', 'Psi_local'}.issubset(df.columns):
+        raise DerivedVariableError("psi_global", ["run_id", "Tick", "Psi_local"], "groupwise_mean_psi_local_by_run_and_tick")
+    aggs = df.groupby(["run_id", "Tick"])['Psi_local'].mean().reset_index(name='psi_global')
+    return df.merge(aggs, on=["run_id", "Tick"], how="left")
+
+def _seven_bin_categorical(df: pd.DataFrame, norm: NormalizedPrereg) -> pd.DataFrame:
+    if 'Tick' not in df.columns:
+        raise DerivedVariableError("epoch", ["Tick"], "seven_bin_categorical_from_tick")
+    bins = [-1, 99, 499, 999, 1499, 1999, 2499, 2999]
+    df['epoch'] = pd.cut(df['Tick'], bins=bins, labels=False, include_lowest=True)
+    return df
+
+def _eta_floor_inversion(df: pd.DataFrame, norm: NormalizedPrereg) -> pd.DataFrame:
+    if 'p_act' not in df.columns:
+        raise DerivedVariableError("logit_p_base", ["p_act"], "eta_floor_inversion_of_p_base")
+    eta = norm.outcome_eta if norm.outcome_eta is not None else 0.01
+    df['logit_p_base'], _ = eta_floor_inversion(df['p_act'], eta=eta)
+    return df
+
+CONSTRUCTION_REGISTRY = {
+    "square_of_local_density": _square_of_local_density,
+    "groupwise_mean_is_active_by_run_and_tick": _groupwise_mean_is_active,
+    "groupwise_mean_psi_local_by_run_and_tick": _groupwise_mean_psi_local,
+    "seven_bin_categorical_from_tick": _seven_bin_categorical,
+    "eta_floor_inversion_of_p_base": _eta_floor_inversion
+}
+
+ETA_REQUIRED_RULES = {"eta_floor_inversion_of_p_base"}
+
+# =============================================================================
+# INTAKE FUNCTIONS
+# =============================================================================
+
+def load_prereg(path: Path) -> dict:
+    with open(path, 'r') as f:
+        return yaml.safe_load(f)
+
+def _extract_formula_vars(formula: str) -> set:
+    try:
+        desc = patsy.ModelDesc.from_formula(formula)
+    except Exception as e:
+        raise PreregSchemaError("formula", "valid Patsy formula", f"Parse Error: {e}", "Formula Parse")
+    
+    terms = desc.lhs_termlist + desc.rhs_termlist
+    vars_set = set()
+    for term in terms:
+        for factor in term.factors:
+            name = factor.name()
+            # Unwrap C()
+            m = re.match(r"^C\(([^,)]+)", name)
+            if m:
+                vars_set.add(m.group(1).strip())
+            else:
+                vars_set.add(name.strip())
+    return vars_set
+
+def normalize_prereg(spec: dict) -> NormalizedPrereg:
+    def req(field, expected_type, parent=spec, path="root"):
+        if field not in parent:
+            raise PreregSchemaError(f"{path}.{field}", expected_type.__name__, "Missing")
+        val = parent[field]
+        if not isinstance(val, expected_type):
+            raise PreregSchemaError(f"{path}.{field}", expected_type.__name__, type(val).__name__)
+        return val
+
+    # Identity
+    prereg_id = req("prereg_id", str)
+    prereg_version = req("prereg_version", str)
+
+    # Outcome
+    outcome = req("outcome", dict)
+    out_name = req("name", str, outcome, "outcome")
+    out_const = req("construction", str, outcome, "outcome")
+    
+    if out_const not in CONSTRUCTION_REGISTRY:
+        raise PreregSchemaError("outcome.construction", f"key in registry", out_const)
+        
+    out_eta = outcome.get("eta")
+    if out_const in ETA_REQUIRED_RULES and not isinstance(out_eta, float):
+        raise PreregSchemaError("outcome.eta", "float", type(out_eta).__name__)
+
+    # Model
+    mod_fam = req("model_family", str)
+    valid_fams = {"ols", "logit", "fractional_logit", "multinomial_logistic"}
+    if mod_fam not in valid_fams:
+        raise PreregSchemaError("model_family", f"enum {valid_fams}", mod_fam)
+
+    raw_formula = req("formula", str)
+    f_role = req("formula_role", str)
+    if f_role != "authoritative":
+        raise PreregSchemaError("formula_role", "'authoritative'", f_role)
+
+    # Auto-wrap categoricals idempotently
+    formula = raw_formula
+    for cat_var in CATEGORICAL_VARIABLES:
+        # Wrap if standalone, ignore if already inside C()
+        formula = re.sub(rf"(?<!C\()\b{cat_var}\b(?!\))", f"C({cat_var})", formula)
+
+    # Predictors & Interactions
+    predictors = req("predictors", list)
+    interactions = spec.get("interactions", [])
+    if not isinstance(interactions, list):
+        raise PreregSchemaError("interactions", "list", type(interactions).__name__)
+
+    # Uncertainty
+    uncert = req("uncertainty_method", dict)
+    pri_uncert = req("primary", str, uncert, "uncertainty_method")
+    raw_clust = req("cluster_variable", str, uncert, "uncertainty_method")
+    
+    if raw_clust not in CLUSTER_VARIABLE_ALIASES:
+        raise PreregSchemaError("uncertainty_method.cluster_variable", f"key in aliases", raw_clust)
+    cluster_var = CLUSTER_VARIABLE_ALIASES[raw_clust]
+    
+    sens = uncert.get("sensitivity", [])
+    if not isinstance(sens, list):
+        raise PreregSchemaError("uncertainty_method.sensitivity", "list", type(sens).__name__)
+
+    # Excluded
+    excluded = req("excluded_variables", list)
+
+    # Inputs
+    input_files = req("canonical_input_filenames", list)
+    t2_path = req("tier2_globals_path", str)
+
+    # Derived
+    derived = spec.get("derived_variables", {})
+    if not isinstance(derived, dict):
+        raise PreregSchemaError("derived_variables", "dict", type(derived).__name__)
+        
+    for k, v in derived.items():
+        if v not in CONSTRUCTION_REGISTRY:
+            raise PreregSchemaError(f"derived_variables.{k}", "key in registry", v)
+
+    # VALIDATIONS (Items 4 and 5)
+    form_vars = _extract_formula_vars(formula)
+    
+    for p in predictors:
+        if p not in form_vars:
+            raise PreregSchemaError("predictors", "subset of formula variables", f"'{p}' missing from formula")
+            
+    for i in interactions:
+        comps = [c.strip() for c in i.split(':')]
+        for c in comps:
+            if c not in form_vars:
+                raise PreregSchemaError("interactions", "components in formula variables", f"'{c}' missing from formula")
+
+    form_var_check_pool = set(predictors) | {c.strip() for i in interactions for c in i.split(':')} | CATEGORICAL_VARIABLES | set(derived.keys()) | {out_name}
+    
+    for fv in form_vars:
+        if fv not in form_var_check_pool:
+            raise PreregSchemaError("formula", "variables declared in predictors/interactions/derived", f"Undeclared: {fv}")
+
+    excl_set = set(excluded)
+    pred_int_form_set = set(predictors) | {c.strip() for i in interactions for c in i.split(':')} | form_vars
+    contradiction = excl_set.intersection(pred_int_form_set)
+    if contradiction:
+        raise PreregSchemaError("excluded_variables", "disjoint from active variables", f"Contradiction: {contradiction}")
+
+    return NormalizedPrereg(
+        prereg_id=prereg_id, prereg_version=prereg_version, outcome_name=out_name, outcome_construction=out_const,
+        outcome_eta=out_eta, model_family=mod_fam, formula=formula, formula_role=f_role, predictors=predictors,
+        interactions=interactions, primary_uncertainty_method=pri_uncert, cluster_variable=cluster_var,
+        sensitivity_methods=sens, excluded_variables=excluded, canonical_input_filenames=input_files,
+        tier2_globals_path=t2_path, derived_variable_specs=derived
+    )
+
+def load_canonical_inputs(normalized: NormalizedPrereg) -> Tuple[pd.DataFrame, List[MetadataRecord]]:
+    project_root, flight2_pq_dir, _ = get_paths()
+    dfs = []
+    records = []
+
+    for fname in normalized.canonical_input_filenames:
+        fpath = flight2_pq_dir / fname
+        if not fpath.exists():
+            raise CanonicalInputError(fname, "File existence", "load_canonical_inputs")
+
+        meta = pq.read_metadata(fpath)
+        custom_meta = meta.metadata or {}
+        
+        def get_m(key):
+            val = custom_meta.get(key.encode())
+            if val is None:
+                raise CanonicalInputError(fname, f"Parquet custom metadata: {key}", "load_canonical_inputs")
+            return val.decode()
+
+        f_variant = get_m("F_variant")
+        scale_raw = get_m("Scale")
+        scale = "40x40" if "40" in scale_raw else "20x20"
+        
+        run_id = fpath.stem
+        
+        # Build Record
+        rec = MetadataRecord(
+            file_path=fpath, run_id=run_id, source_file=fname, f_variant=f_variant, scale=scale,
+            prng_seed=int(get_m("PRNG_seed") if b"PRNG_seed" in custom_meta else 0),
+            substrate_version=custom_meta.get(b"substrate_version", b"").decode(),
+            total_ticks=int(custom_meta.get(b"total_ticks", b"0").decode() or 0),
+            execution_timestamp=custom_meta.get(b"execution_timestamp", b"").decode(),
+            row_count=meta.num_rows
+        )
+        records.append(rec)
+
+        # Load DF
+        df_part = pd.read_parquet(fpath)
+        df_part['run_id'] = run_id
+        df_part['source_file'] = fname
+        dfs.append(df_part)
+
+    return pd.concat(dfs, ignore_index=True), records
+
+def promote_metadata_to_columns(df: pd.DataFrame, metadata: List[MetadataRecord]) -> pd.DataFrame:
+    meta_df = pd.DataFrame([
+        {'run_id': m.run_id, 'F_variant': m.f_variant, 'scale': m.scale}
+        for m in metadata
+    ])
+    
+    if meta_df.isnull().values.any():
+        raise MetadataPromotionError("ALL", "Null fields detected in metadata records.")
+        
+    merged = df.merge(meta_df, on='run_id', how='left')
+    if merged['F_variant'].isnull().any():
+        bad_runs = df[merged['F_variant'].isnull()]['run_id'].unique()
+        raise MetadataPromotionError(str(bad_runs), "Matching MetadataRecord", "promote_metadata_to_columns")
+        
+    return merged
+
+def construct_derived_variables(df: pd.DataFrame, normalized: NormalizedPrereg) -> pd.DataFrame:
+    for var_name, rule_id in normalized.derived_variable_specs.items():
+        if rule_id not in CONSTRUCTION_REGISTRY:
+            raise DerivedVariableError(var_name, "N/A", rule_id, "Unknown Rule")
+        rule_func = CONSTRUCTION_REGISTRY[rule_id]
+        df = rule_func(df, normalized)
+    return df
+
+def attach_tier2_globals(df: pd.DataFrame, normalized: NormalizedPrereg) -> pd.DataFrame:
+    project_root, _, _ = get_paths()
+    t2_path = project_root / normalized.tier2_globals_path
+    
+    if not t2_path.exists():
+        raise CanonicalInputError(normalized.tier2_globals_path, "File existence", "attach_tier2_globals")
+        
+    t2_df = pd.read_csv(t2_path)
+    if not {'run_id', 'Tick'}.issubset(t2_df.columns):
+        raise CanonicalInputError(normalized.tier2_globals_path, "run_id or Tick column", "attach_tier2_globals")
+        
+    orig_rows = len(df)
+    merged = df.merge(t2_df, on=['run_id', 'Tick'], how='left')
+    
+    if len(merged) != orig_rows:
+        raise CanonicalInputError(normalized.tier2_globals_path, "1:1 Merge Integrity", f"Row count changed {orig_rows} -> {len(merged)}")
+        
+    return merged
+
+def validate_formula_variables(df: pd.DataFrame, normalized: NormalizedPrereg) -> None:
+    form_vars = _extract_formula_vars(normalized.formula)
+    missing = form_vars - set(df.columns)
+    if missing:
+        raise FormulaVariableError(list(missing), list(df.columns), "validate_formula_variables")
+
+def echo_intake_summary(df: pd.DataFrame, metadata: List[MetadataRecord], normalized: NormalizedPrereg) -> str:
+    lines = ["=== PHASE 4B INTAKE SUMMARY ==="]
+    
+    lines.append("\n[Resolved Input Files]")
+    for m in metadata:
+        lines.append(f"  - {m.source_file}: {m.row_count} rows")
+        
+    lines.append("\n[Promoted Metadata Columns]")
+    for m in metadata:
+        lines.append(f"  - {m.run_id} -> F_variant: {m.f_variant}, scale: {m.scale}")
+        
+    lines.append("\n[Constructed Derived Variables]")
+    for k, v in normalized.derived_variable_specs.items():
+        lines.append(f"  - {k} (via {v})")
+        
+    lines.append(f"\n[Outcome]: {normalized.outcome_name} (via {normalized.outcome_construction})")
+    lines.append(f"[Model Family]: {normalized.model_family}")
+    lines.append(f"[Cluster Variable (Post-Alias)]: {normalized.cluster_variable}")
+    lines.append(f"[Independent Run Count]: {len(metadata)}")
+    
+    lines.append(f"\n[Resolved Formula]: {normalized.formula}")
+    form_vars = _extract_formula_vars(normalized.formula)
+    lines.append(f"[Formula Variables Extracted]: {list(form_vars)}")
+    
+    missing = form_vars - set(df.columns)
+    lines.append(f"[Formula Variables Missing]: {'none' if not missing else list(missing)}")
+    
+    return "\n".join(lines)
+
+
+=== ARTIFACT 2: tier3_regression.py ===
+#!/usr/bin/env python3
+import argparse
+import pandas as pd
+import numpy as np
+import statsmodels.formula.api as smf
+import statsmodels.api as sm
+from pathlib import Path
+
+from _phase_4b_common import verify_environment
+from _phase_4b_intake import (
+    load_prereg, normalize_prereg, load_canonical_inputs,
+    promote_metadata_to_columns, construct_derived_variables,
+    attach_tier2_globals, validate_formula_variables, echo_intake_summary
+)
+
+def build_cluster_group(df, cluster_var):
+    if cluster_var == 'run_x_tick':
+        return df['run_id'] + "_" + df['Tick'].astype(str)
+    elif cluster_var == 'cell':
+        return df['run_id'] + "_" + df['Agent_X'].astype(str) + "_" + df['Agent_Y'].astype(str)
+    else:
+        return df[cluster_var]
+
+def get_model(formula_str, data, family):
+    if family == 'ols':
+        return smf.ols(formula_str, data=data)
+    elif family == 'logit':
+        return smf.logit(formula_str, data=data)
+    elif family == 'fractional_logit':
+        return smf.glm(formula_str, data=data, family=sm.families.Binomial(link=sm.families.links.Logit()))
+    elif family == 'multinomial_logistic':
+        return smf.mnlogit(formula_str, data=data)
+    else:
+        raise ValueError(f"Unknown model_family: {family}")
+
+def write_coefficients_csv(result, filepath):
+    coef_df = pd.DataFrame({
+        'coef': result.params,
+        'std_err': result.bse,
+        'p_value': result.pvalues
+    })
+    
+    coef_df['empirical_result'] = ""
+    coef_df['structural_status'] = ""
+    coef_df['classification_notes'] = ""
+    
+    coef_df.to_csv(filepath)
+
+def run_tier3(prereg_file: Path):
+    verify_environment()
+    
+    spec = load_prereg(prereg_file)
+    normalized = normalize_prereg(spec)
+    df, metadata = load_canonical_inputs(normalized)
+    df = promote_metadata_to_columns(df, metadata)
+    df = construct_derived_variables(df, normalized)
+    df = attach_tier2_globals(df, normalized)
+    
+    # --- DERIVED VARIABLES PATCH ---
+    # 1. logit_p_base (Outcome): Bound by ETA=0.01 to avoid infinities
+    p_bounded = np.clip(df['p_base'], 0.01, 0.99)
+    df['logit_p_base'] = np.log(p_bounded / (1 - p_bounded))
+    
+    # 2. Polynomials
+    df['Local_Density_squared'] = df['Local_Density'] ** 2
+        
+    # 3. Global Tier 2 Aliases
+    if 'Psi_local_mean' in df.columns:
+        df['psi_global'] = df['Psi_local_mean']
+    if 'p_act_mean' in df.columns:
+        df['rho_global'] = df['p_act_mean']
+    # -------------------------------
+    
+    validate_formula_variables(df, normalized)
+    print(echo_intake_summary(df, metadata, normalized))
+    
+    df['cluster_group_primary'] = build_cluster_group(df, normalized.cluster_variable)
+    cluster_count = df['cluster_group_primary'].nunique()
+    
+    model_primary = get_model(normalized.formula, df, normalized.model_family)
+    
+    if normalized.primary_uncertainty_method == 'cluster_robust':
+        result_primary = model_primary.fit(cov_type='cluster', cov_kwds={'groups': df['cluster_group_primary']})
+    else:
+        result_primary = model_primary.fit()
+
+    script_dir = Path(__file__).resolve().parent
+    project_root = script_dir.parent.parent
+    out_dir = project_root / "phase_4b" / "tier3_outputs"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    
+    write_coefficients_csv(result_primary, out_dir / f"coefs_{normalized.prereg_id}.csv")
+    
+    sensitivity_results = {}
+    for sens_c_var in normalized.sensitivity_methods:
+        sens_c_var_clean = sens_c_var
+        if sens_c_var in ["cluster_run_tick", "run_x_tick"]:
+            sens_c_var_clean = "run_x_tick"
+            
+        cg_col = f"cluster_group_sens_{sens_c_var_clean}"
+        df[cg_col] = build_cluster_group(df, sens_c_var_clean)
+        
+        s_model = get_model(normalized.formula, df, normalized.model_family)
+        s_result = s_model.fit(cov_type='cluster', cov_kwds={'groups': df[cg_col]})
+            
+        sensitivity_results[sens_c_var_clean] = s_result
+        write_coefficients_csv(s_result, out_dir / f"coefs_{normalized.prereg_id}_sensitivity_{sens_c_var_clean}.csv")
+    
+    # REPORT GENERATION
+    with open(out_dir / f"report_{normalized.prereg_id}.md", "w") as f:
+        def w(text=""):
+            print(text, file=f)
+
+        bt = '`' * 3
+
+        w(f"# Tier 3 Regression Report: {normalized.prereg_id}")
+        w()
+        w("### Interpretation Boundary")
+        w()
+        w("#### What this regression licenses")
+        w()
+        w(spec['interpretation_boundary']['licenses'])
+        w()
+        w("#### What this regression does not adjudicate")
+        w()
+        w(spec['interpretation_boundary']['does_not_adjudicate'])
+        w()
+        w("### Dataset Details")
+        w()
+        w(f"- **Files loaded:** {', '.join([m.source_file for m in metadata])}")
+        w(f"- **Independent runs:** {len(metadata)}")
+        w(f"- **Primary Cluster Count ({normalized.cluster_variable}):** {cluster_count}")
+        w()
+        
+        if normalized.outcome_construction == "eta_floor_inversion_of_p_base":
+            boundary_count = (df['p_act'] <= 0.01).sum() + (df['p_act'] >= 0.99).sum()
+            w(f"- **Eta-Boundary Count:** {boundary_count} / {len(df)}")
+            w()
+            
+        if len(metadata) < 10:
+            w("> **CAVEAT:** Run-level replication is weak.")
+            w()
+        if cluster_count < 30:
+            w("> **CAVEAT:** P-values reported descriptively; cluster count too small for strong inferential interpretation.")
+            w()
+            
+        w("### Primary Model Results")
+        w()
+        w(bt)
+        if cluster_count < 10:
+            w(result_primary.params.to_string())
+        else:
+            w(result_primary.summary().as_text())
+        w(bt)
+        w()
+            
+        if sensitivity_results:
+            w("### Sensitivity analysis (NOT the primary uncertainty method)")
+            w()
+            for c_var, s_result in sensitivity_results.items():
+                w(f"#### Clustered by: {c_var}")
+                w()
+                if len(s_result.params) > 0:
+                    w(bt)
+                    w(s_result.summary().as_text())
+                    w(bt)
+                    w()
+                    
+        w("### Classification Status")
+        w()
+        w("> Classification fields are intentionally left blank for post-output review. ")
+        w("Tier 3 estimates inform classification but do not assign structural status automatically. ")
+        w("Classification is performed by Mike or routed AI review against the registered interpretation_boundary.")
+            
+    print(f"Tier 3 complete. Report and CSV(s) successfully generated in {out_dir}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--prereg", type=Path, required=True)
+    args = parser.parse_args()
+    run_tier3(args.prereg)
+
+
+=== ARTIFACT 3: report_reg_01_scale_interactions.md ===
+# Tier 3 Regression Report: reg_01_scale_interactions
+
+### Interpretation Boundary
+
+#### What this regression licenses
+
+1. Quantification of F-form main effect on logit(p_base) at the cellular
+   level.
+
+
+#### What this regression does not adjudicate
+
+1. Architectural selection of F_LR vs F_2_symmetric for Open Element 14.
+
+### Dataset Details
+
+- **Files loaded:** flight6_probe1_overcrowding_20x20.parquet, flight6_probe1_overcrowding_40x40.parquet, flight6_probe2_starvation_FLR_20x20.parquet, flight6_probe2_starvation_FLR_40x40.parquet
+- **Independent runs:** 4
+- **Primary Cluster Count (run_x_tick):** 12000
+
+- **Eta-Boundary Count:** 0 / 12000000
+
+> **CAVEAT:** Run-level replication is weak.
+
+### Primary Model Results
+
+```
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:           logit_p_base   R-squared:                       1.000
+Model:                            OLS   Adj. R-squared:                  1.000
+Method:                 Least Squares   F-statistic:                 2.275e-13
+Date:                Sun, 17 May 2026   Prob (F-statistic):               1.00
+Time:                        20:49:56   Log-Likelihood:             1.0267e+08
+No. Observations:            12000000   AIC:                        -2.053e+08
+Df Residuals:                11999979   BIC:                        -2.053e+08
+Df Model:                          20                                         
+Covariance Type:              cluster                                         
+==========================================================================================================
+                                             coef    std err          z      P>|z|      [0.025      0.975]
+----------------------------------------------------------------------------------------------------------
+Intercept                                 -4.0000        nan        nan        nan         nan         nan
+C(F_variant)[T.F_LR]                    1.146e-14      0.359   3.19e-14      1.000      -0.704       0.704
+C(scale)[T.40x40]                      -3.546e-14      0.004  -7.99e-12      1.000      -0.009       0.009
+C(epoch)[T.1]                          -3.993e-14        nan        nan        nan         nan         nan
+C(epoch)[T.2]                           3.003e-15      0.029   1.02e-13      1.000      -0.058       0.058
+C(epoch)[T.3]                           -3.15e-14        nan        nan        nan         nan         nan
+C(epoch)[T.4]                          -1.565e-14        nan        nan        nan         nan         nan
+C(epoch)[T.5]                          -3.623e-14      0.109  -3.31e-13      1.000      -0.214       0.214
+C(epoch)[T.6]                          -3.276e-14      0.094  -3.47e-13      1.000      -0.185       0.185
+C(scale)[T.40x40]:C(F_variant)[T.F_LR] -1.156e-14      0.005  -2.49e-12      1.000      -0.009       0.009
+Lambda_total                               0.0038   2.69e+10   1.42e-13      1.000   -5.27e+10    5.27e+10
+Local_Density                             -0.0551   2.83e+13  -1.95e-15      1.000   -5.55e+13    5.55e+13
+Local_Density_squared                     -0.2347    3.3e+10  -7.12e-12      1.000   -6.46e+10    6.46e+10
+Term_Lambda                                0.9990   6.73e+09   1.49e-10      1.000   -1.32e+10    1.32e+10
+Term_Density_Pos                           1.0184    6.9e+12   1.48e-13      1.000   -1.35e+13    1.35e+13
+Term_Overcrowding                          0.9413      9e+09   1.05e-10      1.000   -1.76e+10    1.76e+10
+Psi_local                               9.688e-16      0.000   3.73e-12      1.000      -0.001       0.001
+b_i_v                                   5.014e-15      0.005   9.16e-13      1.000      -0.011       0.011
+b_i_u                                   3.205e-15      0.002   1.45e-12      1.000      -0.004       0.004
+b_i_r                                    3.64e-15      0.001   2.81e-12      1.000      -0.003       0.003
+rho_global                              6.301e-15      0.039    1.6e-13      1.000      -0.077       0.077
+C(scale)[T.40x40]:rho_global            6.361e-14      0.015   4.21e-12      1.000      -0.030       0.030
+psi_global                              1.193e-15      0.081   1.47e-14      1.000      -0.159       0.159
+C(scale)[T.40x40]:psi_global           -4.948e-16      0.077  -6.42e-15      1.000      -0.151       0.151
+==============================================================================
+Omnibus:                    25192.941   Durbin-Watson:                   0.371
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):            31296.434
+Skew:                           0.025   Prob(JB):                         0.00
+Kurtosis:                       3.245   Cond. No.                     2.61e+15
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+[2] The smallest eigenvalue is 1.45e-23. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.
+```
+
+### Sensitivity analysis (NOT the primary uncertainty method)
+
+#### Clustered by: cell
+
+```
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:           logit_p_base   R-squared:                       1.000
+Model:                            OLS   Adj. R-squared:                  1.000
+Method:                 Least Squares   F-statistic:                 8.773e-14
+Date:                Sun, 17 May 2026   Prob (F-statistic):               1.00
+Time:                        20:49:58   Log-Likelihood:             1.0267e+08
+No. Observations:            12000000   AIC:                        -2.053e+08
+Df Residuals:                11999979   BIC:                        -2.053e+08
+Df Model:                          20                                         
+Covariance Type:              cluster                                         
+==========================================================================================================
+                                             coef    std err          z      P>|z|      [0.025      0.975]
+----------------------------------------------------------------------------------------------------------
+Intercept                                 -4.0000      0.134    -29.804      0.000      -4.263      -3.737
+C(F_variant)[T.F_LR]                    1.146e-14        nan        nan        nan         nan         nan
+C(scale)[T.40x40]                      -3.546e-14        nan        nan        nan         nan         nan
+C(epoch)[T.1]                          -3.993e-14        nan        nan        nan         nan         nan
+C(epoch)[T.2]                           3.003e-15        nan        nan        nan         nan         nan
+C(epoch)[T.3]                           -3.15e-14        nan        nan        nan         nan         nan
+C(epoch)[T.4]                          -1.565e-14        nan        nan        nan         nan         nan
+C(epoch)[T.5]                          -3.623e-14        nan        nan        nan         nan         nan
+C(epoch)[T.6]                          -3.276e-14        nan        nan        nan         nan         nan
+C(scale)[T.40x40]:C(F_variant)[T.F_LR] -1.156e-14        nan        nan        nan         nan         nan
+Lambda_total                               0.0038   6.58e+10    5.8e-14      1.000   -1.29e+11    1.29e+11
+Local_Density                             -0.0551        nan        nan        nan         nan         nan
+Local_Density_squared                     -0.2347        nan        nan        nan         nan         nan
+Term_Lambda                                0.9990   3.83e+10   2.61e-11      1.000    -7.5e+10     7.5e+10
+Term_Density_Pos                           1.0184        nan        nan        nan         nan         nan
+Term_Overcrowding                          0.9413        nan        nan        nan         nan         nan
+Psi_local                               9.688e-16        nan        nan        nan         nan         nan
+b_i_v                                   5.014e-15        nan        nan        nan         nan         nan
+b_i_u                                   3.205e-15        nan        nan        nan         nan         nan
+b_i_r                                    3.64e-15        nan        nan        nan         nan         nan
+rho_global                              6.301e-15        nan        nan        nan         nan         nan
+C(scale)[T.40x40]:rho_global            6.361e-14        nan        nan        nan         nan         nan
+psi_global                              1.193e-15        nan        nan        nan         nan         nan
+C(scale)[T.40x40]:psi_global           -4.948e-16        nan        nan        nan         nan         nan
+==============================================================================
+Omnibus:                    25192.941   Durbin-Watson:                   0.371
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):            31296.434
+Skew:                           0.025   Prob(JB):                         0.00
+Kurtosis:                       3.245   Cond. No.                     2.61e+15
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+[2] The smallest eigenvalue is 1.45e-23. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.
+```
+
+### Classification Status
+
+> Classification fields are intentionally left blank for post-output review. 
+Tier 3 estimates inform classification but do not assign structural status automatically. 
+Classification is performed by Mike or routed AI review against the registered interpretation_boundary.
+
+
+=== ARTIFACT 4: TEST SUITE & EXCEPTIONS ===
+[MIKE: PLEASE PASTE THE TEST SUITE SOURCE AND EXCEPTION LOGS HERE BEFORE ROUTING TO CLAUDE]
