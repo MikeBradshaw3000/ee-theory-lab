@@ -35,7 +35,7 @@
 
 **What.** `git push` to send the local main commits to `origin/main`.
 
-**Trigger.** Post-Stage-1 natural commit cluster. Stage 1 is complete when all foundational documents, root-level orientation documents, STANDING_ITEMS.md, kit-revision-3, and the session 9 operations log are committed. Push fires once the cluster is closed; sequencing relative to the pre-registration reproducibility verification (item 1) is at Mike's arbitration.
+**Trigger.** Post-Stage-1 natural commit cluster. Stage 1 is complete when all foundational documents, root-level orientation documents, STANDING_ITEMS.md, kit-revision-3, the session 9 operations log, and the session 10 reconciliation commit cluster are committed. Push fires once the cluster is closed; sequencing relative to the pre-registration reproducibility verification (item 1) is at Mike's arbitration.
 
 **Acceptance.** `git push` reports success; `git log` confirms parity with `origin/main` (HEAD on local main matches HEAD on origin/main).
 
@@ -43,7 +43,7 @@
 
 ### 3. Stage 2 execution — canonical artifact moves
 
-**What.** Execute the `git mv` operations specified in `RESTRUCTURE_INVENTORY.md` moves-plan. Moves include: Phase 4B specification and Flight 6 substrate specification to qualified-path locations (per `protocols/foundational/canonical_artifacts_index.md` Section 11); diagnostic stdout files to `phase_4b/diagnostics/`; Tier 2, Tier 1, cross-run output directories from untracked to canonical placement; routing artifacts to routing-archive path; reclassified canonical scripts (`inspect_tier3_provenance.py`, `merge_globals.py`) to `phase_4b/scripts/`.
+**What.** Execute the `git mv` operations specified in `RESTRUCTURE_INVENTORY.md` moves-plan. Moves include: Phase 4B specification and Flight 6 substrate specification to qualified-path locations (per `protocols/foundational/canonical_artifacts_index.md` Section 12); diagnostic stdout files to `phase_4b/diagnostics/`; Tier 2, Tier 1, cross-run output directories from untracked to canonical placement; routing artifacts to routing-archive path; reclassified canonical scripts (`inspect_tier3_provenance.py`, `merge_globals.py`) to `phase_4b/scripts/`.
 
 **Trigger.** Stage 1 complete (all items in Stage 1 closed) AND item 1 (pre-registration reproducibility verification) executed. The dependency on item 1 is per its trigger note: verification before further restructure work.
 
@@ -101,21 +101,15 @@
 
 ---
 
-### 9. Prior-cycle canonical material reconciliation
+### 10. ChatGPT and Gemini onboarding under session-9 framework
 
-**What.** Inventory and reconcile prior-cycle canonical material discovered at the close of session 9. Specifically: the committed contents of `protocols/onboarding/` (four files: `new_chat_primer.md`, `chatgpt_new_chat_primer.md`, `gemini_new_chat_primer.md`, `chatgpt_routing_note.md`); the prior-cycle operations log conventions referenced by those files (including `operations_log/README.md` if it exists, and the 2026-05-14 emulation-discovery and 2026-05-15 Flight 2 closure logs); the `protocols/architectural_reviews/` directory if present; any other pre-`5d91828` canonical material not engaged by session 9's Stage 1 work.
+**What.** Produce ChatGPT and Gemini onboarding documents under the session-9 foundational-set framework (analogous to the kit-revision-3 cold-start surface for Claude). The prior-cycle primer documents at `protocols/onboarding/chatgpt_new_chat_primer.md` and `protocols/onboarding/gemini_new_chat_primer.md` were anchored to Cycle 2 Round 1 Post-Flight-2-Closure state; substantive content has moved sufficiently since that salvaging them as still-authoritative would require substantial rewriting against current state. Item 9 reconciliation deferred this work as out-of-scope.
 
-Provenance of the gap: session 9 produced `protocols/foundational/` (six documents) and kit-revision-3 as canonical orientation infrastructure without inventorying pre-existing canonical material in adjacent paths. This is a Layer-1-specific working-memory instance — Layer 1 drafted parallel canonical material without primary-source verification of what was already at canonical paths. Rule 7.4 applies symmetrically; the gap is registered for corrective discipline.
+Provenance: item 9 reconciliation Section 1.1 (in `PRIOR_CYCLE_RECONCILIATION_PLAN.md`) arbitrated this item to deferred status. The deferral is recorded in `protocols/onboarding/README.md` (the supersession marker added in the session 10 commit cluster).
 
-**Trigger.** **Before any other Stage 2 work begins in session 10.** This includes superseding the trigger order in items 1 (pre-registration reproducibility verification) and 2 (push to origin) — the reconciliation is a precondition to those because reg_01's canonical-record context may depend on prior-cycle material not yet integrated, and push-to-origin should not propagate the current incomplete canonical structure to remote.
+**Trigger.** When a fresh ChatGPT or Gemini instance is needed for substantive work and the existing prior-cycle primers are determined inadequate as cold-start surface. Could fire structurally with Stage 5 (when next analytical phase opens), or earlier if Mike opens new ChatGPT or Gemini chats during restructure stages 2-4 and finds the prior-cycle primers' anchoring to Cycle 2 Round 1 Post-Flight-2-Closure state insufficient.
 
-**Acceptance.** Three deliverables:
-
-1. **Inventory.** Full listing of prior-cycle canonical material with provenance (which commit introduced each item, which cycle, which substantive content). Committed as part of the reconciliation commit.
-2. **Reconciliation plan.** For each item, a determination: superseded (and by what session-7-onward canonical material), still authoritative (and how it relates to the current foundational set), or requires structural integration (and into what new or existing canonical location). Committed alongside the inventory.
-3. **Canonical record update.** `protocols/foundational/canonical_artifacts_index.md` updated to reflect the reconciliation. `protocols/onboarding/` either marked as prior-cycle (via in-directory README explaining the supersession) or restructured per the reconciliation plan. Stage 1's "Stage 1 complete" framing in `protocols/foundational/current_state.md` Section 1 and elsewhere updated to "Stage 1 complete after reconciliation."
-
-**Estimated scope.** Substantial. Possibly its own session. Acceptable to defer items 1-8 (currently in this document) until item 9 closes; the bullet-proof deferral process tolerates trigger-ordering changes when newly discovered conditions require it.
+**Acceptance.** ChatGPT onboarding document and Gemini onboarding document drafted against current state. Likely shape: compressed surfaces over the foundational set (parallel to kit-revision-3 for Claude), with role definitions per `protocol_primer.md`, vocabulary discipline per `vocabulary_quarantine.md`, primary-source verification discipline per `standing_rules.md`. Committed at canonical paths (likely under `protocols/foundational/` or a new `protocols/onboarding_current/` sibling to the prior-cycle directory).
 
 ---
 
@@ -124,7 +118,9 @@ Provenance of the gap: session 9 produced `protocols/foundational/` (six documen
 This section records when items closed or new items added. Each entry references the operations log of the session in which the change occurred.
 
 - **Item 9 added (session 9 close).** Prior-cycle canonical material discovered via primary-source verification at session-9 close. The session 9 operations log addendum records the discovery; this STANDING_ITEMS.md update commits the trigger structure for session 10 reconciliation.
+- **Item 9 closed and removed (session 10).** Three deliverables completed: `PRIOR_CYCLE_INVENTORY.md` (workspace root), `PRIOR_CYCLE_RECONCILIATION_PLAN.md` (workspace root), and the canonical record update commit cluster (foundational set updates, three new foundational documents, two new in-directory READMEs, operations_log README update). Layer 2 sanity scan returned PASS-with-notes; patches incorporated before commit. Item 9's acceptance criteria fully met. Per the maintenance discipline (items removed when acceptance is met), item 9 is removed from this list. The reconciliation cluster's operations log records the closure.
+- **Item 10 added (session 10).** ChatGPT and Gemini onboarding under session-9 framework, deferred during item 9 reconciliation as out-of-scope for that item. The session 10 operations log records the deferral arbitration.
 
 ---
 
-— Drafted by Claude as Layer 1 central node, Stage 1 root-level operational process artifact, session 9. No Layer 2 routing per the agreed sanity-scan-distribution convention (operational process artifact, not architectural deliverable). Ready for commit.
+— Drafted by Claude as Layer 1 central node, Stage 1 root-level operational process artifact, session 9. Updated session 10 with item 9 removal (acceptance criteria met by reconciliation deliverables and Layer 2 sanity scan), item 10 addition (deferred ChatGPT/Gemini onboarding), and maintenance log entries. No Layer 2 routing per the agreed sanity-scan-distribution convention (operational process artifact, not architectural deliverable). Ready for commit.
