@@ -19,16 +19,6 @@
 
 ## Items
 
-### 3. Stage 2 execution — canonical artifact moves
-
-**What.** Execute the `git mv` operations specified in `RESTRUCTURE_INVENTORY.md` moves-plan. Moves include: Phase 4B specification and Flight 6 substrate specification to qualified-path locations (per `protocols/foundational/canonical_artifacts_index.md` Section 12); diagnostic stdout files to `phase_4b/diagnostics/`; Tier 2, Tier 1, cross-run output directories from untracked to canonical placement; routing artifacts to routing-archive path; reclassified canonical scripts (`inspect_tier3_provenance.py`, `merge_globals.py`) to `phase_4b/scripts/`.
-
-**Trigger.** Stage 1 complete (all items in Stage 1 closed) AND item 1 (pre-registration reproducibility verification) executed. The dependency on item 1 is per its trigger note: verification before further restructure work. *Note: item 1 closed at session 10 (gap surfaced) and was superseded by item 11, which closed at session 11. The verification-before-restructure intent is satisfied by item 11's closure (pipeline gap fixed, outputs canonically replaced, substantive equivalence documented).*
-
-**Acceptance.** All moves-plan items executed via `git mv`; commit cluster references `RESTRUCTURE_INVENTORY.md` items; `canonical_artifacts_index.md` updated to reflect new paths; `MANIFEST.md` updated to remove "pending Stage 2" markers; this STANDING_ITEMS.md entry closes.
-
----
-
 ### 4. Stage 3 execution — manifests for parquet outputs
 
 **What.** Add manifests for parquet outputs (the eight Flight 6 production files in `flight2_outputs/`) and substrate files. Manifest format combines ChatGPT's Q4 recommendation with Flight 6 Substrate Specification Section 14.1's verification structure — one canonical manifest schema serving both purposes. Located at `phase_4b/outputs/parquet_manifest.csv` with documentation at `phase_4b/outputs/parquet_manifest.md` (or equivalent locations per Stage 2 placement).
@@ -69,16 +59,6 @@
 
 ---
 
-### 8. `global_timeseries.csv` rename-or-README decision
-
-**What.** Decide whether to rename `phase_4b/tier2_outputs/global_timeseries.csv` to a name that disambiguates it from the per-probe-scale `global_timeseries_*.csv` files, or to add a README in `phase_4b/tier2_outputs/` documenting the file's role as the merged Tier 2 → Tier 3 bridging artifact. Canonical status of the file was settled during session 8 Stage 0 inventory; the disambiguating-documentation choice is pending.
-
-**Trigger.** Stage 2 (item 3) execution. The rename or README addition happens during Stage 2, not after, because Stage 2 is when canonical artifact placement is settled.
-
-**Acceptance.** Either rename executed via `git mv`, or README added at `phase_4b/tier2_outputs/README.md`. `canonical_artifacts_index.md` Section 5 updated to reflect the chosen disambiguation.
-
----
-
 ### 10. ChatGPT and Gemini onboarding under session-9 framework
 
 **What.** Produce ChatGPT and Gemini onboarding documents under the session-9 foundational-set framework (analogous to the kit-revision-3 cold-start surface for Claude). The prior-cycle primer documents at `protocols/onboarding/chatgpt_new_chat_primer.md` and `protocols/onboarding/gemini_new_chat_primer.md` were anchored to Cycle 2 Round 1 Post-Flight-2-Closure state; substantive content has moved sufficiently since that salvaging them as still-authoritative would require substantial rewriting against current state. Item 9 reconciliation deferred this work as out-of-scope.
@@ -102,5 +82,7 @@ This section records when items closed or new items added. Each entry references
 - **Item 11 added (session 10).** Pipeline gap: outcome-construction not wired into intake. Three sub-deliverables: determine substantive correctness of committed outputs, wire the construction step into the pipeline, re-run and diff. Supersedes items 1, 2 (push to origin), and 3 (Stage 2 execution) in priority. The session 10 operations log addendum documents the diagnostic trace.
 - **Item 11 closed and removed (session 11).** All three sub-deliverables resolved. Sub-deliverable 1 closed by archaeology: the May 17 production timestamps, the `89b85f4`-as-HEAD-throughout-production-window evidence, and the session 6 log's "no commits between sessions" statement together identified `89b85f4`'s inline outcome construction as the producing pipeline; no execution required. Sub-deliverable 2 closed by code fix: `construct_outcome` added to `_phase_4b_intake.py` and wired into `tier3_regression.py`'s `run_tier3` between `construct_derived_variables` and `attach_tier2_globals`. Sub-deliverable 3 closed by re-run-and-diff: non-clean diff at byte level but coherent at analytical level; intercept and substantive drive coefficients agree to 3-5 significant figures, machine-zero terms remain machine-zero. Mike arbitrated C: replace canonical outputs with new pipeline's outputs, document the diff and substantive-equivalence in the operations log. The session 11 operations log records the closure. Items 2 (push to origin) and 3 (Stage 2 execution) are no longer superseded by item 11 and become first-eligible.
 - **Item 2 closed and removed (session 12).** `git push origin main` executed cleanly: 125 objects pushed, 58 deltas resolved, no errors. `git log --oneline -3` confirmed parity: both `origin/main` and local `main` at `b8a6833`. Item 2 acceptance criteria fully met (push succeeded; log confirms `origin/main` parity). Per the maintenance discipline (items removed when acceptance is met), item 2 is removed from this list. The session 12 operations log records the closure. Item 3 (Stage 2 execution) becomes the next-eligible item; sequencing relative to other open items is at Mike's arbitration.
+- **Item 3 closed and removed (session 12 Stage 2 cluster).** Stage 2 moves-plan from `RESTRUCTURE_INVENTORY.md` executed across two commits. Commit 1 (`919db5b`): six file moves (LAYER_1_ROUTING_PACKAGE.txt to `phase_4b/reviews/layer3/`, two scripts to `phase_4b/scripts/`, three diagnostic files to `phase_4b/diagnostics/`) plus three Group E directories staged (`phase_4b/cross_run_outputs/`, `phase_4b/tier1_reports/`, `phase_4b/tier2_outputs/`) — 82 files total, 50,445 insertions. Commit 2 (`adfdb28`): documentation updates to `canonical_artifacts_index.md` (Sections 1-12 updated to reflect new paths and Section 12 soft-updated to reserve-not-execute the v1.1 document target paths per Mike's Path A arbitration), `MANIFEST.md` (phase_4b subdirectory listing, workspace-root scratch and routing files listing, Stage 3-4 commitments section), and a new `phase_4b/tier2_outputs/README.md` documenting the merged-globals bridging artifact per item 8 closure. Mechanism deviation: the inventory's `git mv` instruction was replaced with `Move-Item` + `git add` because all source items were untracked (no git history to preserve); the session 12 operations log records the deviation. Item 3 acceptance criteria met: all moves-plan items executed; commit cluster references RESTRUCTURE_INVENTORY.md items; canonical_artifacts_index.md updated to reflect new paths; MANIFEST.md updated to remove "pending Stage 2" markers. Per the maintenance discipline, item 3 is removed from this list. Item 4 (Stage 3 execution) becomes next-eligible.
+- **Item 8 closed and removed (session 12 Stage 2 cluster).** Disambiguation of `phase_4b/tier2_outputs/global_timeseries.csv` from the per-probe-scale `global_timeseries_*.csv` files resolved by README path per Mike's Arbitration 1 (rename vs. README — README selected as lower-risk option avoiding downstream code dependency changes). README at `phase_4b/tier2_outputs/README.md` (3,011 bytes) documents the bridging role of the merged file. Item 8 acceptance criteria met: README added at `phase_4b/tier2_outputs/README.md`; `canonical_artifacts_index.md` Section 5 updated to reflect the README addition. Per the maintenance discipline, item 8 is removed from this list.
 
 ---
