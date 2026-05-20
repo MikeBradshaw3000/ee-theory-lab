@@ -1,6 +1,6 @@
 # Operations Log
 
-This directory holds the operational record of decisions, gate closures, discipline events, and protocol additions across Cycle 2 substrate work.
+This directory holds the operational record of decisions, gate closures, discipline events, and protocol additions across the project's history. Originally opened during Cycle 2 substrate work in May 2026; continues forward through Phase 4B and beyond.
 
 ## Entry conventions
 
@@ -11,16 +11,22 @@ This directory holds the operational record of decisions, gate closures, discipl
 
 ## Cross-references
 
+- **Foundational document set:** `../protocols/foundational/` — entry point at `README.md`. Contains the protocol primer, standing rules, vocabulary quarantine, canonical artifacts index, current state, theoretical context, environment reference, and personal context.
 - **Substrate Spec v1.1:** `../flights/flight_6/Flight6_Substrate_Specification_v1.1.md.pdf`
-- **Architectural reviews:** `../protocols/architectural_reviews/`
-- **Onboarding primers:** `../protocols/onboarding/`
+- **Architectural reviews:** `../protocols/architectural_reviews/` — Layer 1 architectural review outputs, parallel to operations logs.
+- **Prior-cycle onboarding primers:** `../protocols/onboarding/` — superseded by foundational set; preserved as historical record.
 
-## Standing rules (current as of 14 May 2026)
+## Standing rules
 
-Five standing rules apply across all AI partners and all inference modes:
+The standing rules current as of session 9 onward are documented in `../protocols/foundational/standing_rules.md` (Rule 1 through Rule 10).
 
-1. **No past-tense verbs for unexecuted actions on Mike's machine.** Acceptable forms: "The script to run is...", "Drafted for execution:", "Pending your run:", "Once you execute, expected output is..."
-2. **No synthetic telemetry tables.** If a run hasn't happened, the table stays blank. Analytical predictions explicitly labeled as such are acceptable; emulated measurements formatted as data are not.
-3. **Execution-verification at parity moments.** When an AI partner reports running code, the architectural review explicitly includes execution-status verification, not just primitive/vocabulary compliance.
-4. **Asymmetric execution channel acknowledgment.** Mike is the only AI partner with an execution channel on the production machine. AI-partner-reported "results" are either tool-call outputs in their sandboxed environments (clearly labeled) or predictions/analyses about what Mike's execution would produce.
-5. **Gate-closing artifacts route to all reviewing AIs.** Substantive working exchanges happen between Mike and one AI partner at a time. At every gate closure, the actual textual artifacts (terminal outputs, hash values, completion-verification reports, implementation files) route to all reviewing AIs before the next gate opens.
+A *five-rule list* originally appeared in this README and documented the rule system as it existed 14 May 2026. The five-rule list was the protocol's standing-rules state at the close of Cycle 1 / opening of Cycle 2. That historical content is preserved at two locations:
+
+- `2026-05-14_emulation_discovery.md` — the operations log entry documenting the rule system's origin event (the Cycle 2 Round 1 A3 parity moment that surfaced Gemini's synthetic 10-seed table) and the rules' formulation.
+- `../protocols/foundational/standing_rules.md` — historical lineage section at the document's end, including the original five-rule list verbatim and the mapping to current Rule 1-10.
+
+For current rule content (Rule 1 through Rule 10), consult `../protocols/foundational/standing_rules.md`. For rule-system history, consult both locations above plus the operations logs from 14-16 May 2026 (which document the rules' formation and subsequent refinement).
+
+## Directory scope
+
+This directory contains operations logs across the project's history. Some entries predate the session-numbering convention currently used in Phase 4B work; those use date-and-topic naming (e.g., `2026-05-14_emulation_discovery.md`, `2026-05-15_flight_2_closure.md`). Session-numbered entries (`2026-05-18_phase_4b_session_5.md` and forward) follow the session-numbering convention adopted as Phase 4B opened. Both naming patterns are operative; the date is always the date of the event.
