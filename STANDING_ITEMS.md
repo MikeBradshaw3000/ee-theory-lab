@@ -101,30 +101,6 @@ Provenance: item 9 reconciliation Section 1.1 (in `PRIOR_CYCLE_RECONCILIATION_PL
 
 ---
 
-### 11. Pipeline gap: outcome-construction not wired into intake (supersedes item 1)
-
-**What.** The session 10 execution of item 1 (pre-registration reproducibility verification) surfaced that the committed canonical pipeline at `3189ab7` cannot produce the committed reg_01 outputs at `3189ab7`. The pipeline fails at `validate_formula_variables` because outcome variable `logit_p_base` is never constructed. The intake module's CONSTRUCTION_REGISTRY contains `_eta_floor_inversion` (which when applied constructs `logit_p_base` from `p_act`), and the yaml's outcome block correctly references the registry key (`eta_floor_inversion_of_p_base`). However, `construct_derived_variables` iterates only the yaml's `derived_variables` block, not the outcome block. The function exists and is registered; it is never called.
-
-The pre-reconciliation regression script at `89b85f4` had inline outcome construction (`df['logit_p_base'], boundary_count = eta_floor_inversion(df['p_act'])`). The reconciliation commit `3189ab7` deleted this line, moved the function into the intake module's CONSTRUCTION_REGISTRY, and updated imports — but did not wire the registry into the pipeline.
-
-This item supersedes item 1. The substantive reg_01 finding from session 6 is not invalidated but is under flag pending item 11 closure; the committed outputs may be substantively correct (produced by an earlier valid pipeline) but cannot be reproduced by the current committed code.
-
-**Trigger.** Open. Immediate priority; supersedes items 2 (push to origin) and 3 (Stage 2 execution) because push should not propagate a pipeline that cannot reproduce its committed outputs and Stage 2 moves should not proceed against an unstable canonical record.
-
-**Acceptance.** Three sub-deliverables:
-
-1. **Determine whether the committed outputs are substantively correct.** Run the pre-reconciliation pipeline (the `89b85f4` regression script with inline outcome construction, against the `b10682a` yaml schema or with appropriate adaptation) and check whether it produces outputs matching the committed `3189ab7` outputs. Or identify the actual code path that produced the committed outputs through git history, file timestamps, or operations-log archaeology. Findings documented in the executing session's operations log.
-
-2. **Wire the outcome-construction step into the current pipeline.** Code fix to `_phase_4b_intake.py`. Likely shape: add a `construct_outcome(df, normalized)` function that runs the CONSTRUCTION_REGISTRY against `normalized.outcome_construction` after `construct_derived_variables`. Call site added to `run_tier3` in `tier3_regression.py` between the existing `construct_derived_variables` call and `validate_formula_variables`. Layer 1 architectural review before commit per protocol-infrastructure-routing discipline.
-
-3. **Re-run with the fixed pipeline and diff against committed outputs.** Per the original item 1 acceptance criteria, with the corrected pipeline. Clean diff confirms substantive correctness of committed outputs. Non-clean diff surfaces a further gap requiring Mike's arbitration on what the canonical outputs should be.
-
-**Substantive implications for the canonical record.** `protocols/foundational/current_state.md` Section 2 (latest substantive finding: reg_01 identity-recovery) requires update at item 11 closure. Until then, the framing preserves the reg_01 finding as substantively committed-but-pipeline-flagged.
-
-**Toolchain.** `tier3_regression.py` at `phase_4b/scripts/`; `_phase_4b_intake.py` at `phase_4b/scripts/`; `_phase_4b_common.py` at `phase_4b/scripts/` (contains the `eta_floor_inversion` function the intake module imports); pre-registration yaml at `phase_4b/pre_registrations/reg_01_scale_interactions.yaml`. Committed reg_01 outputs at `phase_4b/tier3_outputs/`. All paths verified during item 1 execution.
-
----
-
 ## Maintenance log
 
 This section records when items closed or new items added. Each entry references the operations log of the session in which the change occurred.
@@ -134,7 +110,8 @@ This section records when items closed or new items added. Each entry references
 - **Item 10 added (session 10).** ChatGPT and Gemini onboarding under session-9 framework, deferred during item 9 reconciliation as out-of-scope for that item. The session 10 operations log records the deferral arbitration.
 - **Item 1 closed and removed (session 10).** Item 1 execution surfaced a pipeline gap: the committed canonical pipeline at `3189ab7` cannot produce the committed reg_01 outputs at `3189ab7` because outcome-construction is not wired into the intake pipeline. Per item 1's acceptance criteria ("If outputs do not match, a gap exists; the gap is surfaced as a routed task and remains tracked under a new item that supersedes this one"), item 1 closes via the surfacing of the gap. Item 11 added to supersede.
 - **Item 11 added (session 10).** Pipeline gap: outcome-construction not wired into intake. Three sub-deliverables: determine substantive correctness of committed outputs, wire the construction step into the pipeline, re-run and diff. Supersedes items 1, 2 (push to origin), and 3 (Stage 2 execution) in priority. The session 10 operations log addendum documents the diagnostic trace.
+- **Item 11 closed and removed (session 11).** All three sub-deliverables resolved. Sub-deliverable 1 closed by archaeology: the May 17 production timestamps, the `89b85f4`-as-HEAD-throughout-production-window evidence, and the session 6 log's "no commits between sessions" statement together identified `89b85f4`'s inline outcome construction as the producing pipeline; no execution required. Sub-deliverable 2 closed by code fix: `construct_outcome` added to `_phase_4b_intake.py` and wired into `tier3_regression.py`'s `run_tier3` between `construct_derived_variables` and `attach_tier2_globals`. Sub-deliverable 3 closed by re-run-and-diff: non-clean diff at byte level but coherent at analytical level; intercept and substantive drive coefficients agree to 3-5 significant figures, machine-zero terms remain machine-zero. Mike arbitrated C: replace canonical outputs with new pipeline's outputs, document the diff and substantive-equivalence in the operations log. The session 11 operations log records the closure. Items 2 (push to origin) and 3 (Stage 2 execution) are no longer superseded by item 11 and become first-eligible.
 
 ---
 
-— Drafted by Claude as Layer 1 central node, Stage 1 root-level operational process artifact, session 9. Updated session 10 with item 9 removal (acceptance criteria met by reconciliation deliverables and Layer 2 sanity scan), item 10 addition (deferred ChatGPT/Gemini onboarding), item 1 closure (gap surfaced per acceptance criteria), and item 11 addition (pipeline gap superseding item 1). No Layer 2 routing per the agreed sanity-scan-distribution convention (operational process artifact, not architectural deliverable). Ready for commit.
+— Drafted by Claude as Layer 1 central node, Stage 1 root-level operational process artifact, session 9. Updated session 10 with item 9 removal (acceptance criteria met by reconciliation deliverables and Layer 2 sanity scan), item 10 addition (deferred ChatGPT/Gemini onboarding), item 1 closure (gap surfaced per acceptance criteria), and item 11 addition (pipeline gap superseding item 1). Updated session 11 with item 11 closure and removal (three sub-deliverables resolved; Mike arbitrated canonical-output replacement). No Layer 2 routing per the agreed sanity-scan-distribution convention (operational process artifact, not architectural deliverable). Ready for commit.

@@ -142,7 +142,7 @@ def _extract_formula_vars(formula: str) -> set:
         desc = patsy.ModelDesc.from_formula(formula)
     except Exception as e:
         raise PreregSchemaError("formula", "valid Patsy formula", f"Parse Error: {e}", "Formula Parse")
-    
+
     terms = desc.lhs_termlist + desc.rhs_termlist
     vars_set = set()
     for term in terms:
@@ -173,10 +173,10 @@ def normalize_prereg(spec: dict) -> NormalizedPrereg:
     outcome = req("outcome", dict)
     out_name = req("name", str, outcome, "outcome")
     out_const = req("construction", str, outcome, "outcome")
-    
+
     if out_const not in CONSTRUCTION_REGISTRY:
         raise PreregSchemaError("outcome.construction", f"key in registry", out_const)
-        
+
     out_eta = outcome.get("eta")
     if out_const in ETA_REQUIRED_RULES and not isinstance(out_eta, float):
         raise PreregSchemaError("outcome.eta", "float", type(out_eta).__name__)
@@ -208,11 +208,11 @@ def normalize_prereg(spec: dict) -> NormalizedPrereg:
     uncert = req("uncertainty_method", dict)
     pri_uncert = req("primary", str, uncert, "uncertainty_method")
     raw_clust = req("cluster_variable", str, uncert, "uncertainty_method")
-    
+
     if raw_clust not in CLUSTER_VARIABLE_ALIASES:
         raise PreregSchemaError("uncertainty_method.cluster_variable", f"key in aliases", raw_clust)
     cluster_var = CLUSTER_VARIABLE_ALIASES[raw_clust]
-    
+
     sens = uncert.get("sensitivity", [])
     if not isinstance(sens, list):
         raise PreregSchemaError("uncertainty_method.sensitivity", "list", type(sens).__name__)
@@ -228,18 +228,18 @@ def normalize_prereg(spec: dict) -> NormalizedPrereg:
     derived = spec.get("derived_variables", {})
     if not isinstance(derived, dict):
         raise PreregSchemaError("derived_variables", "dict", type(derived).__name__)
-        
+
     for k, v in derived.items():
         if v not in CONSTRUCTION_REGISTRY:
             raise PreregSchemaError(f"derived_variables.{k}", "key in registry", v)
 
     # VALIDATIONS (Items 4 and 5)
     form_vars = _extract_formula_vars(formula)
-    
+
     for p in predictors:
         if p not in form_vars:
             raise PreregSchemaError("predictors", "subset of formula variables", f"'{p}' missing from formula")
-            
+
     for i in interactions:
         comps = [c.strip() for c in i.split(':')]
         for c in comps:
@@ -247,7 +247,7 @@ def normalize_prereg(spec: dict) -> NormalizedPrereg:
                 raise PreregSchemaError("interactions", "components in formula variables", f"'{c}' missing from formula")
 
     form_var_check_pool = set(predictors) | {c.strip() for i in interactions for c in i.split(':')} | CATEGORICAL_VARIABLES | set(derived.keys()) | {out_name}
-    
+
     for fv in form_vars:
         if fv not in form_var_check_pool:
             raise PreregSchemaError("formula", "variables declared in predictors/interactions/derived", f"Undeclared: {fv}")
@@ -278,7 +278,7 @@ def load_canonical_inputs(normalized: NormalizedPrereg) -> Tuple[pd.DataFrame, L
 
         meta = pq.read_metadata(fpath)
         custom_meta = meta.metadata or {}
-        
+
         def get_m(key):
             val = custom_meta.get(key.encode())
             if val is None:
@@ -288,9 +288,9 @@ def load_canonical_inputs(normalized: NormalizedPrereg) -> Tuple[pd.DataFrame, L
         f_variant = get_m("F_variant")
         scale_raw = get_m("Scale")
         scale = "40x40" if "40" in scale_raw else "20x20"
-        
+
         run_id = fpath.stem
-        
+
         # Build Record
         rec = MetadataRecord(
             file_path=fpath, run_id=run_id, source_file=fname, f_variant=f_variant, scale=scale,
@@ -315,15 +315,15 @@ def promote_metadata_to_columns(df: pd.DataFrame, metadata: List[MetadataRecord]
         {'run_id': m.run_id, 'F_variant': m.f_variant, 'scale': m.scale}
         for m in metadata
     ])
-    
+
     if meta_df.isnull().values.any():
         raise MetadataPromotionError("ALL", "Null fields detected in metadata records.")
-        
+
     merged = df.merge(meta_df, on='run_id', how='left')
     if merged['F_variant'].isnull().any():
         bad_runs = df[merged['F_variant'].isnull()]['run_id'].unique()
         raise MetadataPromotionError(str(bad_runs), "Matching MetadataRecord", "promote_metadata_to_columns")
-        
+
     return merged
 
 def construct_derived_variables(df: pd.DataFrame, normalized: NormalizedPrereg) -> pd.DataFrame:
@@ -334,23 +334,31 @@ def construct_derived_variables(df: pd.DataFrame, normalized: NormalizedPrereg) 
         df = rule_func(df, normalized)
     return df
 
+def construct_outcome(df: pd.DataFrame, normalized: NormalizedPrereg) -> pd.DataFrame:
+    rule_id = normalized.outcome_construction
+    if rule_id not in CONSTRUCTION_REGISTRY:
+        raise DerivedVariableError(normalized.outcome_name, "N/A", rule_id, "Unknown Rule")
+    rule_func = CONSTRUCTION_REGISTRY[rule_id]
+    df = rule_func(df, normalized)
+    return df
+
 def attach_tier2_globals(df: pd.DataFrame, normalized: NormalizedPrereg) -> pd.DataFrame:
     project_root, _, _ = get_paths()
     t2_path = project_root / normalized.tier2_globals_path
-    
+
     if not t2_path.exists():
         raise CanonicalInputError(normalized.tier2_globals_path, "File existence", "attach_tier2_globals")
-        
+
     t2_df = pd.read_csv(t2_path)
     if not {'run_id', 'Tick'}.issubset(t2_df.columns):
         raise CanonicalInputError(normalized.tier2_globals_path, "run_id or Tick column", "attach_tier2_globals")
-        
+
     orig_rows = len(df)
     merged = df.merge(t2_df, on=['run_id', 'Tick'], how='left')
-    
+
     if len(merged) != orig_rows:
         raise CanonicalInputError(normalized.tier2_globals_path, "1:1 Merge Integrity", f"Row count changed {orig_rows} -> {len(merged)}")
-        
+
     return merged
 
 def validate_formula_variables(df: pd.DataFrame, normalized: NormalizedPrereg) -> None:
@@ -361,29 +369,29 @@ def validate_formula_variables(df: pd.DataFrame, normalized: NormalizedPrereg) -
 
 def echo_intake_summary(df: pd.DataFrame, metadata: List[MetadataRecord], normalized: NormalizedPrereg) -> str:
     lines = ["=== PHASE 4B INTAKE SUMMARY ==="]
-    
+
     lines.append("\n[Resolved Input Files]")
     for m in metadata:
         lines.append(f"  - {m.source_file}: {m.row_count} rows")
-        
+
     lines.append("\n[Promoted Metadata Columns]")
     for m in metadata:
         lines.append(f"  - {m.run_id} -> F_variant: {m.f_variant}, scale: {m.scale}")
-        
+
     lines.append("\n[Constructed Derived Variables]")
     for k, v in normalized.derived_variable_specs.items():
         lines.append(f"  - {k} (via {v})")
-        
+
     lines.append(f"\n[Outcome]: {normalized.outcome_name} (via {normalized.outcome_construction})")
     lines.append(f"[Model Family]: {normalized.model_family}")
     lines.append(f"[Cluster Variable (Post-Alias)]: {normalized.cluster_variable}")
     lines.append(f"[Independent Run Count]: {len(metadata)}")
-    
+
     lines.append(f"\n[Resolved Formula]: {normalized.formula}")
     form_vars = _extract_formula_vars(normalized.formula)
     lines.append(f"[Formula Variables Extracted]: {list(form_vars)}")
-    
+
     missing = form_vars - set(df.columns)
     lines.append(f"[Formula Variables Missing]: {'none' if not missing else list(missing)}")
-    
+
     return "\n".join(lines)

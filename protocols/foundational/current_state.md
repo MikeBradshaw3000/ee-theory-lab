@@ -119,7 +119,7 @@ Working pattern committed in the kit as of kit-revision-3, with additions surfac
 
 - HEAD: `5f5a762` (session 9 date-revert commit) at session 10 open; advances through the session-10 reconciliation commit cluster.
 - Layer assignments: Claude = Layer 1 (central node), ChatGPT = Layer 2 (substantive review), Gemini = Layer 3 (implementation/execution). Mike arbitrates.
-- Foundational document set: pairs 1-3 committed during session 9; three new documents (`theoretical_context.md`, `personal_context.md`, `environment_reference.md`) and updates to existing documents pending commit in the session 10 reconciliation cluster.
+- Foundational document set: pairs 1-3 committed during session 9; three new documents (`theoretical_context.md`, `personal_context.md`, `environment_reference.md`) and updates to existing documents committed during session 10 as part of item 9 reconciliation.
 - Instantiation kit: kit-revision-3 (drafted at session 9 end). Kit-revision-4 anticipated post-item-9 closure.
 - Routing convention: full Layer 2 cycle for protocol-infrastructure routings includes v2-acceptance pass before commit (per `protocol_primer.md` Section 3); other full-cycle routings commit after Layer 1 incorporation. Session 10 deliverable 3 routes for Layer 2 sanity scan per the discipline-distribution convention (substantive foundational updates get Layer 2 review, but not full v2-acceptance cycle).
 
