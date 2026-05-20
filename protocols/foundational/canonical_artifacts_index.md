@@ -4,7 +4,7 @@
 
 **Authority.** This document is authoritative for *where* canonical artifacts live and *what authority* they carry. It is not authoritative for the artifacts' content; each artifact is its own authority on its content domain. When this index conflicts with primary source (the actual files at the stated paths), primary source wins and this document revises.
 
-**Maintenance discipline.** Updated when canonical artifacts are added, moved, or superseded. Updates committed alongside the operations log of the session in which the change occurred. Stage 2 of the repository restructure (moves canonical artifacts to qualified-path locations) triggered a coordinated update of this index at session 12 (commit cluster `919db5b` + this commit).
+**Maintenance discipline.** Updated when canonical artifacts are added, moved, or superseded. Updates committed alongside the operations log of the session in which the change occurred. Stage 2 of the repository restructure (moves canonical artifacts to qualified-path locations) triggered a coordinated update of this index at session 12 (commit cluster `919db5b` + `adfdb28`). Stage 3 (manifest schema + scaffolding) triggered an update at session 13 adding Section 14.
 
 **Path conventions.** All paths relative to `C:\Users\vkz244\EE_Theory_Lab\ee-theory-lab\` unless absolute. PowerShell uses backslash separators; git status output uses forward slashes; both refer to the same files.
 
@@ -56,7 +56,7 @@ Analytical procedures for Phase 4B: Tier 1 strict matching, Tier 2 coarser match
 
 ### Flight 6 Substrate Specification v1.1
 
-Substrate implementation: the cellular engine that produces .parquet telemetry. Sections 6 and 8 specify the deterministic probability chain (Drive_Raw → p_base → p_act → realization) that reg_01 recovered. Section 13.2 specifies the shadow-copy structure (F_2_symmetric runs at each scale produce one underlying parquet file, three probe-named files via byte-identical shadow copies; F_LR runs produce one parquet file each). Section 15 enumerates implementation prohibitions; the protocol-applicable subset is lifted to `standing_rules.md` Rule 7.
+Substrate implementation: the cellular engine that produces .parquet telemetry. Sections 6 and 8 specify the deterministic probability chain (Drive_Raw → p_base → p_act → realization) that reg_01 recovered. Section 13.2 specifies the shadow-copy structure (F_2_symmetric runs at each scale produce one underlying parquet file, three probe-named files via byte-identical shadow copies; F_LR runs produce one parquet file each). Section 14.1 specifies the per-artifact verification structure (file existence, file size, row count, column count, required columns, tick range, unique cells, F_variant, non-empty, realization invariant, clipping summary) — referenced by Section 14 below. Section 15 enumerates implementation prohibitions; the protocol-applicable subset is lifted to `standing_rules.md` Rule 7.
 
 Authority: substrate implementation.
 
@@ -72,7 +72,7 @@ Authority: substrate implementation.
 
 ## Section 3: Tier 3 canonical implementation
 
-The Tier 3 implementation cluster committed at `3189ab7` (session 7 reconciliation) plus the reproducibility-toolchain scripts moved to canonical placement at session 12 (commit `919db5b`). All paths under `phase_4b\scripts\`.
+The Tier 3 implementation cluster committed at `3189ab7` (session 7 reconciliation) plus the reproducibility-toolchain scripts moved to canonical placement at session 12 (commit `919db5b`) plus the regenerate-manifest scaffolding added at session 13 (Stage 3). All paths under `phase_4b\scripts\`.
 
 ### Intake module
 
@@ -113,6 +113,16 @@ Producer of canonical `global_timeseries.csv`. Globs `global_timeseries_*.csv` f
 **Path:** `phase_4b\scripts\merge_globals.py`
 
 **Commit:** moved to canonical placement at `919db5b` (session 12 Stage 2 commit 1).
+
+### Regenerate-manifest scaffolding
+
+Canonical scaffolding for the parquet manifest regeneration flow. Stage 3 deliverable: establishes the contract for Layer 3 implementation (manifest discovery, identity/structure parsing, FSS §14.1 verification invocation, provenance population, deterministic ordering, atomic write). Per Mike's Q2b arbitration: Stage 3 is scaffolding only; Layer 3 routing implements the substantive logic. Per Mike's arbitration C: verification logic lives in a separate module at `phase_4b\scripts\_manifest_verification.py` (also Layer 3 deliverable).
+
+**Path:** `phase_4b\scripts\regenerate_manifest.py`
+
+**Commit:** introduced at session 13 Stage 3 closure cluster.
+
+**Companion module (Layer 3 implementation):** `phase_4b\scripts\_manifest_verification.py` — reusable verification module implementing the FSS §14.1 check set. Imported by `regenerate_manifest.py` per the existing `_phase_4b_intake.py` + `tier3_regression.py` pattern.
 
 ---
 
@@ -159,6 +169,8 @@ Eight Flight 6 production parquet files (Flight 2 naming inheritance preserved).
 **Path (absolute):** `C:\Users\vkz244\EE_Theory_Lab\flight2_outputs\`
 
 **Note on naming:** the directory is named `flight2_outputs` for inheritance reasons, but contains Flight 6 files. The mismatch is documented at the canonical record level (here) and will be resolved during Stage 4 (quarantine and rename).
+
+**Per-file verification record:** the manifest at `phase_4b\manifests\parquet_manifest.csv` documents each physical file's identity, shadow-copy status, and FSS §14.1 verification payload. See Section 14 below.
 
 ### Tier 2 derived outputs
 
@@ -226,7 +238,8 @@ The directory spans prior-cycle work (May 14-19 entries documenting Cycle 2 Roun
 | 9 | `operations_log\2026-05-20_phase_4b_session_9.md` | `ff2704d` (original log), addendum at `53aa62e`, date-revert at `5f5a762` |
 | 10 | `operations_log\2026-05-20_phase_4b_session_10.md` | `93e6dbb` (original), addendum at `207b484` |
 | 11 | `operations_log\2026-05-20_phase_4b_session_11.md` | `b8a6833` |
-| 12 | `operations_log\2026-05-20_phase_4b_session_12.md` | `6fb607d` (item 2 closure cluster); Stage 2 closure cluster pending this commit |
+| 12 | `operations_log\2026-05-20_phase_4b_session_12.md` | `6fb607d` (item 2 closure cluster); extended Stage 2 closure at `cc851a5` |
+| 13 | `operations_log\2026-05-20_phase_4b_session_13.md` | Stage 3 closure cluster (pending this commit) |
 
 ### Architectural reviews
 
@@ -281,14 +294,14 @@ The current document plus its peers in `protocols/foundational/`. Stage 1 docume
 | Protocol primer | `protocols\foundational\protocol_primer.md` | committed `79db966` (session 9 pair 1) |
 | Standing rules | `protocols\foundational\standing_rules.md` | committed `79db966` (session 9 pair 1); historical lineage section added in session 10 reconciliation cluster |
 | Vocabulary quarantine | `protocols\foundational\vocabulary_quarantine.md` | committed `6603799` (session 9 pair 2); eligibility prohibition, source-domain scrubs section, and Open Element 14 cross-reference added in session 10 reconciliation cluster |
-| Canonical artifacts index | `protocols\foundational\canonical_artifacts_index.md` | committed `6603799` (session 9 pair 2); updated in session 10 reconciliation cluster; updated in session 12 Stage 2 closure cluster |
+| Canonical artifacts index | `protocols\foundational\canonical_artifacts_index.md` | committed `6603799` (session 9 pair 2); updated in session 10 reconciliation cluster; updated in session 12 Stage 2 closure cluster; updated in session 13 Stage 3 closure cluster (added Section 14) |
 | Current state | `protocols\foundational\current_state.md` | committed `a8bc52c` (session 9 pair 3); Stage-1-complete framing updated in session 10 reconciliation cluster |
 | README | `protocols\foundational\README.md` | committed `a8bc52c` (session 9 pair 3) |
 | Theoretical context | `protocols\foundational\theoretical_context.md` | committed in session 10 reconciliation cluster |
 | Personal context | `protocols\foundational\personal_context.md` | committed in session 10 reconciliation cluster |
 | Environment reference | `protocols\foundational\environment_reference.md` | committed in session 10 reconciliation cluster |
 
-Root-level orientation documents (`ORIENTATION.md`, `CURRENT_STATE.md`, `MANIFEST.md`) and `STANDING_ITEMS.md` were committed during session 9 Stage 1 work; `MANIFEST.md` updated in session 12 Stage 2 closure cluster.
+Root-level orientation documents (`ORIENTATION.md`, `CURRENT_STATE.md`, `MANIFEST.md`) and `STANDING_ITEMS.md` were committed during session 9 Stage 1 work; `MANIFEST.md` updated in session 12 Stage 2 closure cluster and session 13 Stage 3 closure cluster.
 
 ### Foundational document role distinctions (added session 10)
 
@@ -329,7 +342,7 @@ See Section 7 above. Prior-cycle operations logs (May 14-19) preserved per the h
 
 The compressed instantiation surface for fresh Claude chats. Becomes a derived/compressed surface over the foundational document set as Stage 1 completes; not authoritative on its own once Stage 1 is committed.
 
-**Current revision:** kit-revision-3 (drafted at session 9 end). Kit-revision-4 is anticipated, incorporating: the "path-space land grab" framing into Rule 7.4 territory; the "any copy-target, not just PS" principle; the "informational content does not need a copy-pane" principle; the v1_1_divergence_review footnote as discipline precedent; handoff-folder attachment discipline (attach contents to opener message rather than reference by path); venv activation in pre-flight verification; PowerShell `-SimpleMatch` literal-vs-alternation semantic; `--no-pager` for diff visibility; working-pattern-discipline-degradation-under-reconstruction observation; paste-back hazard on filenames-in-code-blocks. Per session 12's Layer-1 working-memory instance, the handoff-folder attachment discipline is operationally demonstrated.
+**Current revision:** kit-revision-3 (drafted at session 9 end). Kit-revision-4 is anticipated, incorporating: the "path-space land grab" framing into Rule 7.4 territory; the "any copy-target, not just PS" principle; the "informational content does not need a copy-pane" principle; the v1_1_divergence_review footnote as discipline precedent; handoff-folder attachment discipline (attach contents to opener message rather than reference by path); venv activation in pre-flight verification; PowerShell `-SimpleMatch` literal-vs-alternation semantic; `--no-pager` for diff visibility; working-pattern-discipline-degradation-under-reconstruction observation; paste-back hazard on filenames-in-code-blocks; the (N)-suffix Downloads cleanup discipline; the file-path-in-copy-block unified discipline; the batched-PS-commands distinction (state-changing vs. file-copy operations). Per session 12's Layer-1 working-memory instance, the handoff-folder attachment discipline is operationally demonstrated.
 
 **Path:** typically delivered as a session-handoff artifact under `claude_session_handoffs\YYYY-MM-DD[-N]\` rather than committed to the repository tree. Whether the kit lives at a stable repository path or remains a handoff artifact is a question carrying forward from session 9's pending decisions.
 
@@ -384,4 +397,58 @@ For Python version, dependency versions, and PowerShell hazards (Notepad UTF-8 B
 
 ---
 
-— Originally drafted by Claude as Layer 1 central node, Stage 1 pair-2 of repository restructure, session 9. v2 incorporated Layer 2 review (operational locatability notes added for Mike-local theory files). Session 10 reconciliation cluster added Section 10, updated Section 9, updated Section 11 for kit-revision-4 anticipation, condensed Section 13 with cross-reference to `environment_reference.md`. Session 12 Stage 2 closure cluster updated Sections 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12 to reflect the moves landed at `919db5b` and to soft-update Section 12 per session 12 arbitration. Pending Layer 2 sanity scan deferred per the agreed sanity-scan-distribution convention (substantive operational work with Mike arbitrating in-band).
+## Section 14: Parquet manifests (added session 13)
+
+Per-file verification and identity record for the canonical substrate data at `flight2_outputs/`. The manifest is a generated artifact (script-driven, not manually maintained) that records each physical parquet file's identity, shadow-copy structure, and FSS §14.1 verification payload. Authority: the canonical record of what each physical parquet file is, how it relates to other physical files via shadow-copy structure, and whether it satisfies substrate-output expectations.
+
+### Manifest schema documentation
+
+**Path:** `phase_4b\manifests\parquet_manifest.md`
+
+**Authority:** canonical schema specification — field names, allowed values, semantics. References FSS v1.1 §14.1 (verification structure), FSS v1.1 §13.2 (shadow-copy structure), and ChatGPT's Q4 recommendation (manifest-now-Git-LFS-later storage philosophy). Synthesizes these into one canonical manifest schema.
+
+**Commit:** introduced at session 13 Stage 3 closure cluster.
+
+### Manifest CSV
+
+**Path:** `phase_4b\manifests\parquet_manifest.csv`
+
+**Authority:** canonical schema specification (header row) plus one illustrative example row demonstrating field meanings. Per Mike's Q2b arbitration: Stage 3 produces schema specification only; manifest population (running `regenerate_manifest.py` against the eight Flight 6 production parquets) is deferred to Layer 3 routing. The example row uses session-6-verified data for `probe1_overcrowding_20x20` to demonstrate the `genuine + sha256_match + session_6_sha256` combination; placeholder values (`EXAMPLE_64_HEX_SHA256`, `EXAMPLE_FILE_SIZE`, `EXAMPLE_ROW_COUNT`) and `not_available` for `git_head_at_generation` are clearly marked as illustrative. Direct edits to the CSV are prohibited per the maintenance discipline; updates happen via the regenerate script.
+
+**Commit:** introduced at session 13 Stage 3 closure cluster.
+
+### Regenerate script
+
+**Path:** `phase_4b\scripts\regenerate_manifest.py`
+
+See Section 3 above for the script entry. Scaffolding only at Stage 3 (per Mike's Q2b arbitration); Layer 3 implements the substantive logic. Companion module `_manifest_verification.py` (Layer 3 deliverable) implements the FSS §14.1 check set.
+
+### Verification-record store (reserved path)
+
+**Path:** `phase_4b\manifests\byte_identity_verifications.csv` (path reserved; file not yet created)
+
+**Authority:** record store for SHA-256 byte-identity verification results. Separate from the manifest itself per Mike's arbitration B. Updates to the store happen via a separate verify-byte-identity operation (queued for a future session); subsequent manifest regeneration consults the store to upgrade `shadow_copy_status` from `presumed_shadow_copy` to `verified_shadow_copy`. Distinct from the manifest's `sha256` field, which is computed at every regeneration as the file's identity hash.
+
+### Three distinguishable operations
+
+The manifest discipline involves three operations that should not be conflated:
+
+1. **Manifest regeneration** — `regenerate_manifest.py` reads parquet files at `flight2_outputs/`, computes per-file fields including `sha256`, populates the manifest CSV. Runs whenever parquet outputs change.
+2. **Substrate verification** — applies FSS §14.1 checks via `_manifest_verification.py`. Runs as part of manifest regeneration.
+3. **Byte-identity verification** — compares SHA-256 hashes across files in a `shadow_copy_group` to upgrade `shadow_copy_status`. Separate from manifest regeneration. Updates the verification-record store; subsequent regeneration reflects the updated record.
+
+See `phase_4b/manifests/parquet_manifest.md` for full discipline detail.
+
+### Layer 2 sanity scan record
+
+Stage 3 schema and scaffolding were drafted by Claude (Layer 1) after Layer 2 (ChatGPT) substantive input on the schema design. The drafted artifacts were routed back to Layer 2 for sanity scan; Layer 2 returned a conditional greenlight with four polish edits, all incorporated in the committed versions:
+- `byte_identity_verification_method` clarified as a compact method/result enum
+- CSV example placeholder polish (hash-shaped `EXAMPLE_64_HEX_SHA256`; `not_available` for `git_head_at_generation`; explicit illustrative-only marker)
+- `sha256` field semantics clarified as distinct from byte-identity verification operation
+- `os.PathLike` annotation note added for Layer 3 implementation hazard
+
+Session 13 ops log records the routing cycle.
+
+---
+
+— Originally drafted by Claude as Layer 1 central node, Stage 1 pair-2 of repository restructure, session 9. v2 incorporated Layer 2 review (operational locatability notes added for Mike-local theory files). Session 10 reconciliation cluster added Section 10, updated Section 9, updated Section 11 for kit-revision-4 anticipation, condensed Section 13 with cross-reference to `environment_reference.md`. Session 12 Stage 2 closure cluster updated Sections 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12 to reflect the moves landed at `919db5b` and to soft-update Section 12 per session 12 arbitration. Session 13 Stage 3 closure cluster added Section 14 (parquet manifests), updated Section 3 (added regenerate-manifest scaffolding entry), updated Section 5 (cross-reference to Section 14), updated Section 2 (added FSS §14.1 cross-reference to Section 14), updated Section 7 (added session 12 extended commit and session 13 commit-pending entry), updated Section 11 (kit-revision-4 deferred items grown with session 12 + session 13 additions). Layer 2 sanity scan completed for Stage 3 (ChatGPT conditional greenlight, four polish edits incorporated); pending Layer 2 sanity scan on this updated index deferred per the agreed sanity-scan-distribution convention.

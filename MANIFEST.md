@@ -1,10 +1,10 @@
 # MANIFEST
 
-**Document role.** Top-level directory listing for the EE Theory Lab repository. Describes what each top-level directory contains, what is canonical, what is pending Stage 3-4 of the restructure, and how to find more detailed indexing. This is the directory-tree-level orientation document; for artifact-level location and authority, see `protocols/foundational/canonical_artifacts_index.md`.
+**Document role.** Top-level directory listing for the EE Theory Lab repository. Describes what each top-level directory contains, what is canonical, what is pending Stage 4 of the restructure, and how to find more detailed indexing. This is the directory-tree-level orientation document; for artifact-level location and authority, see `protocols/foundational/canonical_artifacts_index.md`.
 
 **Authority.** Authoritative for the top-level directory layout. Not authoritative for what lives inside subdirectories (defers to the artifacts index and to in-subdirectory README files where they exist).
 
-**Maintenance discipline.** Updated when top-level directories are added, moved, or quarantined. Updates committed alongside the operations log of the session in which the change occurred. The restructure stages (Stage 2 moves landed session 12; Stage 3 manifests pending; Stage 4 quarantine pending) trigger updates.
+**Maintenance discipline.** Updated when top-level directories are added, moved, or quarantined. Updates committed alongside the operations log of the session in which the change occurred. The restructure stages (Stage 2 moves landed session 12; Stage 3 manifest schema and scaffolding landed session 13; Stage 4 quarantine pending) trigger updates.
 
 ---
 
@@ -18,10 +18,10 @@ For details: `protocols/foundational/README.md`.
 
 ### `phase_4b/`
 
-Phase 4B work — analytical procedures, substrate-output consumers, pre-registrations, regression outputs, derived outputs. Heavy directory. Includes:
+Phase 4B work — analytical procedures, substrate-output consumers, pre-registrations, regression outputs, derived outputs, manifests. Heavy directory. Includes:
 
 - `phase_4b/phase_4b_specification_v1.1.md` (target path reserved at `phase_4b/specifications/`; move deferred to future restructure stage per `canonical_artifacts_index.md` Section 12)
-- `phase_4b/scripts/` (Tier 3 canonical implementation: `_phase_4b_intake.py`, `test_intake.py`, `tier3_regression.py`; plus `inspect_tier3_provenance.py` and `merge_globals.py` moved to canonical placement at session 12)
+- `phase_4b/scripts/` (Tier 3 canonical implementation: `_phase_4b_intake.py`, `test_intake.py`, `tier3_regression.py`; reproducibility-toolchain scripts `inspect_tier3_provenance.py` and `merge_globals.py` moved to canonical placement at session 12; regenerate-manifest scaffolding `regenerate_manifest.py` added session 13; companion verification module `_manifest_verification.py` is a Layer 3 deliverable not yet added)
 - `phase_4b/pre_registrations/` (reg_01 yaml)
 - `phase_4b/tier3_outputs/` (reg_01 outputs — sibling of `scripts/`)
 - `phase_4b/tier2_outputs/` (canonical — 65 files including the merged `global_timeseries.csv` bridging artifact; README at `phase_4b/tier2_outputs/README.md` documents the bridging role)
@@ -29,10 +29,11 @@ Phase 4B work — analytical procedures, substrate-output consumers, pre-registr
 - `phase_4b/cross_run_outputs/` (canonical — 3 cross-run analysis files)
 - `phase_4b/diagnostics/` (canonical diagnostics directory — diagnostic stdout files, t27 forensic output, earlier cross-run comparison output)
 - `phase_4b/reviews/layer3/` (canonical routing-archive — session 5 Layer 2 routing package at `2026-05-18_reg_01_routing_package.txt`)
+- `phase_4b/manifests/` (canonical manifest directory — parquet manifest schema documentation and CSV; added session 13 Stage 3)
 
-**Authoritative for Phase 4B procedures, implementations, and outputs.**
+**Authoritative for Phase 4B procedures, implementations, outputs, and manifests.**
 
-For details: `protocols/foundational/canonical_artifacts_index.md` Sections 2-7.
+For details: `protocols/foundational/canonical_artifacts_index.md` Sections 2-7 and Section 14.
 
 ### `flights/`
 
@@ -86,7 +87,7 @@ Deferred-items tracker. Each item has a trigger condition and acceptance criteri
 
 ### Workspace-root scratch and routing files
 
-A number of items remain at workspace root as of session 12, pending future Stage 4 quarantine or other restructure decisions:
+A number of items remain at workspace root as of session 13, pending future Stage 4 quarantine or other restructure decisions:
 
 - 22 scratch scripts categorized in `RESTRUCTURE_INVENTORY.md` (Stage 4 quarantine targets)
 - `LAYER_2_ROUTING_STAGE1_PAIR{1,2,3}.md` and `LAYER_2_ROUTING_STAGE1_PAIR{1,2,3}_V2_ACCEPTANCE.md` (session 9 routing artifacts; not in the Stage 0 inventory's Stage 2 moves-plan; pending future restructure decision)
@@ -101,16 +102,15 @@ The `LAYER_1_ROUTING_PACKAGE.txt`, `cross_run_comparisons_df9122e.txt`, `inspect
 
 ---
 
-## Pending Stage 3-4 commitments
+## Pending Stage 4 commitments
 
-The Stage 2 moves-plan in `RESTRUCTURE_INVENTORY.md` was executed at session 12 (commit `919db5b` + documentation commit), closing item 3 and item 8 in STANDING_ITEMS. The remaining restructure stages:
+Stage 2 (item 3) executed at session 12 (commits `919db5b` + `adfdb28`). Stage 3 (item 4) executed at session 13 (this closure cluster). The remaining restructure stages:
 
-- **Stage 3** will add manifests for parquet outputs (per STANDING_ITEMS item 4).
 - **Stage 4** will quarantine the 22 scratch scripts and the stale parallel `EE_Theory_Lab/phase_4B/` tree at workspace parent level (per STANDING_ITEMS item 5).
-- **Future restructure** will execute the three v1.1 document moves per `canonical_artifacts_index.md` Section 12, scoped separately from the session 12 Stage 2 cluster.
+- **Future restructure** will execute the three v1.1 document moves per `canonical_artifacts_index.md` Section 12, scoped separately.
 
 This MANIFEST updates as those stages execute.
 
 ---
 
-— Originally drafted by Claude as Layer 1 central node, Stage 1 root-level orientation, session 9. Layer 2 sanity scan return at draft time: no findings. Session 12 Stage 2 closure cluster updated the `phase_4b/` subdirectory listing, the workspace-root scratch and routing files listing, and the Stage 3-4 commitments section to reflect Stage 2 moves landed at `919db5b`.
+— Originally drafted by Claude as Layer 1 central node, Stage 1 root-level orientation, session 9. Layer 2 sanity scan return at draft time: no findings. Session 12 Stage 2 closure cluster updated the `phase_4b/` subdirectory listing, the workspace-root scratch and routing files listing, and the Stage 3-4 commitments section to reflect Stage 2 moves landed at `919db5b`. Session 13 Stage 3 closure cluster updated the `phase_4b/` subdirectory listing to add `phase_4b/manifests/`, updated the script entry to mention `regenerate_manifest.py`, and renamed the trailing section to "Pending Stage 4 commitments" reflecting Stage 3 landed.
