@@ -4,7 +4,7 @@
 
 **Authority.** This document is authoritative for *where* canonical artifacts live and *what authority* they carry. It is not authoritative for the artifacts' content; each artifact is its own authority on its content domain. When this index conflicts with primary source (the actual files at the stated paths), primary source wins and this document revises.
 
-**Maintenance discipline.** Updated when canonical artifacts are added, moved, or superseded. Updates committed alongside the operations log of the session in which the change occurred. Stage 2 of the repository restructure (moves canonical artifacts via `git mv`) will trigger a coordinated update of this index.
+**Maintenance discipline.** Updated when canonical artifacts are added, moved, or superseded. Updates committed alongside the operations log of the session in which the change occurred. Stage 2 of the repository restructure (moves canonical artifacts to qualified-path locations) triggered a coordinated update of this index at session 12 (commit cluster `919db5b` + this commit).
 
 **Path conventions.** All paths relative to `C:\Users\vkz244\EE_Theory_Lab\ee-theory-lab\` unless absolute. PowerShell uses backslash separators; git status output uses forward slashes; both refer to the same files.
 
@@ -22,9 +22,9 @@
 
 The committed theoretical architecture; ten sections; "hard core." Authority: formal theoretical commitments. Defines the four open elements (μ(ρ), F(v,c,r), Q, nucleation mechanism), the two-stage Landau cascade structure, the critical ontological constraint (ACTION not decision), and the architecture's exclusionary clauses.
 
-**Path:** Mike's local file (not in the repository's tracked tree as of session 10).
+**Path:** Mike's local file (not in the repository's tracked tree as of session 12).
 
-**Operational locatability:** requires Mike-provided attachment for any verification-against-primary-source check. Stage 2 will move this to `theory\state_of_theory\state_of_theory_v1_1.md` per session 6's v1.1 naming-collision resolution; until then, Layer 1 cannot verify content claims about this document without explicit Mike-provided access.
+**Operational locatability:** requires Mike-provided attachment for any verification-against-primary-source check. A target path is reserved at `theory\state_of_theory\state_of_theory_v1_1.md` per Section 12; the move is deferred to a future restructure stage (see Section 12). Until the file is in the tracked tree, Layer 1 cannot verify content claims about this document without explicit Mike-provided access.
 
 **Citation:** "State of the Theory v1.1." Do not cite "v1.1" alone without qualifier — multiple v1.1 documents exist (see naming-collision note below).
 
@@ -32,9 +32,9 @@ The committed theoretical architecture; ten sections; "hard core." Authority: fo
 
 Manuscript foundation Phil writes from; v1.4 MFA underneath. Authority: manuscript-facing material. The leading edge of the team's worked-out positions has moved past v1.5 in places (e.g., the flagged "modest-resources-outperform-abundant" passage); v1.5 absorbs back-flow from those developments as Phil revises.
 
-**Path:** Mike's local file (not in the repository's tracked tree as of session 10).
+**Path:** Mike's local file (not in the repository's tracked tree as of session 12).
 
-**Operational locatability:** requires Mike-provided attachment for verification. No committed Stage 2 target yet; the v1.5 Overview's repository placement is a question for Mike to arbitrate when manuscript work surfaces a need.
+**Operational locatability:** requires Mike-provided attachment for verification. No committed restructure target yet; the v1.5 Overview's repository placement is a question for Mike to arbitrate when manuscript work surfaces a need.
 
 **Citation:** "State of the Theory v1.5 Overview" or "v1.5 Overview" with context.
 
@@ -50,6 +50,8 @@ Analytical procedures for Phase 4B: Tier 1 strict matching, Tier 2 coarser match
 
 **Verified:** session 9.
 
+**Note on future placement:** A target path is reserved at `phase_4b\specifications\phase_4b_specification_v1_1.md` per Section 12; the move is deferred to a future restructure stage (see Section 12).
+
 **Citation:** "Phase 4B Specification v1.1."
 
 ### Flight 6 Substrate Specification v1.1
@@ -62,21 +64,23 @@ Authority: substrate implementation.
 
 **Verified:** session 6 (located and read end-to-end), session 9 (path re-verified, Section 15 re-verified against primary source).
 
+**Note on future placement:** A target path is reserved at `substrate\flight6_v1_1\specifications\flight6_substrate_specification_v1_1.md` per Section 12; the move is deferred to a future restructure stage (see Section 12).
+
 **Citation:** "Flight 6 Substrate Specification v1.1" or "FSS v1.1" with context.
 
 ---
 
 ## Section 3: Tier 3 canonical implementation
 
-The Tier 3 implementation cluster committed at `3189ab7` (session 7 reconciliation). All paths under `phase_4b\scripts\`.
+The Tier 3 implementation cluster committed at `3189ab7` (session 7 reconciliation) plus the reproducibility-toolchain scripts moved to canonical placement at session 12 (commit `919db5b`). All paths under `phase_4b\scripts\`.
 
 ### Intake module
 
-Implements the seven-item structural-correctness checklist per intake specification. Defines `NormalizedPrereg` dataclass, the schema validator, and the `attach_tier2_globals` merge function.
+Implements the seven-item structural-correctness checklist per intake specification. Defines `NormalizedPrereg` dataclass, the schema validator, the `attach_tier2_globals` merge function, and (added session 11 per item 11 closure) `construct_outcome`.
 
 **Path:** `phase_4b\scripts\_phase_4b_intake.py`
 
-**Commit:** introduced at `3189ab7`.
+**Commit:** introduced at `3189ab7`; updated session 11 (`b8a6833`).
 
 ### Test suite
 
@@ -88,17 +92,33 @@ Demonstrates all five exception types fire on deliberate violations. Routes inpu
 
 ### Refactored regression consumer
 
-Contract-mediated per intake §1.6. Reads pre-registration yaml, normalizes via the intake module, attaches Tier 2 globals, executes the regression, writes outputs.
+Contract-mediated per intake §1.6. Reads pre-registration yaml, normalizes via the intake module, attaches Tier 2 globals, executes the regression, writes outputs. The construction-phase ordering (added session 11) calls `construct_outcome` between `construct_derived_variables` and `attach_tier2_globals` in `run_tier3`.
 
 **Path:** `phase_4b\scripts\tier3_regression.py`
 
-**Commit:** introduced at `3189ab7`.
+**Commit:** introduced at `3189ab7`; updated session 11 (`b8a6833`).
+
+### Provenance inspection tool
+
+Reusable provenance-inspection tool. Cross-checks parquet files against the canonical four filenames in `reg_01_scale_interactions.yaml`. Validates expected metadata (PRNG_seed 128561948, substrate_version v1.1, total ticks 3000, column count 25). Output for human review; does not pick canonical files automatically.
+
+**Path:** `phase_4b\scripts\inspect_tier3_provenance.py`
+
+**Commit:** moved to canonical placement at `919db5b` (session 12 Stage 2 commit 1).
+
+### Merged globals producer
+
+Producer of canonical `global_timeseries.csv`. Globs `global_timeseries_*.csv` files in `phase_4b/tier2_outputs/`, injects filename-derived `run_id` column, concatenates, writes master. Load-bearing on reproducibility — if pre-registration reproducibility verification needs to regenerate the merged globals, this is the script.
+
+**Path:** `phase_4b\scripts\merge_globals.py`
+
+**Commit:** moved to canonical placement at `919db5b` (session 12 Stage 2 commit 1).
 
 ---
 
 ## Section 4: reg_01 pre-registration and outputs
 
-The committed reg_01 cluster. Pre-registration and outputs committed at `3189ab7`. The pre-registration's `interpretation_boundary` content was restored from session 5's log to the canonical yaml during session 7's reconciliation.
+The committed reg_01 cluster. Pre-registration committed at `3189ab7`. Outputs initially committed at `3189ab7`; canonical outputs replaced at session 11 (`b8a6833`) per item 11 closure (outcome-construction wired into pipeline; new pipeline outputs canonical, historical outputs at `3189ab7` accessible via git). The pre-registration's `interpretation_boundary` content was restored from session 5's log to the canonical yaml during session 7's reconciliation.
 
 ### Pre-registration
 
@@ -112,19 +132,19 @@ Schema is contract-mediated intake format. `derived_variables` block declares pe
 
 **Path:** `phase_4b\tier3_outputs\coefs_reg_01_scale_interactions.csv`
 
-**Commit:** `3189ab7`.
+**Commit:** `3189ab7` (initial); canonical replaced at `b8a6833` (session 11).
 
 ### Sensitivity coefficients
 
 **Path:** `phase_4b\tier3_outputs\coefs_reg_01_scale_interactions_sensitivity_cell.csv`
 
-**Commit:** `3189ab7`.
+**Commit:** `3189ab7` (initial); canonical replaced at `b8a6833` (session 11).
 
 ### Regression report
 
 **Path:** `phase_4b\tier3_outputs\report_reg_01_scale_interactions.md`
 
-**Commit:** `3189ab7`.
+**Commit:** `3189ab7` (initial); canonical replaced at `b8a6833` (session 11).
 
 **Note:** the `tier3_outputs/` directory is at `phase_4b\tier3_outputs\` (sibling of `scripts/`), NOT `phase_4b\scripts\tier3_outputs\`. The kit-revision-1 had this wrong; corrected in kit-revision-2 and verified during session 7.
 
@@ -142,7 +162,7 @@ Eight Flight 6 production parquet files (Flight 2 naming inheritance preserved).
 
 ### Tier 2 derived outputs
 
-65 files. Per-probe-scale derived outputs (8 metric types × 8 probe-scale combinations = 64 files) plus the merged `global_timeseries.csv` bridging artifact (13.5MB, the canonical Tier 2 → Tier 3 join surface produced by `merge_globals.py`; status confirmed canonical during session 8's Stage 0 inventory).
+65 files. Per-probe-scale derived outputs (8 metric types × 8 probe-scale combinations = 64 files) plus the merged `global_timeseries.csv` bridging artifact (13.5MB, the canonical Tier 2 → Tier 3 join surface produced by `merge_globals.py`; status confirmed canonical during session 8's Stage 0 inventory). A README at `phase_4b\tier2_outputs\README.md` (added session 12 per item 8 closure) documents the merged-globals bridging role to disambiguate it from the per-probe-scale `global_timeseries_*.csv` files.
 
 **Path:** `phase_4b\tier2_outputs\`
 
@@ -158,27 +178,31 @@ Three cross-run analysis files dated 5/17/2026 morning.
 
 **Path:** `phase_4b\cross_run_outputs\`
 
-**Stage 0 status:** these three directories (`tier2_outputs/`, `tier1_reports/`, `cross_run_outputs/`) are categorized as canonical in `RESTRUCTURE_INVENTORY.md` (committed at `1a68ca6`); Stage 2 will execute `git mv` placement per the inventory's moves-plan.
+**Status:** these three directories (`tier2_outputs/`, `tier1_reports/`, `cross_run_outputs/`) were categorized as canonical in `RESTRUCTURE_INVENTORY.md` (committed at `1a68ca6`) and landed at canonical placement at session 12 (commit `919db5b`, Stage 2 commit 1).
 
 ---
 
 ## Section 6: Diagnostic and forensic-text outputs
 
-Per the Stage 0 canonical diagnostics directory convention (adopted session 8), all diagnostic stdout, log, and forensic-text outputs go under `phase_4b/diagnostics/`. Stage 2 will execute the moves; current locations as committed in `RESTRUCTURE_INVENTORY.md`:
+Per the Stage 0 canonical diagnostics directory convention (adopted session 8), all diagnostic stdout, log, and forensic-text outputs are located under `phase_4b/diagnostics/`. Moves to canonical placement landed at session 12 (commit `919db5b`, Stage 2 commit 1).
 
 ### Session 5 diagnostic stdout
 
-**Path:** `phase_4b\diagnostic_stdout.txt`
+**Path:** `phase_4b\diagnostics\diagnostic_stdout.txt`
 
-**Note:** at `phase_4b\` (sibling of `scripts\`), NOT `phase_4b\scripts\diagnostic_stdout.txt`. The kit-revision-1 had this wrong; corrected in kit-revision-2.
+**Commit:** moved to canonical placement at `919db5b` (session 12 Stage 2 commit 1).
 
 ### Session 6 t27 forensic output
 
-**Path:** `phase_4b\t27_diagnostic_stdout.txt`
+**Path:** `phase_4b\diagnostics\t27_diagnostic_stdout.txt`
+
+**Commit:** moved to canonical placement at `919db5b` (session 12 Stage 2 commit 1).
 
 ### Earlier cross-run comparison output
 
-**Path:** `cross_run_comparisons_df9122e.txt` (workspace root, awaiting Stage 2 move to `phase_4b/diagnostics/`)
+**Path:** `phase_4b\diagnostics\cross_run_comparisons_df9122e.txt`
+
+**Commit:** moved to canonical placement at `919db5b` (session 12 Stage 2 commit 1).
 
 ---
 
@@ -200,7 +224,9 @@ The directory spans prior-cycle work (May 14-19 entries documenting Cycle 2 Roun
 | 7 | `operations_log\2026-05-19_phase_4b_session_7.md` | `4e66f27` |
 | 8 | `operations_log\2026-05-19_phase_4b_session_8.md` | `3e38980` |
 | 9 | `operations_log\2026-05-20_phase_4b_session_9.md` | `ff2704d` (original log), addendum at `53aa62e`, date-revert at `5f5a762` |
-| 10 (pending) | (drafted at session-end) | (pending commit) |
+| 10 | `operations_log\2026-05-20_phase_4b_session_10.md` | `93e6dbb` (original), addendum at `207b484` |
+| 11 | `operations_log\2026-05-20_phase_4b_session_11.md` | `b8a6833` |
+| 12 | `operations_log\2026-05-20_phase_4b_session_12.md` | `6fb607d` (item 2 closure cluster); Stage 2 closure cluster pending this commit |
 
 ### Architectural reviews
 
@@ -212,13 +238,17 @@ Five Layer 1 architectural review documents from May 14-15 2026, covering A3 par
 
 The directory is open for new entries (Layer 1 architectural reviews of future substrate/analysis code).
 
-**Verified:** session 10 (item 9 reconciliation in progress, primary-source read of all five reviews completed).
+**Verified:** session 10 (item 9 reconciliation, primary-source read of all five reviews completed).
 
 ### Routing artifacts
 
-**Layer 1 routing package (session 5).** The `LAYER_1_ROUTING_PACKAGE.txt` file at workspace root is a canonical-record candidate (from session 5's Layer 2 routing on reg_01 interpretation). Stage 2 will place it under an appropriate routing-archive path per `RESTRUCTURE_INVENTORY.md`.
+**Layer 1 routing package (session 5).** The session 5 Layer 2 routing package on reg_01 interpretation, containing four artifact sections (intake module pre-Layer-1-review state, regression consumer pre-review state, regression report, test suite) plus Layer 3 covering note. Captures the handoff state, not the final state (post-review canonical versions landed at `3189ab7`).
 
-**Stage 1 routing packages (session 9).** `LAYER_2_ROUTING_STAGE1_PAIR1.md`, `LAYER_2_ROUTING_STAGE1_PAIR1_V2_ACCEPTANCE.md`, and the other Stage 1 routing artifacts at workspace root. Stage 2 will move these to a routing-archive path alongside the session 5 routing package.
+**Path:** `phase_4b\reviews\layer3\2026-05-18_reg_01_routing_package.txt`
+
+**Commit:** moved to canonical placement at `919db5b` (session 12 Stage 2 commit 1).
+
+**Stage 1 routing packages (session 9).** `LAYER_2_ROUTING_STAGE1_PAIR1.md`, `LAYER_2_ROUTING_STAGE1_PAIR1_V2_ACCEPTANCE.md`, and the other Stage 1 routing artifacts at workspace root. These were not in `RESTRUCTURE_INVENTORY.md`'s Stage 2 moves-plan (added to workspace root after the inventory was committed); they remain at workspace root pending a future restructure stage or quarantine decision.
 
 ---
 
@@ -230,35 +260,35 @@ The Stage 0 deliverable. Categorizes the 31 untracked items as of session 8 inve
 
 **Path:** `RESTRUCTURE_INVENTORY.md` (workspace root)
 
-**Commit:** `1a68ca6`.
+**Commit:** `1a68ca6`. Note: the inventory's Stage 2 moves-plan specified `git mv` operations, but the source items were never tracked in git history. Session 12 executed the moves via PowerShell `Move-Item` + `git add`, operationally equivalent to `git mv` for untracked sources. The session 12 operations log records the mechanism deviation; the inventory is preserved as the Stage 0 historical deliverable.
 
 ### PRIOR_CYCLE_INVENTORY.md and PRIOR_CYCLE_RECONCILIATION_PLAN.md
 
-One-time task-shaped artifacts produced as deliverables 1 and 2 of STANDING_ITEMS item 9 (prior-cycle canonical material reconciliation). Workspace root placement parallels `RESTRUCTURE_INVENTORY.md`. Finite life — close out when reconciliation completes (this commit).
+One-time task-shaped artifacts produced as deliverables 1 and 2 of STANDING_ITEMS item 9 (prior-cycle canonical material reconciliation). Workspace root placement parallels `RESTRUCTURE_INVENTORY.md`. Finite life — closed out at session 10's reconciliation cluster.
 
 **Paths:** `PRIOR_CYCLE_INVENTORY.md`, `PRIOR_CYCLE_RECONCILIATION_PLAN.md` (workspace root)
 
-**Commits:** session 10 reconciliation commit cluster (pending).
+**Commits:** session 10 reconciliation commit cluster (`72fcc4c` through `93e6dbb`).
 
 ---
 
 ## Section 9: Foundational document set
 
-The current document plus its peers in `protocols/foundational/`. Stage 1 documents committed during session 9; session 10 reconciliation cluster (pending commit) adds three new documents and updates several existing ones as part of item 9 reconciliation.
+The current document plus its peers in `protocols/foundational/`. Stage 1 documents committed during session 9; session 10 reconciliation cluster added three new documents and updated several existing ones as part of item 9 reconciliation.
 
 | Document | Path | Status |
 |----------|------|--------|
 | Protocol primer | `protocols\foundational\protocol_primer.md` | committed `79db966` (session 9 pair 1) |
-| Standing rules | `protocols\foundational\standing_rules.md` | committed `79db966` (session 9 pair 1); historical lineage section added in session 10 reconciliation cluster (pending commit) |
-| Vocabulary quarantine | `protocols\foundational\vocabulary_quarantine.md` | committed `6603799` (session 9 pair 2); eligibility prohibition, source-domain scrubs section, and Open Element 14 cross-reference added in session 10 reconciliation cluster (pending commit) |
-| Canonical artifacts index | `protocols\foundational\canonical_artifacts_index.md` | committed `6603799` (session 9 pair 2); updated in session 10 reconciliation cluster to reflect new directories and foundational documents (pending commit) |
-| Current state | `protocols\foundational\current_state.md` | committed `a8bc52c` (session 9 pair 3); Stage-1-complete framing updated in session 10 reconciliation cluster (pending commit) |
+| Standing rules | `protocols\foundational\standing_rules.md` | committed `79db966` (session 9 pair 1); historical lineage section added in session 10 reconciliation cluster |
+| Vocabulary quarantine | `protocols\foundational\vocabulary_quarantine.md` | committed `6603799` (session 9 pair 2); eligibility prohibition, source-domain scrubs section, and Open Element 14 cross-reference added in session 10 reconciliation cluster |
+| Canonical artifacts index | `protocols\foundational\canonical_artifacts_index.md` | committed `6603799` (session 9 pair 2); updated in session 10 reconciliation cluster; updated in session 12 Stage 2 closure cluster |
+| Current state | `protocols\foundational\current_state.md` | committed `a8bc52c` (session 9 pair 3); Stage-1-complete framing updated in session 10 reconciliation cluster |
 | README | `protocols\foundational\README.md` | committed `a8bc52c` (session 9 pair 3) |
-| Theoretical context | `protocols\foundational\theoretical_context.md` | new, pending session 10 commit (item 9 reconciliation) |
-| Personal context | `protocols\foundational\personal_context.md` | new, pending session 10 commit (item 9 reconciliation) |
-| Environment reference | `protocols\foundational\environment_reference.md` | new, pending session 10 commit (item 9 reconciliation) |
+| Theoretical context | `protocols\foundational\theoretical_context.md` | committed in session 10 reconciliation cluster |
+| Personal context | `protocols\foundational\personal_context.md` | committed in session 10 reconciliation cluster |
+| Environment reference | `protocols\foundational\environment_reference.md` | committed in session 10 reconciliation cluster |
 
-Root-level orientation documents (`ORIENTATION.md`, `CURRENT_STATE.md`, `MANIFEST.md`) and `STANDING_ITEMS.md` were committed during session 9 Stage 1 work.
+Root-level orientation documents (`ORIENTATION.md`, `CURRENT_STATE.md`, `MANIFEST.md`) and `STANDING_ITEMS.md` were committed during session 9 Stage 1 work; `MANIFEST.md` updated in session 12 Stage 2 closure cluster.
 
 ### Foundational document role distinctions (added session 10)
 
@@ -299,7 +329,7 @@ See Section 7 above. Prior-cycle operations logs (May 14-19) preserved per the h
 
 The compressed instantiation surface for fresh Claude chats. Becomes a derived/compressed surface over the foundational document set as Stage 1 completes; not authoritative on its own once Stage 1 is committed.
 
-**Current revision:** kit-revision-3 (drafted at session 9 end). Kit-revision-4 is anticipated for post-item-9 closure work, incorporating: the "path-space land grab" framing into Rule 7.4 territory; the "any copy-target, not just PS" principle; the "informational content does not need a copy-pane" principle; the v1_1_divergence_review footnote as discipline precedent.
+**Current revision:** kit-revision-3 (drafted at session 9 end). Kit-revision-4 is anticipated, incorporating: the "path-space land grab" framing into Rule 7.4 territory; the "any copy-target, not just PS" principle; the "informational content does not need a copy-pane" principle; the v1_1_divergence_review footnote as discipline precedent; handoff-folder attachment discipline (attach contents to opener message rather than reference by path); venv activation in pre-flight verification; PowerShell `-SimpleMatch` literal-vs-alternation semantic; `--no-pager` for diff visibility; working-pattern-discipline-degradation-under-reconstruction observation; paste-back hazard on filenames-in-code-blocks. Per session 12's Layer-1 working-memory instance, the handoff-folder attachment discipline is operationally demonstrated.
 
 **Path:** typically delivered as a session-handoff artifact under `claude_session_handoffs\YYYY-MM-DD[-N]\` rather than committed to the repository tree. Whether the kit lives at a stable repository path or remains a handoff artifact is a question carrying forward from session 9's pending decisions.
 
@@ -315,13 +345,13 @@ Three documents share the "v1.1" designation:
 
 **Citation rule:** Do not cite "v1.1" alone without a qualified document path or full document name. In code comments, citations like `# per v1.1 Section 13.2` are ambiguous; use `# per FSS v1.1 Section 13.2` or `# per Flight 6 Substrate Specification v1.1 §13.2`.
 
-**The post-Stage-2 path commitment:** the three v1.1 documents will live at:
+**Reserved target paths.** The three v1.1 documents have target paths reserved here for future restructure work:
 
 - `theory\state_of_theory\state_of_theory_v1_1.md`
 - `phase_4b\specifications\phase_4b_specification_v1_1.md`
 - `substrate\flight6_v1_1\specifications\flight6_substrate_specification_v1_1.md`
 
-These are the targets; Stage 2 executes the moves. This document updates accordingly when Stage 2 commits.
+These are reserved targets, not yet executed. The session 12 Stage 2 cluster executed the inventory's six moves and three Group E stagings; the v1.1 document moves are deferred to a future restructure stage to be specified separately. Format considerations (e.g., the FSS v1.1's current `.md.pdf` extension vs. the target `.md` extension) and cross-file reference impact (code comments, operations logs, manuscript references) need scoping before the moves execute. This document updates when those moves land.
 
 ---
 
@@ -354,4 +384,4 @@ For Python version, dependency versions, and PowerShell hazards (Notepad UTF-8 B
 
 ---
 
-— Drafted by Claude as Layer 1 central node, Stage 1 pair-2 of repository restructure, session 9. v2 incorporates Layer 2 review (operational locatability notes added for Mike-local theory files). Section 9 updated, Section 10 added, Section 11 updated for kit-revision-4 anticipation, Section 13 condensed with cross-reference to `environment_reference.md`, all session 10 as deliverable 3 of item 9 reconciliation. Pending Layer 2 sanity scan before commit.
+— Originally drafted by Claude as Layer 1 central node, Stage 1 pair-2 of repository restructure, session 9. v2 incorporated Layer 2 review (operational locatability notes added for Mike-local theory files). Session 10 reconciliation cluster added Section 10, updated Section 9, updated Section 11 for kit-revision-4 anticipation, condensed Section 13 with cross-reference to `environment_reference.md`. Session 12 Stage 2 closure cluster updated Sections 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12 to reflect the moves landed at `919db5b` and to soft-update Section 12 per session 12 arbitration. Pending Layer 2 sanity scan deferred per the agreed sanity-scan-distribution convention (substantive operational work with Mike arbitrating in-band).
