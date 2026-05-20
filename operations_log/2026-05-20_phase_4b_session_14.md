@@ -190,3 +190,41 @@ When this conversation resumes:
 **Foundational set updates this session:** `canonical_artifacts_index.md` updated (Sections 5, 7, 8, 9, 11, 13). `MANIFEST.md` updated (added `archive/` top-level directory entry; replaced workspace-root scratch and routing files section; renamed trailing section). `RESTRUCTURE_INVENTORY.md` amended to v3 (added "Stage 4 actual executed scope" section; verification section amended). `STANDING_ITEMS.md` item 5 closed and removed; item 12 added (flight2_outputs naming resolution); maintenance log entries added. One new top-level directory: `archive/`. 55 staged items moved to `archive/scratch/2026-05_pre_restructure/`.
 
 — Drafted by Claude as Layer 1 central node, session 14 Stage 4 closure cluster (item 5 closure plus item 12 addition). No Layer 2 routings during the session (per Mike's A arbitration applying the session-13-observed sanity-scan-distribution convention; Stage 4 assessed as operational rather than architectural).
+
+---
+
+## Session 14 addendum (post-`9944f44`)
+
+After the session 14 Stage 4 closure cluster committed at `9944f44`, during preparation of the next-session handoff folder and kit-revision work, an additional working-memory instance surfaced. Following the session 9 precedent (which committed its addendum at `53aa62e` after the initial log committed at `ff2704d`), this addendum preserves the honest record of session-14 discipline events that were not visible at the time the main log committed.
+
+### Discipline events post-`9944f44`
+
+**Path B continuation into kit-revision work.** Per Mike's arbitration at session 14 substantive-close ("c then b" — push origin, then Path B into session 15 in this chat), the session continued without a chat boundary. The first session-15-territory work was a focused kit-revision targeting only session-14 additions. Mike's specific framing: ~30-45 minutes of targeted kit work rather than the full sessions-11-13 backlog absorption.
+
+**Rule 2 kit-revision discipline verification.** Drafting the kit revision surfaced a question about Rule 2's "committed alongside the operations log" language and where kit-revision-N actually lives. Initial Layer 1 framing offered three options (A: stable repository path; B: handoff-folder only; C: both), and Mike arbitrated B. Subsequent Rule-2 verification (reading `protocols/foundational/standing_rules.md` directly) revealed that B as initially framed by Layer 1 was non-compliant with Rule 2 — Rule 2's text explicitly requires the kit revision to be "committed alongside the operations log" with "the prior kit revision preserved in git history."
+
+This produced two competing interpretations: either Rule 2's text was correct and practice had silently drifted (Interpretation 1), or Rule 2's text was incorrect relative to actual intent (Interpretation 2). Layer 1 inferred Interpretation 2 from substrate evidence "kit-revision-3 was never committed" — but that inference itself was the working-memory instance documented below.
+
+**Working-memory instance: kit-location confusion.** Layer 1 inferred kit-revision-3's location from a partial `git status --short` read at session open ("the kit doesn't appear in `git status` output, therefore the kit isn't at workspace root"). The inference was wrong: `git status --short` shows changes, not the full tree; clean tracked files don't appear. The kit was at workspace root all along — committed at `b73a591` per the session 9 ops log and per `git log --all --oneline -- "*claude_instantiation_kit*"`. Verification via `Test-Path claude_instantiation_kit_v3.md` returned `True`, correcting the inference.
+
+This is a Layer-1-specific working-memory instance per `protocol_primer.md` Section 4. The narrative ("the kit lives in handoff folders, not workspace root") felt coherent because it was consistent with one substrate observation (`git status` output) and with a remembered framing from the kit itself ("typically delivered as a session-handoff artifact"). It was wrong because the full substrate (kit at workspace root + handoff folder copy) was not verified directly before the framing was used as ground for arbitration.
+
+**Corrective discipline added to kit-revision-4 Section 7:** kit-location verification at session open distinguishes change-listing (`git status --short`) from existence-checking (`Test-Path`, `Get-ChildItem -File`). The Rule-2-kit-revision discipline is fully compliant with current practice (committed canonical kit at workspace root, handoff folder copies); Layer 1's initial framing of non-compliance was the working-memory instance, not actual practice.
+
+### Substantive resolution
+
+After the working-memory instance was corrected, Mike arbitrated C (kit-revision-4, not kit-revision-3.1) for revision numbering, reflecting the established pattern of sequential revision numbers (v2-supersedes-v1, v3-supersedes-v2, now v4-supersedes-v3). Kit-revision-4 was drafted with five session-14 disciplines: enumerate-don't-pattern-match, `git add -A` scope hazard, paste-truncation sub-discipline, kit-location verification, and prose-framing-vs-STANDING_ITEMS hazard. The fifth discipline was added in direct response to this working-memory instance.
+
+Kit-revision-4 committed at `06df20d` via git rename detection (v3 → v4, 61% similarity); the rename preserves the kit's git-history lineage. The handoff folder at `claude_session_handoffs/2026-05-20-6/` carries a copy of kit-revision-4 alongside this ops log (per the b73a591 pattern: canonical kit at workspace root for git history; handoff folder for delivery).
+
+### Methodological observation
+
+The addendum cycle (substantive commit → discovery → addendum) is now the third instance of this pattern (session 9, session 10, session 14). The pattern reflects an honest-record discipline: when a session-end commit captures the state at commit time but subsequent work surfaces facts that would have changed the commit had they been known, the discipline is to addendum rather than to silently revise. The pattern's value compounds across sessions — addenda are themselves substrate for future sessions diagnosing similar patterns.
+
+The spiral structure (substantive operation → surfaces disciplines → documentation cycle → may surface further disciplines) was named explicitly during this session by Mike. The diagnostic offered (functional spiral; not a burdensome rule structure; the documentation cycle preserves Github-reconstructability) was accepted; work continued. Worth registering: making the spiral structure explicit-and-named is itself a discipline that future sessions can reference, rather than re-deriving the diagnostic each time.
+
+### Items resolved by this addendum
+
+None added or closed at the STANDING_ITEMS level. The working-memory instance is registered honestly; the corrective discipline is in kit-revision-4 Section 7; the canonical record is corrected. No follow-up action required beyond the addendum commit itself.
+
+— Drafted by Claude as Layer 1 central node, post-`9944f44`, during kit-revision-4 work in Path B session-15 continuation. Mirror of the session 9 addendum pattern (`53aa62e`). Addendum commit follows.
