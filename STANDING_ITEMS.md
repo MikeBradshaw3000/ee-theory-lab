@@ -19,21 +19,11 @@
 
 ## Items
 
-### 2. Push to origin
-
-**What.** `git push` to send the local main commits to `origin/main`.
-
-**Trigger.** Post-Stage-1 natural commit cluster. Stage 1 is complete when all foundational documents, root-level orientation documents, STANDING_ITEMS.md, kit-revision-3, the session 9 operations log, and the session 10 reconciliation commit cluster are committed. Push fires once the cluster is closed; sequencing relative to the pre-registration reproducibility verification (item 1) is at Mike's arbitration.
-
-**Acceptance.** `git push` reports success; `git log` confirms parity with `origin/main` (HEAD on local main matches HEAD on origin/main).
-
----
-
 ### 3. Stage 2 execution — canonical artifact moves
 
 **What.** Execute the `git mv` operations specified in `RESTRUCTURE_INVENTORY.md` moves-plan. Moves include: Phase 4B specification and Flight 6 substrate specification to qualified-path locations (per `protocols/foundational/canonical_artifacts_index.md` Section 12); diagnostic stdout files to `phase_4b/diagnostics/`; Tier 2, Tier 1, cross-run output directories from untracked to canonical placement; routing artifacts to routing-archive path; reclassified canonical scripts (`inspect_tier3_provenance.py`, `merge_globals.py`) to `phase_4b/scripts/`.
 
-**Trigger.** Stage 1 complete (all items in Stage 1 closed) AND item 1 (pre-registration reproducibility verification) executed. The dependency on item 1 is per its trigger note: verification before further restructure work.
+**Trigger.** Stage 1 complete (all items in Stage 1 closed) AND item 1 (pre-registration reproducibility verification) executed. The dependency on item 1 is per its trigger note: verification before further restructure work. *Note: item 1 closed at session 10 (gap surfaced) and was superseded by item 11, which closed at session 11. The verification-before-restructure intent is satisfied by item 11's closure (pipeline gap fixed, outputs canonically replaced, substantive equivalence documented).*
 
 **Acceptance.** All moves-plan items executed via `git mv`; commit cluster references `RESTRUCTURE_INVENTORY.md` items; `canonical_artifacts_index.md` updated to reflect new paths; `MANIFEST.md` updated to remove "pending Stage 2" markers; this STANDING_ITEMS.md entry closes.
 
@@ -111,7 +101,6 @@ This section records when items closed or new items added. Each entry references
 - **Item 1 closed and removed (session 10).** Item 1 execution surfaced a pipeline gap: the committed canonical pipeline at `3189ab7` cannot produce the committed reg_01 outputs at `3189ab7` because outcome-construction is not wired into the intake pipeline. Per item 1's acceptance criteria ("If outputs do not match, a gap exists; the gap is surfaced as a routed task and remains tracked under a new item that supersedes this one"), item 1 closes via the surfacing of the gap. Item 11 added to supersede.
 - **Item 11 added (session 10).** Pipeline gap: outcome-construction not wired into intake. Three sub-deliverables: determine substantive correctness of committed outputs, wire the construction step into the pipeline, re-run and diff. Supersedes items 1, 2 (push to origin), and 3 (Stage 2 execution) in priority. The session 10 operations log addendum documents the diagnostic trace.
 - **Item 11 closed and removed (session 11).** All three sub-deliverables resolved. Sub-deliverable 1 closed by archaeology: the May 17 production timestamps, the `89b85f4`-as-HEAD-throughout-production-window evidence, and the session 6 log's "no commits between sessions" statement together identified `89b85f4`'s inline outcome construction as the producing pipeline; no execution required. Sub-deliverable 2 closed by code fix: `construct_outcome` added to `_phase_4b_intake.py` and wired into `tier3_regression.py`'s `run_tier3` between `construct_derived_variables` and `attach_tier2_globals`. Sub-deliverable 3 closed by re-run-and-diff: non-clean diff at byte level but coherent at analytical level; intercept and substantive drive coefficients agree to 3-5 significant figures, machine-zero terms remain machine-zero. Mike arbitrated C: replace canonical outputs with new pipeline's outputs, document the diff and substantive-equivalence in the operations log. The session 11 operations log records the closure. Items 2 (push to origin) and 3 (Stage 2 execution) are no longer superseded by item 11 and become first-eligible.
+- **Item 2 closed and removed (session 12).** `git push origin main` executed cleanly: 125 objects pushed, 58 deltas resolved, no errors. `git log --oneline -3` confirmed parity: both `origin/main` and local `main` at `b8a6833`. Item 2 acceptance criteria fully met (push succeeded; log confirms `origin/main` parity). Per the maintenance discipline (items removed when acceptance is met), item 2 is removed from this list. The session 12 operations log records the closure. Item 3 (Stage 2 execution) becomes the next-eligible item; sequencing relative to other open items is at Mike's arbitration.
 
 ---
-
-— Drafted by Claude as Layer 1 central node, Stage 1 root-level operational process artifact, session 9. Updated session 10 with item 9 removal (acceptance criteria met by reconciliation deliverables and Layer 2 sanity scan), item 10 addition (deferred ChatGPT/Gemini onboarding), item 1 closure (gap surfaced per acceptance criteria), and item 11 addition (pipeline gap superseding item 1). Updated session 11 with item 11 closure and removal (three sub-deliverables resolved; Mike arbitrated canonical-output replacement). No Layer 2 routing per the agreed sanity-scan-distribution convention (operational process artifact, not architectural deliverable). Ready for commit.
