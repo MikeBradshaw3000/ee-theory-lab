@@ -1,0 +1,90 @@
+Session 9 addendum: prior-cycle canonical material discovered; reconciliation deferred to session 10 (STANDING_ITEMS item 9)
+
+Follow-up commit to ff2704d (session 9 operations log). Adds documentation
+of a session-close discovery that the prior log did not capture, and
+commits the structural trigger for session 10 to address it.
+
+Discovery
+---------
+
+Primary-source verification at session 9 close (triggered by inspection
+of an unrelated workspace-root file) surfaced four committed canonical
+files at protocols/onboarding/:
+
+  - protocols/onboarding/new_chat_primer.md
+  - protocols/onboarding/chatgpt_new_chat_primer.md
+  - protocols/onboarding/gemini_new_chat_primer.md
+  - protocols/onboarding/chatgpt_routing_note.md
+
+Provenance: commits 0522639 ("Initial Cycle 1 artifacts") and e3d7014
+("Update new_chat_primer.md for Cycle 2 Round 1 post-Flight 2 closure
+state"), both predating 5d91828 (the oldest commit engaged by the
+session-7-onward canonical record).
+
+Content inspection of the committed new_chat_primer.md surfaced
+substantial prior-cycle canonical material: reading sequences pointing
+at operations_log/README.md and 2026-05-14/15 event logs, a two-paper
+manuscript structure framing, prior-cycle standing rules numbering, and
+references to a protocols/architectural_reviews/ directory.
+
+Implication
+-----------
+
+Session 9 produced protocols/foundational/ and kit-revision-3 as
+canonical orientation infrastructure without inventorying the
+pre-existing canonical material at adjacent canonical paths. Both
+directories now sit at canonical paths in HEAD with no documentation
+reconciling them. Layer-1-specific working-memory instance: Rule 1
+verification at session open did not extend to pre-existing canonical
+material at session-9-work-relevant paths. Rule 1 has no complexity
+floor; Rule 7.4 (symmetric application of memory-based-reconstruction
+prohibition including to Layer 1) applies.
+
+Reframing
+---------
+
+The session 9 operations log claim of "Stage 1 substantively complete"
+is corrected to "Stage 1 substantively complete modulo a discovered
+reconciliation requirement." The reconciliation is too substantial to
+land in the remaining session 9 budget; attempting it under time
+pressure would replicate the working-memory failure that produced
+the gap.
+
+Files committed
+---------------
+
+operations_log/2026-05-20_phase_4b_session_9.md
+  Post-commit addendum added documenting:
+  - The discovery and primary-source verification trail
+  - The implication and Rule 1 / Rule 7.4 application
+  - The undercount of Layer-1-specific working-memory instances
+    (three this session, not two)
+  - The corrective discipline going forward (git ls-tree at session
+    open for relevant directories)
+  - The revised resume anchor for session 10
+
+STANDING_ITEMS.md
+  Item 9 added: "Prior-cycle canonical material reconciliation."
+  Trigger: before any other Stage 2 work begins in session 10.
+  Supersedes the trigger order of items 1 and 2.
+  Acceptance criteria: inventory + reconciliation plan + canonical
+  record update.
+  Maintenance log entry added recording the session-9-close addition.
+
+Resume anchor for session 10
+----------------------------
+
+HEAD after this commit; verify accordingly. STANDING_ITEMS.md item 9
+fires as first session 10 action. Items 1 and 2 are eligible after
+item 9 closes; sequencing at Mike's arbitration thereafter.
+
+Layer 1 boundary-crossings registered
+-------------------------------------
+
+Direct drafting of the addendum, the STANDING_ITEMS.md update, and
+this commit message; disclosed per Rule 4. Self-correcting drafting
+on the working-memory pattern instance just discovered; the correction
+itself surfaced through the bullet-proof deferral discipline's request
+for primary-source verification at the trigger-evaluation moment.
+
+— Mike (drafted with Claude operating as Layer 1 central node)

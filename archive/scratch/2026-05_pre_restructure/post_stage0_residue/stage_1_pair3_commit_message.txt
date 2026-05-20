@@ -1,0 +1,111 @@
+Stage 1 pair-3: current state and README (v2, Layer 2 accepted); foundational set complete
+
+Add two foundational documents at protocols/foundational/, completing the
+foundational document set. Pair-3 follows pair-1 (committed at 79db966)
+and pair-2 (committed at 6603799).
+
+Documents committed
+-------------------
+
+protocols/foundational/current_state.md
+  Snapshot of the EE Theory Lab's current phase, latest substantive
+  finding, open items, next anticipated work, working-pattern state, and
+  protocol state. Updated at session end. Six volatile sections each
+  carry **As of session N** markers; Section 7 specifies the session-end
+  update discipline. Authoritative for current-state orientation;
+  subject to primary-source verification under Rule 1.
+
+protocols/foundational/README.md
+  Entry point for the foundational document set. Reading sequence (five
+  documents within the set; kit remains the cold-start first read).
+  Per-document "when to consult" guidance. Relationship to the
+  instantiation kit. Maintenance discipline. Audience (foundational set
+  audience vs. theory-level material audience distinguished).
+
+Routing record
+--------------
+
+Pair-3 routed to Layer 2 (ChatGPT) for full-cycle review on 2026-05-20.
+Layer 2 return surfaced five revisions and no substantive divergence:
+one vocabulary-quarantine violation (Open Element 14 label in
+current_state.md Section 2, in the same session as the quarantine
+document that prohibits it), one categorization drift (completed Section
+15 lift item under open items), one optional cleanup ("confirmed" →
+"verified by primary-source review"), one sequencing clarification
+between README Section 1 and Section 3, one audience clarification in
+README Section 6. Layer 1 accepted the optional cleanup as required
+given the same-document vocabulary violation. v2 incorporated all five:
+
+  v2 revision 1: current_state.md Section 2 Open Element 14 label
+                 removed; restated only in committed terms ("the
+                 architectural selection between F_LR and F_2_symmetric
+                 for the functional form of F(v,c,r)")
+  v2 revision 2: current_state.md Section 3 completed Section 15 lift
+                 item removed from open items list
+  v2 revision 3: current_state.md Section 2 "confirmed by primary-source
+                 verification" replaced with "verified by primary-source
+                 review"
+  v2 revision 4: README.md Section 1 reading sequence clarified as
+                 within-foundational-set sequence; explicit note that
+                 the instantiation kit is the cold-start first read
+  v2 revision 5: README.md Section 6 audience clarification: Phil is not
+                 the audience for the foundational set, but remains
+                 relevant to theory-level/manuscript-facing artifacts
+                 through the manuscript workstream
+
+v2 routed back to Layer 2 for acceptance per the protocol-infrastructure
+routing convention. Layer 2 acceptance return received same day: "Accept
+— v2 accepted; pair-3 ready for commit. ... I do not see out-of-bounds
+additions in the v2 changes described by the routing package."
+
+Layer-1-specific working-memory instance registered
+----------------------------------------------------
+
+The Open Element 14 vocabulary-quarantine violation in v1 current_state.md
+Section 2 occurred in the same session as the drafting of
+vocabulary_quarantine.md (committed at 6603799), which establishes Open
+Element labeling as drift-prone vocabulary requiring quarantine and
+restatement. Layer 1 self-review failed to catch the violation pre-
+routing; Layer 2 review caught it on first pass. The instance is
+registered here and in the session 9 operations log. The discipline is
+symmetric per Rule 7.4 (memory-based reconstruction without canonical
+source verification is prohibited across all AI partners including
+Layer 1); future Layer 1 drafting in sessions that also produce
+vocabulary-discipline canonical material should treat self-review as
+load-bearing rather than ceremonial.
+
+Foundational document set status
+--------------------------------
+
+With pair-3 committed, protocols/foundational/ is complete. Six
+documents:
+
+  - protocol_primer.md (committed 79db966)
+  - standing_rules.md (committed 79db966)
+  - vocabulary_quarantine.md (committed 6603799)
+  - canonical_artifacts_index.md (committed 6603799)
+  - current_state.md (this commit)
+  - README.md (this commit)
+
+The set is the canonical foundational material future Claude instances
+instantiate against. The instantiation kit (currently kit-revision-2)
+becomes a compressed surface over the canonical set; kit-revision-3 is
+pending Stage 1 completion and will absorb the eleven kit-improvement
+items accumulated across sessions 7-9 plus the maintenance discipline
+expressed in the now-canonical README.
+
+Stage 1 remaining
+-----------------
+
+  - Root-level orientation documents (ORIENTATION.md, CURRENT_STATE.md,
+    MANIFEST.md): likely Layer 2 sanity scan rather than full cycle
+  - STANDING_ITEMS.md: no Layer 2 routing (operational process artifact)
+  - Kit-revision-3: likely Layer 2 sanity scan
+  - Session 9 operations log
+  - Session 10 handoff folder
+
+Layer 1 boundary-crossings registered
+-------------------------------------
+
+Direct drafting of both documents, both routing packages, and this
+commit message; all disclosed in-session per Rule 4.

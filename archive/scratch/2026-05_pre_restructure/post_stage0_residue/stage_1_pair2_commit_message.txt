@@ -1,0 +1,89 @@
+Stage 1 pair-2: vocabulary quarantine and canonical artifacts index (v2, Layer 2 accepted)
+
+Add two foundational documents at protocols/foundational/, second commit
+of Stage 1 of the repository restructure. Pair-2 follows pair-1
+(committed at 79db966).
+
+Documents committed
+-------------------
+
+protocols/foundational/vocabulary_quarantine.md
+  Canonical list of prohibited terms, permitted framings, and drift-prone
+  vocabulary. Section 1 (hard quarantine) includes per-term rationales
+  for prohibited agent-behavioral, architectural-drift, and
+  formal-primitive-substitution terms. Section 2 specifies permitted
+  framings with examples. Section 3 (drift-prone, caution flags) covers
+  six terms: solid, convergence, central node, verification, stage, and
+  the Open Element labeling discipline.
+
+protocols/foundational/canonical_artifacts_index.md
+  Authoritative index of canonical artifacts and their locations.
+  Twelve sections covering theory-level documents, Phase 4B
+  specifications, Tier 3 canonical implementation, reg_01 cluster,
+  substrate data and Tier 2 outputs, diagnostics, operations logs and
+  routing artifacts, Stage 0 inventory, foundational document set,
+  instantiation kit, naming-collision citation discipline, workspace
+  and tools. Authoritative for where artifacts live and what authority
+  they carry; not authoritative for artifact content (each artifact is
+  its own authority).
+
+Routing record
+--------------
+
+Pair-2 routed to Layer 2 (ChatGPT) for full-cycle review on 2026-05-20.
+Layer 2 return surfaced three revisions (vocabulary_quarantine Section 1
+homeostatic-imperative rationale, vocabulary_quarantine Section 3 Open
+Element discipline omission, canonical_artifacts_index Section 1
+operational locatability gap) and no substantive divergence. Layer 1
+incorporated all three into v2:
+
+  v2 revision 1: vocabulary_quarantine.md "homeostatic imperative"
+                 rationale tightened to include ACTION as primitive
+                 observable explicitly
+  v2 revision 2: vocabulary_quarantine.md Section 3 Open Element
+                 labeling discipline added as drift-prone (not hard
+                 quarantine); cites session 5 Open Element 14
+                 quarantine/restatement precedent
+  v2 revision 3: canonical_artifacts_index.md Section 1 operational
+                 locatability notes added for both State of the Theory
+                 entries (Mike-provided-attachment requirement plus
+                 Stage 2 target where committed)
+
+v2 routed back to Layer 2 for acceptance per the protocol-infrastructure
+routing convention (protocol_primer.md Section 3). Layer 2 acceptance
+return received same day: "Accept — v2 accepted; pair-2 ready for
+commit. ... I do not see out-of-bounds additions in the v2 changes
+described by the routing package."
+
+Relationship to pair-1
+----------------------
+
+Pair-2 documents establish themselves as authoritative for their
+content domains (vocabulary discipline; artifact location and authority)
+with primary source as the override. They cite pair-1 (protocol_primer
+and standing_rules) for relationships, especially:
+
+  - Rule 5 enforces vocabulary_quarantine.md content
+  - Rule 1 verification discipline operates against canonical_artifacts
+    _index.md to locate primary source
+  - protocol_primer Section 4's "Solid" clarification is reflected in
+    vocabulary_quarantine.md Section 3 caution-flag entry
+
+Operations log
+--------------
+
+The session 9 operations log will record pair-2's commit, the Layer 2
+cycle (full review + v2-acceptance), the Open Element discipline
+addition as a notable v2 revision, and the remaining Stage 1
+deliverables queue.
+
+Future Stage 1 work remaining: protocols/foundational/current_state.md,
+protocols/foundational/README.md, root-level orientation documents
+(ORIENTATION.md, CURRENT_STATE.md, MANIFEST.md), STANDING_ITEMS.md,
+kit-revision-3.
+
+Layer 1 boundary-crossings registered
+-------------------------------------
+
+Direct drafting of both documents, both routing packages, and this
+commit message; all disclosed in-session per Rule 4.

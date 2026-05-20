@@ -1,0 +1,78 @@
+Stage 1 operational artifact: STANDING_ITEMS.md (deferred-items tracker)
+
+Add STANDING_ITEMS.md at workspace root, fourth commit cluster of Stage 1
+of the repository restructure. This is the operational process artifact
+implementing the bullet-proof deferral process: each deferred item has
+explicit what / trigger / acceptance fields, and the kit's resume
+anchor (kit-revision-3 onward) references this document by path so the
+check at session open is structural rather than memory-dependent.
+
+Document committed
+------------------
+
+STANDING_ITEMS.md
+  Eight deferred items at session 9 commit:
+
+  1. Pre-registration reproducibility verification
+     (trigger: first action of session immediately following Stage 1
+     completion)
+  2. Push to origin
+     (trigger: post-Stage-1 natural commit cluster)
+  3. Stage 2 execution — canonical artifact moves
+     (trigger: Stage 1 complete AND item 1 executed)
+  4. Stage 3 execution — manifests for parquet outputs
+     (trigger: Stage 2 complete)
+  5. Stage 4 execution — quarantine stale and scratch material
+     (trigger: Stage 3 complete)
+  6. Stage 5 transition — next analytical phase
+     (trigger: Stage 4 complete)
+  7. F multiplicativity commitment verification
+     (trigger: v1.5 Overview revision work surfaces; independent of
+     restructure stages)
+  8. global_timeseries.csv rename-or-README decision
+     (trigger: Stage 2 execution)
+
+Format
+------
+
+Each entry has fixed structure: what (the action), trigger (the
+condition under which it executes), acceptance (what counts as done).
+Maintenance log section appended for closure/addition tracking; empty
+as of this commit.
+
+Routing
+-------
+
+No Layer 2 routing per the agreed sanity-scan-distribution convention.
+This is an operational process artifact, not architectural deliverable;
+its content is the deferred-items state of the protocol, not new
+architectural commitment. The trigger/acceptance fields are derived
+from sessions 6-9 operations logs and from the foundational current_
+state.md Section 3 open-items list.
+
+Authority and relationship to other documents
+---------------------------------------------
+
+Authoritative for what is deferred and what triggers each item. Not
+authoritative for substantive content (operations logs, foundational
+current_state.md, RESTRUCTURE_INVENTORY.md remain the substantive
+sources). When trigger conditions are met but substantive content has
+evolved, the substantive sources win.
+
+Future Claude instances consult this document at session open per the
+kit's resume-anchor discipline. Stage transitions are operationally
+enforced by this document — Stage N+1 cannot fire until Stage N is
+acceptance-closed.
+
+Stage 1 remaining
+-----------------
+
+  - Kit-revision-3 (Layer 2 sanity scan)
+  - Session 9 operations log
+  - Session 10 handoff folder
+
+Layer 1 boundary-crossings registered
+-------------------------------------
+
+Direct drafting of the document and this commit message; disclosed
+in-session per Rule 4.

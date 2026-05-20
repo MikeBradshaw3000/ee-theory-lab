@@ -4,7 +4,7 @@
 
 **Authority.** This document is authoritative for *where* canonical artifacts live and *what authority* they carry. It is not authoritative for the artifacts' content; each artifact is its own authority on its content domain. When this index conflicts with primary source (the actual files at the stated paths), primary source wins and this document revises.
 
-**Maintenance discipline.** Updated when canonical artifacts are added, moved, or superseded. Updates committed alongside the operations log of the session in which the change occurred. Stage 2 of the repository restructure (moves canonical artifacts to qualified-path locations) triggered a coordinated update of this index at session 12 (commit cluster `919db5b` + `adfdb28`). Stage 3 (manifest schema + scaffolding) triggered an update at session 13 adding Section 14.
+**Maintenance discipline.** Updated when canonical artifacts are added, moved, or superseded. Updates committed alongside the operations log of the session in which the change occurred. Stage 2 of the repository restructure (moves canonical artifacts to qualified-path locations) triggered a coordinated update of this index at session 12 (commit cluster `919db5b` + `adfdb28`). Stage 3 (manifest schema + scaffolding) triggered an update at session 13 adding Section 14. Stage 4 (quarantine) triggered an update at session 14 to Sections 5, 7, 8, 11, 13.
 
 **Path conventions.** All paths relative to `C:\Users\vkz244\EE_Theory_Lab\ee-theory-lab\` unless absolute. PowerShell uses backslash separators; git status output uses forward slashes; both refer to the same files.
 
@@ -120,7 +120,7 @@ Canonical scaffolding for the parquet manifest regeneration flow. Stage 3 delive
 
 **Path:** `phase_4b\scripts\regenerate_manifest.py`
 
-**Commit:** introduced at session 13 Stage 3 closure cluster.
+**Commit:** introduced at session 13 Stage 3 closure cluster (`fc9d4c4`).
 
 **Companion module (Layer 3 implementation):** `phase_4b\scripts\_manifest_verification.py` — reusable verification module implementing the FSS §14.1 check set. Imported by `regenerate_manifest.py` per the existing `_phase_4b_intake.py` + `tier3_regression.py` pattern.
 
@@ -168,7 +168,7 @@ Eight Flight 6 production parquet files (Flight 2 naming inheritance preserved).
 
 **Path (absolute):** `C:\Users\vkz244\EE_Theory_Lab\flight2_outputs\`
 
-**Note on naming:** the directory is named `flight2_outputs` for inheritance reasons, but contains Flight 6 files. The mismatch is documented at the canonical record level (here) and will be resolved during Stage 4 (quarantine and rename).
+**Note on naming.** The directory is named `flight2_outputs` for inheritance reasons but contains Flight 6 files. The naming mismatch was previously framed for Stage 4 resolution in earlier revisions of this Section 5; STANDING_ITEMS item 5's canonical scope as committed at session 14 start named only the 22 scratch scripts and the capital-B parallel tree, not the `flight2_outputs/` rename. Per Mike's A+C arbitration at session 14: honest-record the gap; promote naming resolution to its own tracked item (STANDING_ITEMS item 12 added session 14). The naming mismatch persists; resolution deferred per item 12.
 
 **Per-file verification record:** the manifest at `phase_4b\manifests\parquet_manifest.csv` documents each physical file's identity, shadow-copy status, and FSS §14.1 verification payload. See Section 14 below.
 
@@ -239,7 +239,8 @@ The directory spans prior-cycle work (May 14-19 entries documenting Cycle 2 Roun
 | 10 | `operations_log\2026-05-20_phase_4b_session_10.md` | `93e6dbb` (original), addendum at `207b484` |
 | 11 | `operations_log\2026-05-20_phase_4b_session_11.md` | `b8a6833` |
 | 12 | `operations_log\2026-05-20_phase_4b_session_12.md` | `6fb607d` (item 2 closure cluster); extended Stage 2 closure at `cc851a5` |
-| 13 | `operations_log\2026-05-20_phase_4b_session_13.md` | Stage 3 closure cluster (pending this commit) |
+| 13 | `operations_log\2026-05-20_phase_4b_session_13.md` | `fc9d4c4` (Stage 3 closure cluster) |
+| 14 | `operations_log\2026-05-20_phase_4b_session_14.md` | Stage 4 closure cluster (pending this commit) |
 
 ### Architectural reviews
 
@@ -261,7 +262,7 @@ The directory is open for new entries (Layer 1 architectural reviews of future s
 
 **Commit:** moved to canonical placement at `919db5b` (session 12 Stage 2 commit 1).
 
-**Stage 1 routing packages (session 9).** `LAYER_2_ROUTING_STAGE1_PAIR1.md`, `LAYER_2_ROUTING_STAGE1_PAIR1_V2_ACCEPTANCE.md`, and the other Stage 1 routing artifacts at workspace root. These were not in `RESTRUCTURE_INVENTORY.md`'s Stage 2 moves-plan (added to workspace root after the inventory was committed); they remain at workspace root pending a future restructure stage or quarantine decision.
+**Stage 1 routing packages (session 9).** `LAYER_2_ROUTING_STAGE1_PAIR1.md`, `LAYER_2_ROUTING_STAGE1_PAIR1_V2_ACCEPTANCE.md`, and the other Stage 1 routing artifacts at workspace root were quarantined at session 14 Stage 4 closure cluster (per Mike's scope-expansion arbitration to include post-Stage-0 residue). Location: `archive\scratch\2026-05_pre_restructure\post_stage0_residue\`. Not canonical going forward — Stage 1 work landed in the commits the routing packages helped produce; the packages themselves are working artifacts now archived.
 
 ---
 
@@ -274,6 +275,8 @@ The Stage 0 deliverable. Categorizes the 31 untracked items as of session 8 inve
 **Path:** `RESTRUCTURE_INVENTORY.md` (workspace root)
 
 **Commit:** `1a68ca6`. Note: the inventory's Stage 2 moves-plan specified `git mv` operations, but the source items were never tracked in git history. Session 12 executed the moves via PowerShell `Move-Item` + `git add`, operationally equivalent to `git mv` for untracked sources. The session 12 operations log records the mechanism deviation; the inventory is preserved as the Stage 0 historical deliverable.
+
+**Amendment to v3 at session 14.** Stage 4 execution surfaced two scope expansions relative to the Stage 0 plan: (i) Group B count corrected from 22 to 23 (`distribute_new_claude_primer.py` was missed by Stage 0 enumeration; matches the Group B `distribute_*` pattern); (ii) post-Stage-0 residue (24 items accumulated between session 8 inventory and session 14) added to Stage 4 quarantine under Mike's in-band arbitration. The Stage 0 categorization itself is preserved unchanged in v3; the amendment is an additive "Stage 4 actual executed scope" section documenting the divergence between Stage 0 plan and Stage 4 execution.
 
 ### PRIOR_CYCLE_INVENTORY.md and PRIOR_CYCLE_RECONCILIATION_PLAN.md
 
@@ -294,14 +297,14 @@ The current document plus its peers in `protocols/foundational/`. Stage 1 docume
 | Protocol primer | `protocols\foundational\protocol_primer.md` | committed `79db966` (session 9 pair 1) |
 | Standing rules | `protocols\foundational\standing_rules.md` | committed `79db966` (session 9 pair 1); historical lineage section added in session 10 reconciliation cluster |
 | Vocabulary quarantine | `protocols\foundational\vocabulary_quarantine.md` | committed `6603799` (session 9 pair 2); eligibility prohibition, source-domain scrubs section, and Open Element 14 cross-reference added in session 10 reconciliation cluster |
-| Canonical artifacts index | `protocols\foundational\canonical_artifacts_index.md` | committed `6603799` (session 9 pair 2); updated in session 10 reconciliation cluster; updated in session 12 Stage 2 closure cluster; updated in session 13 Stage 3 closure cluster (added Section 14) |
+| Canonical artifacts index | `protocols\foundational\canonical_artifacts_index.md` | committed `6603799` (session 9 pair 2); updated in session 10 reconciliation cluster; updated in session 12 Stage 2 closure cluster; updated in session 13 Stage 3 closure cluster (added Section 14); updated in session 14 Stage 4 closure cluster |
 | Current state | `protocols\foundational\current_state.md` | committed `a8bc52c` (session 9 pair 3); Stage-1-complete framing updated in session 10 reconciliation cluster |
 | README | `protocols\foundational\README.md` | committed `a8bc52c` (session 9 pair 3) |
 | Theoretical context | `protocols\foundational\theoretical_context.md` | committed in session 10 reconciliation cluster |
 | Personal context | `protocols\foundational\personal_context.md` | committed in session 10 reconciliation cluster |
 | Environment reference | `protocols\foundational\environment_reference.md` | committed in session 10 reconciliation cluster |
 
-Root-level orientation documents (`ORIENTATION.md`, `CURRENT_STATE.md`, `MANIFEST.md`) and `STANDING_ITEMS.md` were committed during session 9 Stage 1 work; `MANIFEST.md` updated in session 12 Stage 2 closure cluster and session 13 Stage 3 closure cluster.
+Root-level orientation documents (`ORIENTATION.md`, `CURRENT_STATE.md`, `MANIFEST.md`) and `STANDING_ITEMS.md` were committed during session 9 Stage 1 work; `MANIFEST.md` updated in session 12 Stage 2 closure cluster, session 13 Stage 3 closure cluster, and session 14 Stage 4 closure cluster. `STANDING_ITEMS.md` updated in session 12 (items 2, 3, 8 closed), session 13 (item 4 closed), and session 14 (item 5 closed, item 12 added).
 
 ### Foundational document role distinctions (added session 10)
 
@@ -342,7 +345,17 @@ See Section 7 above. Prior-cycle operations logs (May 14-19) preserved per the h
 
 The compressed instantiation surface for fresh Claude chats. Becomes a derived/compressed surface over the foundational document set as Stage 1 completes; not authoritative on its own once Stage 1 is committed.
 
-**Current revision:** kit-revision-3 (drafted at session 9 end). Kit-revision-4 is anticipated, incorporating: the "path-space land grab" framing into Rule 7.4 territory; the "any copy-target, not just PS" principle; the "informational content does not need a copy-pane" principle; the v1_1_divergence_review footnote as discipline precedent; handoff-folder attachment discipline (attach contents to opener message rather than reference by path); venv activation in pre-flight verification; PowerShell `-SimpleMatch` literal-vs-alternation semantic; `--no-pager` for diff visibility; working-pattern-discipline-degradation-under-reconstruction observation; paste-back hazard on filenames-in-code-blocks; the (N)-suffix Downloads cleanup discipline; the file-path-in-copy-block unified discipline; the batched-PS-commands distinction (state-changing vs. file-copy operations). Per session 12's Layer-1 working-memory instance, the handoff-folder attachment discipline is operationally demonstrated.
+**Current revision:** kit-revision-3 (drafted at session 9 end). Kit-revision-4 is anticipated, incorporating accumulated deferred items from sessions 11, 12, 13, and 14:
+
+From session 11: the "path-space land grab" framing into Rule 7.4 territory; the "any copy-target, not just PS" principle; the "informational content does not need a copy-pane" principle; the v1_1_divergence_review footnote as discipline precedent; handoff-folder attachment discipline (attach contents to opener message rather than reference by path); venv activation in pre-flight verification; PowerShell `-SimpleMatch` literal-vs-alternation semantic; `--no-pager` for diff visibility; working-pattern-discipline-degradation-under-reconstruction observation.
+
+From session 12: paste-back hazard on filenames-in-code-blocks; the (N)-suffix Downloads cleanup discipline; the file-path-in-copy-block unified discipline.
+
+From session 13: pre-flight Downloads cleanup as documented discipline before file delivery (operationalized in session 13's revised-artifacts delivery; absent in session 12's (N)-suffix incident); batched-PS-commands distinction (idempotent file-copy operations safe to batch; state-changing git operations not); Layer 2 sanity-scan-distribution convention clarification (architectural deliverables warrant scan; operational deliverables with in-band Mike arbitration may not).
+
+From session 14: enumerate-don't-pattern-match discipline (move lists built by group-pattern matching against an inventory rather than complete enumeration of working-tree state caused the `distribute_new_claude_primer.py` miss; corrective is direct working-tree enumeration at execution time); `git add -A` scope hazard (sweeps untracked items that may or may not be in commit scope; use explicit paths when scope is non-total); paste-truncation recovery pattern (long batched `Move-Item` commands can exceed PS multi-line copy capacity, leaving PS at `>>` continuation prompt; recovery is Ctrl+C or empty-line Enter, then resending in smaller batches).
+
+Per session 12's Layer-1 working-memory instance, the handoff-folder attachment discipline is operationally demonstrated.
 
 **Path:** typically delivered as a session-handoff artifact under `claude_session_handoffs\YYYY-MM-DD[-N]\` rather than committed to the repository tree. Whether the kit lives at a stable repository path or remains a handoff artifact is a question carrying forward from session 9's pending decisions.
 
@@ -376,13 +389,17 @@ Detailed operational reference for the production environment is in `protocols/f
 
 **Path:** `C:\Users\vkz244\EE_Theory_Lab\ee-theory-lab\` (lowercase nested).
 
-### Stale parallel tree
+### Stale parallel tree (quarantined session 14)
 
-**Path:** `C:\Users\vkz244\EE_Theory_Lab\phase_4B\` (capital B at top level). To be archived during Stage 4.
+**Original path:** `C:\Users\vkz244\EE_Theory_Lab\phase_4B\` (capital B at top level).
+
+**Quarantine path:** `archive\scratch\2026-05_pre_restructure\capital_B_parallel_tree\phase_4B\`. The capital-B parallel tree was quarantined at session 14 Stage 4 closure per STANDING_ITEMS item 5 acceptance criterion. `Test-Path` against the original workspace-parent location returns `False` post-move. The tree is preserved in the archive as historical record; not consulted as canonical source for any future work.
 
 ### Canonical data outputs
 
-**Path:** `C:\Users\vkz244\EE_Theory_Lab\flight2_outputs\` (absolute; named for inheritance reasons, contains Flight 6 files; Stage 4 will resolve the naming).
+**Path:** `C:\Users\vkz244\EE_Theory_Lab\flight2_outputs\` (absolute; named for inheritance reasons, contains Flight 6 files).
+
+**Note on naming:** rename to reflect Flight 6 contents is tracked as STANDING_ITEMS item 12 (added session 14). See Section 5 above.
 
 ### Tools
 
@@ -407,7 +424,7 @@ Per-file verification and identity record for the canonical substrate data at `f
 
 **Authority:** canonical schema specification — field names, allowed values, semantics. References FSS v1.1 §14.1 (verification structure), FSS v1.1 §13.2 (shadow-copy structure), and ChatGPT's Q4 recommendation (manifest-now-Git-LFS-later storage philosophy). Synthesizes these into one canonical manifest schema.
 
-**Commit:** introduced at session 13 Stage 3 closure cluster.
+**Commit:** introduced at session 13 Stage 3 closure cluster (`fc9d4c4`).
 
 ### Manifest CSV
 
@@ -415,7 +432,7 @@ Per-file verification and identity record for the canonical substrate data at `f
 
 **Authority:** canonical schema specification (header row) plus one illustrative example row demonstrating field meanings. Per Mike's Q2b arbitration: Stage 3 produces schema specification only; manifest population (running `regenerate_manifest.py` against the eight Flight 6 production parquets) is deferred to Layer 3 routing. The example row uses session-6-verified data for `probe1_overcrowding_20x20` to demonstrate the `genuine + sha256_match + session_6_sha256` combination; placeholder values (`EXAMPLE_64_HEX_SHA256`, `EXAMPLE_FILE_SIZE`, `EXAMPLE_ROW_COUNT`) and `not_available` for `git_head_at_generation` are clearly marked as illustrative. Direct edits to the CSV are prohibited per the maintenance discipline; updates happen via the regenerate script.
 
-**Commit:** introduced at session 13 Stage 3 closure cluster.
+**Commit:** introduced at session 13 Stage 3 closure cluster (`fc9d4c4`).
 
 ### Regenerate script
 
@@ -451,4 +468,4 @@ Session 13 ops log records the routing cycle.
 
 ---
 
-— Originally drafted by Claude as Layer 1 central node, Stage 1 pair-2 of repository restructure, session 9. v2 incorporated Layer 2 review (operational locatability notes added for Mike-local theory files). Session 10 reconciliation cluster added Section 10, updated Section 9, updated Section 11 for kit-revision-4 anticipation, condensed Section 13 with cross-reference to `environment_reference.md`. Session 12 Stage 2 closure cluster updated Sections 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12 to reflect the moves landed at `919db5b` and to soft-update Section 12 per session 12 arbitration. Session 13 Stage 3 closure cluster added Section 14 (parquet manifests), updated Section 3 (added regenerate-manifest scaffolding entry), updated Section 5 (cross-reference to Section 14), updated Section 2 (added FSS §14.1 cross-reference to Section 14), updated Section 7 (added session 12 extended commit and session 13 commit-pending entry), updated Section 11 (kit-revision-4 deferred items grown with session 12 + session 13 additions). Layer 2 sanity scan completed for Stage 3 (ChatGPT conditional greenlight, four polish edits incorporated); pending Layer 2 sanity scan on this updated index deferred per the agreed sanity-scan-distribution convention.
+— Originally drafted by Claude as Layer 1 central node, Stage 1 pair-2 of repository restructure, session 9. v2 incorporated Layer 2 review (operational locatability notes added for Mike-local theory files). Session 10 reconciliation cluster added Section 10, updated Section 9, updated Section 11 for kit-revision-4 anticipation, condensed Section 13 with cross-reference to `environment_reference.md`. Session 12 Stage 2 closure cluster updated Sections 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12 to reflect the moves landed at `919db5b` and to soft-update Section 12 per session 12 arbitration. Session 13 Stage 3 closure cluster added Section 14 (parquet manifests), updated Section 3 (added regenerate-manifest scaffolding entry), updated Section 5 (cross-reference to Section 14), updated Section 2 (added FSS §14.1 cross-reference to Section 14), updated Section 7 (added session 12 extended commit and session 13 commit-pending entry), updated Section 11 (kit-revision-4 deferred items grown with session 12 + session 13 additions). Session 14 Stage 4 closure cluster updated Section 5 (replaced "Stage 4 will resolve naming" framing with item 12 cross-reference per Mike's A+C arbitration), Section 7 (added session 13 commit hash `fc9d4c4` and session 14 commit-pending entry; updated Stage 1 routing packages note to reflect quarantine), Section 8 (added v3 amendment note on RESTRUCTURE_INVENTORY), Section 9 (added session 14 to canonical_artifacts_index.md history and STANDING_ITEMS.md history), Section 11 (added session 14 deferred items: enumerate-don't-pattern-match discipline, `git add -A` scope hazard, paste-truncation recovery pattern), Section 13 (updated Stale parallel tree entry to reflect quarantine; added item 12 cross-reference for flight2_outputs naming). Layer 2 sanity scan deferred per Mike's A arbitration at session 14 (Stage 4 closure assessed as operational rather than architectural per the session-13 sanity-scan-distribution convention).

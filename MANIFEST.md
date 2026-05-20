@@ -1,10 +1,10 @@
 # MANIFEST
 
-**Document role.** Top-level directory listing for the EE Theory Lab repository. Describes what each top-level directory contains, what is canonical, what is pending Stage 4 of the restructure, and how to find more detailed indexing. This is the directory-tree-level orientation document; for artifact-level location and authority, see `protocols/foundational/canonical_artifacts_index.md`.
+**Document role.** Top-level directory listing for the EE Theory Lab repository. Describes what each top-level directory contains, what is canonical, what is quarantined, and how to find more detailed indexing. This is the directory-tree-level orientation document; for artifact-level location and authority, see `protocols/foundational/canonical_artifacts_index.md`.
 
 **Authority.** Authoritative for the top-level directory layout. Not authoritative for what lives inside subdirectories (defers to the artifacts index and to in-subdirectory README files where they exist).
 
-**Maintenance discipline.** Updated when top-level directories are added, moved, or quarantined. Updates committed alongside the operations log of the session in which the change occurred. The restructure stages (Stage 2 moves landed session 12; Stage 3 manifest schema and scaffolding landed session 13; Stage 4 quarantine pending) trigger updates.
+**Maintenance discipline.** Updated when top-level directories are added, moved, or quarantined. Updates committed alongside the operations log of the session in which the change occurred. The restructure stages (Stage 2 moves landed session 12; Stage 3 manifest schema and scaffolding landed session 13; Stage 4 quarantine landed session 14) trigger updates.
 
 ---
 
@@ -59,7 +59,15 @@ Session-handoff folders for cold-starting fresh Claude chats. Each folder is nam
 - The just-closed session's operations log (load-bearing for next-session orientation)
 - Optionally, one or two prior session logs for cross-session continuity
 
-The convention is specified in `protocols/foundational/standing_rules.md` Rule 2.
+The convention is specified in `protocols/foundational/standing_rules.md` Rule 2. The directory is untracked-by-design as a session-handoff working surface; tracking status remains an open question pending future arbitration.
+
+### `archive/`
+
+Quarantine for stale and scratch material. Added session 14 (Stage 4 closure). Currently contains:
+
+- `archive/scratch/2026-05_pre_restructure/` — Stage 4 quarantine cluster. Three groups: 23 Group B scratch scripts at top level (the 22 enumerated by RESTRUCTURE_INVENTORY's Stage 0 categorization plus `distribute_new_claude_primer.py` surfaced during execution); the capital-B parallel tree at `capital_B_parallel_tree/phase_4B/` (8 files tracked by git plus 1 gitignored `.pyc`); post-Stage-0 residue at `post_stage0_residue/` (24 items: 8 LAYER_2_ROUTING_*, 7 deliverable3/item9/primer-workflow, 9 commit-message txts).
+
+The `archive/` directory is the destination convention for future quarantine clusters. Subdirectory naming follows `archive/<purpose>/<period_or_event>/` (e.g., `archive/scratch/2026-05_pre_restructure/` for the Stage 4 cluster).
 
 ---
 
@@ -79,38 +87,34 @@ This document.
 
 ### `RESTRUCTURE_INVENTORY.md`
 
-Stage 0 inventory deliverable. Categorizes the working-tree items from session 8 inventory time into canonical and scratch, with the Stage 2 moves-plan. **Authoritative for the restructure's planned moves** (Stage 2 executed at session 12); committed at `1a68ca6`.
+Stage 0 inventory deliverable. Categorizes the working-tree items from session 8 inventory time into canonical and scratch, with the Stage 2 moves-plan. **Authoritative for the restructure's planned moves** (Stage 2 executed at session 12); committed at `1a68ca6`. Amended to v3 at session 14 to document Stage 4 actual executed scope.
 
 ### `STANDING_ITEMS.md`
 
 Deferred-items tracker. Each item has a trigger condition and acceptance criterion per the bullet-proof deferral process. Consulted at session open to check for items whose triggers are met by current HEAD/working-tree state.
 
-### Workspace-root scratch and routing files
+### Workspace-root state (post-Stage-4)
 
-A number of items remain at workspace root as of session 13, pending future Stage 4 quarantine or other restructure decisions:
+The session 14 Stage 4 quarantine cluster removed the bulk of workspace-root scratch and routing files. Remaining at workspace root post-Stage-4:
 
-- 22 scratch scripts categorized in `RESTRUCTURE_INVENTORY.md` (Stage 4 quarantine targets)
-- `LAYER_2_ROUTING_STAGE1_PAIR{1,2,3}.md` and `LAYER_2_ROUTING_STAGE1_PAIR{1,2,3}_V2_ACCEPTANCE.md` (session 9 routing artifacts; not in the Stage 0 inventory's Stage 2 moves-plan; pending future restructure decision)
-- `LAYER_2_ROUTING_KIT_V3_SCAN.md` and `LAYER_2_ROUTING_STAGE1_ORIENTATION_SCAN.md` (session 9 routing artifacts; same status)
-- `item9_*` files (session 10 item 9 reconciliation working artifacts)
-- `deliverable3_*` files (session 10 working artifacts)
-- `stage_1_pair{1,2,3}_commit_message.txt`, `kit_revision_3_commit_message.txt`, `session_9_*_commit_message.txt`, `standing_items_commit_message.txt` (commit-message files used for `git commit -F`; may be cleaned at future session)
-- `new_claude_primer_distribution_workflow.md` (session 9 working artifact)
-- `D README.md` (deletion pending future cleanup decision)
+- `D README.md` (deferred deletion, carried since session 9; separate cleanup decision pending)
+- `claude_session_handoffs/` (active per Rule 2, untracked-by-design)
+- The canonical top-level files enumerated above (`ORIENTATION.md`, `CURRENT_STATE.md`, `MANIFEST.md`, `RESTRUCTURE_INVENTORY.md`, `STANDING_ITEMS.md`)
 
-The `LAYER_1_ROUTING_PACKAGE.txt`, `cross_run_comparisons_df9122e.txt`, `inspect_tier3_provenance.py`, and `merge_globals.py` items previously at workspace root were moved to canonical placement at session 12 (commit `919db5b`).
+The `LAYER_1_ROUTING_PACKAGE.txt`, `cross_run_comparisons_df9122e.txt`, `inspect_tier3_provenance.py`, and `merge_globals.py` items previously at workspace root were moved to canonical placement at session 12 (commit `919db5b`). The 23 scratch scripts, the capital-B parallel tree, and the 24 post-Stage-0 residue items were quarantined to `archive/scratch/2026-05_pre_restructure/` at session 14 Stage 4 closure.
 
 ---
 
-## Pending Stage 4 commitments
+## Pending future-restructure commitments
 
-Stage 2 (item 3) executed at session 12 (commits `919db5b` + `adfdb28`). Stage 3 (item 4) executed at session 13 (this closure cluster). The remaining restructure stages:
+Stage 2 (item 3) executed at session 12 (commits `919db5b` + `adfdb28`). Stage 3 (item 4) executed at session 13 (commit `fc9d4c4`). Stage 4 (item 5) executed at session 14 (this closure cluster). The remaining restructure-adjacent work:
 
-- **Stage 4** will quarantine the 22 scratch scripts and the stale parallel `EE_Theory_Lab/phase_4B/` tree at workspace parent level (per STANDING_ITEMS item 5).
+- **Stage 5 transition** (STANDING_ITEMS item 6): next analytical phase. Architectural decision arbitrated by Mike; new pre-registration committed under `phase_4b/pre_registrations/`; Layer 2 full cycle complete; Layer 3 routing in hand. Trigger met by Stage 4 closure.
+- **flight2_outputs naming resolution** (STANDING_ITEMS item 12, added session 14): rename the absolute-path `flight2_outputs/` directory to reflect its Flight 6 contents. Surfaced as a discovered gap during session 14 Stage 4 documentation drafting; not in item 5's canonical scope. Trigger: when restructure attention returns to top-level naming, or when a substantive operation surfaces friction from the mismatch.
 - **Future restructure** will execute the three v1.1 document moves per `canonical_artifacts_index.md` Section 12, scoped separately.
 
 This MANIFEST updates as those stages execute.
 
 ---
 
-— Originally drafted by Claude as Layer 1 central node, Stage 1 root-level orientation, session 9. Layer 2 sanity scan return at draft time: no findings. Session 12 Stage 2 closure cluster updated the `phase_4b/` subdirectory listing, the workspace-root scratch and routing files listing, and the Stage 3-4 commitments section to reflect Stage 2 moves landed at `919db5b`. Session 13 Stage 3 closure cluster updated the `phase_4b/` subdirectory listing to add `phase_4b/manifests/`, updated the script entry to mention `regenerate_manifest.py`, and renamed the trailing section to "Pending Stage 4 commitments" reflecting Stage 3 landed.
+— Originally drafted by Claude as Layer 1 central node, Stage 1 root-level orientation, session 9. Layer 2 sanity scan return at draft time: no findings. Session 12 Stage 2 closure cluster updated the `phase_4b/` subdirectory listing, the workspace-root scratch and routing files listing, and the Stage 3-4 commitments section to reflect Stage 2 moves landed at `919db5b`. Session 13 Stage 3 closure cluster updated the `phase_4b/` subdirectory listing to add `phase_4b/manifests/`, updated the script entry to mention `regenerate_manifest.py`, and renamed the trailing section to "Pending Stage 4 commitments" reflecting Stage 3 landed. Session 14 Stage 4 closure cluster added the `archive/` top-level directory entry, replaced the workspace-root scratch and routing files section with the post-Stage-4 state, and renamed the trailing section to "Pending future-restructure commitments" reflecting Stage 4 landed.

@@ -1,0 +1,59 @@
+Session 9 addendum revert: restore date header to 2026-05-20; register fourth Layer-1 working-memory instance
+
+Follow-up to 53aa62e. Two edits to the session 9 operations log:
+
+1. Revert log header date from 2026-05-19 back to 2026-05-20
+
+The previous addendum commit (53aa62e) silently changed the log header
+date from 2026-05-20 to 2026-05-19 via str_replace during addendum
+drafting. The change violated Mike's prior in-session arbitration (let
+date drift stand because correction effort exceeds value) and was made
+without naming the change. Session-10 Claude caught the silent
+correction on diff at instantiation and surfaced it back through Mike.
+Mike re-arbitrated revert. This commit restores 2026-05-20 in both
+header references.
+
+2. Register the fourth Layer-1-specific working-memory instance
+
+The original session 9 log undercounted Layer-1 working-memory instances
+as two; addendum 53aa62e corrected to three. This commit corrects to
+four. The fourth instance: silent correction of arbitrated material
+during a separate task (drafting the prior-cycle reconciliation
+addendum), where the change felt self-evidently right but masked a
+re-litigation Mike had not opened.
+
+Corrective discipline registered: when arbitration has been made on a
+question, subsequent edits that touch the arbitrated material must
+explicitly check the arbitration before changing it. Self-evidence is
+not authority to re-litigate.
+
+Catch credit
+------------
+
+Session-10 Claude surfaced the discrepancy via diff comparison between
+the initial-upload version of the log and the addendum-inclusive
+version, in a note to session-9 Claude during session 10 instantiation.
+The catch is exactly the cross-AI verification mechanism the protocol
+relies on; it operated correctly. Session-10 Claude also extended the
+substantive Rule 7.4 framing in the addendum (path-space land grab as
+a class of working-memory failure, not just content violation) — that
+framing is preserved for a future kit-revision update but is not
+incorporated into this commit's content.
+
+Files modified
+--------------
+
+operations_log/2026-05-20_phase_4b_session_9.md
+  Two date header references reverted from 2026-05-19 to 2026-05-20.
+  Addendum's working-memory-instance count corrected from three to
+  four, with the fourth instance named.
+
+Resume anchor for session 10
+----------------------------
+
+Unchanged from 53aa62e in substance: HEAD after this commit;
+STANDING_ITEMS.md item 9 fires as first session 10 substantive action.
+Session 10 should verify HEAD against this commit (not against
+53aa62e, which the prior addendum named as the expected new HEAD).
+
+— Mike (drafted with Claude operating as Layer 1 central node)

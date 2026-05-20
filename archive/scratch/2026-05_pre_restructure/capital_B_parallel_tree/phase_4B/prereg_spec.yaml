@@ -1,0 +1,18 @@
+﻿prereg_id: flight6_cascade_analysis
+model_family: linear
+outcome: logit_p_base
+uncertainty_method: cluster_run_step
+interpretation_boundary: alpha_05_strict
+data_files:
+  - C:\Users\vkz244\EE_Theory_Lab\flight6_probe2_starvation_FLR_20x20.parquet
+  - C:\Users\vkz244\EE_Theory_Lab\flight6_probe1_overcrowding_20x20.parquet
+predictors:
+  - Lambda_total
+  - Drive_Raw
+  - Local_Density
+interactions:
+  family: symmetric
+  terms:
+    - Lambda_total:Drive_Raw
+excluded_variables:
+  - rho

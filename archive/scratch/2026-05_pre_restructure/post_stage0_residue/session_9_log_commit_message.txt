@@ -1,0 +1,83 @@
+Operations log: session 9 (Stage 1 complete: foundational set, root-level orientation, STANDING_ITEMS, kit-revision-3)
+
+Session 9 operations log committed. Records the substantive completion
+of Stage 1 of the repository restructure across six commit clusters
+landed during the session.
+
+Session arc
+-----------
+
+Cold-start opening surfaced two operational gaps (session 8 log missing
+from handoff folder; supplementary note as a parallel instantiation
+document). Both gaps surfaced kit-improvement items that fold into
+kit-revision-3.
+
+Six commit clusters under Stage 1:
+
+  79db966 — Stage 1 pair-1 (protocol_primer, standing_rules) v2,
+            Layer 2 accepted
+  6603799 — Stage 1 pair-2 (vocabulary_quarantine, canonical_artifacts
+            _index) v2, Layer 2 accepted
+  a8bc52c — Stage 1 pair-3 (current_state, README) v2, Layer 2 accepted;
+            foundational set complete
+  af59c33 — Stage 1 root-level orientation (ORIENTATION, CURRENT_STATE,
+            MANIFEST), Layer 2 sanity scan incorporated
+  5877486 — Stage 1 operational artifact: STANDING_ITEMS.md
+  b73a591 — Stage 1: kit-revision-3, Layer 2 sanity scan clear
+
+Routing record
+--------------
+
+Six routing cycles total:
+  - Three full Layer 2 cycles (each with v2-acceptance) on the
+    foundational document pairs.
+  - Three Layer 2 sanity scans (root-level orientation; kit-revision-3).
+  - No Layer 2 routing on STANDING_ITEMS.md (operational process
+    artifact) or this operations log (Mike-author convention).
+
+Findings registered
+-------------------
+
+  - Stage 1 substantively complete; pre-registration reproducibility
+    verification (STANDING_ITEMS.md item 1) trigger condition met.
+  - Kit-revision-3 supersedes kit-revision-2 as operational
+    instantiation surface.
+  - Three Layer-1-specific working-memory instances surfaced this
+    session: session-handoff folder log omission, supplementary-note
+    form failure, and the Open Element 14 vocabulary-quarantine
+    violation in current_state.md v1 (caught by Layer 2 on first pass;
+    Layer 1 self-review failed).
+  - Multi-file delivery preference: separate files, not zips.
+  - PowerShell paste-back failure modes: two incidents recovered;
+    kit-revision-3 captures the mitigation pattern.
+  - Layer 1 boundary-crossings extensive but justified by session
+    economics and deliverable type; all disclosed per Rule 4.
+
+Items not resolved
+------------------
+
+All open items tracked in STANDING_ITEMS.md (committed 5877486). Eight
+items total: pre-registration reproducibility verification (triggered),
+push to origin (eligible), Stages 2-5 execution (sequenced triggers), F
+multiplicativity commitment verification (independent trigger),
+global_timeseries.csv rename-or-README decision (Stage 2 execution).
+
+Methodological observations
+---------------------------
+
+  - Cold-start economics validated at third instance.
+  - The foundational set is now canonical infrastructure.
+  - The v2-acceptance step is effective discipline.
+  - The Open Element 14 violation registered as a Layer-1-specific
+    working-memory instance; Rule 7.4 applies symmetrically.
+  - Eleven kit-improvement items accumulated across sessions 7-9 and
+    absorbed into kit-revision-3.
+
+Resume anchor for session 10
+----------------------------
+
+Verify HEAD against this commit. Check STANDING_ITEMS.md for triggered
+items (item 1 fires by virtue of Stage 1 completion; item 2 eligible
+by virtue of closed commit cluster). Mike arbitrates item sequencing.
+
+— Mike (drafted with Claude operating as Layer 1 central node)

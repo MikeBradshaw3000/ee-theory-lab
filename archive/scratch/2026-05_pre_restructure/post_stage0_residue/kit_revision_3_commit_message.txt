@@ -1,0 +1,100 @@
+Stage 1: kit-revision-3 (compressed cold-start surface; Layer 2 sanity scan clear)
+
+Add the instantiation kit (revision 3) at the conventional path for
+session-handoff delivery. Fifth commit cluster of Stage 1 of the
+repository restructure. Follows the foundational document set (pairs
+1-3), root-level orientation, and STANDING_ITEMS.md.
+
+Kit-revision-3 is structurally different from kit-revision-2:
+
+  - Kit-revision-2 was the canonical foundational surface (because the
+    foundational set did not yet exist as committed canonical
+    documents). It carried the protocol primer, vocabulary quarantine,
+    standing rules, and canonical artifacts index content directly.
+  - Kit-revision-3 is a compressed cold-start surface over the
+    now-canonical foundational set. It points at canonical material
+    rather than reproducing it; its function is to get new Claude
+    instances operational within the first three messages of a session
+    without thumb-expensive back-and-forth on what's available where.
+
+Document committed
+------------------
+
+claude_instantiation_kit_v3.md
+  Eight sections covering: (1) what's in the handoff folder vs canonical
+  repository paths; (2) protocol summary with HARD CORE constraint, layer
+  assignments, routing convention, and pattern reminders; (3) working
+  pattern with Mike (eleven kit-improvement items from sessions 7-9
+  absorbed); (4) vocabulary quarantine summary; (5) standing rules
+  summary; (6) current state summary; (7) resume anchor including
+  STANDING_ITEMS.md trigger check; (8) conflict-resolution discipline
+  (primary source wins; canonical set wins over kit).
+
+Kit-improvement items absorbed
+------------------------------
+
+Eleven items accumulated across sessions 7-9:
+
+   1. Working-pattern section missing from kit entirely
+   2. Memory 30-cap not mentioned
+   3. PS-output visual demarcation convention
+   4. File-delivery method (create -> present_files -> Move-Item)
+   5. File-system manipulation defaults to PowerShell
+   6. Session-handoff staging folder convention
+   7. Handoff folder must contain the just-closed session's operations log
+   8. Opening instruction to next-session Claude is a single sentence
+   9. Cold-start cost paid to enable work, not to enable another cold start
+  10. Multi-file delivery: separate files preferred; separate
+      present_files calls (zips are unzip-step thumb expense)
+  11. Paste-back failure mode mitigation (PS commands as unambiguous
+      paste-targets)
+
+Routing
+-------
+
+Routed to Layer 2 (ChatGPT) for sanity scan on 2026-05-20. Layer 2
+return: "Sanity scan clear; Kit-Revision-3 ready to commit." No patches
+required. No-divergence reading explicit.
+
+Layer 2 verified:
+  - Path coverage in Section 1 matches the committed canonical structure
+  - Protocol essentials preserved in Section 2 without distortion
+  - Working-pattern content in Section 3 is operationally accurate
+  - Thumb economy described strongly but not as override above protocol
+    discipline
+  - Vocabulary discipline clean across all sections; Open Element
+    discipline correctly applied (no recurrence of the pair-3 violation)
+
+Kit location and delivery
+-------------------------
+
+The kit lives at workspace root for this commit (typical session-handoff
+delivery pattern). The convention for kit storage and revisability is
+specified in protocols/foundational/canonical_artifacts_index.md Section
+10: the kit is "typically delivered as a session-handoff artifact under
+claude_session_handoffs/YYYY-MM-DD[-N]/ rather than committed to the
+repository tree." This commit places it at workspace root for
+versioned-history capture; session-handoff folders contain copies for
+delivery.
+
+Whether to standardize on a stable repository path for the kit (e.g.,
+protocols/kit/) versus continuing the handoff-folder pattern is a future
+question; it is registered here for future kit-revision work but does
+not block kit-revision-3.
+
+Stage 1 remaining
+-----------------
+
+  - Session 9 operations log
+  - Session 10 handoff folder
+
+With this commit, kit-revision-3 supersedes kit-revision-2 as the
+operational instantiation surface. The just-closed session 9 operations
+log will name this transition in its resume-anchor section so the
+session 10 handoff folder delivers kit-revision-3 as default.
+
+Layer 1 boundary-crossings registered
+-------------------------------------
+
+Direct drafting of kit-revision-3, the routing package, and this commit
+message; disclosed in-session per Rule 4.

@@ -1,0 +1,73 @@
+Stage 1 pair-1: foundational protocol primer and standing rules (v2, Layer 2 accepted)
+
+Add two load-bearing foundational documents at protocols/foundational/, the
+first commit of Stage 1 of the repository restructure (committed direction
+at session 6, instantiated kit at session 7, canonical production in
+session 9).
+
+Documents committed
+-------------------
+
+protocols/foundational/protocol_primer.md
+  Canonical statement of the multi-AI protocol governing EE Theory Lab work.
+  Six sections: who is in the protocol; layer responsibilities and
+  boundaries; routing across layers; critical patterns and disciplines;
+  the canonical record; protocol evolution.
+
+protocols/foundational/standing_rules.md
+  Canonical list of protocol-level standing rules. Rules 1-10 with Rule 7
+  expanded as 7.1-7.7 (inline expansion of the Flight 6 Substrate
+  Specification Section 15 lift; substrate-specific items not lifted).
+  Closing note on the "routing as if completed work" item that the kit
+  Rule 7 list misattributed to Section 15 in error.
+
+Routing record
+--------------
+
+Pair-1 routed to Layer 2 (ChatGPT) for full-cycle review on 2026-05-20.
+Layer 2 return surfaced five revisions (Part A items 1-3 and Part B items
+10-11) and no substantive divergence. Layer 1 incorporated five revisions
+into v2:
+
+  v2 revision 1: protocol_primer.md Section 6 foundational set chronology
+                 expanded into three phases (direction / operational kit
+                 / canonical Stage 1 production)
+  v2 revision 2: protocol_primer.md Section 3 full-cycle commit sequence
+                 specifies v2-acceptance step for protocol-infrastructure
+                 routings (Mike arbitrated option b)
+  v2 revision 3: standing_rules.md authority paragraph primary-source
+                 override added for parallelism with primer
+  v2 revision 4: protocol_primer.md Section 2 thumb-economy subordinacy
+                 clause added (operational constraint, not justification)
+  v2 revision 5: protocol_primer.md Section 3 "Solid" tier clarification
+                 added (canonically acceptable, not epistemically closed)
+
+v2 routed back to Layer 2 for acceptance per the protocol-infrastructure
+routing convention established in v2 revision 2. Layer 2 acceptance return
+received same day: "Accept — v2 accepted; pair-1 ready for commit. ... I do
+not see out-of-bounds additions that would require a third pass."
+
+Authority and relationship to instantiation kit
+-----------------------------------------------
+
+Both documents establish themselves as authoritative for their content
+domain (protocol structure for the primer; protocol-level rules for the
+standing rules) with primary source as the override. The kit becomes a
+compressed surface over these canonical documents rather than a working
+substitute for them.
+
+Operations log
+--------------
+
+The session 9 operations log will record this commit, the v2-acceptance
+routing process, and the remaining Stage 1 deliverables queue. Pair-1 is
+the first of several Stage 1 commits; remaining Stage 1 work
+(vocabulary_quarantine, canonical_artifacts_index, current_state, README,
+root-level orientation documents, STANDING_ITEMS, kit-revision-3) routes
+separately.
+
+Layer 1 boundary-crossings registered
+-------------------------------------
+
+Direct drafting of both documents, both routing packages, and this commit
+message; all disclosed in-session per Rule 4.
