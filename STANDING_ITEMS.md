@@ -19,23 +19,6 @@
 
 ## Items
 
-### 6a. Phase 4B F-form-relevant characterization
-
-**What.** Draft and commit a Phase 4B pre-registration under `phase_4b/pre_registrations/` for F-form-relevant characterization using substrate-supported aggregate trajectories and transition proxies, mapped primarily to IF1 (F-form × Λ pathway) and IF2 (F-form × density pathway), with IF3 (epoch × F_variant) used only as time/epoch interaction unless Q-form is committed via item 14. The pre-registration follows Phase 4B v1.1 §4.4 schema (eight required fields) and explicitly carries the interpretation_boundary discipline established by reg_01.
-
-**Trigger.** Item 6a is eligible immediately (item 6 closed with substantive arbitration). Sequencing relative to other open items at Mike's arbitration.
-
-**Acceptance.**
-1. Pre-registration committed under `phase_4b/pre_registrations/` using Phase 4B v1.1 tier/IF vocabulary, following the eight-field YAML schema per §4.4.
-2. Explicit `interpretation_boundary.does_not_adjudicate` clause naming: architectural selection of F_LR vs F_2_symmetric (open_element_not_resolved per Phase 4B v1.1 §6.4).
-3. Explicit shadow-copy handling rule in the pre-registration: F_2_symmetric files for probe2_starvation and probe3_fusion are byte-identical shadow copies of probe1_overcrowding per FSS v1.1 §13.2; F-form-by-probe comparisons involving F_2_symmetric shadow-copied files are not interpreted as independent probe effects.
-4. Explicit distinction between exploratory calibration (transition-proxy parameter selection: X, Y, Z) and confirmatory characterization. Either (a) two-stage discipline with pre-registered exploratory calibration step explicitly non-adjudicative, followed by locked confirmatory step; or (b) several fixed thresholds reported as threshold-sensitivity curves without single canonical threshold.
-5. Trajectory and transition-proxy metrics restricted to substrate-supported comparisons (within-file/within-F_variant where shadow-copy structure forecloses cross-probe F_2_symmetric comparison).
-6. Layer 2 full cycle complete on the pre-registration (substantive review + v2-acceptance per `protocol_primer.md` Section 3 protocol-infrastructure routing convention).
-7. Layer 3 routing in hand for execution against Flight 2 canonical substrate data.
-
----
-
 ### 6b. Repeat-seed and non-shadow-copied F-form substrate design
 
 **What.** Specify Flight 3a-style substrate design covering both repeat-seed variance estimation and non-shadow-copied F_2_symmetric probe differentiation. Per Phase 4B v1.1 §7.2 items 1 and 5, this work is `requires_additional_probe` and `outside_phase_4b_scope`; it is substrate-generation work, not Phase 4B analytical work. Item 6b becomes load-bearing for future F-form arbitration that depends on F_2_symmetric differential behavior across probes (which the shadow-copy substrate design in Flight 2 structurally forecloses).
@@ -43,7 +26,7 @@
 **Trigger.** When future F-form arbitration work requires repeat-seed variance estimation or independent F_2_symmetric probe-differential data. Independent of Phase 4B execution timeline.
 
 **Acceptance.**
-1. Substrate design specifies whether new runs produce independent F_2_symmetric data for probe2_starvation and probe3_fusion (vs. shadow-copy continuation).
+1. Substrate design specifies whether new runs produce independent F_2_symmetric data for probe2_starvation and probe3_fusion_residual (vs. shadow-copy continuation).
 2. Seed replication design specified (number of seeds; matched-seed or independent-seed structure; per-condition seed budget).
 3. Manifests verifying non-shadow-copy identity produced where required (per Stage 3 manifest schema discipline).
 4. Variance estimates from executed runs adequate for future F-form arbitration purposes; substrate-state verification by Layer 3 before downstream use.
@@ -54,10 +37,10 @@
 
 **What.** Final architectural arbitration of F-form selection (F_LR vs F_2_symmetric) for Open Element 14. Per Phase 4B v1.1 §7.2 item 5, this is `outside_phase_4b_scope` — architectural arbitration is not a Phase 4B procedure. Item 6c waits for sufficient evidence from items 6a, 6b, 13, 14 to inform the arbitration.
 
-**Trigger.** When item 6a Phase 4B characterization is complete; item 6b substrate work is in hand (if required); items 13 (Ψ-operationalization) and 14 (Q-form commitment) are sufficiently advanced if their evidence is needed for the arbitration. Mike's substantive read on readiness.
+**Trigger.** When item 6a Phase 4B characterization is complete (Layer 3 execution complete with confirmatory outputs); item 6b substrate work is in hand (if required); items 13 (Ψ-operationalization) and 14 (Q-form commitment) are sufficiently advanced if their evidence is needed for the arbitration. Mike's substantive read on readiness.
 
 **Acceptance.**
-1. Evidence basis assembled from item 6a (Phase 4B characterization findings under the interpretation_boundary discipline).
+1. Evidence basis assembled from item 6a confirmatory outputs (Phase 4B characterization findings under the interpretation_boundary discipline).
 2. Evidence basis assembled from item 6b (repeat-seed / non-shadow-copied substrate findings if generated).
 3. Ψ-operationalization (item 13) status documented if the final route uses Ψ-structure analysis.
 4. Q-form commitment (item 14) status documented if the final route uses Q-driven base drift analysis.
@@ -106,7 +89,7 @@ Provenance: discovered during session 14 Stage 4 closure when reading `canonical
 
 Provenance: surfaced during session 15 substrate verification on Ψ-commitment status (Select-String returned one operational mention in a Tier 1 V8 tick-0 patch context; no commitment event). Layer 2 round-2 named the deferred-but-untracked status; Layer 2 round-3 refined the three-component acceptance criteria per Layer 3 substrate findings.
 
-**Trigger.** When Phase 4B analytical work requires Ψ-structure analysis as a substantive route (likely surfaces during item 6a pre-registration drafting if Ψ-structure is invoked, or during item 6c arbitration if Ψ evidence is load-bearing). Independent of Phase 4B v1.1 procedural Tier 1/2/3 work that uses Ψ_local without requiring committed Ψ-operationalization.
+**Trigger.** When Phase 4B analytical work requires Ψ-structure analysis as a substantive route (likely surfaces during item 6a Layer 3 execution if Ψ-structure is invoked, or during item 6c arbitration if Ψ evidence is load-bearing). Independent of Phase 4B v1.1 procedural Tier 1/2/3 work that uses Ψ_local without requiring committed Ψ-operationalization.
 
 **Acceptance (three components):**
 1. **Non-spatial Ψ operationalization committed.** Canonical reconstruction rule for analytical Ψ from persisted Ψ_local (e.g., system-wide signed mean, magnitude-weighted mean, or other rule per Mike's arbitration). Documented in operations log entry; if architectural commitment, also in State of the Theory amendment.
@@ -129,6 +112,32 @@ Provenance: surfaced during session 15 substrate verification on Q-commitment st
 
 ---
 
+### 15. Item 6a Layer 3 execution
+
+**What.** Execute the committed item 6a pre-registration (v2 YAML + Markdown pair) against Flight 2 canonical substrate per the Layer 3 execution routing committed session 16. Two-stage execution with binding EDA → Confirmatory checkpoint per Reading A+:
+
+- Stage 1: EDA execution on F_LR 20×20 and F_2_symmetric 20×20 calibration data; rolling-mean ρ trajectory computation; (W, τ, Z) threshold-crossing tables; locking rule application producing calibration_locked.yaml OR escalation report (E1, E7, or any of E2-E6 triggers).
+- EDA → Confirmatory checkpoint: Layer 1 + Layer 2 review of EDA outputs; Mike's arbitration; only after explicit arbitration does Stage 2 proceed.
+- Stage 2: Confirmatory execution on F_LR 40×40 and F_2_symmetric 40×40 data; primary IF1 + primary IF2 + transition-proxy + cross-scale + IF5 sensitivity regressions; pre-registered sensitivity checks; Markdown report + structured CSVs per §4.5.
+
+Pre-execution review of Layer 3 implementation scripts by Layer 1 per Phase 4B v1.1 §11 item 15 closure convention; two implementation scripts (Stage 1 EDA, Stage 2 confirmatory) as separate deliverables.
+
+Provenance: added session 16 closure cluster. Item 6a's seven acceptance components met (per session 16 closure: components 1-5 by v2 draft pair; component 6 by Layer 2 full cycle clean v2-acceptance; component 7 by Layer 3 execution routing). Item 6a closes on component 7 wording ("Layer 3 routing in hand for execution against Flight 2 canonical substrate") per Mike's session 16 arbitration; the Layer 3 *execution* work becomes this item 15.
+
+**Trigger.** Item 15 is eligible immediately. Sequencing relative to other open items at Mike's arbitration. Layer 3 produces Stage 1 (EDA) implementation script as first return; Layer 1 reviews; Mike arbitrates execution proceed.
+
+**Acceptance (six components mapping to the execution routing's structure):**
+1. **Stage 1 EDA implementation script committed** under `phase_4b/scripts/` with Layer 1 pre-execution review passed; Mike's arbitration to proceed recorded in operations log.
+2. **Stage 1 EDA execution complete** with canonical outputs committed under `phase_4b/pre_registrations/item_6a_f_form_characterization/eda_outputs/`: rolling-ρ trajectories CSVs, threshold-crossing tables CSV, diagnostic visualizations, calibration report, and EITHER calibration_locked.yaml (if locked) OR escalation report (if escalated).
+3. **EDA → Confirmatory checkpoint complete:** Layer 1 review of EDA outputs against v2 specification; Layer 2 review of calibration_locked.yaml (if locking succeeded); Mike's arbitration to proceed to Stage 2 OR confirm escalation.
+4. **Stage 2 confirmatory implementation script committed** with Layer 1 pre-execution review passed; Mike's arbitration to proceed (if Stage 2 reached).
+5. **Stage 2 confirmatory execution complete** with canonical outputs committed under `phase_4b/reports/`: Markdown report, coefficient tables CSV, marginal effects CSV, transition-proxy results CSV, cross-scale comparison CSV, IF5 sensitivity results CSV, sensitivity-clustering comparison CSV.
+6. **Two-field classification populated** for primary findings per Phase 4B v1.1 §6; interpretation_boundary clauses honored throughout execution and reporting.
+
+If at any point the escalation rule fires (any of E1-E7 triggers per Markdown Section 5 of the pre-registration), Stage 2 is suspended and a second confirmatory pre-registration is required before further confirmatory execution; item 15 acceptance criterion 5 then maps to the second pre-registration's confirmatory outputs (after its own Layer 2 full cycle and Layer 3 routing).
+
+---
+
 ## Maintenance log
 
 This section records when items closed or new items added. Each entry references the operations log of the session in which the change occurred.
@@ -147,5 +156,7 @@ This section records when items closed or new items added. Each entry references
 - **Item 12 added (session 14).** flight2_outputs naming resolution. Discovered during session 14 Stage 4 closure as a gap between `canonical_artifacts_index.md` Section 5's earlier "Stage 4 will resolve the naming" framing and item 5's actual canonical scope. Per Mike's A+C arbitration: not in item 5 scope; promoted to its own tracked item with explicit trigger and acceptance. The session 14 operations log records the discovery and arbitration.
 - **Item 6 closed and replaced by items 6a, 6b, 6c (session 15).** Substantive arbitration on F-form adjudication route selection completed across three Layer 2 routings and one Layer 3 substrate-state engagement. Round 1 surfaced articulation gap between item 6's five-route framing and Phase 4B v1.1's classification of F-form arbitration as `outside_phase_4b_scope`. Round 2 produced four-way structural replacement (Phase 4B characterization; repeat-seed substrate; Ψ/Q-deferred; final arbitration). Layer 3 substrate-state engagement surfaced load-bearing shadow-copy fact: F_2_symmetric files for probe2_starvation and probe3_fusion are byte-identical shadow copies of probe1_overcrowding per FSS v1.1 §13.2. Round 3 integrated Layer 3 findings, sharpened acceptance criteria for the split items. Mike arbitrated full acceptance of Layer 2 round-3 framing. Item 6 closes as substantively resolved at the route-selection level; the four-way structure replaces the five-route articulation as canonical operational framing. Items 6a (Phase 4B F-form-relevant characterization), 6b (Repeat-seed and non-shadow-copied F-form substrate design), 6c (Final Open Element 14 arbitration) added with explicit acceptance criteria. The session 15 operations log records the three-round Layer 2 engagement, the Layer 3 substrate-state findings, and the arbitration in full.
 - **Items 13 and 14 added (session 15).** Ψ-operationalization commitment (item 13) and Q-form commitment (item 14) surfaced during session 15 substrate verification on commitment status. Layer 3 substrate-state engagement refined acceptance criteria. Item 13 has three components (non-spatial Ψ operationalization committed; spatial Ψ diagnostics implemented and validated; T2.5 outputs generated and checked). Item 14 has two components (Delta-demand analysis basis documented; Q-form commitment architectural). The two items are independent; each may advance independently. The session 15 operations log records the substrate verification and the acceptance refinement.
+- **Item 6a closed and removed (session 16).** All seven acceptance components met. Component 1 (pre-registration committed under canonical path with §4.4 schema): met by v2 YAML at `phase_4b/pre_registrations/item_6a_f_form_characterization.yaml`. Component 2 (Open Element 14 architectural selection clause): met by YAML interpretation_boundary first does_not_adjudicate clause. Component 3 (shadow-copy handling rule per FSS v1.1 §13.2): met by YAML interpretation_boundary.shadow_copy_handling plus Markdown Sections 3.2/4.2; substrate verification of structural claim corroborated by Q1 follow-up SHA-256 hash analysis (F_LR three distinct hashes; F_2_symmetric three identical hashes `5d8f54921b6d91c784e2a1b9c30f81d4a6e8c7104b2a10d9f48123c5a69123b0`) plus flight2_production.py code excerpt showing tuple-length-driven make_shadow_copies invocation logic. Component 4 (EDA/confirmatory distinction): met by Markdown Reading A+ structure with seven-trigger escalation rule (E1-E7; E7 added v2 per Layer 2 revision 1). Component 5 (substrate-supported scope restriction): met by YAML data_files (probe1_overcrowding only for F_2_symmetric) plus validity mask plus Markdown Section 1 substrate-supported scope clarification per Layer 2 revision 5. Component 6 (Layer 2 full cycle): met by substantive review return (seven required revisions, R6 arbitrated by Mike as Option B) plus v2-acceptance return (clean accept across all five questions; Layer 1 verified artifact correspondence). Component 7 (Layer 3 routing in hand): met by Layer 3 execution routing committed session 16. Item 6a closes on component 7's literal wording ("Layer 3 routing in hand for execution against Flight 2 canonical substrate") per Mike's session 16 arbitration; the Layer 3 *execution* work becomes new item 15. The session 16 operations log records the full Layer 2 cycle, the Q1 follow-up substrate verification, and the closure arbitration.
+- **Item 15 added (session 16).** Item 6a Layer 3 execution. Two-stage execution per Reading A+ structure with binding EDA → Confirmatory checkpoint. Six acceptance components covering Stage 1 implementation script, Stage 1 execution outputs, EDA→Confirmatory checkpoint, Stage 2 implementation script, Stage 2 execution outputs, two-field classification population. If escalation rule fires during execution, Stage 2 suspended and second confirmatory pre-registration required; item 15 acceptance criterion 5 then maps to the second pre-registration's confirmatory outputs.
 
 ---

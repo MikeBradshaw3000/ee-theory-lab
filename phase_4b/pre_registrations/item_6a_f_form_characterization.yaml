@@ -1,0 +1,380 @@
+# Phase 4B Pre-Registration — Item 6a F-form-relevant Characterization (v2)
+# Schema: Phase 4B v1.1 §4.4 (eight required fields)
+# Pre-registration ID: item_6a_f_form_characterization
+# Document pair: this YAML + item_6a_f_form_characterization.md (rationale, EDA/confirmatory partition, escalation rule)
+# v2 revisions: integrates Layer 2 substantive review (session 16, full cycle), revisions 1-5, 7 mechanical;
+#   revision 6 (IF5 status) arbitrated by Mike as Option B (sensitivity-version addition).
+
+data_files:
+  - flight2_outputs/flight6_probe1_overcrowding_FLR_20x20.parquet
+  - flight2_outputs/flight6_probe1_overcrowding_FLR_40x40.parquet
+  - flight2_outputs/flight6_probe1_overcrowding_F2sym_20x20.parquet
+  - flight2_outputs/flight6_probe1_overcrowding_F2sym_40x40.parquet
+  # F_2_symmetric probe2_starvation and probe3_fusion files are byte-identical shadow
+  # copies of probe1_overcrowding per FSS v1.1 §13.2. They are excluded from data_files
+  # for this pre-registration's primary analyses, per acceptance 3 in STANDING_ITEMS
+  # item 6a and per the substrate-supported scope constraint (acceptance 5). F_LR probe-
+  # specific outputs across all three probes are not used by IF1 / IF2 (which condition
+  # only on F_variant, Lambda_total / Term_Lambda, and Local_Density terms). The four
+  # files above are the matched-seed-design comparison set for F_LR vs F_2_symmetric on
+  # probe1_overcrowding at both scales.
+  #
+  # Item 6a explicitly does not estimate F-form-by-probe differential behavior; it
+  # estimates F-form-relevant characterization only within the substrate-supported
+  # probe1_overcrowding partition (per Layer 2 revision 5).
+
+outcome:
+  variable: logit(p_base)
+  construction:
+    formula: "logit(p_base) = log(p_base / (1 - p_base))"
+    p_base_construction:
+      formula: "p_base = (p_act - ETA) / (1 - ETA)"
+      ETA: 0.01
+      reference: "Phase 4B v1.1 §3 constants; Phase 4B v1.1 §4.1 O2 outcome specification"
+    nature: deterministic_reconstruction
+    nature_clarification: >
+      The η-floor inversion that produces p_base from persisted p_act is a deterministic
+      transformation of substrate variables, NOT new empirical telemetry, NOT repair of
+      substrate failure, and NOT an analysis-stage substrate substitution. Both p_act and
+      ETA are persisted/specified substrate quantities; the inversion recovers the
+      sigmoid output before the nucleation floor was applied. This is consistent with
+      Phase 4B v1.1 §4.1 O2's outcome specification and respects Rule 7 (no schema-
+      emulation, no synthetic metadata, no missing-telemetry imputation) — the inversion
+      operates on existing substrate variables under a closed-form transformation, with
+      no new variables created or imputed. (Per Layer 2 revision 4.)
+  rationale: >
+    Canonical default per Phase 4B v1.1 §4.1 O2. Inverts the η floor to recover
+    p_base, the sigmoid output before the floor was applied. Modeling logit(p_base)
+    via linear regression maps directly to the cascade equation
+    logit(p_base) = Drive_Raw, which makes coefficients on Drive_Raw decomposition
+    components (Term_Lambda, Term_Density_Pos, Term_Overcrowding) interpretable
+    against substrate primitives.
+
+model_family: linear
+
+predictors:
+  primary:
+    - Lambda_total
+    - Local_Density
+    - Local_Density_squared
+    - Term_Lambda
+    - Term_Density_Pos
+    - Term_Overcrowding
+    - p_act  # Excluded when part of outcome construction; included here only for
+             # F_variant × p_act diagnostics in sensitivity; primary analysis
+             # excludes p_act per §4.3 conditional clause.
+    - Psi_local
+    - b_i_v
+    - b_i_u
+    - b_i_r
+    - F_variant  # categorical indicator: F_LR / F_2_symmetric
+    - scale  # categorical indicator: 20x20 / 40x40
+    - epoch  # categorical per §4.2 IF3 family (epoch 0-99, 100-499, 500-999,
+             # 1000-1499, 1500-1999, 2000-2499, 2500-2999 per §3.1 T2.2 schema)
+    # Note: epoch enters predictor list as primary categorical control. It is NOT
+    # interacted with F_variant or other terms in this pre-registration's scope.
+
+  # Sensitivity predictors (used in pre-registered sensitivity versions only,
+  # not in primary analyses):
+  sensitivity_only:
+    - rho_global  # T2.1 per-tick aggregate; used in IF5 sensitivity versions if invoked
+    - psi_global  # T2.1 per-tick aggregate; used in IF5 sensitivity versions if invoked
+    - mean_Lambda  # T2.1 per-tick aggregate; used in IF1 sensitivity Q-history-modulation
+
+  # Transition-proxy construction variables (used to construct ρ trajectories
+  # and transition-proxy first-crossing epochs in the EDA and confirmatory stages;
+  # NOT used as regression predictors):
+  proxy_construction:
+    - is_active  # Excluded from regression (see excluded_variables below) but used
+                 # to construct per-tick ρ = mean(is_active) for rolling-mean transition
+                 # proxy per Markdown Section 3.3. The exclusion-from-regression and
+                 # use-in-proxy-construction roles are operationally distinct.
+                 # (Per Layer 2 revision 3.)
+
+interactions:
+  IF1_F_form_x_lambda_pathway:
+    predicates:
+      - "F_variant × Lambda_total"
+      - "F_variant × Term_Lambda"
+    architectural_question: >
+      Do F_LR and F_2_symmetric produce different cascade signatures through the
+      Λ pathway, beyond what the unconditional F_variant effect captures?
+    reference: "Phase 4B v1.1 §4.2 IF1"
+
+  IF2_F_form_x_density_pathway:
+    predicates:
+      - "F_variant × Local_Density"
+      - "F_variant × Local_Density²"
+    architectural_question: >
+      Does the same density feedback behave differently once F-form has placed
+      the run in a different activation regime?
+    reference: "Phase 4B v1.1 §4.2 IF2"
+
+  # Sensitivity versions (per §4.2, sensitivity versions preserve an IF's
+  # architectural question with predictor variation; per-run pre-registration
+  # sufficient; declared here):
+  sensitivity_versions:
+    IF1_sensitivity_Q_history_modulation:
+      predicates:
+        - "epoch × F_variant × Term_Lambda"
+      architectural_question: >
+        Same as IF1; tests whether F-form × Λ pathway effect is modulated by
+        Q-driven base drift over time. Activated only if primary IF1 analysis
+        surfaces effects that vary by epoch when conditioned on F_variant.
+      reference: "Phase 4B v1.1 §4.2 sensitivity-version specification"
+
+    IF2_sensitivity_density_threshold:
+      predicates:
+        - "F_variant × Local_Density × is_above_density_threshold"
+      architectural_question: >
+        Same as IF2; tests whether density-pathway F-form differentiation depends
+        on whether cells are in low- or high-density local neighborhoods. The
+        density threshold itself is a calibration-stage parameter; this sensitivity
+        version is exploratory and explicitly non-adjudicative for primary IF2 claims.
+      reference: "Phase 4B v1.1 §4.2 sensitivity-version specification"
+
+    IF5_sensitivity_scale_interaction:
+      predicates:
+        - "scale × F_variant"
+        - "scale × Lambda_total"
+        - "scale × Local_Density"
+      architectural_question: >
+        Tests whether F-form differentiation and the Λ/density pathway effects vary
+        across scale (20×20 vs 40×40). Reported alongside primary IF1/IF2 findings.
+        The IF5 sensitivity is structurally distinct from the cross-scale comparison
+        in Markdown Section 4.2 analysis 4 (which is a descriptive verdict over
+        separate per-scale fits, not a predictor-level interaction test). The two
+        play distinct roles: cross-scale comparison produces a §5 verdict
+        assignment; IF5 sensitivity produces interaction-coefficient estimates in
+        a single combined regression. This sensitivity is structurally pre-registered
+        per §4.2; it is NOT primary; it does NOT adjudicate Open Element 14 or
+        elevate scale-stability to a main claim. (Per Layer 2 revision 6, Option B
+        arbitrated by Mike.)
+      reference: "Phase 4B v1.1 §4.2 sensitivity-version specification; Phase 4B v1.1 §7.1 (scale support)"
+
+  # Interactions NOT included in this pre-registration:
+  not_included:
+    IF3_Q_history_x_time:
+      status: deferred
+      rationale: >
+        IF3's Q-history × time interaction family substantively engages Q-driven
+        base evolution. Per STANDING_ITEMS item 6a acceptance 1, IF3 may be
+        included only as time/epoch interaction without Q-form claims. Per Mike's
+        arbitration on this pre-registration's scope, IF3 is deferred entirely
+        to either a follow-on pre-registration or item 14 (Q-form commitment).
+        Layer 2 substantive review (session 16) explicitly endorsed this exclusion
+        on the grounds that "IF3 risks smuggling Q-history claims back into a draft
+        that explicitly does not commit Q-form. Keeping epoch as a categorical control
+        and using IF3 only as a sensitivity or post-hoc inspection path is acceptable."
+    IF4_base_structure:
+      status: deferred
+      rationale: >
+        IF4's base-structure interactions (b_i_v × b_i_u × b_i_r three-way or
+        pairwise) substantively engage the F-form's limiting-reagent versus
+        multiplicative-gated behavior at the cellular level. Item 6a's scope
+        is F-form-relevant *characterization* via aggregate/probe-level
+        comparisons; IF4 reaches cellular-level F-form mechanism analysis that
+        more directly engages Open Element 14's architectural arbitration
+        (item 6c scope, outside Phase 4B per §7.2 item 5).
+    IF5_primary:
+      status: deferred_to_sensitivity
+      rationale: >
+        IF5 elevated to primary would make scale-stability a main claim of item 6a.
+        Per Mike's session 16 arbitration on Layer 2 revision 6 (Option B), IF5 is
+        pre-registered as a sensitivity version (see IF5_sensitivity_scale_interaction
+        above) rather than excluded entirely or elevated to primary. This protects
+        the pre-registration against the asymmetric risk Layer 2 identified: if IF5
+        is excluded entirely, the cross-scale comparison in Markdown Section 4.2 may
+        be misread as a formal scale-interaction test; the IF5 sensitivity-version
+        structural pre-registration removes that ambiguity without expanding the
+        primary claim surface.
+
+excluded_variables:
+  - run_id  # Run-level identifier; folded into clustering via uncertainty_method,
+            # not as predictor. Including as predictor would absorb F_variant
+            # variance.
+  - tick  # Replaced by epoch categorical per §3.1 T2.2 epoch boundaries; tick
+          # itself is excluded as primary predictor to avoid collinearity with
+          # epoch.
+  - Drive_Raw  # Algebraic identity with sum of Term_Lambda + Term_Density_Pos
+               # + Term_Overcrowding + Term_Offset (Tier 1 V1 verified); inclusion
+               # alongside its components would produce perfect multicollinearity.
+  - Term_Offset  # Constant -GAMMA_OFFSET per §3; provides no variation across
+                 # rows.
+  - is_active  # Outcome construction uses logit(p_base), not is_active; including
+               # is_active as predictor would risk endogenous conditioning on
+               # outcome realization. NOTE: is_active is used in transition-proxy
+               # construction (per-tick ρ = mean(is_active) for rolling-mean
+               # trajectory) per Markdown Section 3.3; the regression-exclusion and
+               # proxy-construction roles are operationally distinct.
+               # (Per Layer 2 revision 3.)
+
+uncertainty_method:
+  primary: cluster_run_tick
+  primary_rationale: >
+    Per Phase 4B v1.1 §4.3, cluster-robust standard errors clustered by run × tick
+    for population-level regressions. Within-tick cellular observations are not
+    independent (Moore-neighborhood density, Psi_local correlation, repeated cell
+    observations). Flight 2 provides four production runs; run × tick clustering
+    captures the dependence structure at a granularity consistent with the data.
+  sensitivity_checks:
+    - method: cluster_cell
+      rationale: >
+        Per §4.3, cell-level clustering as sensitivity check for cell-level
+        persistence questions. Reports comparison of primary results to cell-clustered
+        results; substantive divergence between the two flags a Layer 1 review trigger.
+  descriptive_not_adjudicative: true
+  descriptive_not_adjudicative_clause: >
+    Per Phase 4B v1.1 §4 preamble and §4.3, Tier 3 is descriptive and interpretable,
+    not a hypothesis-testing engine. Coefficients, signs, magnitudes, and confidence
+    intervals carry the analytical content. P-values are reported where defensible
+    but are NOT used as architectural adjudication. Weak cluster structure (four runs)
+    limits run-level inference; robustness across scale, F-form, and epoch substitutes
+    for narrow significance testing.
+
+interpretation_boundary:
+  does_not_adjudicate:
+    - claim: "Architectural selection of F_LR vs F_2_symmetric for Open Element 14"
+      two_field_classification:
+        empirical_result: not_tested
+        structural_status: open_element_not_resolved
+      reference: "Phase 4B v1.1 §6.4 worked example; STANDING_ITEMS item 6a acceptance 2"
+      rationale: >
+        Item 6a is F-form-relevant characterization, not F-form arbitration. The
+        architectural selection between F_LR and F_2_symmetric is item 6c's scope
+        (final Open Element 14 arbitration), which Phase 4B v1.1 §7.2 item 5
+        classifies as outside_phase_4b_scope. This pre-registration produces
+        empirical findings that may inform later arbitration but does NOT itself
+        select an F-form.
+
+    - claim: "Ψ-operationalization commitment (system-wide Ψ aggregation rule)"
+      two_field_classification:
+        empirical_result: not_tested
+        structural_status: outside_phase_4b_scope
+      reference: "STANDING_ITEMS item 13"
+      rationale: >
+        Psi_local appears as primary predictor for its substrate-grounded role
+        (per §4.3 primary predictor list); this pre-registration does NOT commit
+        a canonical Ψ-operationalization rule (system-wide signed mean, magnitude-
+        weighted mean, etc.). That commitment is item 13's scope.
+
+    - claim: "Q-form commitment (architectural shape and dynamical role of Q)"
+      two_field_classification:
+        empirical_result: not_tested
+        structural_status: outside_phase_4b_scope
+      reference: "STANDING_ITEMS item 14"
+      rationale: >
+        IF3 is excluded from this pre-registration's primary interactions; Q-driven
+        base evolution is engaged only through the persisted base predictors (b_i_v,
+        b_i_u, b_i_r) at row level, not through epoch-interaction structure.
+        Q-form architectural commitment is item 14's scope.
+
+    - claim: "Finite-size scaling functional form"
+      two_field_classification:
+        empirical_result: not_tested
+        structural_status: outside_phase_4b_scope
+      reference: "Phase 4B v1.1 §5.3, §7.2 item 7"
+      rationale: >
+        Two scales (20×20, 40×40) is the minimum for cross-scale comparison;
+        scaling theory requires additional substrate runs. The IF5 sensitivity-
+        version (per Layer 2 revision 6, Option B) does NOT close this exclusion;
+        IF5 sensitivity tests scale-interaction effects on F-form differentiation
+        within the two scales but does not establish a scaling functional form.
+
+    - claim: "F_2_symmetric probe-differential behavior across probes"
+      two_field_classification:
+        empirical_result: not_tested
+        structural_status: requires_additional_probe
+      reference: "FSS v1.1 §13.2 shadow-copy structure; STANDING_ITEMS item 6b"
+      rationale: >
+        F_2_symmetric files for probe2_starvation and probe3_fusion are byte-
+        identical shadow copies of probe1_overcrowding per FSS v1.1 §13.2. Cross-
+        probe F_2_symmetric comparisons are vacuous by substrate design.
+        Probe-differential F_2_symmetric behavior requires Flight 3a-style
+        substrate work (item 6b scope).
+
+    - claim: "Substrate-architectural correctness of Drive_Raw, p_act, V5 realization invariant chains"
+      two_field_classification:
+        empirical_result: matches_expected
+        structural_status: substrate_verified
+      reference: "Phase 4B v1.1 §2 Tier 1 verification (V1-V8); §6.4 worked example"
+      rationale: >
+        Tier 1 verifications are substrate-verified, not architecturally adjudicative.
+        Item 6a operates on Tier 3 regression-level findings, which depend on but
+        do not re-adjudicate Tier 1 substrate-verification.
+
+    - claim: "Rolling-mean ρ transition-proxy as true regime transition (Λ→ρ→μ(ρ)→Ψ cascade)"
+      two_field_classification:
+        empirical_result: not_tested
+        structural_status: outside_phase_4b_scope
+      reference: "Layer 2 revision 2; theory's two-stage Landau cascade architecture"
+      rationale: >
+        The rolling-mean ρ threshold-crossing proxy is a substrate-supported transition
+        marker for Phase 4B characterization. It does NOT establish a true regime
+        transition in the theoretical sense, nor does it operationalize the full
+        Λ→ρ→μ(ρ)→Ψ cascade. The proxy operates on the Λ→ρ side of the cascade
+        (activation-density behavior); it does NOT reach Ψ and therefore cannot claim
+        the Regime II/III coherence transition. The proxy may characterize activation-
+        threshold behavior at substrate level; it does not characterize full
+        coherence-transition timing. This boundary is structurally important: item 13
+        (Ψ-operationalization) and item 6c (final Open Element 14 arbitration) are
+        the workstreams that engage the Regime II/III transition; item 6a does not.
+        (Per Layer 2 revision 2.)
+
+  shadow_copy_handling:
+    rule: >
+      F_2_symmetric files for probe2_starvation and probe3_fusion are byte-identical
+      shadow copies of probe1_overcrowding per FSS v1.1 §13.2. F-form-by-probe
+      comparisons involving F_2_symmetric shadow-copied files are NOT interpreted
+      as independent probe effects.
+    implementation:
+      data_files_scope: Pre-registration uses only probe1_overcrowding files for
+        F_2_symmetric; F_LR files across all three probes carry probe-specific
+        outputs (verified by Layer 3 substrate-state engagement; pending substrate-
+        primary-source verification via SHA-256 hashes and flight2_production.py
+        excerpt in Layer 3 Q1 follow-up).
+      validity_mask: A data-validity mask (per Layer 3 substrate-mechanical
+        implementation, session 16) flags rows as analytically valid based on
+        F_variant and probe_name. The mask logic
+        is_valid_probe_data = (F_variant == 'F_LR') OR
+        (F_variant == 'F_2_symmetric' AND probe_name == 'probe1_overcrowding').
+        Analyses filter on is_valid_probe_data = True before regression.
+    non_blocking_q1_followup_justification: >
+      The pending Q1 verification (SHA-256 hashes and flight2_production.py excerpt
+      via Layer 3 Q1 follow-up) is non-blocking for drafting because the pre-
+      registration already restricts analysis to the substrate-distinct partition
+      (probe1_overcrowding files only for F_2_symmetric) and contains an escalation
+      trigger (Markdown Section 5 E4) that fires if the shadow-copy substrate claim
+      is contradicted by primary-source verification. The non-blocking treatment is
+      defensible because the structural safeguards (partition restriction + E4)
+      protect the analysis against substrate-fact contradiction; it is not casual
+      deferral. (Per Layer 2 revision 7.)
+    reference: "Phase 4B v1.1 §7.1 (data support); STANDING_ITEMS item 6a acceptance 3"
+
+  two_field_classification_for_primary_findings:
+    primary_finding_template:
+      empirical_result: matches_expected | partially_matches_expected | diverges_from_expected | not_observed_under_tested_conditions | indeterminate
+      structural_status: substantive_finding | parameter_regime_finding
+      regime_qualifier: "A3 parameter set + U(0.6, 0.9) initialization + 3000-tick run length + probe1_overcrowding conditions"
+    rationale: >
+      Per Phase 4B v1.1 §6, primary findings derived from this regression are
+      bounded by Flight 2's tested regime. Generalization beyond the regime
+      requires additional substrate work (parameter_regime_finding +
+      requires_additional_probe) or is outside Phase 4B scope.
+
+  exploratory_threshold_flagging:
+    rule: >
+      Per Phase 4B v1.1 §1, pass/fail thresholds in Phase 4B come from v1.1
+      commitments, not from analytical convenience. Transition-proxy threshold
+      values selected during EDA stage are exploratory descriptive cut points
+      per §1's allowance; they are explicitly flagged as non-adjudicative in
+      output documentation. Confirmatory-stage analyses use locked thresholds
+      under pre-specified locking criteria (see companion Markdown rationale
+      document for escalation rule).
+
+# End of YAML pre-registration schema (v2).
+# This document is committed to git as the canonical Tier 3 pre-registration for
+# item 6a. The accompanying Markdown document
+# (item_6a_f_form_characterization.md) provides the EDA/confirmatory partition,
+# escalation rule (including E7 calibration non-identifiability/degeneracy added
+# in v2 per Layer 2 revision 1), transition-proxy specification, and full rationale.
