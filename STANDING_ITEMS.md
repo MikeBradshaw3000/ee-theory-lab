@@ -19,13 +19,50 @@
 
 ## Items
 
-### 6. Stage 5 transition — next analytical phase
+### 6a. Phase 4B F-form-relevant characterization
 
-**What.** Decide which macro-level F-form adjudication route (aggregate trajectory comparisons, Ψ-structure analysis, Q-driven base drift, regime-transition timing, repeat-seed designs) becomes the next pre-registered analytical work. Specify the pre-registration. Route to Layer 2 for full cycle. Once pre-registered, route to Layer 3 (Gemini) for execution against canonical substrate data.
+**What.** Draft and commit a Phase 4B pre-registration under `phase_4b/pre_registrations/` for F-form-relevant characterization using substrate-supported aggregate trajectories and transition proxies, mapped primarily to IF1 (F-form × Λ pathway) and IF2 (F-form × density pathway), with IF3 (epoch × F_variant) used only as time/epoch interaction unless Q-form is committed via item 14. The pre-registration follows Phase 4B v1.1 §4.4 schema (eight required fields) and explicitly carries the interpretation_boundary discipline established by reg_01.
 
-**Trigger.** Stage 4 (item 5) complete; restructure cluster fully landed.
+**Trigger.** Item 6a is eligible immediately (item 6 closed with substantive arbitration). Sequencing relative to other open items at Mike's arbitration.
 
-**Acceptance.** Architectural decision arbitrated by Mike; new pre-registration committed under `phase_4b/pre_registrations/`; Layer 2 full cycle complete on the pre-registration; Layer 3 routing in hand.
+**Acceptance.**
+1. Pre-registration committed under `phase_4b/pre_registrations/` using Phase 4B v1.1 tier/IF vocabulary, following the eight-field YAML schema per §4.4.
+2. Explicit `interpretation_boundary.does_not_adjudicate` clause naming: architectural selection of F_LR vs F_2_symmetric (open_element_not_resolved per Phase 4B v1.1 §6.4).
+3. Explicit shadow-copy handling rule in the pre-registration: F_2_symmetric files for probe2_starvation and probe3_fusion are byte-identical shadow copies of probe1_overcrowding per FSS v1.1 §13.2; F-form-by-probe comparisons involving F_2_symmetric shadow-copied files are not interpreted as independent probe effects.
+4. Explicit distinction between exploratory calibration (transition-proxy parameter selection: X, Y, Z) and confirmatory characterization. Either (a) two-stage discipline with pre-registered exploratory calibration step explicitly non-adjudicative, followed by locked confirmatory step; or (b) several fixed thresholds reported as threshold-sensitivity curves without single canonical threshold.
+5. Trajectory and transition-proxy metrics restricted to substrate-supported comparisons (within-file/within-F_variant where shadow-copy structure forecloses cross-probe F_2_symmetric comparison).
+6. Layer 2 full cycle complete on the pre-registration (substantive review + v2-acceptance per `protocol_primer.md` Section 3 protocol-infrastructure routing convention).
+7. Layer 3 routing in hand for execution against Flight 2 canonical substrate data.
+
+---
+
+### 6b. Repeat-seed and non-shadow-copied F-form substrate design
+
+**What.** Specify Flight 3a-style substrate design covering both repeat-seed variance estimation and non-shadow-copied F_2_symmetric probe differentiation. Per Phase 4B v1.1 §7.2 items 1 and 5, this work is `requires_additional_probe` and `outside_phase_4b_scope`; it is substrate-generation work, not Phase 4B analytical work. Item 6b becomes load-bearing for future F-form arbitration that depends on F_2_symmetric differential behavior across probes (which the shadow-copy substrate design in Flight 2 structurally forecloses).
+
+**Trigger.** When future F-form arbitration work requires repeat-seed variance estimation or independent F_2_symmetric probe-differential data. Independent of Phase 4B execution timeline.
+
+**Acceptance.**
+1. Substrate design specifies whether new runs produce independent F_2_symmetric data for probe2_starvation and probe3_fusion (vs. shadow-copy continuation).
+2. Seed replication design specified (number of seeds; matched-seed or independent-seed structure; per-condition seed budget).
+3. Manifests verifying non-shadow-copy identity produced where required (per Stage 3 manifest schema discipline).
+4. Variance estimates from executed runs adequate for future F-form arbitration purposes; substrate-state verification by Layer 3 before downstream use.
+
+---
+
+### 6c. Final Open Element 14 arbitration
+
+**What.** Final architectural arbitration of F-form selection (F_LR vs F_2_symmetric) for Open Element 14. Per Phase 4B v1.1 §7.2 item 5, this is `outside_phase_4b_scope` — architectural arbitration is not a Phase 4B procedure. Item 6c waits for sufficient evidence from items 6a, 6b, 13, 14 to inform the arbitration.
+
+**Trigger.** When item 6a Phase 4B characterization is complete; item 6b substrate work is in hand (if required); items 13 (Ψ-operationalization) and 14 (Q-form commitment) are sufficiently advanced if their evidence is needed for the arbitration. Mike's substantive read on readiness.
+
+**Acceptance.**
+1. Evidence basis assembled from item 6a (Phase 4B characterization findings under the interpretation_boundary discipline).
+2. Evidence basis assembled from item 6b (repeat-seed / non-shadow-copied substrate findings if generated).
+3. Ψ-operationalization (item 13) status documented if the final route uses Ψ-structure analysis.
+4. Q-form commitment (item 14) status documented if the final route uses Q-driven base drift analysis.
+5. Architectural arbitration recorded in the canonical record (operations log entry + updates to State of the Theory and v1.5 Overview as appropriate).
+6. Two-field classification of the arbitration claim per Phase 4B v1.1 §6.
 
 ---
 
@@ -63,6 +100,35 @@ Provenance: discovered during session 14 Stage 4 closure when reading `canonical
 
 ---
 
+### 13. Ψ operationalization commitment
+
+**What.** Commit canonical Ψ-operationalization for analytical work. Per Layer 3 substrate-state engagement (session 15): Ψ_local is persisted at cell-tick level in current Flight 2 parquet outputs; non-spatial Ψ aggregates (mean, signed mean, magnitude-weighted, variance) are natively computable from persisted telemetry; spatial Ψ diagnostics (Moran's I, largest same-sign connected component per Phase 4B v1.1 T2.5) require Layer 3 implementation work (spatial weights matrix + graph traversal). Item 13's acceptance distinguishes three components per Layer 2 round-3 framing.
+
+Provenance: surfaced during session 15 substrate verification on Ψ-commitment status (Select-String returned one operational mention in a Tier 1 V8 tick-0 patch context; no commitment event). Layer 2 round-2 named the deferred-but-untracked status; Layer 2 round-3 refined the three-component acceptance criteria per Layer 3 substrate findings.
+
+**Trigger.** When Phase 4B analytical work requires Ψ-structure analysis as a substantive route (likely surfaces during item 6a pre-registration drafting if Ψ-structure is invoked, or during item 6c arbitration if Ψ evidence is load-bearing). Independent of Phase 4B v1.1 procedural Tier 1/2/3 work that uses Ψ_local without requiring committed Ψ-operationalization.
+
+**Acceptance (three components):**
+1. **Non-spatial Ψ operationalization committed.** Canonical reconstruction rule for analytical Ψ from persisted Ψ_local (e.g., system-wide signed mean, magnitude-weighted mean, or other rule per Mike's arbitration). Documented in operations log entry; if architectural commitment, also in State of the Theory amendment.
+2. **Spatial Ψ diagnostics implemented and validated.** Phase 4B v1.1 T2.5 procedures (Moran's I for Psi_local; same-sign share for Psi_local; largest same-sign connected component for Psi_local) implemented per Layer 3 routing; validated against known-result test cases.
+3. **T2.5 outputs generated and checked.** Phase 4B v1.1 T2.5 spatial-diagnostics CSV output (`psi_spatial_diagnostics.csv` schema) produced for all four Flight 2 production runs at the selected ticks per T2.3.
+
+---
+
+### 14. Q-form commitment
+
+**What.** Commit architectural Q-form (the functional shape and dynamical role of Q in terrain reshaping). Per Layer 3 substrate-state engagement (session 15): Delta_v, Delta_u, Delta_r are persisted at cell-tick level per Phase 4B v1.1 V7; the substrate equation Δ = Γ_Q · Ψ_local makes Delta columns structurally collinear with Ψ_local scaled by Γ_Q. Q-effect decomposition (Phase 4B v1.1 §3.4, named first forward Tier 2 schema extension) is fully and natively computable. Item 14's acceptance distinguishes Delta-demand analysis (analytical work supported by current substrate without Q-form commitment) from Q-form dynamics (architectural commitment of how Q's terrain-reshaping operates structurally).
+
+Provenance: surfaced during session 15 substrate verification on Q-commitment status (Select-String returned zero operational mentions of Q-form, Q-operator, Theta scaffold). Layer 2 round-2 named the deferred-but-untracked status; Layer 2 round-3 refined the two-component acceptance criteria per Layer 3 substrate findings.
+
+**Trigger.** When Phase 4B analytical work requires Q-driven base drift analysis as a substantive route, or when item 6c arbitration requires Q-form evidence. Item 14 is independent of item 13 (Ψ-operationalization); the two items may advance independently.
+
+**Acceptance (two components):**
+1. **Delta-demand analysis basis documented.** Phase 4B v1.1 §3.4 Q-effect decomposition CSV (`q_effect_decomposition.csv`) implementation specified; Tier 2 analytical work covering magnitude and spatial distribution of intended terrain updates (demand for change) made available through standard Phase 4B procedures. This component does not require Q-form commitment; it operationalizes what current substrate already supports.
+2. **Q-form commitment** (architectural). Decision on Q-form: what Q is functionally (committed shape, multiple compatible forms, or open); what Q does dynamically (how Δ updates restructure macro-environment over time, beyond the substrate's Δ = Γ_Q · Ψ_local formula). Documented in operations log entry and State of the Theory amendment as appropriate. Q-form commitment is the precondition for analyzing the systemic *result* of Δ updates (as distinct from the *demand* for change captured in component 1).
+
+---
+
 ## Maintenance log
 
 This section records when items closed or new items added. Each entry references the operations log of the session in which the change occurred.
@@ -79,5 +145,7 @@ This section records when items closed or new items added. Each entry references
 - **Item 4 closed and removed (session 13 Stage 3 cluster).** Manifest schema and scaffolding produced as Stage 3 closure. Three artifacts committed: `phase_4b/manifests/parquet_manifest.md` (schema documentation, 14,718 bytes), `phase_4b/manifests/parquet_manifest.csv` (schema CSV with illustrative example row, 1,305 bytes), `phase_4b/scripts/regenerate_manifest.py` (Layer 3 implementation contract scaffolding, 12,048 bytes). Schema synthesizes ChatGPT's Q4 recommendation (`logical_artifact_id`, `shadow_copy_group`, `byte_identical_to`) with Flight 6 Substrate Specification v1.1 §14.1 verification structure (file existence, file size, row count, column count, required columns, tick range, unique cells, F_variant, non-empty, realization invariant, clipping summary) per the session 6 intersection-2 finding. Layer 2 input was substantive (added `shadow_copy_status` enumeration with verified-vs-presumed distinction, verification-vs-generation separation, provenance fields, deterministic ordering, non-repair discipline cross-referenced to Rule 7). Layer 2 sanity scan returned conditional greenlight with four polish edits (incorporated). Mike arbitrations: Q1b (manifest location at `phase_4b/manifests/` parallel to Stage 2's `phase_4b/diagnostics/` convention, not the `phase_4b/outputs/` location named in item 4's spec); Q2b (schema specification only; manifest population deferred to Layer 3 routing); B (byte-identity verification separated from manifest generation, with `byte_identity_verifications.csv` as a reserved record-store path); C (verification logic in a separate module `_manifest_verification.py`, a Layer 3 deliverable). Item 4 acceptance criteria met: manifests-as-schema committed at canonical paths; manifest schema covers all eight production parquet files via the schema specification; `canonical_artifacts_index.md` updated with new Section 14 reflecting manifest locations and authority. Per the maintenance discipline, item 4 is removed from this list. Item 5 (Stage 4 execution) becomes next-eligible.
 - **Item 5 closed and removed (session 14 Stage 4 cluster).** Quarantine moves executed across three groups, total 55 staged items (23 scratch scripts + 8 capital-B tree files tracked by git + 24 post-Stage-0 residue items). One additional capital-B tree file (`__pycache__/_phase_4b_common.cpython-314.pyc`) physically quarantined but gitignored. Group B (canonical inventory scope) quarantined to `archive/scratch/2026-05_pre_restructure/`: 23 scratch scripts (the 22 enumerated by Stage 0 inventory plus `distribute_new_claude_primer.py`, missed by the inventory but matching Group B's `distribute_*` pattern; surfaced and corrected mid-execution). Capital-B parallel tree at `C:\Users\vkz244\EE_Theory_Lab\phase_4B\` (9 files, ~31 KB) quarantined to `archive/scratch/2026-05_pre_restructure/capital_B_parallel_tree/`; `Test-Path` confirms parent location clear. Post-Stage-0 residue (24 items accumulated between session 8 inventory and session 14: 8 LAYER_2_ROUTING_* files, 7 deliverable3/item9/primer-workflow files, 9 commit-message txts) quarantined to `archive/scratch/2026-05_pre_restructure/post_stage0_residue/` per Mike's scope-expansion arbitration. Scope expansion provenance: RESTRUCTURE_INVENTORY's Stage 0 scope was canonically 22 scratch scripts; STANDING_ITEMS item 5 added the capital-B tree; session 14 added post-Stage-0 residue under Mike's in-band arbitration. Verification: capital-B parent location clear per `Test-Path` returning `False`; `git status` confirms 55 staged items under `archive/`, `D README.md` unchanged, `claude_session_handoffs/` untouched. Discovered gap: `canonical_artifacts_index.md` Section 5 named `flight2_outputs/` naming resolution as a Stage 4 target, but item 5's canonical scope (capital-B tree only) did not include it. Per Mike's A+C arbitration: honest-record the gap in Section 5 and ops log; promote to new tracked item (item 12 added) rather than expand item 5 scope mid-execution. Item 5 acceptance criteria met as canonically scoped: quarantine moves executed; `MANIFEST.md` updated; parallel `phase_4B/` tree no longer surfaces in `git status`. Per the maintenance discipline, item 5 is removed from this list. Item 6 (Stage 5 transition) becomes next-eligible by trigger; sequencing relative to other open items is at Mike's arbitration.
 - **Item 12 added (session 14).** flight2_outputs naming resolution. Discovered during session 14 Stage 4 closure as a gap between `canonical_artifacts_index.md` Section 5's earlier "Stage 4 will resolve the naming" framing and item 5's actual canonical scope. Per Mike's A+C arbitration: not in item 5 scope; promoted to its own tracked item with explicit trigger and acceptance. The session 14 operations log records the discovery and arbitration.
+- **Item 6 closed and replaced by items 6a, 6b, 6c (session 15).** Substantive arbitration on F-form adjudication route selection completed across three Layer 2 routings and one Layer 3 substrate-state engagement. Round 1 surfaced articulation gap between item 6's five-route framing and Phase 4B v1.1's classification of F-form arbitration as `outside_phase_4b_scope`. Round 2 produced four-way structural replacement (Phase 4B characterization; repeat-seed substrate; Ψ/Q-deferred; final arbitration). Layer 3 substrate-state engagement surfaced load-bearing shadow-copy fact: F_2_symmetric files for probe2_starvation and probe3_fusion are byte-identical shadow copies of probe1_overcrowding per FSS v1.1 §13.2. Round 3 integrated Layer 3 findings, sharpened acceptance criteria for the split items. Mike arbitrated full acceptance of Layer 2 round-3 framing. Item 6 closes as substantively resolved at the route-selection level; the four-way structure replaces the five-route articulation as canonical operational framing. Items 6a (Phase 4B F-form-relevant characterization), 6b (Repeat-seed and non-shadow-copied F-form substrate design), 6c (Final Open Element 14 arbitration) added with explicit acceptance criteria. The session 15 operations log records the three-round Layer 2 engagement, the Layer 3 substrate-state findings, and the arbitration in full.
+- **Items 13 and 14 added (session 15).** Ψ-operationalization commitment (item 13) and Q-form commitment (item 14) surfaced during session 15 substrate verification on commitment status. Layer 3 substrate-state engagement refined acceptance criteria. Item 13 has three components (non-spatial Ψ operationalization committed; spatial Ψ diagnostics implemented and validated; T2.5 outputs generated and checked). Item 14 has two components (Delta-demand analysis basis documented; Q-form commitment architectural). The two items are independent; each may advance independently. The session 15 operations log records the substrate verification and the acceptance refinement.
 
 ---
