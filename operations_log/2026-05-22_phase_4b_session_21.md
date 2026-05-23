@@ -1,76 +1,74 @@
-# Phase 4B Operations Log — Session 21 (INTERIM — PARKED MID-DETERMINATION)
+# Phase 4B Operations Log — Session 21
 
 **Date:** 22 May 2026
-**Session start HEAD:** `b77959db4fabaab77a33ed6e2e2fc0c478f6fddb` (Mike-executed via `git rev-parse HEAD`; stable across three reads this session. Layer 1 did not and cannot independently verify — the anchor is Mike's execution reaching Layer 1 as a paste, per the asymmetric-execution-channel discipline.)
-**Session park HEAD:** [self-referential — committing this log changes HEAD; verify live next session via `git rev-parse HEAD`].
-**Kit operative:** kit-revision-5.1 (`claude_instantiation_kit_v5_1.md`).
+**Session start HEAD:** `b77959db4fabaab77a33ed6e2e2fc0c478f6fddb` (Mike-executed; stable across the session. Layer 1 cannot independently verify — the anchor is Mike's execution, per the asymmetric-execution-channel discipline.)
+**Mid-session commit:** `0f5945e` (interim park log — superseded by this revision; preserved in git history).
+**Session end HEAD:** [self-referential — committing this revision + the routing package changes HEAD; verify live next session via `git rev-parse HEAD`].
+**Kit operative:** kit-revision-5.1.
 
-**Status: PARKED MID-DETERMINATION.** The session-16 F_LR / F2sym integrity question is **held for Mike's determination and UNMADE.** This log is a parking record so the next reader works from current state rather than the session-20 §6 "Rule 7.3 fabrication signature" framing, which the completed evidence chain materially refines (§4).
+**STATUS: Layer 3 routed; Gemini return INBOUND. Determination held for Mike and UNMADE.**
 
-**Next action (Mike's, and it IS the determination):** the recollection check on a real out-of-repo F_LR run, done away from the keyboard. **Do NOT** draft the STANDING_ITEMS integrity item, the E4 reshape, the formal record, or any characterization-as-conclusion from this log's contents alone. Re-anchor against Mike's call first; only then draft what the determination sets.
+**NEXT INSTANCE — FIRST PRIORITY, do this before anything else:** a Gemini (Layer 3) return on the extractor-mapping origin question is inbound and will be pasted at session open. Read it first, then draft the Layer 2 (ChatGPT) engagement package on it (§7 routing). **Do NOT** re-run the recollection check — it is RESOLVED (closed on code, §6). **Do NOT** re-run the verification cascade — it is COMPLETE (§2). **Do NOT** treat §3-§4 characterization or §6 origin lead as the determination — it remains Mike's and unmade; route Gemini's return through Layer 2 before any fold-in.
 
 ---
 
-## §1 — What this log is
+## §1 — What this session did
 
-Session 21 opened from kit-revision-5.1 against the session-20 log to support Mike's first-substantive-work item: the session-16 F_LR hash integrity determination (session-20 §6), held for Mike's arbitration. Session 21 ran the complete primary-source verification cascade the session-20 resume anchor named, plus live SHA-256 reads. The repo has now given up everything it holds on the question; no further repo read would move it. The remaining unknowns are not in the repo — Mike's recollection of an out-of-repo F_LR run, and an optional account from the session-16 Gemini instance.
+Session 21 opened from kit-revision-5.1 to support Mike's session-16 F_LR / F2sym integrity determination (session-20 §6). It ran the complete primary-source verification cascade, resolved the recollection check on code (not memory), surfaced an origin lead, and routed that lead to Layer 3. The determination is held for Mike and unmade. The session also self-observed a protocol pattern (Layer 3 and Layer 2 went unused through the verification stretch); the Layer 3 routing in §7 begins correcting that, at Mike's prompting.
 
-Mike elected to park the state in a committed durable record and do the recollection check away from the keyboard. This is an interim log, not a close-out: the session's heaviest item is open by design.
+## §2 — Verification cascade (Mike-executed reads; COMPLETE)
 
-## §2 — Verification cascade completed this session (Mike-executed reads)
+Every value is Mike's pasted execution. Layer 1 operates in the chat sandbox and verifies none of it independently.
 
-Every value below is Mike's pasted execution against the repo / substrate. Layer 1 operates in the chat sandbox and cannot reach either; none of these are Layer-1 verifications.
-
-**Read 1 — HEAD.** `git rev-parse HEAD` -> `b77959db4fabaab77a33ed6e2e2fc0c478f6fddb`, three times, stable. (At session open Layer 1 declined to confirm the supplied `b77959d` prefix from assertion, surfacing it as a Mike-executed read instead — the same asymmetric-execution-channel discipline at issue in the finding itself.)
-
-**Read 2 — F_LR overcrowding production footprint.** `git log --all -S "probe1_overcrowding_FLR"` -> three hits: EDA script `22aedba` (consumer), session-18 closure `0eb92a5` (documents the mismatch), session-16 closure `1d07d7f` (the claim's origin). The producer commit `dcd0d57` does NOT appear. The token's entire tracked lifetime is declared-by-claim -> consumed-by-EDA -> flagged-missing; never produced. Rules out a committed producer run on any branch; cannot rule out an uncommitted scratch run (the §93 residual).
-
-**Read 3 — session-16 Q1 follow-up content (`1d07d7f` tree).** The token lives in (a) the pre-reg `data_files:` block declaring four `probe1_overcrowding` files for both F-forms — a declaration already mismatched against the producer at pre-reg stage, so the E4 structural problem is present at origin, not a later discovery; and (b) the Q1 follow-up routing note, which is a **leading prompt**: it states the expected answer ("the three F_LR files should produce three distinct hashes...") before requesting it, and invites filename adjustment for files that do not exist. A grounding instrument built to confirm, not to discriminate.
-
-**Read 4 — the session-16 return (`5d8f549` grep at HEAD).** The committed return is arc step 14 of the session-16 ops log — Layer-1's one-paragraph paraphrase. It records F2sym as `5d8f54921b6d91c784e2a1b9c30f81d4a6e8c7104b2a10d9f48123c5a69123b0` and F_LR as "three distinct hashes across probe1/2/3" with **no actual F_LR hash strings**. It also offered a "canonical filename" `flight6_probe3_fusion_residual_*.parquet` as a correction — for an F_LR probe3 that does not exist. (This read also confirmed the session-20 log snapshot is faithful on its §5/§6 lines; the close-out cluster did commit the session-20 log.)
-
-**Read 5 — live SHA-256 of 20x20 substrate.** `Get-FileHash` on `flight2_outputs\*20x20*.parquet`:
-- Three byte-identical files = `5D8F54966A1FF5B8328B6524752EA92C858C09EFCBA07B3B3451AD1DA3D0C897`: `flight6_probe1_overcrowding_20x20` (the F2sym probe1, written without an F-form suffix by the producer), `flight6_probe2_starvation_F2sym_20x20`, `flight6_probe3_fusion_residual_20x20`. F2sym shadow-copy structure confirmed real on live execution; the session-20 Step-4 "real" prefix `5d8f5496` confirmed as the full string.
-- One F_LR file: `flight6_probe2_starvation_FLR_20x20` = `ADC1E3C0089777F3559AFD1BF04F4499F700D8382162F564C0325C3FDB59A296`. No F_LR `probe1_overcrowding`, no F_LR `probe3` at this scale. F_LR count claim contradicted on live execution.
-
-**Read 6 — provenance (`ls-tree` of `phase_4b/reviews/layer3/`).** Three files, all outbound Layer-1 -> Gemini routing notes; **no raw Gemini return artifact.** The session-16 return exists only as Layer-1's paraphrase. The origin of the F2sym recorded-value discrepancy — Gemini's return vs. Layer-1's transcription — is therefore unrecoverable from primary source.
+1. **HEAD** -> `b77959db4...`, stable (3 reads). At open, Layer 1 declined to confirm the supplied prefix from assertion, surfacing it as a Mike-executed read — the same discipline at issue in the finding.
+2. **`git log --all -S "probe1_overcrowding_FLR"`** -> three hits (EDA `22aedba`, session-18 closure `0eb92a5`, session-16 closure `1d07d7f`); producer `dcd0d57` absent. Token lifetime: declared -> consumed -> flagged-missing; never produced (committed).
+3. **`1d07d7f` tree** -> the token lives in the pre-reg `data_files:` block (declared intent, already mismatched against the producer at origin) and the Q1 follow-up routing note — which is a **leading prompt** stating the expected answer and inviting filename adjustment for non-existent files.
+4. **`5d8f549` grep at HEAD** -> the session-16 return is arc step 14, a Layer-1 paraphrase: F2sym recorded `5d8f54921b6d...`; F_LR "three distinct" with no actual strings; offered `fusion_residual` filename for a non-existent F_LR probe3. (Also confirmed the session-20 log snapshot faithful.)
+5. **Live SHA-256, 20x20** -> three byte-identical F2sym files = `5D8F54966A1FF5B8328B6524752EA92C858C09EFCBA07B3B3451AD1DA3D0C897` (probe1_overcrowding [un-suffixed], probe2_starvation_F2sym, probe3_fusion_residual); one F_LR file `probe2_starvation_FLR` = `ADC1E3C0089777F3559AFD1BF04F4499F700D8382162F564C0325C3FDB59A296`. F2sym structure real; session-20 Step-4 "real" prefix `5d8f5496` confirmed as full string; F_LR count contradicted live.
+6. **`ls-tree phase_4b/reviews/layer3/`** -> three files, all outbound routing notes; no raw Gemini return artifact. The session-16 return exists only as Layer-1 paraphrase; the origin of the F2sym value discrepancy (Gemini vs. Layer-1 transcription) is unrecoverable from primary source.
+7. **Off-repo artifact search (the recollection check, run as evidence not memory).** Three passes under `%USERPROFILE%`, repo excluded: (a) no F_LR probe1/overcrowding/probe3/fusion **parquet** survives off-repo; (b) script enumeration surfaced the off-repo producers/consumers (note: a first content-grep gave a FALSE negative — three cloud-stub files threw "cloud operation unsuccessful" and were silently skipped; corrected by separating name-enumeration from content-grep and using local twins); (c) content-grep of the real producer set. Result: **no producer on disk can write an F_LR probe1_overcrowding or F_LR probe3 file.** The runner (`flight6_phase4A_runner.py`) exports F_LR only as `probe2_starvation_FLR`, writes probe1_overcrowding un-suffixed, and makes probe3_fusion_residual a `shutil.copy` of probe1. `flight2_production.py` RUNS dict agrees. The §93 benign residual is **closed on code.**
 
 ## §3 — The finding as it stands (CHARACTERIZATION, NOT DETERMINATION)
 
-The three strands below are Layer 1's reading offered to support Mike's determination. They are not the determination. Fact (live read) is separated from interpretation in each.
-
-**F2sym strand.** *Fact:* structure real and confirmed live (three byte-identical files, `5D8F5496...C897`); the session-16 recorded value (`5d8f5492 1b6d...`) shares only the 7-char prefix `5d8f549`, then diverges entirely. *Interpretation:* not this file's hash mistyped (the whole tail differs), and not a from-scratch invention (the shared prefix is too hard to land by chance, ~1 in 16^7) — best fit is a real value, garbled, that preserved the prefix. Author of the error (Gemini return vs. Layer-1 transcription) is **unassignable** — no raw return was committed. Under-determined, and now established as such.
-
-**F_LR strand.** *Fact:* one F_LR file at 20x20, not three; no `probe1_overcrowding`, no `probe3`; producer makes none; no F_LR hash strings were ever recorded; the offered `fusion_residual` filename is a real F2sym shadow-copy name mis-attached to a non-existent F_LR probe3. *Interpretation:* consistent with a working-memory narrative occupying the gap (Rule 7.4), and the mis-attached filename propagated into STANDING_ITEMS (session-16 arc step 16). Benign path: a real, out-of-repo, uncommitted F_LR `probe1_overcrowding` / `probe3` run Mike recollects. **This strand turns entirely on Mike's recollection check — which is why that check is the determination.**
-
-**Process strand.** *Fact:* the session-16 substrate return was never committed and is unrecoverable; Layer-1 accepted a paraphrase as "cleanly grounded" while watching for the wrong failure mode (architectural inference). *Interpretation:* true regardless of how F2sym and F_LR resolve; points at a protocol fix (raw substrate returns get committed, not paraphrased) more than at a person, and is arguably the most actionable durable output of the cascade.
+- **F2sym strand.** Structure real and confirmed live; recorded value (`...5492 1b6d...`) shares only the 7-char prefix `5d8f549` with the real (`...5496 6a1f...`), then diverges entirely — not a single-digit transcription, not a from-scratch invention (prefix too hard to land by chance). Best fit: a real value, garbled, prefix-preserving. Author (Gemini vs. Layer-1 transcription) **unassignable** — no raw return committed.
+- **F_LR strand.** Count contradicted on live execution and on code: no producer can write probe1/probe3 F_LR. Benign path **closed** — does not rest on Mike's recollection after all; the artifact search settled it on evidence.
+- **Process strand.** The session-16 return was never committed and is unrecoverable; Layer-1 accepted a paraphrase as "cleanly grounded" while watching for the wrong failure mode. Points at a protocol fix (commit raw substrate returns).
 
 ## §4 — Relation to the session-20 §6 framing
 
-Session-20 §6 read the evidence as a single "Rule 7.3 fabrication signature" across three independent measures. The completed cascade refines this: the measures are not equally strong and do not point one way. Measure 2 (F2sym hash mismatch) is prefix-preserving — which weakens from-scratch fabrication for that strand and pairs with a confirmed-real F2sym structure. Measure 1 (F_LR count) is the strand carrying weight and is recollection-gated. Measure 3 (timestamp) is a gate that closed the regeneration path, not an independent strike.
+Session-20 §6 read a single "Rule 7.3 fabrication signature." Completed primary source refines this: F2sym is real-value-garbled (weakening from-scratch fabrication for that strand) atop a confirmed-real structure; F_LR count is contradicted on code; timestamp was a gate, not an independent strike. Net: the evidence does not support a flat fabrication determination; it supports a bifurcated-plus-process shape, now with a §6 origin lead that may further reshape the F_LR mechanism. Direction (something reached the record wrongly) is well-supported; the disagreement with the session-20 framing is about kind, author, and mechanism — not whether. **Layer 1's characterization; Mike's determination governs.**
 
-Net: complete primary source does not support a flat fabrication determination; it supports a bifurcated-plus-process shape. The *direction* — that something in the session-16 verification reached the canonical record wrongly — is well-supported; the disagreement with the session-20 framing is about *kind and author*, not *whether*. **This is Layer 1's characterization; Mike's determination governs.**
-
-## §5 — Held / not done at park
+## §5 — Held / not done
 
 - **Determination** — held for Mike, UNMADE, not pre-written.
-- **STANDING_ITEMS** — no edits applied this session. The session-20 §8 edit-spec remains queued; the integrity-item wording waits on the determination, and per §3-§4 the shape it should take is three-limbed (F2sym under-determined / author-unassignable; F_LR recollection-gated; process gap), not a flat fabrication item.
-- **E4 remediation (A vs B)** — untouched; may be reshaped by the determination (session-20 §8).
-- **Item 12 / item 15** — unchanged from session-20 §7 (item 12 recharacterized, blocked behind E4 + determination; item 15 component 2 blocked, input set unassemblable).
-- **EDA** — not runnable; no Layer 3 execution contract exists or can be written. Premise void.
-- **`b77959d` and this log's commit** — push held; local-only until Mike says otherwise.
-- **Carried-forward independent-trigger check** (6b/6c/7/13/14) — still owed; now slipped to session 21 as well.
+- **STANDING_ITEMS** — no edits applied. Session-20 §8 edit-spec queued; integrity-item wording waits on the determination; shape is now three-limbed-plus-origin (F2sym under-determined/author-unassignable; F_LR closed-on-code; process gap; extractor-mapping origin), not flat fabrication.
+- **E4 remediation (A vs B)** — untouched; may be reshaped by the determination and the origin read.
+- **Item 12 / item 15** — unchanged from session-20 §7.
+- **EDA** — not runnable; no Layer 3 execution contract exists or can be written.
+- **Pushes held** — `b77959d`, `0f5945e`, and this session's commits are local-only until Mike says otherwise.
+- **Carried-forward independent-trigger check** (6b/6c/7/13/14) — still owed; slipped to session 21 too.
+- **CRLF note** — the session-21 log and routing package were authored LF in-sandbox; Windows `core.autocrlf` may normalize on checkout, so a future `Get-FileHash` mismatch against the source SHAs is line-endings, not corruption.
 
-## §6 — Resume anchor
+## §6 — The origin lead (recollection check resolved; new question for Layer 3)
 
-**Next action is Mike's, and it is the determination:** the recollection check on a real out-of-repo F_LR `probe1_overcrowding` / `probe3` run — done away from the keyboard, honestly distinguishing remembering from wishing, and (per the project's own memory-vs-primary-source discipline) treated as weak if nothing but the impression supports it, and as real if an artifact corroborates it (a scratch script, a console log, a dated note, a stray parquet with an F_LR overcrowding name and a real timestamp).
+The artifact search (Read 7) closed the benign path AND surfaced an origin candidate. `phase4B_complete_extractor.py`'s `mapping` dict (lines ~21-34) names a four-key set — `Probe1`, `Probe2_FLR`, `Probe2_F2`, `Probe3` — under a naming scheme **no producer writes** (`probe_F_LR_`, `probe_F2_symmetric_`, `probe3_fusion_` without `residual`). `find_file` returns `None` and prints `[!] Missing` rather than raising. So the extractor's structure *asserts* an F_LR three-probe set the substrate never had. This shifts the likely session-16 mechanism from free confabulation toward a **misread of a misleading artifact** — a different finding with a different remediation (fix the extractor's naming contract). Layer 1 stopped here deliberately: deeper characterization from an 80-line head-read on the session's heaviest interpretive question is the boundary where it becomes Layer 3's read and Layer 2's engagement, not Layer-1's to bank.
 
-**On Mike's return, do NOT act on §3-§4 characterization as the determination.** Re-anchor against Mike's call. Then, and only then, draft what the determination sets: the three-limbed STANDING_ITEMS integrity item in final wording; the E4 remediation framing (A vs B); the formal protocol record (fabrication-family event, near-miss, or process-finding) if Mike judges it warranted; and the session-20 §8 edit-spec items.
+## §7 — Layer 3 routing (OUT) and the inbound return
 
-**The evidence chain is complete; no further repo read will move it.** The optional remaining lever — asking the session-16 Gemini instance to account — is low-diagnostic now (leading prompt + uncommitted, unrecoverable raw return) and is Mike's election.
+Routed to Gemini (Layer 3): `phase_4b/reviews/layer3/session_21_layer_3_routing_extractor_mapping.md`. Code-reading only (capability boundary gated in §0 of the package); asks Gemini to read the full extractor + both producers, enumerate the naming schemes, say what the extractor treats as the F_LR set, and characterize whether the session-16 claim traces to the mapping — with divergence preserved and the determination held as Mike's.
 
-**HEAD at park:** [self-referential — verify live next session].
+**Inbound:** Gemini's return. **Next instance's first action: read it, then draft the Layer 2 engagement package on it.** Layer 2 engages (framing-asymmetry: Layer 1 framed the routing, ChatGPT engages the return), then synthesis, then fold-in to the canonical record and the STANDING_ITEMS integrity item — all on fresh budget, after Mike's determination governs the wording.
+
+## §8 — Resume anchor for next instance
+
+1. Instantiate from kit-revision-5.1; verify HEAD live (self-referential close).
+2. **FIRST: read Gemini's Layer 3 return (pasted at open) and draft the Layer 2 engagement package on the extractor-mapping origin question.** This is the live work.
+3. The verification cascade is COMPLETE and the recollection check RESOLVED (closed on code) — do not re-run either.
+4. The determination is held for Mike and unmade — do not act on §3-§4 / §6 as conclusion; route Gemini's return through Layer 2 first.
+5. Then: Layer 2 return -> synthesis -> Mike's determination -> STANDING_ITEMS integrity item (three-limbed-plus-origin) + E4 remediation + formal record if warranted + session-20 §8 edit-spec.
+
+**Partner-routing note (Mike's session-21 observation):** the verification stretch ran entirely through Layer 1; partners went unused. Layer 3's idleness was mostly correct sequencing (Mesa work blocked upstream), but the Layer 2 engagement of Layer 1's characterization was a genuine gap — Layer 1 will not reliably flag its own framing for testing, so calling that cross-check is Mike's role to play. The §7 routing is the start of correcting it.
 
 ---
 
-— Drafted by Claude (Layer 1 central node), session 21, as an interim parking record at Mike's instruction. The session completed the session-16 integrity verification cascade to the limit of repo primary source; the determination is held for Mike and unmade. Committed (push held) so the next reader works from current state rather than the session-20 §6 framing.
+— Drafted by Claude (Layer 1 central node), session 21, revising the interim park log (`0f5945e`) after the recollection check resolved on code and an origin lead was routed to Layer 3. Determination held for Mike and unmade.
