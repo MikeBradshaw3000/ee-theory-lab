@@ -1,4 +1,4 @@
-# Cycle 3 - Test Registry
+﻿# Cycle 3 - Test Registry
 
 **Purpose:** one master index of every Cycle 3 test. The registry is the table of contents and status board; the full life-cycle of each test lives in its own record built from `TEST_RECORD_TEMPLATE.md`. Nothing is "a test" in Cycle 3 until it has a row here **and** a record file.
 
@@ -39,7 +39,7 @@ A test does not get a single pass/fail flag. It carries the **highest level it c
 
 | ID | Test name | Area | Theoretical target | Script (ver) | Status | Highest level cleared | Record file | Follow-up |
 |----|-----------|------|--------------------|--------------|--------|----------------------|-------------|-----------|
-| C3-ENV-001 | Environment reproduction + Mesa smoke | ENV | substrate-trust precondition (no claim rests on an unverified environment) | mesa_smoke_test.py (TBD) | planned | - | TEST_RECORD_C3-ENV-001.md | feeds every later test |
+| C3-ENV-001 | Environment reproduction + Mesa smoke | ENV | substrate-trust precondition (no claim rests on an unverified environment) | mesa_smoke_test.py | passed-L1 | L1 implementation / environment | TEST_RECORD_C3-ENV-001.md | feeds every later test |
 | C3-CTL-001 | Synthetic control battery (positive + negative + degeneracy) | CTL | measurement-validity precondition; no real-substrate value interpreted before the battery passes | (Cycle 3 substrate, TBD) | planned | - | TEST_RECORD_C3-CTL-001.md | gate for all OBS/INT tests |
 | C3-SS-001 | Steady-state eligibility apparatus | SS | steady-state-eligibility precondition; windows earned by explicit diagnostics, never assumed | (Cycle 3 substrate, TBD) | planned | - | TEST_RECORD_C3-SS-001.md | gate for all INT tests |
 
@@ -65,3 +65,4 @@ Where a test touches the candidate Psi observables, the registry row must **not*
 - B2-source file hunts - closed.
 - Flight 6 parquet substrate-trust forensics - closed absent a new conflict.
 - Any additional copy of the Tier 2 analysis script.
+
