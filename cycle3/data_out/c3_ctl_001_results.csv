@@ -1,0 +1,6 @@
+Case,Mean_Rho,Psi_meanI_state,MeanI_Z,Psi_persistence_I,P_std,Persistence_Z
+A_Stable_Cluster,0.1,0.8856,914.45,0.8856,0.3,91.29
+B_Random_Low_Rho,0.1,-0.0021,-1.7,0.0014,0.03,0.22
+C_Random_High_Rho,0.8,-0.0011,-0.59,-0.0144,0.039,-1.5
+D_Transient_Wave,0.1,0.8333,833.69,0.0,0.0,0.0
+E_Uniform_Persistence,0.7,0.0007,1.17,0.0,0.0,0.0
