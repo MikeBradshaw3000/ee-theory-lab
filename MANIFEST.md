@@ -35,6 +35,32 @@ Phase 4B work — analytical procedures, substrate-output consumers, pre-registr
 
 For details: `protocols/foundational/canonical_artifacts_index.md` Sections 2-7 and Section 14.
 
+### `cycle2/`
+
+Cycle 2 closure record. Contains `CYCLE2_CLOSURE.md` — the deliberate boundary closure for Cycle 2 (closed 2026-05-24, closure executed 2026-05-25; boundary marker git tag `cycle2-close`). Records what Cycle 2 produced — why the inherited substrate and the `Psi_local` diagnostic could not carry the manuscript-facing claim — and the settled record Cycle 3 inherits. **Authoritative for the Cycle 2 closure boundary.**
+
+For details: `cycle2/CYCLE2_CLOSURE.md`.
+
+### `cycle3/`
+
+Cycle 3 — the current cycle. The precondition-gate apparatus, reproduction environment, and test records preceding the substantive probe phase. Includes:
+
+- `CYCLE3_OVERVIEW.md` — the Cycle 3 frame.
+- `CYCLE3_TEST_REGISTRY.md` — the cycle's test index: which tests exist and how far up the four-level discipline (L1 implementation / L2 measurement validity / L3 steady-state eligibility / L4 interpretation) each has cleared. **The in-subdirectory authority for Cycle 3 test state.**
+- `TEST_RECORD_TEMPLATE.md` and per-test records — `TEST_RECORD_C3-ENV-001.md` (passed-L1), `TEST_RECORD_C3-CTL-001.md` (valid-L2).
+- `c3_ctl_001_battery.py` and `data_out/` — the C3-CTL-001 synthetic control battery (run of record) and its output.
+- Reproduction-environment set — `MESA_ENVIRONMENT_REPRODUCTION.md`, `ENVIRONMENT_SNAPSHOT.md`, `requirements.lock.txt`, `mesa_smoke_test.py` — the pinned environment Cycle 3 runs execute in (Python 3.14.4, Mesa 3.5.1, top-level `venv`).
+- Resume anchors (`RESUME_*.md`) and new-session instantiation prompts; the highest-dated resume governs.
+- `routing/` — cross-layer routing notes.
+
+**Authoritative for Cycle 3 precondition gates, test records, and reproduction environment.**
+
+For details: `cycle3/CYCLE3_OVERVIEW.md` and `cycle3/CYCLE3_TEST_REGISTRY.md`.
+
+### `environment/`
+
+Environment setup material. Contains `Mesa setup.docx` — Mesa setup documentation. Distinct from the cycle-scoped reproduction set under `cycle3/`, which pins the specific environment a given cycle's runs executed in.
+
 ### `flights/`
 
 Flight specifications. Includes:
@@ -117,4 +143,4 @@ This MANIFEST updates as those stages execute.
 
 ---
 
-— Originally drafted by Claude as Layer 1 central node, Stage 1 root-level orientation, session 9. Layer 2 sanity scan return at draft time: no findings. Session 12 Stage 2 closure cluster updated the `phase_4b/` subdirectory listing, the workspace-root scratch and routing files listing, and the Stage 3-4 commitments section to reflect Stage 2 moves landed at `919db5b`. Session 13 Stage 3 closure cluster updated the `phase_4b/` subdirectory listing to add `phase_4b/manifests/`, updated the script entry to mention `regenerate_manifest.py`, and renamed the trailing section to "Pending Stage 4 commitments" reflecting Stage 3 landed. Session 14 Stage 4 closure cluster added the `archive/` top-level directory entry, replaced the workspace-root scratch and routing files section with the post-Stage-4 state, and renamed the trailing section to "Pending future-restructure commitments" reflecting Stage 4 landed.
+— Originally drafted by Claude as Layer 1 central node, Stage 1 root-level orientation, session 9. Layer 2 sanity scan return at draft time: no findings. Session 12 Stage 2 closure cluster updated the `phase_4b/` subdirectory listing, the workspace-root scratch and routing files listing, and the Stage 3-4 commitments section to reflect Stage 2 moves landed at `919db5b`. Session 13 Stage 3 closure cluster updated the `phase_4b/` subdirectory listing to add `phase_4b/manifests/`, updated the script entry to mention `regenerate_manifest.py`, and renamed the trailing section to "Pending Stage 4 commitments" reflecting Stage 3 landed. Session 14 Stage 4 closure cluster added the `archive/` top-level directory entry, replaced the workspace-root scratch and routing files section with the post-Stage-4 state, and renamed the trailing section to "Pending future-restructure commitments" reflecting Stage 4 landed. The 2026-05-25 Cycle 3 / C3-CTL-001 closure cluster added the `cycle2/`, `cycle3/`, and `environment/` top-level directory entries — top-level directories that postdate the Stage 4 restructure documentation.
