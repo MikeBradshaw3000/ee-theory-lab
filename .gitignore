@@ -195,9 +195,9 @@ cython_debug/
 .abstra/
 
 # Visual Studio Code
-#   Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
+#   Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore
 #   that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#   and can be added to the global gitignore or merged into this file. However, if you prefer, 
+#   and can be added to the global gitignore or merged into this file. However, if you prefer,
 #   you could uncomment the following to ignore the entire vscode folder
 # .vscode/
 # Temporary file for partial code execution
@@ -216,3 +216,27 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Cycle 2 Population B: superseded canonical kit/artifact copies inside the handoff tree.
+# Originals are tracked at canonical locations (repo root, flights/, phase_4b/scripts/); see cycle2/CYCLE2_CLOSURE.md section 3.
+# Enumerated literally, not pattern-matched, so no tracked file or future copy is caught.
+# (Note: claude_session_handoffs/2026-05-20-8/claude_instantiation_kit_v4.md is tracked and is deliberately NOT listed here.)
+claude_session_handoffs/2026-05-20-2/claude_instantiation_kit_v3.md
+claude_session_handoffs/2026-05-20-3/claude_instantiation_kit_v3.md
+claude_session_handoffs/2026-05-20-4/claude_instantiation_kit_v3.md
+claude_session_handoffs/2026-05-20-5/claude_instantiation_kit_v3.md
+claude_session_handoffs/2026-05-20-6/claude_instantiation_kit_v4.md
+claude_session_handoffs/2026-05-20-7/claude_instantiation_kit_v4.md
+claude_session_handoffs/2026-05-20-9/claude_instantiation_kit_v4.md
+claude_session_handoffs/2026-05-20/claude_instantiation_kit_v3.md
+claude_session_handoffs/2026-05-22-2/claude_instantiation_kit_v5_1.md
+claude_session_handoffs/2026-05-22-3/claude_instantiation_kit_v5_1.md
+claude_session_handoffs/2026-05-22/STANDING_ITEMS.md
+claude_session_handoffs/2026-05-22/claude_instantiation_kit_v5.md
+claude_session_handoffs/2026-05-22/claude_instantiation_kit_v5_1.md
+claude_session_handoffs/2026-05-22/flight2_production.py
+claude_session_handoffs/2026-05-22/item_6a_stage1_eda.py
+claude_session_handoffs/2026-05-23-2/claude_instantiation_kit_v5_1.md
+claude_session_handoffs/2026-05-23-3/claude_instantiation_kit_v5_1.md
+claude_session_handoffs/2026-05-23/claude_instantiation_kit_v5_1.md
+claude_session_handoffs/2026-05-24/claude_instantiation_kit_v5_1.md
