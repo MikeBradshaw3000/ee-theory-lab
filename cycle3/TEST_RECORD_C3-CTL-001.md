@@ -105,3 +105,15 @@ python cycle3\c3_ctl_001_battery.py
 > L2 pass. The apparatus is validated at 50x50 toroidal Moore-1, which unlocks real-substrate measurement at this topology - but only after C3-SS-001 (steady-state eligibility) clears, the last precondition before any real-substrate value can be read as Regime II. Registry row advanced to valid-L2 (committed at 1c35283). Transition rules and probe-design inputs remain held, uncommitted.
 
 **Registry status at close:** valid-L2
+
+---
+
+## Clarification - Psi_meanI_state null construction
+
+Layer 2 reviewed the null-construction question after the large synthetic-control z-scores were noted. The review found no gate-reopening defect in the null construction, provided the implementation builds the null distribution for the windowed aggregate statistic itself.
+
+For each null draw, the implementation should independently shuffle each tick while preserving that tick's exact active count, recompute per-tick Moran's I, average those Moran's I values across the window, and store that average as one null sample. This is the correct null for `Psi_meanI_state`, because `Psi_meanI_state` is itself the windowed mean of per-tick spatial organization.
+
+Layer 1 verified that the current implementation follows this construction. The large positive z-scores for the deliberately structured synthetic cases are therefore not, by themselves, evidence of a defective null. They indicate that those synthetic patterns are far outside their grid-local randomized spatial null. The result remains a measurement-validity result for the synthetic control battery, not a real-substrate finding.
+
+Gate state unchanged: C3-CTL-001 remains valid-L2.
