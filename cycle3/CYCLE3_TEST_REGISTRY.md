@@ -41,7 +41,7 @@ A test does not get a single pass/fail flag. It carries the **highest level it c
 |----|-----------|------|--------------------|--------------|--------|----------------------|-------------|-----------|
 | C3-ENV-001 | Environment reproduction + Mesa smoke | ENV | substrate-trust precondition (no claim rests on an unverified environment) | mesa_smoke_test.py | passed-L1 | L1 implementation / environment | TEST_RECORD_C3-ENV-001.md | feeds every later test |
 | C3-CTL-001 | Synthetic control battery (positive + negative + degeneracy) | CTL | measurement-validity precondition; no real-substrate value interpreted before the battery passes | c3_ctl_001_battery.py | valid-L2 | L2 measurement validity | TEST_RECORD_C3-CTL-001.md | gate for all OBS/INT tests |
-| C3-SS-001 | Steady-state eligibility apparatus | SS | steady-state-eligibility precondition; windows earned by explicit diagnostics, never assumed | (Cycle 3 substrate, TBD) | planned | - | TEST_RECORD_C3-SS-001.md | gate for all INT tests |
+| C3-SS-001 | Steady-state eligibility apparatus | SS | steady-state-eligibility precondition; windows earned by explicit diagnostics, never assumed | c3_ss_001_battery.py (Layer 3 draft pending) | ready | - | TEST_RECORD_C3-SS-001.md | gate for all INT tests |
 
 These three are **precondition tests**: they follow necessarily from the Cycle 2 lessons and are not design choices. Each encodes a Cycle 2 lesson as a standing requirement. None of them, on its own, bears on Regime-II-as-structural; they establish the conditions under which a later test's value becomes interpretable. They must clear before any Cycle 3 substantive probe is interpreted.
 
