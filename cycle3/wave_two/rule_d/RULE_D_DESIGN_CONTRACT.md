@@ -1,6 +1,6 @@
 # Rule D design contract — turnover-limited activation
 
-**Status:** Layer 2-reviewed (mean-field coherence cleared; accepted with required precision amendments, all incorporated 2026-06-02: Section 2.3 update-order fence, Section 4.3 density-confound guard, Section 4.4 live-coupling exposure guard, Section 8 metrics, and wording amendments). Ready for canonical placement at Mike's call. No probe is seeded by this contract; seeding remains Mike's call to open after the contract is placed canonical and the downstream opens (D-1/D-2/D-3) are resolved.
+**Status:** Layer 2-reviewed (mean-field coherence cleared; accepted with required precision amendments, all incorporated 2026-06-02: Section 2.3 update-order fence, Section 4.3 density-confound guard, Section 4.4 live-coupling exposure guard, Section 8 metrics, and wording amendments). Placed canonical 2026-06-02 (4a8a688); opens D-1/D-2/D-3 resolved 2026-06-03 (84e4cd9). AMENDED 2026-06-03 for R3 (Sections 2.2, 2.3, 6, 8): active-cell persistence is s_Lambda * (1 - theta_turnover), retaining Rule C's neighbor-independent Lambda-survival with theta_turnover as an ADDITIONAL independent churn hazard, so theta_turnover = 0 recovers Rule C exactly. The original survival-replacement form (persistence = 1 - theta_turnover) was corrected after Layer 3 implementation surfaced that theta_turnover = 0 saturates the lattice (no signed lower anchor); Layer 2 recommended the retain-survival form and confirmed it does not collapse toward Rule B (both factors neighbor-independent). No new Layer 2 pass required (Layer 2's recommendation supplied the mechanism and form). No probe is seeded by this contract; seeding remains Mike's call to open.
 
 **Mechanism-class arc:** Rule D is a NEW mechanism-class design target, NOT a Rule C densification and NOT a Rule C second-pass boundary refinement. Rule C first pass already closed on A-prime (behavioral-map reach satisfied; LowLow only floor-adjacent near kappa=0; no away-from-floor substantive LowLow). Rule D reuses Rule C's becoming-active coupling but tests a different mechanism. It lives under cycle3/wave_two/rule_d/ to keep the record from reading as "more Rule C."
 
@@ -30,20 +30,20 @@ g(q) = 2q - 1 fixed centered; coefficient-null separable (kappa = 0 IS Lambda-on
 
 ### 2.2 Turnover (the NEW axis)
 
-Rule D introduces `theta_turnover`, an independent stochastic deactivation hazard on active cells:
+Rule D retains Rule C's neighbor-independent Lambda-survival and adds `theta_turnover`, an independent stochastic deactivation hazard, as an ADDITIONAL active-cell hazard on top of it:
 
-    each active cell at tick t independently deactivates before t+1 with probability theta_turnover;
-    active cells persist with probability (1 - theta_turnover).
+    each active cell at tick t first survives with Rule C's neighbor-independent Lambda-survival probability s_Lambda, then independently survives the turnover hazard with probability (1 - theta_turnover);
+    net active-cell persistence is s_Lambda * (1 - theta_turnover).
 
-theta_turnover is in [0, 1], FIXED per run-setting, and is a time-scale parameter, not a survival rule in the Rule B sense. Rule D's survival side is locally BLIND churn, not locally stabilizing survival — this is what keeps the mechanism class distinct from Rule B.
+s_Lambda is Rule C's neighbor-independent Lambda-survival probability at the operative Lambda anchor (a flat per-cell survival probability, NOT neighbor-conditioned), carried unchanged from the Rule C M2 substrate. theta_turnover is in [0, 1], FIXED per run-setting, and is a time-scale parameter, not a survival rule in the Rule B sense. At theta_turnover = 0 net persistence is exactly s_Lambda — Rule D recovers Rule C exactly, so theta_turnover = 0 is the known signed Rule C reference, NOT a saturation endpoint. Rule D's turnover side is locally BLIND churn layered on Rule C's neighbor-independent survival, NOT neighbor-conditioned survival — this is what keeps the mechanism class distinct from Rule B (see Section 6).
 
 **Canonical form is the Bernoulli hazard, NOT deterministic fixed lifetime.** Deterministic fixed lifetime can introduce artificial periodicity / age-cohort structure that would confound the near-null signal; it is reserved as a later audit only if the stochastic-hazard result is interesting, never the first Rule D form.
 
 ### 2.3 Update order (fence)
 
-Rule D uses synchronous updates computed from the t state. Active cells at t persist to t+1 with probability (1 - theta_turnover); inactive cells at t become active at t+1 with Rule C's p_become. An active cell that turns over does NOT re-enter (become active) in the same tick — re-entry begins from the next tick.
+Rule D uses synchronous updates computed from the t state. Active cells at t persist to t+1 with probability s_Lambda * (1 - theta_turnover); inactive cells at t become active at t+1 with Rule C's p_become. An active cell that turns over does NOT re-enter (become active) in the same tick — re-entry begins from the next tick.
 
-    x_i(t+1) = [ x_i(t)=1  AND  Bernoulli(1 - theta_turnover) ]
+    x_i(t+1) = [ x_i(t)=1  AND  Bernoulli(s_Lambda * (1 - theta_turnover)) ]
                OR
                [ x_i(t)=0  AND  Bernoulli(p_become,i) ]
 
@@ -112,7 +112,7 @@ Realized endpoint contrast (the kappa-axis tracking in Section 8) proves the rul
 - Does NOT reopen or reclassify Rule C M2 / A-prime.
 - Does NOT alter the Comparator 0 / Comparator epsilon floor findings.
 - Reuses Rule C's becoming-active coupling verbatim; the ONLY new mechanism element is theta_turnover.
-- Distinct from Rule B: Rule B's issue was neighbor-conditioned survival; Rule D's survival side is neighbor-blind stochastic churn.
+- Distinct from Rule B: Rule B's issue was neighbor-CONDITIONED survival. Rule D retains Rule C's Lambda-survival (neighbor-INDEPENDENT — a flat per-cell probability) and multiplies it by an independent turnover hazard; neither factor is neighbor-conditioned, so Rule D does not reintroduce Rule B's pathology. theta_turnover remains the only NEW mechanism element (Lambda-survival is Rule C's, retained not added).
 - Distinct from object (b) (Rule C near-zero boundary-refinement) and from a comparator perturbation ladder: those stay on Rule C's axis / a separate-process axis; Rule D is a new mechanism class.
 
 ## 7. Downstream design opens (NOT fixed here; set after this contract is reviewed)
@@ -132,6 +132,7 @@ The contract fixes the mechanism, fences, coupling reuse, and bracketing criteri
 - Per-(parameter-setting, seed) boolean flag counts, never per-parameter means.
 - Realized-contrast tracking on the kappa axis (record realized delta_p for every setting), same measure as Rule C / Comparator epsilon.
 - Record realized theta_turnover (the set hazard) for every setting alongside kappa and delta_p.
+- Record the effective active-cell persistence probability s_Lambda * (1 - theta_turnover) for every setting, NOT a total-active-lifetime ladder (1/theta); effective persistence determines realized churn and must be recorded for honest calibration reading.
 - Record rho_mean, rho_range_over_mean, and bracket-level delta_rho_mean (difference in rho_mean across theta_turnover at matched Lambda/kappa) — for the density-confound guard (Section 4.3).
 - Record realized local coupling exposure at each setting: the observed q_i distribution (mean and variance) and the mean absolute neighbor-induced probability perturbation (mean |p_become,i - p_Lambda| over cells/ticks) — for the live-coupling exposure guard (Section 4.4).
 - LowLow_Nondegenerate_Candidate is the apparatus-level flag; NEVER Regime_II in any identifier, comment, column, or prose.
