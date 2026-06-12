@@ -1,6 +1,6 @@
 # Rule E (lagged-Lambda conditioning) - design contract
 
-**Status: DESIGN CONTRACT. NON-SEEDING. Layer 2-reviewed; precision amendments of 2026-06-12 incorporated.** This contract formalizes the Rule E mechanism class, the canonical lag construction, the separability requirement, the contrastive success criterion, and the block-resolved recording requirement, so that any future Rule E probe is designed against fixed criteria. It does NOT seed a probe, does NOT specify a final alpha grid, and does NOT authorize Layer 3 implementation. Opening any run remains Mike's call, gated on resolution of the named opens in Section 7.
+**Status: DESIGN CONTRACT. NON-SEEDING. Layer 2-reviewed; precision amendments of 2026-06-12 incorporated; Section 5 recording amendment and open-6 resolution of 2026-06-12 (Layer 3 realizability consultation, Layer 2-concurred) incorporated.** This contract formalizes the Rule E mechanism class, the canonical lag construction, the separability requirement, the contrastive success criterion, and the block-resolved recording requirement, so that any future Rule E probe is designed against fixed criteria. It does NOT seed a probe, does NOT specify a final alpha grid, and does NOT authorize Layer 3 implementation. Opening any run remains Mike's call, gated on resolution of the named opens in Section 7.
 
 Governing upstream document: cycle3/wave_two/RULE_E_SCOPING_RESULT.md (the scoping result). On any discrepancy between this contract and the scoping result regarding admissibility, the scoping result governs until this contract is committed as canonical; after commitment, this contract governs Rule E design and the scoping result governs admissibility rationale.
 
@@ -51,7 +51,7 @@ The macro-conditioning coefficient (working name alpha; final symbol resolvable 
 
 alpha is a SUBSTRATE parameter. Neither alpha nor its zero point is an operationalization of the point(s) at which mu(rho) = 0, and no Rule E artifact (identifier, comment, column, prose) may frame it as one.
 
-## 5. Lag-dynamics guard and block-resolved recording requirement (fixed)
+## 5. Lag-dynamics guard and block-resolved recording requirement (fixed; amended 2026-06-12)
 
 With a 25-tick cadence, a 100-tick observation window spans four macro-conditioned phases. An apparent near-null window could therefore arise from temporal cancellation of signed subblocks, oscillation across blocks, or hysteresis, rather than from a genuine near-null regime. A near-null produced by lag dynamics is not a substantive multiscale regime, and the design must be able to tell the difference from the record alone.
 
@@ -62,9 +62,13 @@ Precision (Layer 2 amendment): **"artifact" here means artifact FOR RULE E CANDI
 1. the macro block signal,
 2. effective (conditioned) Lambda,
 3. rho,
-4. Psi_meanI_state_z,
-5. Psi_persistence_I_z,
-6. candidate flags by aligned observation window.
+4. raw Psi_meanI_state (block-resolved),
+5. raw Psi_persistence_I (block-resolved),
+6. candidate flags by aligned observation window (window-level).
+
+**Block-level values are raw; z-scores remain window-level (amendment of 2026-06-12, from the Layer 3 realizability consultation, Layer 2-concurred).** Block-resolved records store raw Psi_meanI_state and raw Psi_persistence_I values for each 25-tick macro block. Window-level z-scores and candidate flags remain computed only at the inherited 100-tick observation-window level, against the inherited window-level apparatus null - the existing null conventions are horizon-scaled to 100 ticks, and a raw 25-tick value read against a 100-tick null would not be a valid z-score. Block records are used to diagnose lag dynamics, not to classify candidates against a separate 25-tick null. No block-level LowLow_Nondegenerate_Candidate is introduced unless a future contract explicitly constructs and validates a 25-tick null.
+
+**Recording adequacy (open 6, resolved 2026-06-12):** Rule E runs must record at least **12 post-burn-in conditioned macro blocks** at the canonical 25-tick cadence, yielding at least 300 post-burn-in ticks of block-resolved macro/local history. Rationale: discriminating lag-induced oscillation from transient drift or a monotonic slope requires observing on the order of 2-3 full cycles of block-scale alternation; four blocks (one 100-tick window) capture at most one peak-to-trough swing and are not adequate for the guard. A 400-tick baseline record (100-tick burn-in + 300 post-burn-in ticks) satisfies the minimum; longer records may be used if the final implementation spec requires them. Precision carried: the 100-tick observation window always contains four 25-tick blocks; what this requirement extends is the total number of conditioned blocks in the post-burn-in record, not the number of blocks per observation window.
 
 A candidate near-null window is read against its block-resolved record; if the within-window block structure shows signed subblocks cancelling, oscillation, or hysteresis, the window is classified as a lag-dynamics artifact for candidate-status purposes, not a candidate. The Steady_State_Candidate and Lifted_Activation_Candidate flags remain INDEPENDENT at every stage, and LowLow_Nondegenerate_Candidate remains an apparatus-level flag.
 
@@ -86,7 +90,7 @@ Criteria 1-3 must each hold lifted and non-degenerate (rho lifted, no degeneracy
 3. **Base rule**: which un-conditioned local base Rule E layers onto (the alpha = 0 recovery target of Section 4).
 4. **Lambda anchors**: whether the first pass runs one anchor or more.
 5. **Reserved audits**: whether any reserved audits are promoted into the Rule E first pass.
-6. **Run length / block count**: whether the inherited SS-001 structure suffices for lag-dynamics resolution at the 25-tick cadence, or a longer record (more blocks) is required for the Section 5 guard to discriminate.
+6. **Run length / block count**: **RESOLVED 2026-06-12** as a minimum recording-adequacy requirement - at least 12 post-burn-in conditioned macro blocks (Section 5, recording adequacy). Final total run length beyond this minimum remains an implementation-spec matter; the resolution authorizes no grid and no seed.
 
 ## 8. What this contract does not do
 
