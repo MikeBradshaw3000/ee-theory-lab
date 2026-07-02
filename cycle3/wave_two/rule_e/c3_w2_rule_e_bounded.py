@@ -258,7 +258,7 @@ def step_rule_e_bounded(grid, p_Lambda, kappa, delta_j, g_E):
 
 def verify_f3_bypass():
     """Build-verification ensuring d=0 recovers committed Rule C M2 bit-exactly."""
-    sys.path.insert(0, os.path.abspath("cycle3"))
+    sys.path.insert(0, os.path.abspath(os.path.join("cycle3", "wave_two")))
     try:
         import c3_w2_rule_c_m2 as rule_c
     except ImportError:
