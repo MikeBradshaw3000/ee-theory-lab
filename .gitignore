@@ -244,3 +244,4 @@ claude_session_handoffs/2026-05-24/claude_instantiation_kit_v5_1.md
 # Wave-two read-helper scaffolding (pure-read analysis scripts, not canonical artifacts or instruments).
 # Enumerated literally, not pattern-matched, so no tracked file or future canonical script is caught.
 read_obs001_nearnull_scale.py
+read_bounded_a_first.py
