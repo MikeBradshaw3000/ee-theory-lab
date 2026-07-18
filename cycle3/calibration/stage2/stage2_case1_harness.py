@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # CALIBRATION OUTPUT - INFORMS AMENDMENT MACHINERY ONLY - NOT EVIDENCE ABOUT THE EE SUBSTRATE
 """
-stage2_case1_harness.py  (v7 = v6 + self_audit_io rewritten AST-based [the v4 regex form
-self-triggered on its own strings/comments at first execution] + the exec-safety static check
-no longer misapplied to the never-executed c3_w2_tcop.py; L2 delta review; NOT authorized to execute)
+stage2_case1_harness.py  (v8 = v7 + bool() wrap in precision_gate [np.bool_ leaked from the
+wilson arithmetic, failing the golden is-False identity test and non-serializable in the
+geometry/forecast JSON summaries]; L2 delta review; NOT authorized to execute)
 
 All 18 L2-required items folded. Gate semantics in this file are FROZEN-SOURCE-VERIFIED:
 every rule below was read from tcop_read.py (digest d60da1d9...399f7c) main() and helpers,
@@ -944,7 +944,11 @@ def precision_gate(k, n, floor):
     lo, hi = wilson(k, n)
     est = k / n if n else 0.0
     half = (hi - lo) / 2.0
-    return (half <= PRECISION_FRACTION * abs(est - floor)) and not (lo <= floor <= hi), (lo, hi)
+    # bool() wrap (v8): wilson computes with np.sqrt, so the comparison chain yields
+    # np.bool_ - "and" returns its first falsy operand unwrapped, so the False branch
+    # escaped as np.bool_, failing the golden "is False" identity test AND being
+    # non-JSON-serializable in the geometry/forecast summaries. Value unchanged.
+    return bool((half <= PRECISION_FRACTION * abs(est - floor)) and not (lo <= floor <= hi)), (lo, hi)
 
 def golden_tests():
     # seed derivation determinism + canonical rejection
