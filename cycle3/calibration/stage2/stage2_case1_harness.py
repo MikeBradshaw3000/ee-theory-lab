@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # CALIBRATION OUTPUT - INFORMS AMENDMENT MACHINERY ONLY - NOT EVIDENCE ABOUT THE EE SUBSTRATE
 """
-stage2_case1_harness.py  (v6 = v5 + null-extension NPZ filename token fix, line 45:
-k0_0000 -> kp0_0000 per the committed {kappa:+.4f} token rule; L2 delta review; NOT authorized to execute)
+stage2_case1_harness.py  (v7 = v6 + self_audit_io rewritten AST-based [the v4 regex form
+self-triggered on its own strings/comments at first execution] + the exec-safety static check
+no longer misapplied to the never-executed c3_w2_tcop.py; L2 delta review; NOT authorized to execute)
 
 All 18 L2-required items folded. Gate semantics in this file are FROZEN-SOURCE-VERIFIED:
 every rule below was read from tcop_read.py (digest d60da1d9...399f7c) main() and helpers,
@@ -107,27 +108,33 @@ def out_json(name, obj):
     return p
 
 def self_audit_io():
-    """L2 item 12/16: static audit of THIS file - raw open()/np.load() only inside guards."""
-    src = guarded_open(os.path.abspath(__file__)).read()
-    body = src.split("def self_audit_io", 1)[0] + src.split("def self_audit_io", 1)[1]
-    allowed_defs = ("def guarded_open", "def guarded_npz")
-    for m in re.finditer(r"(?<!guarded_)\bopen\(", src):
-        line_start = src.rfind("\n", 0, m.start())
-        window = src[max(0, m.start()-400):m.start()]
-        if not any(a in window.split("def ")[-1- 0] or a in window for a in allowed_defs):
-            # only guarded_open/guarded_npz bodies may call open()
-            fn_ctx = src.rfind("def ", 0, m.start())
-            fn_name = src[fn_ctx:src.find("(", fn_ctx)]
-            if fn_name not in ("def guarded_open",):
-                halt(f"self-audit: raw open() outside guard at offset {m.start()} ({fn_name})")
-    for m in re.finditer(r"np\.load\(", src):
-        fn_ctx = src.rfind("def ", 0, m.start())
-        fn_name = src[fn_ctx:src.find("(", fn_ctx)]
-        if fn_name not in ("def guarded_npz",):
-            halt(f"self-audit: raw np.load() outside guard ({fn_name})")
-    if "pd.read" in src or "pandas" in src.replace("# pandas", ""):
-        halt("self-audit: pandas I/O present in harness")
-    return {"io_self_audit": "PASS"}
+    """L2 item 12/16: static audit of THIS file - raw open()/np.load() CALLS only inside
+    guards. AST-based (v7): the v4 regex-on-raw-source form matched its own docstring,
+    comment, and halt-message strings and self-triggered on first execution; AST sees
+    calls only, never strings or comments. Same intent, correctly implemented."""
+    src = guarded_open(os.path.abspath(__file__), encoding="utf-8").read()
+    tree = ast.parse(src)
+    spans = {n.name: (n.lineno, n.end_lineno) for n in tree.body
+             if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    def owner(lineno):
+        for name, (a, b) in spans.items():
+            if a <= lineno <= b: return name
+        return "<module>"
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call):
+            f = node.func
+            if isinstance(f, ast.Name) and f.id == "open" and owner(node.lineno) != "guarded_open":
+                halt(f"self-audit: raw open() call outside guard (line {node.lineno}, {owner(node.lineno)})")
+            if (isinstance(f, ast.Attribute) and f.attr == "load"
+                    and isinstance(f.value, ast.Name) and f.value.id == "np"
+                    and owner(node.lineno) != "guarded_npz"):
+                halt(f"self-audit: raw np.load() call outside guard (line {node.lineno}, {owner(node.lineno)})")
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import) and any(a.name.split(".")[0] == "pandas" for a in node.names):
+            halt("self-audit: pandas import present in harness")
+        if isinstance(node, ast.ImportFrom) and (node.module or "").split(".")[0] == "pandas":
+            halt("self-audit: pandas import present in harness")
+    return {"io_self_audit": "PASS (AST-based)"}
 
 # ==========================================================================
 # 1. Frozen constants (source-verified against tcop_read.py at preflight)
@@ -631,7 +638,12 @@ def stage_preflight():
     TR = TRmod
     verify_frozen(TR, src, man)
     tcop_src = guarded_open(os.path.join(W2, "c3_w2_tcop.py"), encoding="utf-8").read()
-    _static_module_check(tcop_src, "c3_w2_tcop")   # never imported/executed; AST only
+    # NO _static_module_check here (v7): that gate is exec-safety for modules the harness
+    # EXECUTES (tcop_read.py). c3_w2_tcop.py is NEVER executed - digest-verified above and
+    # consumed by AST literal extraction only (kappa_map_from_source / offset constants);
+    # its committed top level legitimately carries its own run-script pre-flight block
+    # (non-__main__ Ifs + Try), which the exec gate would wrongly reject. _boot() already
+    # reads it the same way, without the exec gate.
     KAPPA = kappa_map_from_source(tcop_src)
     man["kappa_map"] = {str(k): v for k, v in KAPPA.items()}
     verify_offsets_by_reproduction(tcop_src)
