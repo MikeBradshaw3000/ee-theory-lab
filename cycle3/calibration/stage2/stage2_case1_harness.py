@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # CALIBRATION OUTPUT - INFORMS AMENDMENT MACHINERY ONLY - NOT EVIDENCE ABOUT THE EE SUBSTRATE
 """
-stage2_case1_harness.py  (v8 = v7 + bool() wrap in precision_gate [np.bool_ leaked from the
-wilson arithmetic, failing the golden is-False identity test and non-serializable in the
-geometry/forecast JSON summaries]; L2 delta review; NOT authorized to execute)
+stage2_case1_harness.py  (v9 = v8 + INIT_ACTIVE corrected to round(0.10*N_CELLS) per the
+committed TARGET_RHO_INIT=0.10 convention [v8's 0.40 conflated initial density with the
+Lambda anchor; caught by the F3-analog gate at tick 0]; L2 delta review; NOT authorized to execute)
 
 All 18 L2-required items folded. Gate semantics in this file are FROZEN-SOURCE-VERIFIED:
 every rule below was read from tcop_read.py (digest d60da1d9...399f7c) main() and helpers,
@@ -141,7 +141,9 @@ def self_audit_io():
 # ==========================================================================
 GRID_SIZE, N_CELLS, TICKS, BLOCK, N_BLOCKS = 50, 2500, 400, 25, 16
 LAMBDA = 0.40; LOGIT_L = float(np.log(LAMBDA / (1.0 - LAMBDA)))
-INIT_ACTIVE = round(0.40 * N_CELLS)
+INIT_ACTIVE = round(0.10 * N_CELLS)   # TARGET_RHO_INIT=0.10, the committed convention in BOTH
+# c3_w2_tcop.py (line 52) and c3_w2_null_extension.py; v8's 0.40 conflated the initial
+# density with the LAMBDA=0.40 anchor and broke F3-analog bit-exactness at tick 0.
 U_TIERS = [0.10, 0.25, 0.50]; TIERS_ALL = [0.0] + U_TIERS
 MAGS = [0.0, 0.05, 0.10, 0.20, 0.35]
 C_LABELS = [0.0, 0.05, -0.05, 0.10, -0.10, 0.20, -0.20, 0.35, -0.35]
