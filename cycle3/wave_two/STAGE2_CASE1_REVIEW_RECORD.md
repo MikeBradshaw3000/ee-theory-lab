@@ -1,6 +1,6 @@
 # Stage 2 Case 1 - L2 review record (implementation spec + Amendment 1 + harness build)
 
-**Status: committable review record for STAGE2_CASE1_IMPLEMENTATION_SPEC.md (frozen), STAGE2_MINI_CONTRACT_AMENDMENT_1.md (L2-accepted), and cycle3/calibration/stage2/stage2_case1_harness.py (v5, L2-accepted execution-ready; v4 superseded by the one-functional-line REPO path-depth repair recorded below). Non-canonical support artifact preserving the review lineage.**
+**Status: committable review record for STAGE2_CASE1_IMPLEMENTATION_SPEC.md (frozen), STAGE2_MINI_CONTRACT_AMENDMENT_1.md (L2-accepted), and cycle3/calibration/stage2/stage2_case1_harness.py (v6, L2-accepted execution-ready; v4 and v5 superseded by the two one-functional-line repairs recorded below). Non-canonical support artifact preserving the review lineage.**
 
 ## Implementation spec
 
@@ -25,10 +25,18 @@ Mike arbitrated Option A (expedited L2 delta review; no silent patch). Delta (tw
 
 **L2 VERDICT: ACCEPT.** Independent inspection confirmed the four-parent repository-root calculation for the canonical harness location; the uploaded source matched the declared v5 byte count and digest and parsed cleanly; no hidden dependency on the erroneous v4 root detected; the existing fail-closed preflight, digest, allowlist, manifest, and _boot() checks ruled sufficient for the narrow repair. Repository-root sentinel hardening noted as a separate consideration, NOT a blocker, not opened. Disposition: place and commit v5; restart from full preflight.
 
+## v6 delta repair (2026-07-17; L2-accepted)
+
+v5's first execution (Mike's preflight re-call after the 54dfb8c commit) HALTED loud and fail-closed at the permitted-input existence check - at the CORRECT path level, confirming the v5 REPO repair in execution. Defect: line 45's null-extension filename template read k0_0000 where the committed token is kp0_0000 (the {kappa:+.4f} rule: + -> p, . -> _, so kappa=+0.0000 -> kp0_0000). Second wrong-values-under-right-names defect, same survival mechanism (token inferred rather than decoded from the run script; never executed against the tree). The fence caught it before any read; no manifest existed.
+
+L1 comprehensive audit before the fix: every repository path the harness references was checked against tree 54dfb8c in one pass - all 8 permitted paths, all 4 held-out deny paths, and the 315 held-out cm1/cm0 state NPZs exist exactly as named; line 45 was the ONLY defective filename reference. Delta (two hunks, both disclosed): line 45 token fix; docstring version line bumped to v6. v6 built from the committed v5 blob (digest-confirmed), fixed template cross-checked character-for-character against all five committed null-extension filenames, AST clean.
+
+**L2 VERDICT: ACCEPT.** Independent source inspection confirmed the canonical v5 and v6 byte counts and digests, clean AST parse, and exactly the two disclosed hunks; the kp0_0000 correction points the permitted-read set and F3-analog gate to the committed null-extension family without changing any fence or scoring semantics. Digests: v5 3ef443ea4d301f604d0755c3a1e48cf233b475c449f26ed881bb2d27bef4946f (54385 bytes) -> v6 310d0dc525a179fffbce31827d4aff35abc3529e9bcbcebbbd6985c306826214 (54449 bytes). Disposition: place and commit v6; restart from full preflight; execution Mike-gated.
+
 ## L2 scope reminder, carried verbatim in intent
 
 Case 1 execution, even if successful, does not complete Stage 2 by itself. The amendment still needs the required fold path and at least one speaking-case calibration unless Mike explicitly records the severity waiver already specified in the mini-contract. Calibration output remains machinery-calibration only: not EE-substrate evidence, not a TCOP re-read, not L4 movement, not prospective governance.
 
 ## Disposition
 
-Harness at cycle3/calibration/stage2/stage2_case1_harness.py is v5 (sha256 3ef443ea4d301f604d0755c3a1e48cf233b475c449f26ed881bb2d27bef4946f), L2-accepted execution-ready. Execution NOT authorized by any review; opens on Mike's separate explicit call, stage by stage (preflight -> geometry -> recovery -> controls -> forecast -> instantiation freeze -> Mike-gated unlock and scoring). Source ingestion for this arc ran on the commit-pinned clone channel (zero manual transit; held-out files never copied) - the standing convention for L1 source ingestion.
+Harness at cycle3/calibration/stage2/stage2_case1_harness.py is v6 (sha256 310d0dc525a179fffbce31827d4aff35abc3529e9bcbcebbbd6985c306826214), L2-accepted execution-ready. Execution NOT authorized by any review; opens on Mike's separate explicit call, stage by stage (preflight -> geometry -> recovery -> controls -> forecast -> instantiation freeze -> Mike-gated unlock and scoring). Source ingestion for this arc ran on the commit-pinned clone channel (zero manual transit; held-out files never copied) - the standing convention for L1 source ingestion.

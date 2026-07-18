@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # CALIBRATION OUTPUT - INFORMS AMENDMENT MACHINERY ONLY - NOT EVIDENCE ABOUT THE EE SUBSTRATE
 """
-stage2_case1_harness.py  (v5 = v4 + REPO path-depth fix, line 38: dirname x3 -> x4;
-L2 delta review; NOT authorized to execute)
+stage2_case1_harness.py  (v6 = v5 + null-extension NPZ filename token fix, line 45:
+k0_0000 -> kp0_0000 per the committed {kappa:+.4f} token rule; L2 delta review; NOT authorized to execute)
 
 All 18 L2-required items folded. Gate semantics in this file are FROZEN-SOURCE-VERIFIED:
 every rule below was read from tcop_read.py (digest d60da1d9...399f7c) main() and helpers,
@@ -42,7 +42,7 @@ OUTD = os.path.join(REPO, "cycle3", "calibration", "stage2")
 
 CANONICAL_SEEDS = [42, 137, 256, 1024, 31415]
 def null_ext_npz(seed):
-    return os.path.join(DATA, f"c3_w2_null_extension_states_L0.4_k0_0000_s{seed}.npz")
+    return os.path.join(DATA, f"c3_w2_null_extension_states_L0.4_kp0_0000_s{seed}.npz")
 
 PERMITTED_READS = {
     os.path.join(W2, "TWO_CHANNEL_ORDERING_PROBE_CONTRACT.md"),
