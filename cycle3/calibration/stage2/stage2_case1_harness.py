@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # CALIBRATION OUTPUT - INFORMS AMENDMENT MACHINERY ONLY - NOT EVIDENCE ABOUT THE EE SUBSTRATE
 """
-stage2_case1_harness.py  (v4, L1 fold of the L2 v3 review - 2 local blockers repaired;
-for L2 acceptance; NOT authorized to execute)
+stage2_case1_harness.py  (v5 = v4 + REPO path-depth fix, line 38: dirname x3 -> x4;
+L2 delta review; NOT authorized to execute)
 
 All 18 L2-required items folded. Gate semantics in this file are FROZEN-SOURCE-VERIFIED:
 every rule below was read from tcop_read.py (digest d60da1d9...399f7c) main() and helpers,
@@ -35,7 +35,7 @@ F2_HEADER = "CALIBRATION OUTPUT - INFORMS AMENDMENT MACHINERY ONLY - NOT EVIDENC
 # 0. Paths / allowlist / denylist  (L2 items: read-allowlist, commonpath
 #    writes, guarded imports, self-audit; fail-closed everywhere)
 # ==========================================================================
-REPO = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+REPO = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 W2   = os.path.join(REPO, "cycle3", "wave_two")
 DATA = os.path.join(REPO, "cycle3", "data_out")
 OUTD = os.path.join(REPO, "cycle3", "calibration", "stage2")
