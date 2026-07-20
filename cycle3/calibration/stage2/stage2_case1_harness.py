@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # CALIBRATION OUTPUT - INFORMS AMENDMENT MACHINERY ONLY - NOT EVIDENCE ABOUT THE EE SUBSTRATE
 """
-stage2_case1_harness.py  (v9 = v8 + INIT_ACTIVE corrected to round(0.10*N_CELLS) per the
-committed TARGET_RHO_INIT=0.10 convention [v8's 0.40 conflated initial density with the
-Lambda anchor; caught by the F3-analog gate at tick 0]; L2 delta review; NOT authorized to execute)
+stage2_case1_harness.py  (v10 = v9 + verdict-input repairs found by reading the REAL stage
+summaries pre-forecast: controls ladder exhaustion tested on replicate count not observation
+count, and recovery's fast-branch list-shaped P1 normalized to skip [no recovery floor
+attaches when recovery is not estimable]; L2 delta review; NOT authorized to execute)
 
 All 18 L2-required items folded. Gate semantics in this file are FROZEN-SOURCE-VERIFIED:
 every rule below was read from tcop_read.py (digest d60da1d9...399f7c) main() and helpers,
@@ -832,8 +833,14 @@ def stage_forecast():
     ctl = json.load(guarded_open(os.path.join(OUTD, "controls_summary.json")))
     R = geo["R"]
     esc = _load_ck("escalation.json", {})
-    inv_c, unr_c = control_verdict_items(ctl, R_LADDER[-1])      # pure fns (golden-tested)
-    inv_p, unr_p = p1_verdict_items(rec.get("P1", {}), FLOOR_RECOVERY, R_LADDER[-1])
+    ctl_R = esc.get("controls", R_LADDER[0])                     # controls' own ladder rung
+    inv_c, unr_c = control_verdict_items(ctl, ctl_R, R_LADDER[-1])   # pure fns (golden-tested)
+    # v10: recovery's evaluability-failure fast branch writes P1 as a raw [k, n] LEDGER LIST
+    # (zero progress); the dict form exists only on the estimable path. When recovery is not
+    # estimable no recovery floor attaches (frozen taxonomy), so P1 verdict items are skipped.
+    p1_in = rec.get("P1", {})
+    p1_in = p1_in if isinstance(p1_in, dict) else {}
+    inv_p, unr_p = p1_verdict_items(p1_in, FLOOR_RECOVERY, R_LADDER[-1])
     invalid, unresolved = inv_c + inv_p, unr_c + unr_p
     pb_ok, pb_iv = precision_gate(geo["kb"], R, FLOOR_EVAL_B)
     pa_ok, pa_iv = precision_gate(geo["ka"], R, FLOOR_EVAL_A)
@@ -900,16 +907,20 @@ def _current_R(stage):
 # ==========================================================================
 # 8. Statistics + golden tests (every gate-bearing block covered; L2 item 10)
 # ==========================================================================
-def control_verdict_items(ctl, ladder_max):
-    """Per-component control status -> (invalid, unresolved) lists. Pure; golden-tested."""
+def control_verdict_items(ctl, ctl_R, ladder_max):
+    """Per-component control status -> (invalid, unresolved) lists. Pure; golden-tested.
+    v10: ladder exhaustion is tested on the REPLICATE count ctl_R (the controls stage's
+    R from escalation state), NOT on each entry's observation count n - row-level entries
+    accrue 10 observations per replicate, so n=1000 at R=100 and the v9 test declared the
+    ladder exhausted at its first rung (wrong unit under the right name)."""
     invalid, unresolved = [], []
     for ctrl in ("N1", "N2", "N3"):
         for lvl, d in ctl.get(ctrl, {}).items():
             if isinstance(d, dict) and not d.get("pass_at_current_R", True):
-                if d.get("n", 0) >= ladder_max:
+                if ctl_R >= ladder_max:
                     invalid.append(f"{ctrl}/{lvl} false-pass above tolerance after exhausted ladder")
                 else:
-                    unresolved.append(f"{ctrl}/{lvl}: escalate (n={d.get('n', 0)})")
+                    unresolved.append(f"{ctrl}/{lvl}: escalate (R={ctl_R}, n={d.get('n', 0)})")
     return invalid, unresolved
 
 def p1_verdict_items(p1, floor, ladder_max):
@@ -998,11 +1009,14 @@ def golden_tests():
     assert classify_verdict([], [], True, True, True).startswith("NOT SEEDABLE")
     assert classify_verdict([], [], True, True, False).startswith("SEEDABLE")
     # control false-pass halt: exhausted ladder -> invalid; unexhausted -> unresolved
-    inv, unr = control_verdict_items({"N1": {"row": {"pass_at_current_R": False, "n": R_LADDER[-1]}}}, R_LADDER[-1])
+    inv, unr = control_verdict_items({"N1": {"row": {"pass_at_current_R": False, "n": 10 * R_LADDER[-1]}}}, R_LADDER[-1], R_LADDER[-1])
     assert inv and not unr
-    inv, unr = control_verdict_items({"N1": {"row": {"pass_at_current_R": False, "n": R_LADDER[0]}}}, R_LADDER[-1])
+    inv, unr = control_verdict_items({"N1": {"row": {"pass_at_current_R": False, "n": 10 * R_LADDER[0]}}}, R_LADDER[0], R_LADDER[-1])
     assert unr and not inv
     # unrecoverable-positive-control halt: tight sub-floor -> invalid; straddling -> unresolved
+    p1_norm = [0, 0]; p1_norm = p1_norm if isinstance(p1_norm, dict) else {}
+    inv, unr = p1_verdict_items(p1_norm, FLOOR_RECOVERY, R_LADDER[-1])
+    assert inv == [] and unr == []                               # fast-branch list shape -> skipped
     inv, unr = p1_verdict_items({"k": 50, "n": 1000}, FLOOR_RECOVERY, R_LADDER[-1])
     assert inv and not unr
     inv, unr = p1_verdict_items({"k": 79, "n": 100}, FLOOR_RECOVERY, R_LADDER[-1])
