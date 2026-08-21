@@ -1,0 +1,6 @@
+# Received Record — L2 Scoped Integration Verification, First Return: NOT CHECKABLE
+**Provenance:** Received from L2 via Mike, 2026-08-21. Context: L1's first verification routing referenced the v0.3 document (repo commit + digest) without carrying its text — against the succession record's known-unreliable-attachment-channel fact. L2 correctly declined to verify from L1's account, naming self-attestation as the failure mode. Summary of the return (verbatim verdict lines):
+- Refinements 1–9: **NOT CHECKABLE — SOURCE TEXT UNAVAILABLE** (applied individually to all nine).
+- Integration-introduced defects (incl. §7.4 lock-file addition): **NOT CHECKABLE.**
+- Freeze disposition: **NAMED BLOCKER — MERGE_SPECIFICATION_v0_3.md IS UNAVAILABLE TO L2 FOR SOURCE-LEVEL VERIFICATION** (commit `4afa756`, digest `dba76c36…4e03`); "a procedural verification blocker, not a substantive defect in v0.3"; "FREEZE MAY NOT PROCEED ON THE BASIS OF L2 INTEGRATION VERIFICATION UNTIL THE REFERENCED v0.3 TEXT IS ATTACHED OR PASTED."
+**Disposition:** L1 rebuilt the routing as a self-contained packet (note + verbatim v0.3); the source-level verification then proceeded. This return is preserved as an exemplary in-register refusal: the layer scope rule and legal-null discipline functioning as designed. L1's routing error is enumerated in this session's ops log.
