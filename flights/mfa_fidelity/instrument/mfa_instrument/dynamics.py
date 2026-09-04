@@ -90,6 +90,14 @@ class Dynamics:
                 "this build phase; the frozen skeleton's Q update for this rule mode "
                 "must be built (or the config changed), never silently ignored "
                 "(L2 Phase-1 review N3)")
+        # N3 twin (Phase-2 item-4 O1, authorized scope expansion, Mike 2026-09-03):
+        # the B step consumes no MFA-noise term; a become_survive config carrying
+        # nonzero noise amplitude would construct a stream this branch never reads —
+        # silent ignoring of an inapplicable channel, the same defect class.
+        if cfg.rule_mode == "become_survive" and cfg.noise.amplitude != 0.0:
+            raise ValueError(
+                "become_survive carries no noise channel; noise.amplitude must be 0.0 "
+                "(refused at construction, never silently ignored — item-4 O1)")
         self.tick_count = 0
         self.clipped_v_count = 0
         self.clipped_u_count = 0

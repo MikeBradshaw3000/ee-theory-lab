@@ -27,7 +27,8 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 from .schema_contract import (ANCESTOR_COLUMNS, EXTENSION_COLUMNS,   # noqa: F401
-                              NOISE_COLUMN, RHO_TABLE_COLUMNS)
+                              NOISE_COLUMN, RHO_TABLE_COLUMNS,
+                              BECOME_SURVIVE_COLUMNS)
 # Normative ledger lives in schema_contract (L2 closure item 6); re-exported names
 # preserved for existing consumers.
 
@@ -41,24 +42,41 @@ class TelemetryWriter:
     STRUCTURALLY ABSENT, per §8.1's preflight); rho-channel configurations add the
     two decomposition columns; noise-enabled adds Noise_Draw. E1 total-Q-disable
     drops gamma_coef/Delta_v/u/r (no Q arithmetic exists to report).
+    rule_mode="become_survive" selects the Lineage B family (schema_contract
+    .BECOME_SURVIVE_COLUMNS) and REFUSES any Q coefficient or noise at construction:
+    the writer-layer twin of the dynamics N3 refusal (Q-disabled subset only).
     """
 
     def __init__(self, grid_scale: int, gamma_psi: float, gamma_rho: float,
-                 noise_enabled: bool, chunk_ticks: int = 500) -> None:
+                 noise_enabled: bool, chunk_ticks: int = 500,
+                 rule_mode: str = "symmetric_chain") -> None:
+        if rule_mode not in ("symmetric_chain", "become_survive"):
+            raise ValueError(f"unknown rule_mode {rule_mode!r}")
+        if rule_mode == "become_survive":
+            if gamma_psi != 0.0 or gamma_rho != 0.0:
+                raise ValueError("become_survive telemetry supports the Q-disabled subset "
+                                 "only (N3 ruling): gamma_psi and gamma_rho must be 0.0")
+            if noise_enabled:
+                raise ValueError("become_survive carries no noise channel: "
+                                 "noise_enabled must be False")
+        self.rule_mode = rule_mode
         self._gs = grid_scale
         xs, ys = np.indices((grid_scale, grid_scale))
         self._xs = xs.flatten()
         self._ys = ys.flatten()
         self._gamma_psi = gamma_psi
-        q_disabled = (gamma_psi == 0.0 and gamma_rho == 0.0)
-        cols = list(ANCESTOR_COLUMNS)
-        if q_disabled:
-            for c in ("gamma_coef", "Delta_v", "Delta_u", "Delta_r"):
-                cols.remove(c)
-        if gamma_rho != 0.0:
-            cols += EXTENSION_COLUMNS
-        if noise_enabled:
-            cols.append(NOISE_COLUMN)
+        if rule_mode == "become_survive":
+            cols = list(BECOME_SURVIVE_COLUMNS)
+        else:
+            q_disabled = (gamma_psi == 0.0 and gamma_rho == 0.0)
+            cols = list(ANCESTOR_COLUMNS)
+            if q_disabled:
+                for c in ("gamma_coef", "Delta_v", "Delta_u", "Delta_r"):
+                    cols.remove(c)
+            if gamma_rho != 0.0:
+                cols += EXTENSION_COLUMNS
+            if noise_enabled:
+                cols.append(NOISE_COLUMN)
         self.columns = cols
         self._chunk_ticks = chunk_ticks
         self._frames: List[pd.DataFrame] = []
@@ -70,7 +88,20 @@ class TelemetryWriter:
         self.rho_global_table: List[tuple] = []   # (tick, rho_global) tick-level table (§7.2)
 
     # -- sink --------------------------------------------------------------
+    B_SINK_FIELDS = frozenset(c for c in BECOME_SURVIVE_COLUMNS
+                              if c not in ("Tick", "Agent_X", "Agent_Y"))
+
     def sink(self, tick: int, fields: Dict[str, np.ndarray]) -> None:
+        if self.rule_mode == "become_survive":
+            # Exact input family, fail closed (L2 item-4 T1): extras — including
+            # A-family names and rho_global (B tick-table emission is deferred by
+            # the item boundary) — are rejected, never silently dropped or consumed.
+            have = frozenset(fields)
+            if have != self.B_SINK_FIELDS:
+                raise ValueError(
+                    "become_survive sink requires exactly the fields "
+                    f"{sorted(self.B_SINK_FIELDS)}; missing={sorted(self.B_SINK_FIELDS - have)} "
+                    f"extra={sorted(have - self.B_SINK_FIELDS)}")
         n = self._xs.size
         data: Dict[str, np.ndarray] = {
             "Tick": np.full(n, tick, dtype=np.int64),

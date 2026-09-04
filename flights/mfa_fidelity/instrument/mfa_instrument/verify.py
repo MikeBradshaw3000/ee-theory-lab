@@ -26,15 +26,17 @@ divergence Tier-1 exists to catch.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, Optional, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 import numpy as np
 import pandas as pd
+import pyarrow as pa
 import pyarrow.parquet as pq
 
 from .config import RunConfig
 from .schema_contract import (ANCESTOR_COLUMNS, EXTENSION_COLUMNS,
-                              NOISE_COLUMN, RHO_TABLE_COLUMNS)
+                              NOISE_COLUMN, RHO_TABLE_COLUMNS,
+                              BECOME_SURVIVE_COLUMNS)
 
 
 @dataclass
@@ -67,6 +69,8 @@ def expected_schema(cfg: RunConfig) -> Set[str]:
     """V1: the required column set, derived from the consumed configuration exactly
     as TelemetryWriter derives its schema — but independently, so a writer defect
     cannot define its own expectation."""
+    if cfg.rule_mode == "become_survive":
+        return set(BECOME_SURVIVE_COLUMNS)
     cols = set(ANCESTOR_COLUMNS)
     if cfg.q.gamma_psi == 0.0 and cfg.q.gamma_rho == 0.0:
         cols -= {"gamma_coef", "Delta_v", "Delta_u", "Delta_r"}
@@ -87,6 +91,11 @@ def tier1_verify(parquet_path: str, cfg: RunConfig,
     expect_rho_global: whether the run was a Gate-R/rho-emitting run (defaults to
     the Q-global condition; E1 Gate-R runs pass True explicitly per spec §7.2)."""
     rep = Tier1Report()
+    if cfg.rule_mode != "symmetric_chain":
+        # Family ownership is explicit (L2 item-4 V1): a matching schema never
+        # licenses another family's arithmetic. Deliberate failed report, no KeyError.
+        rep.record("config_rule_mode", 1)
+        return rep
     k = cfg.constants
     if expect_rho_global is None:
         expect_rho_global = (cfg.q.gamma_rho != 0.0 and cfg.q.q_read == "global")
@@ -130,6 +139,13 @@ def tier1_verify(parquet_path: str, cfg: RunConfig,
     t_max: Optional[int] = None
 
     for batch in pf.iter_batches(batch_size=batch_size):
+        # Arrow type identity does not establish non-null data (round-2 V2): count
+        # nulls in every column BEFORE any pandas/NumPy coercion; nulls are never
+        # coerced into values — the file is refused at the first null-bearing batch.
+        nulls = sum(batch.column(i).null_count for i in range(batch.num_columns))
+        if nulls:
+            rep.record("null_values", nulls)
+            return rep
         df = batch.to_pandas()
         n = len(df)
         rep.rows_seen += n
@@ -316,4 +332,210 @@ def e1_base_bit_identity(parquet_path: str, cfg: RunConfig,
     rep.record("coordinate_range", coord_bad)          # closure repair
     rep.record("row_duplication", dup_bad)                              # item 4
     rep.record("key_coverage_complete", 0 if bool(seen.all()) else 1)   # item 4
+    return rep
+
+
+# ======================================================================
+# Lineage B (become_survive) family verification — Phase-2 item 4.
+# Expectation derives from schema_contract.BECOME_SURVIVE_COLUMNS and from the
+# consumed configuration; the rule is RE-IMPLEMENTED here (never imported from
+# dynamics.py), so a dynamics defect cannot define its own expectation.
+# ======================================================================
+
+def _neighbor_count_b_ref(grid: np.ndarray) -> np.ndarray:
+    """B's own 8-term toroidal neighbor count (c3_w2_tcop.py @ 4d9a622 L228-236 order).
+    Integer accumulation: order-invariant, so this reference is exact by construction."""
+    return (np.roll(grid, 1, axis=0) + np.roll(grid, -1, axis=0)
+            + np.roll(grid, 1, axis=1) + np.roll(grid, -1, axis=1)
+            + np.roll(np.roll(grid, 1, axis=0), 1, axis=1)
+            + np.roll(np.roll(grid, 1, axis=0), -1, axis=1)
+            + np.roll(np.roll(grid, -1, axis=0), 1, axis=1)
+            + np.roll(np.roll(grid, -1, axis=0), -1, axis=1))
+
+
+def _u_t_from_config(cfg: RunConfig, tick: int) -> float:
+    """Piecewise-constant drive reconstructed from cfg.drive_schedule independently."""
+    u = 0.0
+    for start, val in cfg.drive_schedule:
+        if tick >= start:
+            u = val
+        else:
+            break
+    return u
+
+
+def _bits_equal(a: np.ndarray, b: np.ndarray) -> int:
+    """Count of float64 cells whose raw bit patterns differ (signed-zero discriminating)."""
+    a64 = np.ascontiguousarray(a, dtype=np.float64).view(np.uint64)
+    b64 = np.ascontiguousarray(b, dtype=np.float64).view(np.uint64)
+    return int(np.count_nonzero(a64 != b64))
+
+
+@dataclass
+class BecomeSurviveReport(Tier1Report):
+    def summary(self) -> str:
+        parts = [f"{k}={'OK' if v == 0 else f'{v} MISMATCHES'}" for k, v in self.checks.items()]
+        return (f"BECOME-SURVIVE rows={self.rows_seen} ticks={self.ticks_seen[0]}..{self.ticks_seen[1]} "
+                + " ".join(parts) + (" => PASS" if self.passed else " => FAIL"))
+
+
+_MOORE_OFFSETS_REF = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
+
+
+def _moore_sum_ref(x: np.ndarray) -> np.ndarray:
+    """Independent toroidal 8-neighbour float64 sum. ds ∈ {-1,0,1}, so every partial
+    sum is an exactly representable small integer: order-invariant, hence bit-exact
+    against any accumulation order the dynamics use."""
+    out = np.zeros_like(x, dtype=np.float64)
+    for dx, dy in _MOORE_OFFSETS_REF:
+        out += np.roll(np.roll(x, dx, axis=0), dy, axis=1)
+    return out
+
+
+def _valid_init_grid(init_grid: np.ndarray, gs: int) -> Optional[np.ndarray]:
+    ig = np.asarray(init_grid)
+    if ig.shape != (gs, gs):
+        return None
+    if ig.dtype == np.bool_:
+        return ig.astype(int)
+    if not np.issubdtype(ig.dtype, np.integer):
+        return None
+    if not np.isin(ig, (0, 1)).all():
+        return None
+    return ig.astype(int)
+
+
+def become_survive_verify(parquet_path: str, cfg: RunConfig,
+                          init_grid: np.ndarray, batch_size: int = 200_000) -> BecomeSurviveReport:
+    """Verify a become_survive telemetry file against the rule recomputed from primitives.
+
+    Gates, in order, each failing CLOSED before anything downstream runs: family
+    ownership; init_grid validity ((gs,gs), binary); ORDERED schema equality with the
+    ledger; complete dtype contract (int Tick/X/Y, float64 g_q/p_become/rand_grid/
+    Psi_local, bool is_active). Then a single streaming pass (work linear in rows):
+    rows arrive tick-major; each completed tick is recomputed from the previous
+    emitted state — g_q and p_become raw-bit, is_active exact under the rule with
+    the emitted rand_grid and constant p_survive, Psi_local = ds·moore(ds) raw-bit —
+    with rand_grid domain (finite, [0,1)), coordinate order, per-tick row count,
+    duplicate/out-of-range keys, tick order, and tick coverage all accounted.
+    Prior-state chaining survives parquet row-group and batch boundaries by
+    construction: a tick is processed only when its rows are complete."""
+    rep = BecomeSurviveReport()
+    if cfg.rule_mode != "become_survive":
+        rep.record("config_rule_mode", 1)
+        return rep
+    # Independent certifier: never rely on the constructor having refused an excluded
+    # configuration (L2 item-4 round-2 V1). Both obligations named separately.
+    rep.record("config_q_disabled", 0 if (cfg.q.gamma_psi == 0.0 and cfg.q.gamma_rho == 0.0) else 1)
+    rep.record("config_noise_disabled", 0 if cfg.noise.amplitude == 0.0 else 1)
+    if rep.checks["config_q_disabled"] or rep.checks["config_noise_disabled"]:
+        return rep          # explicit: .passed is False before rows by design (V3)
+    k = cfg.constants
+    gs = cfg.grid_scale
+    n_cells = gs * gs
+    prev = _valid_init_grid(init_grid, gs)
+    rep.record("init_grid_invalid", 0 if prev is not None else 1)
+    if prev is None:
+        return rep
+
+    pf = pq.ParquetFile(parquet_path)
+    names = list(pf.schema_arrow.names)
+    rep.record("schema_ordered", 0 if names == BECOME_SURVIVE_COLUMNS else 1)
+    if names != BECOME_SURVIVE_COLUMNS:
+        return rep
+    sch = pf.schema_arrow
+    want_int = ("Tick", "Agent_X", "Agent_Y")
+    want_f64 = ("g_q", "p_become", "rand_grid", "Psi_local")
+    dtype_bad = 0
+    for c in want_int:
+        dtype_bad += 0 if pa.types.is_integer(sch.field(c).type) else 1
+    for c in want_f64:
+        dtype_bad += 0 if pa.types.is_float64(sch.field(c).type) else 1
+    dtype_bad += 0 if pa.types.is_boolean(sch.field("is_active").type) else 1
+    rep.record("dtype_contract", dtype_bad)
+    if dtype_bad:
+        return rep
+
+    xs, ys = np.indices((gs, gs))
+    order_x, order_y = xs.flatten(), ys.flatten()
+    seen = np.zeros(cfg.ticks * n_cells, dtype=bool)
+    dup_or_range_bad = 0
+    tick_order_bad = 0
+    coord_bad = rand_bad = gq_bad = pb_bad = state_bad = psi_bad = rows_bad = 0
+    processed_ticks: List[int] = []
+    cur_tick: Optional[int] = None
+    buf: List[pd.DataFrame] = []
+    buf_rows = 0
+
+    def process(tick: int, df: pd.DataFrame) -> None:
+        nonlocal prev, coord_bad, rand_bad, gq_bad, pb_bad, state_bad, psi_bad, rows_bad, dup_or_range_bad
+        if len(df) != n_cells:
+            rows_bad += 1
+            return                      # cannot recompute a partial tick; fail closed
+        X = df["Agent_X"].to_numpy(); Y = df["Agent_Y"].to_numpy()
+        coord_bad += int(np.count_nonzero(X != order_x) + np.count_nonzero(Y != order_y))
+        keys = tick * n_cells + X.astype(np.int64) * gs + Y.astype(np.int64)
+        in_range = (X >= 0) & (X < gs) & (Y >= 0) & (Y < gs) & (0 <= tick < cfg.ticks)
+        dup_or_range_bad += int(np.count_nonzero(~in_range))
+        kk = keys[in_range]
+        dup_or_range_bad += int(kk.size - np.unique(kk).size)   # duplicates WITHIN this tick
+        dup_or_range_bad += int(np.count_nonzero(seen[kk]))     # repeats of earlier ticks' keys
+        seen[kk] = True
+        rg = df["rand_grid"].to_numpy()
+        rand_bad += int(np.count_nonzero(~np.isfinite(rg) | (rg < 0.0) | (rg >= 1.0)))
+        u_t = _u_t_from_config(cfg, tick)
+        neighbors = _neighbor_count_b_ref(prev)
+        g_q = 2.0 * (neighbors / 8.0) - 1.0
+        p_become = _sigmoid(k.logit_l + u_t + k.kappa * g_q)
+        gq_bad += _bits_equal(df["g_q"].to_numpy().reshape(gs, gs), g_q)
+        pb_bad += _bits_equal(df["p_become"].to_numpy().reshape(gs, gs), p_become)
+        rgrid = rg.reshape(gs, gs)
+        expect_state = ((prev == 0) & (rgrid < p_become)) | ((prev == 1) & (rgrid < k.p_survive))
+        emitted = df["is_active"].to_numpy().reshape(gs, gs).astype(bool)
+        state_bad += int(np.count_nonzero(emitted != expect_state))
+        ds = emitted.astype(int) - prev
+        psi_exp = ds * _moore_sum_ref(ds.astype(np.float64))
+        psi_bad += _bits_equal(df["Psi_local"].to_numpy().reshape(gs, gs), psi_exp)
+        prev = emitted.astype(int)
+
+    for batch in pf.iter_batches(batch_size=batch_size):
+        # Arrow type identity does not establish non-null data (round-2 V2): count
+        # nulls in every column BEFORE any pandas/NumPy coercion; nulls are never
+        # coerced into values — the file is refused at the first null-bearing batch.
+        nulls = sum(batch.column(i).null_count for i in range(batch.num_columns))
+        if nulls:
+            rep.record("null_values", nulls)
+            return rep
+        df = batch.to_pandas()
+        rep.rows_seen += len(df)
+        ticks = df["Tick"].to_numpy()
+        # split the batch at tick changes; carry a partial tick across batches
+        change = np.flatnonzero(np.diff(ticks)) + 1
+        starts = np.concatenate([[0], change]); ends = np.concatenate([change, [len(df)]])
+        for s, e in zip(starts, ends):
+            t_ = int(ticks[s])
+            if cur_tick is not None and t_ != cur_tick:
+                if t_ < cur_tick:
+                    tick_order_bad += 1
+                process(cur_tick, pd.concat(buf, ignore_index=True) if len(buf) > 1 else buf[0])
+                processed_ticks.append(cur_tick)
+                buf, buf_rows = [], 0
+            cur_tick = t_
+            buf.append(df.iloc[s:e]); buf_rows += e - s
+    if cur_tick is not None and buf:
+        process(cur_tick, pd.concat(buf, ignore_index=True) if len(buf) > 1 else buf[0])
+        processed_ticks.append(cur_tick)
+
+    rep.record("tick_order", tick_order_bad)
+    rep.record("rows_per_tick", rows_bad)
+    rep.record("tick_coverage", 0 if processed_ticks == list(range(cfg.ticks)) else 1)
+    rep.record("duplicate_or_out_of_range_keys", dup_or_range_bad)
+    rep.record("coordinate_order", coord_bad)
+    rep.record("rand_grid_domain", rand_bad)
+    rep.record("g_q_bits", gq_bad)
+    rep.record("p_become_bits", pb_bad)
+    rep.record("is_active_rule", state_bad)
+    rep.record("Psi_local_bits", psi_bad)
+    if processed_ticks:
+        rep.ticks_seen = (min(processed_ticks), max(processed_ticks))
     return rep
