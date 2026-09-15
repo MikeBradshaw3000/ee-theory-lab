@@ -181,7 +181,7 @@ def test_b1_reference_absence_is_a_named_reference_failure_with_artifact(tmp_pat
     os.remove(root / "cycle3" / "wave_two" / "c3_w2_tcop.py")
     rep = B1.run_b1(str(root), record_dir=str(tmp_path / "rec"))
     f = rep.failure
-    assert f.failure_class == "reference" and f.case_id == "reference" and "absent" in f.detail
+    assert f.failure_class == "reference" and f.case_id == "reference" and "mirror absent" in f.detail
     assert f.written_to and json.load(open(f.written_to))["stages_completed"] == []
 
 def test_b1_failure_record_written_atomically_for_battery_halt(monkeypatch, tmp_path):
@@ -321,16 +321,26 @@ def test_b1_git_failure_is_named_candidate_git(monkeypatch, tmp_path):
     pv = json.load(open(f.written_to))["provenance"]
     assert "candidate_commit" not in pv and pv["reference"]["commit_verified"] == "4d9a622"
 
-def test_b1_reference_read_failure_is_reference_class(monkeypatch, tmp_path):
+def test_b1_reference_blob_read_failure_is_reference_class(monkeypatch, tmp_path):
+    """The identity channel is `git show`; its failure is a `reference` record through B1 (an
+    unreadable worktree MIRROR is provenance, not a failure — see module 1)."""
     from mfa_instrument.gates.gate_b import reference as RR
-    real_open = open
-    def bad_open(path, *a, **k):
-        if str(path).endswith("c3_w2_tcop.py") and a and "rb" in a:
-            raise OSError("simulated I/O")
-        return real_open(path, *a, **k)
-    monkeypatch.setattr("builtins.open", bad_open)
+    monkeypatch.setattr(RR, "read_pinned_blob", lambda root: (_ for _ in ()).throw(RR.ReferenceError("pinned reference blob 4d9a622:cycle3/wave_two/c3_w2_tcop.py unreadable at root: fatal: simulated")))
     rep = B1.run_b1(PIN, record_dir=str(tmp_path))
-    assert rep.failure.failure_class == "reference" and "unreadable" in rep.failure.detail
+    assert rep.failure.failure_class == "reference" and "blob 4d9a622" in rep.failure.detail and "unreadable" in rep.failure.detail
+
+def test_b1_provenance_carries_blob_identity_and_mirror_status_faithfully(tmp_path):
+    """Faithful propagation (L2 M2-1): B1's carried fields equal a direct load from the same root —
+    whatever the mirror state on this platform — never a hardcoded value."""
+    from mfa_instrument.gates.gate_b.reference import load_pinned_reference as _load
+    direct = _load(PIN).provenance
+    rep = B1.run_b1(PIN, record_dir=str(tmp_path))
+    pv = rep.provenance["reference"]
+    assert pv["git_object"] == "4d9a622:cycle3/wave_two/c3_w2_tcop.py" == direct.git_object
+    assert pv["observed_sha256"] == direct.observed_sha256 == direct.expected_sha256
+    for f in ("worktree_mirror_readable", "worktree_mirror_sha256", "worktree_mirror_matches_blob", "source_file_dirty", "worktree_dirty"):
+        assert pv[f] == getattr(direct, f), f
+    assert pv["worktree_mirror_matches_blob"] == (pv["worktree_mirror_sha256"] == pv["observed_sha256"])
 
 def test_b1_two_rapid_failures_do_not_overwrite(monkeypatch, tmp_path):
     monkeypatch.setattr(B1, "candidate_provenance", lambda root, sink: (_ for _ in ()).throw(B1.ProvenanceError("candidate_git", "candidate provenance: simulated")))
