@@ -1,0 +1,40 @@
+{
+ "label": "AUTHORITATIVE",
+ "f_form": "F_baseline",
+ "grid_scale": 12,
+ "ticks": 25,
+ "preflight": {
+  "checks": [
+   [
+    "noise_stream_absent",
+    true
+   ],
+   [
+    "no_rho_read_configured",
+    true
+   ],
+   [
+    "delta_from_rho_structurally_absent",
+    true
+   ],
+   [
+    "noise_column_absent",
+    true
+   ],
+   [
+    "rho_global_never_emitted",
+    true
+   ],
+   [
+    "draw_count_and_order_match",
+    true
+   ]
+  ]
+ },
+ "state_bit_exact": true,
+ "telemetry_bit_exact": true,
+ "environment": "python3.14.4/numpy2.4.4",
+ "ancestor_sha256": "4f825bbe956a2b225e0c843876189c65a84af1fd74f7325ec94657747b9dbea3",
+ "gate_passed": true,
+ "elapsed_s": 0.06514263153076172
+}
