@@ -1,0 +1,168 @@
+{
+ "failure_class": "comparator",
+ "battery": "single_step",
+ "case_id": "all_inactive|u=0.05|k=+0.2090",
+ "comparator": "p_become_bits",
+ "mismatches": 2500,
+ "expected_bits": "0x3fd73371e858a8e2",
+ "observed_bits": "0x3fd73371e858a8e3",
+ "detail": "",
+ "environment": "python3.14.4/numpy2.4.4",
+ "environment_record": {
+  "python_version": "3.14.4",
+  "python_build": [
+   "tags/v3.14.4:23116f9",
+   "Apr  7 2026 14:10:54"
+  ],
+  "python_implementation": "CPython",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "venv_active": true,
+  "python_conforms": true,
+  "lock_sha256": "c10e02c5db497570ffeb45dc92857fcc633cb38364858a35458096950d02de7c",
+  "lock_worktree_mirror_matches": true,
+  "pins": {
+   "colorama": [
+    "0.4.6",
+    "0.4.6",
+    true
+   ],
+   "iniconfig": [
+    "2.3.0",
+    "2.3.0",
+    true
+   ],
+   "Mesa": [
+    "3.5.1",
+    "3.5.1",
+    true
+   ],
+   "networkx": [
+    "3.6.1",
+    "3.6.1",
+    true
+   ],
+   "numpy": [
+    "2.4.4",
+    "2.4.4",
+    true
+   ],
+   "packaging": [
+    "26.2",
+    "26.2",
+    true
+   ],
+   "pandas": [
+    "3.0.3",
+    "3.0.3",
+    true
+   ],
+   "patsy": [
+    "1.0.2",
+    "1.0.2",
+    true
+   ],
+   "pluggy": [
+    "1.6.0",
+    "1.6.0",
+    true
+   ],
+   "psutil": [
+    "7.2.2",
+    "7.2.2",
+    true
+   ],
+   "pyarrow": [
+    "24.0.0",
+    "24.0.0",
+    true
+   ],
+   "Pygments": [
+    "2.20.0",
+    "2.20.0",
+    true
+   ],
+   "pytest": [
+    "9.0.3",
+    "9.0.3",
+    true
+   ],
+   "python-dateutil": [
+    "2.9.0.post0",
+    "2.9.0.post0",
+    true
+   ],
+   "PyYAML": [
+    "6.0.3",
+    "6.0.3",
+    true
+   ],
+   "scipy": [
+    "1.17.1",
+    "1.17.1",
+    true
+   ],
+   "six": [
+    "1.17.0",
+    "1.17.0",
+    true
+   ],
+   "statsmodels": [
+    "0.14.6",
+    "0.14.6",
+    true
+   ],
+   "tqdm": [
+    "4.67.3",
+    "4.67.3",
+    true
+   ],
+   "tzdata": [
+    "2026.2",
+    "2026.2",
+    true
+   ]
+  },
+  "conforms": true,
+  "failures": []
+ },
+ "provenance": {
+  "label": "AUTHORITATIVE",
+  "load_mode": "FULL",
+  "environment": "python3.14.4/numpy2.4.4",
+  "expected": {
+   "reference_commit": "4d9a622",
+   "reference_relpath": "cycle3\\wave_two\\c3_w2_tcop.py",
+   "reference_sha256": "466455f20550b8c41a984ce40db49ebe0e832ae56c269ab518b521c6ad83b7e7",
+   "lock_sha256": "c10e02c5db497570ffeb45dc92857fcc633cb38364858a35458096950d02de7c",
+   "pinned_root_arg": "C:\\Users\\vkz244\\EE_Theory_Lab\\pinned-4d9a622"
+  },
+  "spec": "GATE_B_SPECIFICATION_v0_4 (FROZEN 2026-09-04)",
+  "spec_sha256": "e2f06bb1ad0aaa7ff05cc3da4b69c4b87bbad5c54bb7cafc4e78d4ee029e7fbd",
+  "comparators": "raw-float64-bit / dtype-canonical-state / allclose-diagnostic(1e-5,1e-8), v0.4",
+  "environment_conforms": true,
+  "reference": {
+   "pinned_root": "C:\\Users\\vkz244\\EE_Theory_Lab\\pinned-4d9a622",
+   "pinned_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\pinned-4d9a622\\cycle3\\wave_two\\c3_w2_tcop.py",
+   "commit_verified": "4d9a622",
+   "git_object": "4d9a622:cycle3/wave_two/c3_w2_tcop.py",
+   "worktree_dirty": false,
+   "source_file_dirty": false,
+   "expected_sha256": "466455f20550b8c41a984ce40db49ebe0e832ae56c269ab518b521c6ad83b7e7",
+   "observed_sha256": "466455f20550b8c41a984ce40db49ebe0e832ae56c269ab518b521c6ad83b7e7",
+   "worktree_mirror_readable": true,
+   "worktree_mirror_sha256": "466455f20550b8c41a984ce40db49ebe0e832ae56c269ab518b521c6ad83b7e7",
+   "worktree_mirror_matches_blob": true,
+   "load_mode": "FULL",
+   "module_origin": "module:blob:4d9a622:cycle3/wave_two/c3_w2_tcop.py (mirror C:\\Users\\vkz244\\EE_Theory_Lab\\pinned-4d9a622\\cycle3\\wave_two\\c3_w2_tcop.py)",
+   "python_version": "3.14.4",
+   "numpy_version": "2.4.4"
+  },
+  "candidate_commit": "9d1f75fe43b66fe9a9150d316c8c501be91147cb",
+  "candidate_worktree_dirty": true,
+  "candidate_dynamics_sha256": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8"
+ },
+ "stages_completed": [],
+ "cases_compared_before_halt": 12,
+ "comparator_evaluations_before_halt": 51,
+ "written_to": null
+}

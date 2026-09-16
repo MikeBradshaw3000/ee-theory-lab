@@ -1,0 +1,926 @@
+{
+ "version": "gate_b_qualification_v2 / spec v0.4 FROZEN",
+ "environment": "python3.14.4/numpy2.4.4",
+ "label": "AUTHORITATIVE",
+ "provenance": {
+  "label": "AUTHORITATIVE",
+  "load_mode": "FULL",
+  "environment": "python3.14.4/numpy2.4.4",
+  "qualification_version": "gate_b_qualification_v2 / spec v0.4 FROZEN",
+  "frozen_manifest_sha256": "d9cc5ee06b462076df065173a278964cd05cf032956b4938b896d898eaae65d4",
+  "qualification_source_sha256": "fdb6209c7723e8c237dfdadc387cc6d65b82631dc20120a86b9c97631b919c43",
+  "b1_source_sha256": "5794f2b74ae66f17affbbf03cbc9fb417bbf3e0255da52a9b9b019ec0350fa99",
+  "b2_source_sha256": "c7e27ad8e73d74df81ff2390ba0a6f8e91e30349e1b9c8c66f802985fa1f0a83",
+  "spec": "GATE_B_SPECIFICATION_v0_4 (FROZEN 2026-09-04)",
+  "spec_sha256": "e2f06bb1ad0aaa7ff05cc3da4b69c4b87bbad5c54bb7cafc4e78d4ee029e7fbd",
+  "runtime_declaration_sha256": "d9cc5ee06b462076df065173a278964cd05cf032956b4938b896d898eaae65d4",
+  "candidate_commit": "9d1f75fe43b66fe9a9150d316c8c501be91147cb",
+  "candidate_dynamics_sha256": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8"
+ },
+ "positive_control": {
+  "label": "AUTHORITATIVE",
+  "environment": "python3.14.4/numpy2.4.4",
+  "environment_record": {
+   "python_version": "3.14.4",
+   "python_build": [
+    "tags/v3.14.4:23116f9",
+    "Apr  7 2026 14:10:54"
+   ],
+   "python_implementation": "CPython",
+   "platform": "Windows-11-10.0.26200-SP0",
+   "venv_active": true,
+   "python_conforms": true,
+   "lock_sha256": "c10e02c5db497570ffeb45dc92857fcc633cb38364858a35458096950d02de7c",
+   "lock_worktree_mirror_matches": true,
+   "pins": {
+    "colorama": [
+     "0.4.6",
+     "0.4.6",
+     true
+    ],
+    "iniconfig": [
+     "2.3.0",
+     "2.3.0",
+     true
+    ],
+    "Mesa": [
+     "3.5.1",
+     "3.5.1",
+     true
+    ],
+    "networkx": [
+     "3.6.1",
+     "3.6.1",
+     true
+    ],
+    "numpy": [
+     "2.4.4",
+     "2.4.4",
+     true
+    ],
+    "packaging": [
+     "26.2",
+     "26.2",
+     true
+    ],
+    "pandas": [
+     "3.0.3",
+     "3.0.3",
+     true
+    ],
+    "patsy": [
+     "1.0.2",
+     "1.0.2",
+     true
+    ],
+    "pluggy": [
+     "1.6.0",
+     "1.6.0",
+     true
+    ],
+    "psutil": [
+     "7.2.2",
+     "7.2.2",
+     true
+    ],
+    "pyarrow": [
+     "24.0.0",
+     "24.0.0",
+     true
+    ],
+    "Pygments": [
+     "2.20.0",
+     "2.20.0",
+     true
+    ],
+    "pytest": [
+     "9.0.3",
+     "9.0.3",
+     true
+    ],
+    "python-dateutil": [
+     "2.9.0.post0",
+     "2.9.0.post0",
+     true
+    ],
+    "PyYAML": [
+     "6.0.3",
+     "6.0.3",
+     true
+    ],
+    "scipy": [
+     "1.17.1",
+     "1.17.1",
+     true
+    ],
+    "six": [
+     "1.17.0",
+     "1.17.0",
+     true
+    ],
+    "statsmodels": [
+     "0.14.6",
+     "0.14.6",
+     true
+    ],
+    "tqdm": [
+     "4.67.3",
+     "4.67.3",
+     true
+    ],
+    "tzdata": [
+     "2026.2",
+     "2026.2",
+     true
+    ]
+   },
+   "conforms": true,
+   "failures": []
+  },
+  "provenance": {
+   "label": "AUTHORITATIVE",
+   "load_mode": "FULL",
+   "environment": "python3.14.4/numpy2.4.4",
+   "expected": {
+    "reference_commit": "4d9a622",
+    "reference_relpath": "cycle3\\wave_two\\c3_w2_tcop.py",
+    "reference_sha256": "466455f20550b8c41a984ce40db49ebe0e832ae56c269ab518b521c6ad83b7e7",
+    "lock_sha256": "c10e02c5db497570ffeb45dc92857fcc633cb38364858a35458096950d02de7c",
+    "pinned_root_arg": "C:\\Users\\vkz244\\EE_Theory_Lab\\pinned-4d9a622"
+   },
+   "spec": "GATE_B_SPECIFICATION_v0_4 (FROZEN 2026-09-04)",
+   "spec_sha256": "e2f06bb1ad0aaa7ff05cc3da4b69c4b87bbad5c54bb7cafc4e78d4ee029e7fbd",
+   "comparators": "raw-float64-bit / dtype-canonical-state / allclose-diagnostic(1e-5,1e-8), v0.4",
+   "environment_conforms": true,
+   "reference": {
+    "pinned_root": "C:\\Users\\vkz244\\EE_Theory_Lab\\pinned-4d9a622",
+    "pinned_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\pinned-4d9a622\\cycle3\\wave_two\\c3_w2_tcop.py",
+    "commit_verified": "4d9a622",
+    "git_object": "4d9a622:cycle3/wave_two/c3_w2_tcop.py",
+    "worktree_dirty": false,
+    "source_file_dirty": false,
+    "expected_sha256": "466455f20550b8c41a984ce40db49ebe0e832ae56c269ab518b521c6ad83b7e7",
+    "observed_sha256": "466455f20550b8c41a984ce40db49ebe0e832ae56c269ab518b521c6ad83b7e7",
+    "worktree_mirror_readable": true,
+    "worktree_mirror_sha256": "466455f20550b8c41a984ce40db49ebe0e832ae56c269ab518b521c6ad83b7e7",
+    "worktree_mirror_matches_blob": true,
+    "load_mode": "FULL",
+    "module_origin": "module:blob:4d9a622:cycle3/wave_two/c3_w2_tcop.py (mirror C:\\Users\\vkz244\\EE_Theory_Lab\\pinned-4d9a622\\cycle3\\wave_two\\c3_w2_tcop.py)",
+    "python_version": "3.14.4",
+    "numpy_version": "2.4.4"
+   },
+   "candidate_commit": "9d1f75fe43b66fe9a9150d316c8c501be91147cb",
+   "candidate_worktree_dirty": true,
+   "candidate_dynamics_sha256": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8"
+  },
+  "batteries": {
+   "single_step": 486,
+   "threshold_witness": 27,
+   "stencil_motif": 108,
+   "chained": 150,
+   "schedule_table": 4000
+  },
+  "cases_compared": 4771,
+  "comparator_evaluations": 7085,
+  "comparator_evaluations_by_battery": {
+   "preflight": 1,
+   "single_step": 1944,
+   "threshold_witness": 108,
+   "stencil_motif": 432,
+   "chained": 600,
+   "schedule_table": 4000
+  },
+  "allclose_diagnostic": {
+   "true": 6314,
+   "false": 0
+  },
+  "failure": null,
+  "stages_completed": [
+   "single_step",
+   "threshold_witness",
+   "stencil_motif",
+   "chained",
+   "schedule_table"
+  ],
+  "passed": true
+ },
+ "base_invariance_witness": {
+  "fills": [
+   0.1,
+   0.9
+  ],
+  "bit_differences": {
+   "p_become": 0,
+   "g_q": 0,
+   "rand_grid": 0
+  },
+  "state_differences": 0,
+  "passed": true,
+  "under_base_leakage_mutant": {
+   "fills": [
+    0.1,
+    0.9
+   ],
+   "bit_differences": {
+    "p_become": 2500,
+    "g_q": 0,
+    "rand_grid": 0
+   },
+   "state_differences": 673,
+   "passed": false
+  }
+ },
+ "alignment_witness": {
+  "constructed_transient": {
+   "aligned_rho0": 1.0,
+   "shifted_rho0": 0.3996,
+   "aligned_block0_mean": 0.42504,
+   "shifted_block0_mean": 0.40104,
+   "rho0_margin": 0.6004,
+   "passed": true
+  },
+  "secondary_guard": {
+   "init_density": 0.1,
+   "ref_rho0": 0.1,
+   "cand_rho0": 0.1,
+   "passed": true
+  },
+  "passed": true
+ },
+ "fp_witness": {
+  "frozen": {
+   "u_t": 0.05,
+   "kappa": 0.209,
+   "neighbor_count": 0,
+   "g_q": -1.0,
+   "logit_original": "0xbfe210192161d86f",
+   "logit_regrouped": "0xbfe210192161d86e",
+   "p_become_original": "0x3fd73371e858a8e2",
+   "p_become_regrouped": "0x3fd73371e858a8e3"
+  },
+  "observed": {
+   "logit_original": "0xbfe210192161d86f",
+   "logit_regrouped": "0xbfe210192161d86e",
+   "p_become_original": "0x3fd73371e858a8e2",
+   "p_become_regrouped": "0x3fd73371e858a8e3"
+  },
+  "logit_bits_differ": true,
+  "p_become_bits_differ": true,
+  "matches_frozen": true,
+  "passed": true
+ },
+ "solved_offset_enumeration": {
+  "config_source_sha256": "f913a3f4434f540c361a416909ddb8a0c3f3c661f4e0cb24af36a642cd651872",
+  "dynamics_source_sha256": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8",
+  "frozen_source_sha256": {
+   "config.py": "f913a3f4434f540c361a416909ddb8a0c3f3c661f4e0cb24af36a642cd651872",
+   "dynamics.py": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8"
+  },
+  "source_identity_ok": true,
+  "schedule_type": "Tuple[Tuple[int, float], ...]",
+  "surfaces_inspected": [],
+  "unparsed_surfaces": [],
+  "solved_offset_values_discovered": [],
+  "cm0_table_set": [
+   0.0,
+   0.05,
+   0.1,
+   0.125,
+   0.25,
+   0.5
+  ],
+  "missing_from_frozen_table": [],
+  "passed": true
+ },
+ "mutants": [
+  {
+   "id": 1,
+   "name": "kappa_sign_flip",
+   "harness": "b1",
+   "mutation_id": "step:kappa_sign_flip",
+   "expected_checks": [
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "p_become_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.1042",
+   "attributed": true,
+   "detail": "rejected by comparator/p_become_bits at single_step:all_inactive|u=0.0|k=+0.1042",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_01\\gate_b_b1_failure_1789500578962623000_56304_9de82760.json",
+   "artifact_sha256": "7382ff523a35748bfd0a1392e189c8c1b5ad5714c01c96dac46c492a07859cab",
+   "expected_bits": "0x3fd80474ffaaf8ba",
+   "observed_bits": "0x3fdb37446b7c3daa"
+  },
+  {
+   "id": 2,
+   "name": "kappa_abs",
+   "harness": "b1",
+   "mutation_id": "step:kappa_abs",
+   "expected_checks": [
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "p_become_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=-0.1042",
+   "attributed": true,
+   "detail": "rejected by comparator/p_become_bits at single_step:all_inactive|u=0.0|k=-0.1042",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_02\\gate_b_b1_failure_1789500579611749500_56304_b9930850.json",
+   "artifact_sha256": "91529f677f8c09098cb4e5f82361491d651c40aa79ea79465f83687c2baaa529",
+   "expected_bits": "0x3fdb37446b7c3daa",
+   "observed_bits": "0x3fd80474ffaaf8ba"
+  },
+  {
+   "id": 3,
+   "name": "kappa_misscaled",
+   "harness": "b1",
+   "mutation_id": "step:kappa_misscaled",
+   "expected_checks": [
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "p_become_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.1042",
+   "attributed": true,
+   "detail": "rejected by comparator/p_become_bits at single_step:all_inactive|u=0.0|k=+0.1042",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_03\\gate_b_b1_failure_1789500580214074000_56304_7f8fe987.json",
+   "artifact_sha256": "bb26155e359de91fd415f8e4572712ce5719773e94f778ed29061547f33f8189",
+   "expected_bits": "0x3fd80474ffaaf8ba",
+   "observed_bits": "0x3fd8cdd795df37a2"
+  },
+  {
+   "id": 4,
+   "name": "kappa_not_plumbed",
+   "harness": "b1",
+   "mutation_id": "step:kappa_not_plumbed",
+   "expected_checks": [
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "p_become_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.1042",
+   "attributed": true,
+   "detail": "rejected by comparator/p_become_bits at single_step:all_inactive|u=0.0|k=+0.1042",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_04\\gate_b_b1_failure_1789500580794665200_56304_1387612e.json",
+   "artifact_sha256": "a574d6fc4db6c5a40369db11d50a8c7a54d31c8b921908145b8d3d9999f0c476",
+   "expected_bits": "0x3fd80474ffaaf8ba",
+   "observed_bits": "0x3fd999999999999a"
+  },
+  {
+   "id": 5,
+   "name": "u_omitted",
+   "harness": "b1",
+   "mutation_id": "step:u_omitted",
+   "expected_checks": [
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "p_become_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.05|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/p_become_bits at single_step:all_inactive|u=0.05|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_05\\gate_b_b1_failure_1789500581437526700_56304_125098fe.json",
+   "artifact_sha256": "852fdc21249f2f3f6cf14db157beb219edcd291443da6e89b5de4e4291132565",
+   "expected_bits": "0x3fda5f279504b79b",
+   "observed_bits": "0x3fd999999999999a"
+  },
+  {
+   "id": 6,
+   "name": "u_reversed",
+   "harness": "b1",
+   "mutation_id": "step:u_reversed",
+   "expected_checks": [
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "p_become_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.05|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/p_become_bits at single_step:all_inactive|u=0.05|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_06\\gate_b_b1_failure_1789500582140599600_56304_b578370b.json",
+   "artifact_sha256": "f431359a0fd503ac6b5d03672c9d1d5d85d6a7e9675aebf965e2f0fa3e484c2a",
+   "expected_bits": "0x3fda5f279504b79b",
+   "observed_bits": "0x3fd8d602bcc04118"
+  },
+  {
+   "id": 7,
+   "name": "u_leaks_into_survival",
+   "harness": "b1",
+   "mutation_id": "step:u_leaks_into_survival",
+   "expected_checks": [
+    "is_active_exact"
+   ],
+   "rejected": true,
+   "observed_check": "is_active_exact",
+   "observed_battery": "single_step",
+   "observed_case": "all_active|u=0.05|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/is_active_exact at single_step:all_active|u=0.05|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_07\\gate_b_b1_failure_1789500582704643300_56304_8179b705.json",
+   "artifact_sha256": "439870a5f1e4535d5def9e71e34dea27db7062578158e4c4d747afc4b0484378",
+   "expected_bits": "ancestor next-state",
+   "observed_bits": "candidate next-state"
+  },
+  {
+   "id": 8,
+   "name": "wrong_p_survive_config",
+   "harness": "b1",
+   "mutation_id": "config:p_survive",
+   "expected_checks": [
+    "p_survive_bits"
+   ],
+   "rejected": true,
+   "observed_check": "p_survive_bits",
+   "observed_battery": "preflight",
+   "observed_case": "p_survive",
+   "attributed": true,
+   "detail": "rejected by scalar/p_survive_bits at preflight:p_survive",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_08\\gate_b_b1_failure_1789500583197496100_56304_bdcf3197.json",
+   "artifact_sha256": "ae90c394435a2c9071ddc2d6554c8fb44793edfe7aff8f0533f2ab60d92e7b58",
+   "expected_bits": "0x3fd999999999999a",
+   "observed_bits": "0x3fd999999999999b"
+  },
+  {
+   "id": 9,
+   "name": "wrong_p_survive_branch",
+   "harness": "b1",
+   "mutation_id": "step:wrong_p_survive",
+   "expected_checks": [
+    "is_active_exact"
+   ],
+   "rejected": true,
+   "observed_check": "is_active_exact",
+   "observed_battery": "threshold_witness",
+   "observed_case": "bern_0.40|u=0.0|k=+0.0000|equal",
+   "attributed": true,
+   "detail": "rejected by comparator/is_active_exact at threshold_witness:bern_0.40|u=0.0|k=+0.0000|equal",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_09\\gate_b_b1_failure_1789500584170910800_56304_ffdca3fa.json",
+   "artifact_sha256": "0fbf91a10b296172ce96c031fd2e829912ddf38ef550a2e08147a29ac83937e4",
+   "expected_bits": "ancestor next-state",
+   "observed_bits": "candidate next-state"
+  },
+  {
+   "id": 10,
+   "name": "become_le",
+   "harness": "b1",
+   "mutation_id": "step:become_le",
+   "expected_checks": [
+    "is_active_exact"
+   ],
+   "rejected": true,
+   "observed_check": "is_active_exact",
+   "observed_battery": "threshold_witness",
+   "observed_case": "all_inactive|u=0.0|k=+0.0000|equal",
+   "attributed": true,
+   "detail": "rejected by comparator/is_active_exact at threshold_witness:all_inactive|u=0.0|k=+0.0000|equal",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_10\\gate_b_b1_failure_1789500585264369400_56304_9b7a4c91.json",
+   "artifact_sha256": "8498e812a5cba6409e72682df3ea4713a55c6b1f0579b4c7d07016ab4770a7db",
+   "expected_bits": "ancestor next-state",
+   "observed_bits": "candidate next-state"
+  },
+  {
+   "id": 11,
+   "name": "survive_le",
+   "harness": "b1",
+   "mutation_id": "step:survive_le",
+   "expected_checks": [
+    "is_active_exact"
+   ],
+   "rejected": true,
+   "observed_check": "is_active_exact",
+   "observed_battery": "threshold_witness",
+   "observed_case": "bern_0.40|u=0.0|k=+0.0000|equal",
+   "attributed": true,
+   "detail": "rejected by comparator/is_active_exact at threshold_witness:bern_0.40|u=0.0|k=+0.0000|equal",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_11\\gate_b_b1_failure_1789500586267276000_56304_9dfe9504.json",
+   "artifact_sha256": "0fbf91a10b296172ce96c031fd2e829912ddf38ef550a2e08147a29ac83937e4",
+   "expected_bits": "ancestor next-state",
+   "observed_bits": "candidate next-state"
+  },
+  {
+   "id": 12,
+   "name": "moore_omit",
+   "harness": "b1",
+   "mutation_id": "step:moore_omit",
+   "expected_checks": [
+    "g_q_bits",
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "g_q_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_active|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/g_q_bits at single_step:all_active|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_12\\gate_b_b1_failure_1789500586821766200_56304_e27d35e9.json",
+   "artifact_sha256": "c3934633226d19590afb23d29e7ebd324907fb300835d75f6246f4773e575922",
+   "expected_bits": "0x3ff0000000000000",
+   "observed_bits": "0x3fe8000000000000"
+  },
+  {
+   "id": 13,
+   "name": "moore_duplicate",
+   "harness": "b1",
+   "mutation_id": "step:moore_duplicate",
+   "expected_checks": [
+    "g_q_bits",
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "g_q_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_active|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/g_q_bits at single_step:all_active|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_13\\gate_b_b1_failure_1789500587403843400_56304_9d054824.json",
+   "artifact_sha256": "6e72cb9439acce94989f81a9dfb1929260ac8cbe22d314776e7b4a0b38ba2389",
+   "expected_bits": "0x3ff0000000000000",
+   "observed_bits": "0x3ff4000000000000"
+  },
+  {
+   "id": 14,
+   "name": "self_inclusive",
+   "harness": "b1",
+   "mutation_id": "step:self_inclusive",
+   "expected_checks": [
+    "g_q_bits",
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "g_q_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_active|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/g_q_bits at single_step:all_active|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_14\\gate_b_b1_failure_1789500587935785700_56304_bc54d520.json",
+   "artifact_sha256": "6e72cb9439acce94989f81a9dfb1929260ac8cbe22d314776e7b4a0b38ba2389",
+   "expected_bits": "0x3ff0000000000000",
+   "observed_bits": "0x3ff4000000000000"
+  },
+  {
+   "id": 15,
+   "name": "cardinal_only",
+   "harness": "b1",
+   "mutation_id": "step:cardinal_only",
+   "expected_checks": [
+    "g_q_bits",
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "g_q_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_active|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/g_q_bits at single_step:all_active|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_15\\gate_b_b1_failure_1789500588452587900_56304_569451c9.json",
+   "artifact_sha256": "57d9823f96e2e84b741deeb82f24b4a178330dca52bb3dd0acd6f0c9b18e6d95",
+   "expected_bits": "0x3ff0000000000000",
+   "observed_bits": "0x0000000000000000"
+  },
+  {
+   "id": 16,
+   "name": "diagonal_only",
+   "harness": "b1",
+   "mutation_id": "step:diagonal_only",
+   "expected_checks": [
+    "g_q_bits",
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "g_q_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_active|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/g_q_bits at single_step:all_active|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_16\\gate_b_b1_failure_1789500588959533000_56304_16fdab55.json",
+   "artifact_sha256": "57d9823f96e2e84b741deeb82f24b4a178330dca52bb3dd0acd6f0c9b18e6d95",
+   "expected_bits": "0x3ff0000000000000",
+   "observed_bits": "0x0000000000000000"
+  },
+  {
+   "id": 17,
+   "name": "divisor_9",
+   "harness": "b1",
+   "mutation_id": "step:divisor_9",
+   "expected_checks": [
+    "g_q_bits",
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "g_q_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_active|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/g_q_bits at single_step:all_active|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_17\\gate_b_b1_failure_1789500589516321600_56304_9701b3e1.json",
+   "artifact_sha256": "4af22926d8a6ba406a52815cf75a5f952e337a8b6d25d906f63b95ddf61647e2",
+   "expected_bits": "0x3ff0000000000000",
+   "observed_bits": "0x3fe8e38e38e38e38"
+  },
+  {
+   "id": 18,
+   "name": "gq_is_q",
+   "harness": "b1",
+   "mutation_id": "step:gq_is_q",
+   "expected_checks": [
+    "g_q_bits",
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "g_q_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/g_q_bits at single_step:all_inactive|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_18\\gate_b_b1_failure_1789500589990600300_56304_99586907.json",
+   "artifact_sha256": "d40022826c17c81313b010f0e54650be520ed4e74545332ff59ebfbee21d6ccd",
+   "expected_bits": "0xbff0000000000000",
+   "observed_bits": "0x0000000000000000"
+  },
+  {
+   "id": 19,
+   "name": "boundary_clamped",
+   "harness": "b1",
+   "mutation_id": "step:boundary_clamped",
+   "expected_checks": [
+    "g_q_bits",
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "g_q_bits",
+   "observed_battery": "single_step",
+   "observed_case": "b_init_42|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/g_q_bits at single_step:b_init_42|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_19\\gate_b_b1_failure_1789500590556617200_56304_7383ca5e.json",
+   "artifact_sha256": "b90581e72a55e9f830c1e2175f3e858d02b046cfa8bcbda3cbc351c48f7e1cdb",
+   "expected_bits": "0xbfe8000000000000",
+   "observed_bits": "0xbff0000000000000"
+  },
+  {
+   "id": 20,
+   "name": "eta_floor_leak",
+   "harness": "b1",
+   "mutation_id": "step:eta_floor_leak",
+   "expected_checks": [
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "p_become_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/p_become_bits at single_step:all_inactive|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_20\\gate_b_b1_failure_1789500591034664000_56304_939ad1eb.json",
+   "artifact_sha256": "658d0c39e9c8c5eed11e9b7f5b1334997b7faa6e388a7cf2cdd1609c599e4a59",
+   "expected_bits": "0x3fd999999999999a",
+   "observed_bits": "0x3fd9fbe76c8b4396"
+  },
+  {
+   "id": 21,
+   "name": "float32_before_sigmoid",
+   "harness": "b1",
+   "mutation_id": "step:float32_before_sigmoid",
+   "expected_checks": [
+    "comparator_contract",
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "comparator_contract",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/comparator_contract at single_step:all_inactive|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_21\\gate_b_b1_failure_1789500591567530100_56304_8f2640f3.json",
+   "artifact_sha256": "58122c3837a0e9635cec7cf11009d5f680f7e306c45097b386149702557251da",
+   "expected_bits": "",
+   "observed_bits": ""
+  },
+  {
+   "id": 22,
+   "name": "separate_rand_per_branch",
+   "harness": "b1",
+   "mutation_id": "step:separate_rand_per_branch",
+   "expected_checks": [
+    "frozen_sequence_stub"
+   ],
+   "rejected": true,
+   "observed_check": "frozen_sequence_stub",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by stub/frozen_sequence_stub at single_step:all_inactive|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_22\\gate_b_b1_failure_1789500592137370200_56304_d1f99b65.json",
+   "artifact_sha256": "2b765c01f853aeb5732fc0ea0474bdc8bfd2c737da2dfd0dadb64c1ffb9b19cc",
+   "expected_bits": "",
+   "observed_bits": ""
+  },
+  {
+   "id": 23,
+   "name": "two_draws_per_tick",
+   "harness": "b1",
+   "mutation_id": "step:two_draws_per_tick",
+   "expected_checks": [
+    "frozen_sequence_stub"
+   ],
+   "rejected": true,
+   "observed_check": "frozen_sequence_stub",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by stub/frozen_sequence_stub at single_step:all_inactive|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_23\\gate_b_b1_failure_1789500592610479800_56304_4c065596.json",
+   "artifact_sha256": "2b765c01f853aeb5732fc0ea0474bdc8bfd2c737da2dfd0dadb64c1ffb9b19cc",
+   "expected_bits": "",
+   "observed_bits": ""
+  },
+  {
+   "id": 24,
+   "name": "async_inplace",
+   "harness": "b1",
+   "mutation_id": "step:async_inplace",
+   "expected_checks": [
+    "g_q_bits",
+    "is_active_exact",
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "is_active_exact",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.1042",
+   "attributed": true,
+   "detail": "rejected by comparator/is_active_exact at single_step:all_inactive|u=0.0|k=+0.1042",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_24\\gate_b_b1_failure_1789500593105703200_56304_a423627b.json",
+   "artifact_sha256": "1e011f89c39f8c391054649c0d439fb255f5fc8c9a2d9e3eb3f395f8a4135a7e",
+   "expected_bits": "ancestor next-state",
+   "observed_bits": "candidate next-state"
+  },
+  {
+   "id": 25,
+   "name": "masks_swapped",
+   "harness": "b1",
+   "mutation_id": "step:masks_swapped",
+   "expected_checks": [
+    "is_active_exact"
+   ],
+   "rejected": true,
+   "observed_check": "is_active_exact",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.1042",
+   "attributed": true,
+   "detail": "rejected by comparator/is_active_exact at single_step:all_inactive|u=0.0|k=+0.1042",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_25\\gate_b_b1_failure_1789500593576987100_56304_9feb3f93.json",
+   "artifact_sha256": "543a65ff6352113867b09b80626704f5538c25cace1006cb312ad428f5ba331e",
+   "expected_bits": "ancestor next-state",
+   "observed_bits": "candidate next-state"
+  },
+  {
+   "id": 26,
+   "name": "masks_wrong_prior",
+   "harness": "b1",
+   "mutation_id": "step:masks_wrong_prior",
+   "expected_checks": [
+    "is_active_exact"
+   ],
+   "rejected": true,
+   "observed_check": "is_active_exact",
+   "observed_battery": "single_step",
+   "observed_case": "b_init_42|u=0.0|k=+0.1042",
+   "attributed": true,
+   "detail": "rejected by comparator/is_active_exact at single_step:b_init_42|u=0.0|k=+0.1042",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_26\\gate_b_b1_failure_1789500594157881500_56304_17f93643.json",
+   "artifact_sha256": "31a52c1cf0c7901e67f3fd52b9cd4072b1459e814249518b304ca3c957ee9c71",
+   "expected_bits": "ancestor next-state",
+   "observed_bits": "candidate next-state"
+  },
+  {
+   "id": 27,
+   "name": "wrong_dispatch",
+   "harness": "b1",
+   "mutation_id": "dispatch:symmetric_chain",
+   "expected_checks": [
+    "frozen_sequence_stub",
+    "sink_field_family"
+   ],
+   "rejected": true,
+   "observed_check": "sink_field_family",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by field_family/sink_field_family at single_step:all_inactive|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_27\\gate_b_b1_failure_1789500594667960000_56304_ae31573b.json",
+   "artifact_sha256": "67d19f00eb89260ff19b91b7cb0571611a509e68964e3914da6eac2073f8b850",
+   "expected_bits": "['Psi_local', 'g_q', 'is_active', 'p_become', 'rand_grid']",
+   "observed_bits": "['Drive_Raw', 'Lambda_additive', 'Lambda_multiplicative', 'Lambda_total', 'Local_Density', 'PRNG_draw', 'Psi_local', 'Term_Density_Pos', 'Term_Lambda', 'Term_Offset', 'Term_Overcrowding', 'b_i_r', 'b_i_u', 'b_i_v', 'is_active', 'limiting_base_argmin', 'p_act', 'p_base']"
+  },
+  {
+   "id": 28,
+   "name": "block_index_off_by_one",
+   "harness": "schedule_table",
+   "mutation_id": "u_t:block_index_off_by_one",
+   "expected_checks": [
+    "u_t_bits"
+   ],
+   "rejected": true,
+   "observed_check": "u_t_bits",
+   "observed_battery": "schedule_table",
+   "observed_case": "cm1|tier=0.1|tick=24",
+   "attributed": true,
+   "detail": "rejected by comparator/u_t_bits at schedule_table:cm1|tier=0.1|tick=24",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_28\\gate_b_b1_failure_1789500595039811300_56304_3e6027f4.json",
+   "artifact_sha256": "1d9b845024cfac95b67a534e9c0fedf80e881b12a5aa2b648a9c6d7c58a7b855",
+   "expected_bits": "0x0000000000000000",
+   "observed_bits": "0x3fa999999999999a"
+  },
+  {
+   "id": 29,
+   "name": "ordering_permuted",
+   "harness": "schedule_table",
+   "mutation_id": "u_t:cm1_ordering_permuted",
+   "expected_checks": [
+    "u_t_bits"
+   ],
+   "rejected": true,
+   "observed_check": "u_t_bits",
+   "observed_battery": "schedule_table",
+   "observed_case": "cm1|tier=0.1|tick=25",
+   "attributed": true,
+   "detail": "rejected by comparator/u_t_bits at schedule_table:cm1|tier=0.1|tick=25",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_29\\gate_b_b1_failure_1789500595384486400_56304_4302fcbf.json",
+   "artifact_sha256": "ef38eecc0d63c658dd1f04434a3aa53a3e81b29d40babb59cd8aa7543dca4482",
+   "expected_bits": "0x3fa999999999999a",
+   "observed_bits": "0x3fb999999999999a"
+  },
+  {
+   "id": 30,
+   "name": "fp_association",
+   "harness": "b1",
+   "mutation_id": "step:fp_association",
+   "expected_checks": [
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "p_become_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.05|k=+0.2090",
+   "attributed": true,
+   "detail": "rejected by comparator/p_become_bits at single_step:all_inactive|u=0.05|k=+0.2090",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_30\\gate_b_b1_failure_1789500595869232900_56304_d86e0331.json",
+   "artifact_sha256": "dcf52669765e8e5c43068a9b49ef6c92eefb9ef3bb33af2809dc19b9df1ad558",
+   "expected_bits": "0x3fd73371e858a8e2",
+   "observed_bits": "0x3fd73371e858a8e3"
+  },
+  {
+   "id": 31,
+   "name": "one_tick_shift",
+   "harness": "alignment_witness",
+   "mutation_id": "b2:candidate_rho_trajectory_shift",
+   "expected_checks": [
+    "alignment_witness"
+   ],
+   "rejected": true,
+   "observed_check": "alignment_witness",
+   "observed_battery": "alignment_witness",
+   "observed_case": "constructed_all_active_transient",
+   "attributed": true,
+   "detail": "aligned rho0=0.3996 block0=0.401040 vs shifted rho0=0.3796 block0=0.401296",
+   "artifact_path": null,
+   "artifact_sha256": null,
+   "expected_bits": "0.3996",
+   "observed_bits": "0.3796"
+  },
+  {
+   "id": 32,
+   "name": "base_leakage",
+   "harness": "b1",
+   "mutation_id": "step:base_leakage",
+   "expected_checks": [
+    "p_become_bits"
+   ],
+   "rejected": true,
+   "observed_check": "p_become_bits",
+   "observed_battery": "single_step",
+   "observed_case": "all_inactive|u=0.0|k=+0.0000",
+   "attributed": true,
+   "detail": "rejected by comparator/p_become_bits at single_step:all_inactive|u=0.0|k=+0.0000",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records\\qualification\\mutant_32\\gate_b_b1_failure_1789500596821634600_56304_32a2f748.json",
+   "artifact_sha256": "a875e22faa61c460199f673c42f2b84bdbf8f47a00635448a68500f75dfc65ef",
+   "expected_bits": "0x3fd999999999999a",
+   "observed_bits": "0x3fc999999999999a"
+  }
+ ],
+ "stages_completed": [
+  "manifest_preflight",
+  "positive_control",
+  "witnesses",
+  "mutants"
+ ],
+ "failure": null,
+ "written_to": null,
+ "passed": true
+}

@@ -1,0 +1,17 @@
+{
+ "failure_class": "comparator",
+ "battery": "schedule_table",
+ "case_id": "cm1|tier=0.1|tick=24",
+ "comparator": "u_t_bits",
+ "mismatches": 1,
+ "expected_bits": "0x0000000000000000",
+ "observed_bits": "0x3fa999999999999a",
+ "detail": "",
+ "environment": "schedule_table_witness",
+ "environment_record": null,
+ "provenance": {},
+ "stages_completed": [],
+ "cases_compared_before_halt": 2824,
+ "comparator_evaluations_before_halt": 2825,
+ "written_to": null
+}
