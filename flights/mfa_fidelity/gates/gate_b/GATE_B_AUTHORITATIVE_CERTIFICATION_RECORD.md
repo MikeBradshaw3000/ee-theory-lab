@@ -1,5 +1,5 @@
 # Gate B — AUTHORITATIVE Certification Record
-**Gate:** B (Lineage B fidelity: `become_survive`). **Specification:** Gate B v0.4, FROZEN 2026-09-04 (`e2f06bb1…`), never-relax-after-output in force. **Executed:** 2026-09-15/16, canonical machine (Windows; Python 3.14.4; NumPy 2.4.4; the frozen venv, twenty pins conforming). **Harness:** modules 1–4 placed at `b046456`, blob-identity repair at `9d1f75f`; L2 source-review SOUND throughout. **Recorded by:** L1. **Status:** RATIFIED by Mike, 2026-09-16; routed to L2 for AUTHORITATIVE acceptance review.
+**Gate:** B (Lineage B fidelity: `become_survive`). **Specification:** Gate B v0.4, FROZEN 2026-09-04 (`e2f06bb1…`), never-relax-after-output in force. **Executed:** 2026-09-15/16, canonical machine (Windows; Python 3.14.4; NumPy 2.4.4; the frozen venv, twenty pins conforming). **Harness:** modules 1–4 placed at `b046456`, blob-identity repair at `9d1f75f`; L2 source-review SOUND throughout. **Recorded by:** L1. **Status:** RATIFIED by Mike, 2026-09-16; **AMENDMENT 1 (§9) ratified 2026-09-16**; routed to L2 for AUTHORITATIVE acceptance review.
 
 ## 1. Result
 
@@ -7,11 +7,13 @@
 
 ## 2. Run of record (three artifacts, sha256-16)
 
-| act | artifact | identity | outcome |
-|---|---|---|---|
-| 1 — formal qualification | `qualification/gate_b_qualification_1789500596834674000_56304_a78fb59a.json` | `8F0FE639A62F4285` | PASS — manifest preflight; positive control (AUTHORITATIVE B1) PASS; witnesses (base invariance, alignment, FP, solved-offset) PASS; 32/32 mutants rejected, 32/32 attributed to their pre-declared checks; 31 per-mutant B1/schedule failure artifacts linked by path and digest |
-| 2 — AUTHORITATIVE B1 | `b1/gate_b_b1_AUTHORITATIVE_report_1789500951423759000.json` | `9A258F37723789F9` | PASS — five frozen batteries (486 / 27 / 108 / 150 / 4,000), 4,771 case bundles, 7,085 comparator evaluations, allclose diagnostic 6,314 true / 0 false; reference blob `466455f2…` FULL; candidate `9d1f75f` (worktree dirty: untracked Stage-2 calibration outputs, recorded) |
-| 3 — AUTHORITATIVE B2 | `b2/gate_b_b2_AUTHORITATIVE_report_1789503512233053500.json` | `62316661FACF8903` | PASS — wrapper verification 10/10 bit-identical (exact shape, dtype, bytes) against the pinned `execute_run`; eight cells, every Welch TOST interval inside ±0.003, no gross-divergence alarm; 769 s |
+Each artifact has two byte identities (Amendment 1, §9): the **committed git blob** (LF; the identity of record) and the **working-tree file as measured on the canonical Windows machine at execution** (CRLF; the same bytes with every LF replaced by CRLF — verified by reproduction, not inferred).
+
+| act | artifact | committed blob (identity of record) | working tree at execution (CRLF) | outcome |
+|---|---|---|---|---|
+| 1 — formal qualification | `qualification/gate_b_qualification_1789500596834674000_56304_a78fb59a.json` | `46D905B3A75C283A` | `8F0FE639A62F4285` | PASS — manifest preflight; positive control (AUTHORITATIVE B1) PASS; witnesses (base invariance, alignment, FP, solved-offset) PASS; 32/32 mutants rejected, 32/32 attributed to their pre-declared checks; 31 per-mutant B1/schedule failure artifacts linked by path and digest |
+| 2 — AUTHORITATIVE B1 | `b1/gate_b_b1_AUTHORITATIVE_report_1789500951423759000.json` | `2A715899A91521A2` | `9A258F37723789F9` | PASS — five frozen batteries (486 / 27 / 108 / 150 / 4,000), 4,771 case bundles, 7,085 comparator evaluations, allclose diagnostic 6,314 true / 0 false; reference blob `466455f2…` FULL; candidate `9d1f75f` (worktree dirty: untracked Stage-2 calibration outputs, recorded) |
+| 3 — AUTHORITATIVE B2 | `b2/gate_b_b2_AUTHORITATIVE_report_1789503512233053500.json` | `DB70E78A1CEEDCA7` | `62316661FACF8903` | PASS — wrapper verification 10/10 bit-identical (exact shape, dtype, bytes) against the pinned `execute_run`; eight cells, every Welch TOST interval inside ±0.003, no gross-divergence alarm; 769 s |
 
 ## 3. B2 cell results (terminal-window mean ρ, ticks 300–399; n = 20 per side)
 
@@ -50,3 +52,13 @@ Specification lineage v0.1 → v0.4 through four L2 rounds, frozen by Mike's wor
 ## 8. Ratification
 
 Ratified by Mike's word of 2026-09-16, given after reading this record in full. This record, the three run-of-record artifacts, and the per-mutant artifacts commit to `flights/mfa_fidelity/gates/gate_b/records/`, and the bundle routes to L2 for AUTHORITATIVE acceptance review.
+
+## 9. Amendment 1 — artifact identities (ratified by Mike, 2026-09-16)
+
+**Finding.** The record as first signed cited the three run-of-record identities as measured on the canonical machine's working tree. On commit, git normalized the artifacts' line endings (Python's text-mode `json.dump` on Windows writes CRLF; the repository stores LF), so the committed blobs carry different digests. Verified exactly from a fresh clone: each working-tree digest equals the committed blob's bytes with every LF replaced by CRLF; the JSON content, the parsed verdicts (`passed: True` in all three; B2 `wrapper: PASS`, label `AUTHORITATIVE`), and every recorded number are identical.
+
+**Amendment.** §2 now cites both identities per artifact and names the **committed blob as the identity of record**. The per-mutant `artifact_sha256` values inside the qualification record were likewise computed over the working-tree (CRLF) files at execution; the committed blobs of those thirty-one artifacts differ by the same transformation. No number, verdict, or claim in this record changes.
+
+**Root cause and routed hardening.** The atomic writers in `b1.py`, `b2.py`, and `qualification.py` open their output in text mode without `newline="\n"`, so artifacts inherit the platform newline. A `newline="\n"` in those three writers would make artifacts byte-identical across platforms. This touches cleared files and is routed to L2 as a hardening finding; it is not made here.
+
+**Governance note.** This is the third appearance of the platform-byte-identity class in this arc (reference source; test fixtures; now certification artifacts). The gate's own identity discipline exposed each one. The lesson of record: every identity cited in a governance document must be the identity of the committed object, measured from the repository, not from a working tree.
