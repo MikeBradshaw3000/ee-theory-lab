@@ -298,7 +298,7 @@ def test_r0_governing_identity_is_r0s_own_not_gate_bs():
     gov = R0.R0_GOVERNING
     assert gov["merge_specification_sha256"] == "39f66673657b0f429691c908142f889d9ef3d463a8372455cba95db7c486f52a"
     assert gov["merge_specification_sha256"] != B1.SPEC_SHA256 and gov["r0_design_declaration_sha256"] != B1.SPEC_SHA256
-    src = open(R0.__file__).read()
+    src = open(R0.__file__, encoding="utf-8").read()          # explicit UTF-8: the source carries Ψ/Σ/− (Windows default is cp1252)
     assert "SPEC_SHA256" not in src.replace("R0_GOVERNING", "") and "spec_sha256" not in src.split("R0_GOVERNING")[0]
 
 @needs_pin
