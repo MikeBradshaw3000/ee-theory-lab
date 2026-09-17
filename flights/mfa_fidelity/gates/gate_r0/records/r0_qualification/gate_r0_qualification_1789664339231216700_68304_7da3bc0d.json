@@ -1,0 +1,749 @@
+{
+ "version": "gate_r0_v3 / Merge Spec v0.4 FROZEN section 8.3 / departure set declared 2026-09-16",
+ "environment": "python3.14.4/numpy2.4.4",
+ "label": "AUTHORITATIVE",
+ "provenance": {
+  "frozen_manifest_sha256_literal": "b577bd32017e6ae7686b05ade03077eda690497009b806e340d9c21e495aa60c",
+  "governing": {
+   "merge_specification": "MERGE_SPECIFICATION_v0_4_FROZEN.md",
+   "merge_specification_sha256": "39f66673657b0f429691c908142f889d9ef3d463a8372455cba95db7c486f52a",
+   "r0_design_declaration": "DESIGN_NOTE_GATE_R0.md (departure set DECLARED by Mike 2026-09-16)",
+   "r0_design_declaration_sha256": "08a503ec145bd076661341703f51e78f0045816fbe06d5380c39b303d6dd6031"
+  },
+  "execution_precondition": "fresh Python process; no stale bytecode (L2 r3 O1)",
+  "bridge_source_sha256": "0f9d9292c14fa69139e9e0867a881f9736a6ddbb4991a6d7c63b59d180cf395e",
+  "gate_r0_source_sha256": "4b4c7e5a1c06dfac362e3a2c29a795249b4f4a783c2c5de7fcf18a7fa46a638f",
+  "baseline_identity_bundle": {
+   "candidate_commit": "168cb80b96c3a6fd8edd76d9d9934b5511264867",
+   "bridge_source_sha256": "0f9d9292c14fa69139e9e0867a881f9736a6ddbb4991a6d7c63b59d180cf395e",
+   "gate_r0_source_sha256": "4b4c7e5a1c06dfac362e3a2c29a795249b4f4a783c2c5de7fcf18a7fa46a638f",
+   "governing": {
+    "merge_specification": "MERGE_SPECIFICATION_v0_4_FROZEN.md",
+    "merge_specification_sha256": "39f66673657b0f429691c908142f889d9ef3d463a8372455cba95db7c486f52a",
+    "r0_design_declaration": "DESIGN_NOTE_GATE_R0.md (departure set DECLARED by Mike 2026-09-16)",
+    "r0_design_declaration_sha256": "08a503ec145bd076661341703f51e78f0045816fbe06d5380c39b303d6dd6031"
+   },
+   "frozen_case_map_sha256_literal": "ce043d526a6e5c808c52ae797e9ee828daed79554ec725510114127f0610ced0",
+   "frozen_ledger_sha256_literal": "1f512d4ed98ff207f133b5764f9a9db52a9c759f713494e1a884cd4c53622201",
+   "frozen_completion_sha256_literal": "7b361c144d1201d80a9a19b5f831d7e744f1cf1aee5491a39b39b5d985cb0a15",
+   "candidate_dynamics_sha256": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8",
+   "dynamics_source_sha256": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8"
+  }
+ },
+ "positive_control": {
+  "label": "AUTHORITATIVE",
+  "environment": "python3.14.4/numpy2.4.4",
+  "environment_record": {
+   "python_version": "3.14.4",
+   "python_build": [
+    "tags/v3.14.4:23116f9",
+    "Apr  7 2026 14:10:54"
+   ],
+   "python_implementation": "CPython",
+   "platform": "Windows-11-10.0.26200-SP0",
+   "venv_active": true,
+   "python_conforms": true,
+   "lock_sha256": "c10e02c5db497570ffeb45dc92857fcc633cb38364858a35458096950d02de7c",
+   "lock_worktree_mirror_matches": true,
+   "pins": {
+    "colorama": [
+     "0.4.6",
+     "0.4.6",
+     true
+    ],
+    "iniconfig": [
+     "2.3.0",
+     "2.3.0",
+     true
+    ],
+    "Mesa": [
+     "3.5.1",
+     "3.5.1",
+     true
+    ],
+    "networkx": [
+     "3.6.1",
+     "3.6.1",
+     true
+    ],
+    "numpy": [
+     "2.4.4",
+     "2.4.4",
+     true
+    ],
+    "packaging": [
+     "26.2",
+     "26.2",
+     true
+    ],
+    "pandas": [
+     "3.0.3",
+     "3.0.3",
+     true
+    ],
+    "patsy": [
+     "1.0.2",
+     "1.0.2",
+     true
+    ],
+    "pluggy": [
+     "1.6.0",
+     "1.6.0",
+     true
+    ],
+    "psutil": [
+     "7.2.2",
+     "7.2.2",
+     true
+    ],
+    "pyarrow": [
+     "24.0.0",
+     "24.0.0",
+     true
+    ],
+    "Pygments": [
+     "2.20.0",
+     "2.20.0",
+     true
+    ],
+    "pytest": [
+     "9.0.3",
+     "9.0.3",
+     true
+    ],
+    "python-dateutil": [
+     "2.9.0.post0",
+     "2.9.0.post0",
+     true
+    ],
+    "PyYAML": [
+     "6.0.3",
+     "6.0.3",
+     true
+    ],
+    "scipy": [
+     "1.17.1",
+     "1.17.1",
+     true
+    ],
+    "six": [
+     "1.17.0",
+     "1.17.0",
+     true
+    ],
+    "statsmodels": [
+     "0.14.6",
+     "0.14.6",
+     true
+    ],
+    "tqdm": [
+     "4.67.3",
+     "4.67.3",
+     true
+    ],
+    "tzdata": [
+     "2026.2",
+     "2026.2",
+     true
+    ]
+   },
+   "conforms": true,
+   "failures": []
+  },
+  "provenance": {
+   "label": "AUTHORITATIVE",
+   "environment": "python3.14.4/numpy2.4.4",
+   "r0_version": "gate_r0_v3 / Merge Spec v0.4 FROZEN section 8.3 / departure set declared 2026-09-16",
+   "governing": {
+    "merge_specification": "MERGE_SPECIFICATION_v0_4_FROZEN.md",
+    "merge_specification_sha256": "39f66673657b0f429691c908142f889d9ef3d463a8372455cba95db7c486f52a",
+    "r0_design_declaration": "DESIGN_NOTE_GATE_R0.md (departure set DECLARED by Mike 2026-09-16)",
+    "r0_design_declaration_sha256": "08a503ec145bd076661341703f51e78f0045816fbe06d5380c39b303d6dd6031"
+   },
+   "frozen_case_map_sha256_literal": "ce043d526a6e5c808c52ae797e9ee828daed79554ec725510114127f0610ced0",
+   "frozen_ledger_sha256_literal": "1f512d4ed98ff207f133b5764f9a9db52a9c759f713494e1a884cd4c53622201",
+   "frozen_completion_sha256_literal": "7b361c144d1201d80a9a19b5f831d7e744f1cf1aee5491a39b39b5d985cb0a15",
+   "bridge_source_sha256": "0f9d9292c14fa69139e9e0867a881f9736a6ddbb4991a6d7c63b59d180cf395e",
+   "gate_r0_source_sha256": "4b4c7e5a1c06dfac362e3a2c29a795249b4f4a783c2c5de7fcf18a7fa46a638f",
+   "dynamics_source_sha256": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8",
+   "environment_conforms": true,
+   "candidate_commit": "168cb80b96c3a6fd8edd76d9d9934b5511264867",
+   "candidate_worktree_dirty": true,
+   "candidate_dynamics_sha256": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8",
+   "dynamics_file_sha256_at_ast_check": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8"
+  },
+  "checks": {
+   "q1": 72,
+   "q2": 20,
+   "q3": 132,
+   "q4": 23
+  },
+  "ledger": {
+   "q1": {
+    "Local_Density_instrument": 33,
+    "Local_Density_bridge": 33,
+    "rho_global_bridge": 6
+   },
+   "q2": {
+    "rho_tick_index": 16,
+    "rho_global_pre_update": 16,
+    "rho_global_table_persisted": 4,
+    "rho_global_table_shape": 4,
+    "rho_global_table_dtypes": 4,
+    "rho_global_table_tick": 4,
+    "rho_global_table_values": 4,
+    "cleared_verifier_rho_table": 4
+   },
+   "q3": {
+    "Delta_from_Psi_instrument": 6,
+    "Delta_from_rho_instrument": 6,
+    "Psi_local_instrument": 6,
+    "is_active_next_instrument": 6,
+    "v_post_update": 6,
+    "u_base_post_update": 6,
+    "r_post_update": 6,
+    "clipped_v_count": 6,
+    "clipped_u_base_count": 6,
+    "clipped_r_count": 6,
+    "Delta_from_Psi_bridge": 6,
+    "Delta_from_rho_bridge": 6,
+    "delta_bridge": 6,
+    "v_new_bridge": 6,
+    "u_base_new_bridge": 6,
+    "r_new_bridge": 6,
+    "clipped_v_bridge": 6,
+    "clipped_u_base_bridge": 6,
+    "clipped_r_bridge": 6,
+    "mean_delta_from_psi_bridge": 6,
+    "mean_delta_from_rho_bridge": 6,
+    "mean_delta_bridge": 6
+   },
+   "q4": {
+    "local_read_dispersion": 4,
+    "config_neighbourhood_correlation": 3,
+    "morans_i": 4,
+    "morans_i_refused_on_constant_grid": 2,
+    "correlation_refused_on_zero_variance": 1,
+    "base_mean_v": 2,
+    "base_var_v": 2,
+    "base_mean_u_base": 2,
+    "base_var_u_base": 2,
+    "base_mean_r": 2,
+    "base_var_r": 2
+   }
+  },
+  "comparator_evaluations": 283,
+  "refusals_verified": [
+   "morans_i_refused_on_constant_grid|all_inactive",
+   "morans_i_refused_on_constant_grid|all_active",
+   "correlation_refused_on_zero_variance|constant"
+  ],
+  "stages_completed": [
+   "preflight",
+   "q1",
+   "q2",
+   "q3",
+   "q4",
+   "completion"
+  ],
+  "failure": null,
+  "written_to": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\positive_control\\gate_r0_AUTHORITATIVE_report_1789664317938754000_68304_cae16f13.json",
+  "passed": true
+ },
+ "mutants": [
+  {
+   "id": 1,
+   "name": "bridge_stencil_cardinal",
+   "target": "bridge",
+   "mutation_id": "bridge:stencil_cardinal",
+   "expected_checks": [
+    "Local_Density_bridge"
+   ],
+   "rejected": true,
+   "observed_check": "Local_Density_bridge",
+   "observed_stage": "q1",
+   "observed_case": "q1|all_active",
+   "attributed": true,
+   "detail": "rejected by comparator/Local_Density_bridge at q1:q1|all_active",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_01\\gate_r0_failure_1789664318159343000_68304_dc6bbe80.json",
+   "artifact_sha256": "1a3881a2cdca340a73b4955a7d4490afd9f6e04dbfbf7f2a531906d0dda880ca"
+  },
+  {
+   "id": 2,
+   "name": "bridge_divisor_9",
+   "target": "bridge",
+   "mutation_id": "bridge:divisor_9",
+   "expected_checks": [
+    "Local_Density_bridge"
+   ],
+   "rejected": true,
+   "observed_check": "Local_Density_bridge",
+   "observed_stage": "q1",
+   "observed_case": "q1|all_active",
+   "attributed": true,
+   "detail": "rejected by comparator/Local_Density_bridge at q1:q1|all_active",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_02\\gate_r0_failure_1789664318395822000_68304_c56f1fe5.json",
+   "artifact_sha256": "c85f14cd90000d7660a6d2935053b4aef298c7a629e66bc2240423e66d5e8297"
+  },
+  {
+   "id": 3,
+   "name": "instrument_stencil_cardinal",
+   "target": "instrument",
+   "mutation_id": "dyn:moore_cardinal",
+   "expected_checks": [
+    "Local_Density_instrument"
+   ],
+   "rejected": true,
+   "observed_check": "Local_Density_instrument",
+   "observed_stage": "q1",
+   "observed_case": "q1|all_active",
+   "attributed": true,
+   "detail": "rejected by comparator/Local_Density_instrument at q1:q1|all_active",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_03\\gate_r0_failure_1789664318621884700_68304_30a7a1c0.json",
+   "artifact_sha256": "6a99134dc9033c81959ad71bc36769aaebece0127af359fc4013d5e9c927ee85"
+  },
+  {
+   "id": 4,
+   "name": "bridge_rho_off_by_one",
+   "target": "bridge",
+   "mutation_id": "bridge:rho_plus_one",
+   "expected_checks": [
+    "rho_global_bridge"
+   ],
+   "rejected": true,
+   "observed_check": "rho_global_bridge",
+   "observed_stage": "q1",
+   "observed_case": "q1|all_inactive",
+   "attributed": true,
+   "detail": "rejected by comparator/rho_global_bridge at q1:q1|all_inactive",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_04\\gate_r0_failure_1789664318833852500_68304_c25bead3.json",
+   "artifact_sha256": "72ee9fb8fd35a0d028b17405fc6141a14a431659f31537f2437872124100c77e"
+  },
+  {
+   "id": 5,
+   "name": "instrument_rho_post_update",
+   "target": "instrument",
+   "mutation_id": "sink:rho_post_update",
+   "expected_checks": [
+    "rho_global_pre_update"
+   ],
+   "rejected": true,
+   "observed_check": "rho_global_pre_update",
+   "observed_stage": "q2",
+   "observed_case": "q2|draws_zero_from_quarter|local",
+   "attributed": true,
+   "detail": "rejected by comparator/rho_global_pre_update at q2:q2|draws_zero_from_quarter|local",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_05\\gate_r0_failure_1789664319467678700_68304_d6c0577b.json",
+   "artifact_sha256": "a54c7c2ec8e95fc78db381f154a0abe734eb358ce447b8925b11d5d283bb392e"
+  },
+  {
+   "id": 6,
+   "name": "instrument_local_density_post_update",
+   "target": "instrument",
+   "mutation_id": "sink:ld_post_update",
+   "expected_checks": [
+    "Local_Density_instrument"
+   ],
+   "rejected": true,
+   "observed_check": "Local_Density_instrument",
+   "observed_stage": "q1",
+   "observed_case": "q1|all_inactive",
+   "attributed": true,
+   "detail": "rejected by comparator/Local_Density_instrument at q1:q1|all_inactive",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_06\\gate_r0_failure_1789664319683532400_68304_69303eda.json",
+   "artifact_sha256": "da18db1313c207ce8d8c3a29fc7c7e4b84233ba7205a320bf204db3414aea3c2"
+  },
+  {
+   "id": 7,
+   "name": "bridge_decomposition_swapped",
+   "target": "bridge",
+   "mutation_id": "bridge:decomp_swap",
+   "expected_checks": [
+    "Delta_from_Psi_bridge"
+   ],
+   "rejected": true,
+   "observed_check": "Delta_from_Psi_bridge",
+   "observed_stage": "q3",
+   "observed_case": "q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "attributed": true,
+   "detail": "rejected by comparator/Delta_from_Psi_bridge at q3:q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_07\\gate_r0_failure_1789664320450844000_68304_d648776f.json",
+   "artifact_sha256": "f102258085e25bde5f742714cc96c08d3a92f65be7c174d8d4e8dac1c1878ba0"
+  },
+  {
+   "id": 8,
+   "name": "instrument_decomposition_swapped",
+   "target": "instrument",
+   "mutation_id": "sink:decomp_swap",
+   "expected_checks": [
+    "Delta_from_Psi_instrument"
+   ],
+   "rejected": true,
+   "observed_check": "Delta_from_Psi_instrument",
+   "observed_stage": "q3",
+   "observed_case": "q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "attributed": true,
+   "detail": "rejected by comparator/Delta_from_Psi_instrument at q3:q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_08\\gate_r0_failure_1789664321264663200_68304_e6739d5a.json",
+   "artifact_sha256": "fb10f0f688f251038c521083cca98897ca1ec993c15ccb24b4078a9e76afd05b"
+  },
+  {
+   "id": 9,
+   "name": "bridge_clip_counted_after_clip",
+   "target": "bridge",
+   "mutation_id": "bridge:clip_after",
+   "expected_checks": [
+    "clipped_r_bridge",
+    "clipped_u_base_bridge",
+    "clipped_v_bridge"
+   ],
+   "rejected": true,
+   "observed_check": "clipped_v_bridge",
+   "observed_stage": "q3",
+   "observed_case": "q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "attributed": true,
+   "detail": "rejected by comparator/clipped_v_bridge at q3:q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_09\\gate_r0_failure_1789664322102483600_68304_20bafd3e.json",
+   "artifact_sha256": "b0440301d9a740c1b73211dae7df011225f75ec3e66ff2f33dfddc917a04757f"
+  },
+  {
+   "id": 10,
+   "name": "instrument_clip_counters_reset",
+   "target": "instrument",
+   "mutation_id": "dyn:clip_reset",
+   "expected_checks": [
+    "clipped_r_count",
+    "clipped_u_base_count",
+    "clipped_v_count"
+   ],
+   "rejected": true,
+   "observed_check": "clipped_v_count",
+   "observed_stage": "q3",
+   "observed_case": "q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "attributed": true,
+   "detail": "rejected by comparator/clipped_v_count at q3:q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_10\\gate_r0_failure_1789664323082597600_68304_4d2916c7.json",
+   "artifact_sha256": "303d28bb97c98a88c6636ac5ca2b66169d654bf66951775435fbe91e1a14f3b1"
+  },
+  {
+   "id": 11,
+   "name": "bridge_moran_self_weight",
+   "target": "bridge",
+   "mutation_id": "bridge:moran_self",
+   "expected_checks": [
+    "morans_i"
+   ],
+   "rejected": true,
+   "observed_check": "morans_i",
+   "observed_stage": "q4",
+   "observed_case": "q4|moran|checkerboard",
+   "attributed": true,
+   "detail": "rejected by comparator/morans_i at q4:q4|moran|checkerboard",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_11\\gate_r0_failure_1789664324452941200_68304_b1a09a71.json",
+   "artifact_sha256": "104456b31ab83dd142fe6096d9e6bf3b383ce33759a0537a544e0fed63f4ef26"
+  },
+  {
+   "id": 12,
+   "name": "bridge_moran_undefined_returns_zero",
+   "target": "bridge",
+   "mutation_id": "bridge:moran_zero",
+   "expected_checks": [
+    "morans_i_refused_on_constant_grid|all_inactive"
+   ],
+   "rejected": true,
+   "observed_check": "morans_i_refused_on_constant_grid|all_inactive",
+   "observed_stage": "q4",
+   "observed_case": "q4|moran_refused|all_inactive",
+   "attributed": true,
+   "detail": "rejected by domain/morans_i_refused_on_constant_grid|all_inactive at q4:q4|moran_refused|all_inactive",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_12\\gate_r0_failure_1789664325833004800_68304_75df5291.json",
+   "artifact_sha256": "8435d3f3af9863e0123f7e5b58e6631f3697d365e1eda13b8aa7a788e031b422"
+  },
+  {
+   "id": 13,
+   "name": "bridge_dispersion_ddof1",
+   "target": "bridge",
+   "mutation_id": "bridge:dispersion_ddof1",
+   "expected_checks": [
+    "local_read_dispersion"
+   ],
+   "rejected": true,
+   "observed_check": "local_read_dispersion",
+   "observed_stage": "q4",
+   "observed_case": "q4|dispersion|row_stripes",
+   "attributed": true,
+   "detail": "rejected by comparator/local_read_dispersion at q4:q4|dispersion|row_stripes",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_13\\gate_r0_failure_1789664326951786400_68304_09fcbc9f.json",
+   "artifact_sha256": "a4003c555a1cc301952ed327b4c8d65937dd33421b616216c8433741c8f73bec"
+  },
+  {
+   "id": 14,
+   "name": "bridge_correlation_undefined_returns_zero",
+   "target": "bridge",
+   "mutation_id": "bridge:corr_zero",
+   "expected_checks": [
+    "correlation_refused_on_zero_variance|constant"
+   ],
+   "rejected": true,
+   "observed_check": "correlation_refused_on_zero_variance|constant",
+   "observed_stage": "q4",
+   "observed_case": "q4|correlation_refused|constant",
+   "attributed": true,
+   "detail": "rejected by domain/correlation_refused_on_zero_variance|constant at q4:q4|correlation_refused|constant",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_14\\gate_r0_failure_1789664328112509700_68304_02ea7bf6.json",
+   "artifact_sha256": "4f32cfc1a6f971aa20632c5dbbf0d2720f295f42ff47b270e16795307e0967fc"
+  },
+  {
+   "id": 15,
+   "name": "bridge_base_variance_ddof1",
+   "target": "bridge",
+   "mutation_id": "bridge:base_ddof1",
+   "expected_checks": [
+    "base_var_v"
+   ],
+   "rejected": true,
+   "observed_check": "base_var_v",
+   "observed_stage": "q4",
+   "observed_case": "q4|base_dispersion|halves",
+   "attributed": true,
+   "detail": "rejected by comparator/base_var_v at q4:q4|base_dispersion|halves",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_15\\gate_r0_failure_1789664329318874400_68304_bacb41d0.json",
+   "artifact_sha256": "e54e325d37aa0acbae031c98e8e2b25aa48d3e86f256d295cc3399506b1f4b30"
+  },
+  {
+   "id": 16,
+   "name": "dynamics_source_inconsistent_across_reads",
+   "target": "structural",
+   "mutation_id": "dyn:import_bridge_bytes",
+   "expected_checks": [
+    "dynamics_digest_consistency"
+   ],
+   "rejected": true,
+   "observed_check": "dynamics_digest_consistency",
+   "observed_stage": "preflight",
+   "observed_case": "no_feedback_path",
+   "attributed": true,
+   "detail": "rejected by provenance/dynamics_digest_consistency at preflight:no_feedback_path",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_16\\gate_r0_failure_1789664329542685500_68304_a884de48.json",
+   "artifact_sha256": "887ffca0354b7078deb4d92beb74e2c08f936c129bfd29422d2466c6a318ebdc"
+  },
+  {
+   "id": 17,
+   "name": "bridge_base_outputs_swapped",
+   "target": "bridge",
+   "mutation_id": "bridge:base_swap",
+   "expected_checks": [
+    "r_new_bridge",
+    "u_base_new_bridge"
+   ],
+   "rejected": true,
+   "observed_check": "u_base_new_bridge",
+   "observed_stage": "q3",
+   "observed_case": "q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "attributed": true,
+   "detail": "rejected by comparator/u_base_new_bridge at q3:q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_17\\gate_r0_failure_1789664330649818900_68304_7dc065a4.json",
+   "artifact_sha256": "1158e52eb61bf8f99ddbd841af5af43f75c77b5b67708d112f09a7d85b488232"
+  },
+  {
+   "id": 18,
+   "name": "bridge_r_counter_from_v",
+   "target": "bridge",
+   "mutation_id": "bridge:r_counter_from_v",
+   "expected_checks": [
+    "clipped_r_bridge"
+   ],
+   "rejected": true,
+   "observed_check": "clipped_r_bridge",
+   "observed_stage": "q3",
+   "observed_case": "q3|sink|local|gpsi=0.25|grho=0.5|bases=low",
+   "attributed": true,
+   "detail": "rejected by comparator/clipped_r_bridge at q3:q3|sink|local|gpsi=0.25|grho=0.5|bases=low",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_18\\gate_r0_failure_1789664331991996800_68304_f21ed19a.json",
+   "artifact_sha256": "d4ec1b6e593b2c6e401b2cbec4216fb357214f90451127bfe7180610654de978"
+  },
+  {
+   "id": 19,
+   "name": "bridge_mean_delta_wrong",
+   "target": "bridge",
+   "mutation_id": "bridge:mean_delta_wrong",
+   "expected_checks": [
+    "mean_delta_bridge"
+   ],
+   "rejected": true,
+   "observed_check": "mean_delta_bridge",
+   "observed_stage": "q3",
+   "observed_case": "q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "attributed": true,
+   "detail": "rejected by comparator/mean_delta_bridge at q3:q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_19\\gate_r0_failure_1789664333110559500_68304_12d93f71.json",
+   "artifact_sha256": "950d929ee77038fd57fc0331ead7725b3d4c79d6de741337d58c778282216799"
+  },
+  {
+   "id": 20,
+   "name": "bridge_low_clip_not_counted",
+   "target": "bridge",
+   "mutation_id": "bridge:low_clip_uncounted",
+   "expected_checks": [
+    "clipped_r_bridge",
+    "clipped_u_base_bridge",
+    "clipped_v_bridge"
+   ],
+   "rejected": true,
+   "observed_check": "clipped_v_bridge",
+   "observed_stage": "q3",
+   "observed_case": "q3|sink|local|gpsi=0.25|grho=0.5|bases=low",
+   "attributed": true,
+   "detail": "rejected by comparator/clipped_v_bridge at q3:q3|sink|local|gpsi=0.25|grho=0.5|bases=low",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_20\\gate_r0_failure_1789664334082495200_68304_673d1e89.json",
+   "artifact_sha256": "8b0b0569f340eba347a34ede33b5a4e23caface0197e522bf62833ccc7ffbe4a"
+  },
+  {
+   "id": 21,
+   "name": "instrument_low_clip_not_counted",
+   "target": "instrument",
+   "mutation_id": "dyn:low_clip_uncounted",
+   "expected_checks": [
+    "clipped_r_count",
+    "clipped_u_base_count",
+    "clipped_v_count"
+   ],
+   "rejected": true,
+   "observed_check": "clipped_v_count",
+   "observed_stage": "q3",
+   "observed_case": "q3|sink|local|gpsi=0.25|grho=0.5|bases=low",
+   "attributed": true,
+   "detail": "rejected by comparator/clipped_v_count at q3:q3|sink|local|gpsi=0.25|grho=0.5|bases=low",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_21\\gate_r0_failure_1789664334904608900_68304_979e3c2e.json",
+   "artifact_sha256": "4e98a0f657e804d23000e0355d0dc1513fe432274258f99bfc06e8c1306433a9"
+  },
+  {
+   "id": 22,
+   "name": "instrument_tick_index_shift",
+   "target": "instrument",
+   "mutation_id": "sink:tick_shift",
+   "expected_checks": [
+    "rho_tick_index"
+   ],
+   "rejected": true,
+   "observed_check": "rho_tick_index",
+   "observed_stage": "q2",
+   "observed_case": "q2|draws_zero_from_quarter|local",
+   "attributed": true,
+   "detail": "rejected by comparator/rho_tick_index at q2:q2|draws_zero_from_quarter|local",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_22\\gate_r0_failure_1789664335564537300_68304_1422da58.json",
+   "artifact_sha256": "7939d028e9e79d1ecec50d24e7f0a285e57e8ac7144e6face571fad4bed0273b"
+  },
+  {
+   "id": 23,
+   "name": "writer_omits_rho_table",
+   "target": "instrument",
+   "mutation_id": "writer:no_rho_table",
+   "expected_checks": [
+    "rho_global_table_persisted"
+   ],
+   "rejected": true,
+   "observed_check": "rho_global_table_persisted",
+   "observed_stage": "q2",
+   "observed_case": "q2|draws_zero_from_quarter|local",
+   "attributed": true,
+   "detail": "rejected by comparator/rho_global_table_persisted at q2:q2|draws_zero_from_quarter|local",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_23\\gate_r0_failure_1789664336259156000_68304_92634574.json",
+   "artifact_sha256": "24e41cf05e47889c60c40aa6437c06fbdb04a0a143b145634f2b515261be2bc7"
+  },
+  {
+   "id": 24,
+   "name": "bridge_correlation_sign_flipped",
+   "target": "bridge",
+   "mutation_id": "bridge:corr_sign",
+   "expected_checks": [
+    "config_neighbourhood_correlation"
+   ],
+   "rejected": true,
+   "observed_check": "config_neighbourhood_correlation",
+   "observed_stage": "q4",
+   "observed_case": "q4|correlation|plus_one",
+   "attributed": true,
+   "detail": "rejected by comparator/config_neighbourhood_correlation at q4:q4|correlation|plus_one",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_24\\gate_r0_failure_1789664337085482100_68304_d6b1c214.json",
+   "artifact_sha256": "d3d5195a31056bc335364cbcb758451fcf1d567d5585ccb51384a1d2355a3bb7"
+  },
+  {
+   "id": 25,
+   "name": "bridge_base_mean_shifted",
+   "target": "bridge",
+   "mutation_id": "bridge:base_mean_shift",
+   "expected_checks": [
+    "base_mean_v"
+   ],
+   "rejected": true,
+   "observed_check": "base_mean_v",
+   "observed_stage": "q4",
+   "observed_case": "q4|base_dispersion|halves",
+   "attributed": true,
+   "detail": "rejected by comparator/base_mean_v at q4:q4|base_dispersion|halves",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_25\\gate_r0_failure_1789664337960766600_68304_5d7c6f9e.json",
+   "artifact_sha256": "67529b67e43ba0bbf5a912e305ab1f68645fa481b461bc6730911df0baec1848"
+  },
+  {
+   "id": 26,
+   "name": "instrument_local_density_float32",
+   "target": "instrument",
+   "mutation_id": "sink:ld_float32",
+   "expected_checks": [
+    "comparator_contract"
+   ],
+   "rejected": true,
+   "observed_check": "comparator_contract",
+   "observed_stage": "q1",
+   "observed_case": "q1|all_inactive",
+   "attributed": true,
+   "detail": "rejected by comparator/comparator_contract at q1:q1|all_inactive",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_26\\gate_r0_failure_1789664338170906000_68304_743d4668.json",
+   "artifact_sha256": "8e6f5330a84351672669dd8c038ca8ea99a0273f8d2fec4c6489dd944e1ac29f"
+  },
+  {
+   "id": 27,
+   "name": "instrument_bases_swapped_post_update",
+   "target": "instrument",
+   "mutation_id": "dyn:bases_swap",
+   "expected_checks": [
+    "r_post_update",
+    "v_post_update"
+   ],
+   "rejected": true,
+   "observed_check": "v_post_update",
+   "observed_stage": "q3",
+   "observed_case": "q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "attributed": true,
+   "detail": "rejected by comparator/v_post_update at q3:q3|iso|local|gpsi=0.25|grho=0.5|bases=high",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_27\\gate_r0_failure_1789664338975915100_68304_c667ab31.json",
+   "artifact_sha256": "cca3b6d711881776bce79be0bd45734ef6468986bc49339d93cb8a8375d5e2ec"
+  },
+  {
+   "id": 28,
+   "name": "dynamics_imports_bridge_consistently",
+   "target": "structural",
+   "mutation_id": "dyn:import_bridge_all_reads",
+   "expected_checks": [
+    "bridge_feedback_path"
+   ],
+   "rejected": true,
+   "observed_check": "bridge_feedback_path",
+   "observed_stage": "preflight",
+   "observed_case": "no_feedback_path",
+   "attributed": true,
+   "detail": "rejected by structural/bridge_feedback_path at preflight:no_feedback_path",
+   "artifact_path": "C:\\Users\\vkz244\\EE_Theory_Lab\\gate_b_records/r0_qualification\\mutant_28\\gate_r0_failure_1789664339204589000_68304_bdf14a40.json",
+   "artifact_sha256": "bcac841271cc821c349ac8e6e8d38e4b5db6b4ec07428c491834edce8f81c66f"
+  }
+ ],
+ "stages_completed": [
+  "manifest_preflight",
+  "positive_control",
+  "mutants"
+ ],
+ "failure": null,
+ "written_to": null,
+ "passed": true
+}

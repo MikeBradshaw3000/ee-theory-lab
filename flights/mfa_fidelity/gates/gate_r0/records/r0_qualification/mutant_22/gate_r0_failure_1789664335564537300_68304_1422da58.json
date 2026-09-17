@@ -1,0 +1,158 @@
+{
+ "failure_class": "comparator",
+ "stage": "q2",
+ "case_id": "q2|draws_zero_from_quarter|local",
+ "check": "rho_tick_index",
+ "expected": "0",
+ "observed": "1",
+ "detail": "",
+ "environment": "python3.14.4/numpy2.4.4",
+ "environment_record": {
+  "python_version": "3.14.4",
+  "python_build": [
+   "tags/v3.14.4:23116f9",
+   "Apr  7 2026 14:10:54"
+  ],
+  "python_implementation": "CPython",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "venv_active": true,
+  "python_conforms": true,
+  "lock_sha256": "c10e02c5db497570ffeb45dc92857fcc633cb38364858a35458096950d02de7c",
+  "lock_worktree_mirror_matches": true,
+  "pins": {
+   "colorama": [
+    "0.4.6",
+    "0.4.6",
+    true
+   ],
+   "iniconfig": [
+    "2.3.0",
+    "2.3.0",
+    true
+   ],
+   "Mesa": [
+    "3.5.1",
+    "3.5.1",
+    true
+   ],
+   "networkx": [
+    "3.6.1",
+    "3.6.1",
+    true
+   ],
+   "numpy": [
+    "2.4.4",
+    "2.4.4",
+    true
+   ],
+   "packaging": [
+    "26.2",
+    "26.2",
+    true
+   ],
+   "pandas": [
+    "3.0.3",
+    "3.0.3",
+    true
+   ],
+   "patsy": [
+    "1.0.2",
+    "1.0.2",
+    true
+   ],
+   "pluggy": [
+    "1.6.0",
+    "1.6.0",
+    true
+   ],
+   "psutil": [
+    "7.2.2",
+    "7.2.2",
+    true
+   ],
+   "pyarrow": [
+    "24.0.0",
+    "24.0.0",
+    true
+   ],
+   "Pygments": [
+    "2.20.0",
+    "2.20.0",
+    true
+   ],
+   "pytest": [
+    "9.0.3",
+    "9.0.3",
+    true
+   ],
+   "python-dateutil": [
+    "2.9.0.post0",
+    "2.9.0.post0",
+    true
+   ],
+   "PyYAML": [
+    "6.0.3",
+    "6.0.3",
+    true
+   ],
+   "scipy": [
+    "1.17.1",
+    "1.17.1",
+    true
+   ],
+   "six": [
+    "1.17.0",
+    "1.17.0",
+    true
+   ],
+   "statsmodels": [
+    "0.14.6",
+    "0.14.6",
+    true
+   ],
+   "tqdm": [
+    "4.67.3",
+    "4.67.3",
+    true
+   ],
+   "tzdata": [
+    "2026.2",
+    "2026.2",
+    true
+   ]
+  },
+  "conforms": true,
+  "failures": []
+ },
+ "provenance": {
+  "label": "AUTHORITATIVE",
+  "environment": "python3.14.4/numpy2.4.4",
+  "r0_version": "gate_r0_v3 / Merge Spec v0.4 FROZEN section 8.3 / departure set declared 2026-09-16",
+  "governing": {
+   "merge_specification": "MERGE_SPECIFICATION_v0_4_FROZEN.md",
+   "merge_specification_sha256": "39f66673657b0f429691c908142f889d9ef3d463a8372455cba95db7c486f52a",
+   "r0_design_declaration": "DESIGN_NOTE_GATE_R0.md (departure set DECLARED by Mike 2026-09-16)",
+   "r0_design_declaration_sha256": "08a503ec145bd076661341703f51e78f0045816fbe06d5380c39b303d6dd6031"
+  },
+  "frozen_case_map_sha256_literal": "ce043d526a6e5c808c52ae797e9ee828daed79554ec725510114127f0610ced0",
+  "frozen_ledger_sha256_literal": "1f512d4ed98ff207f133b5764f9a9db52a9c759f713494e1a884cd4c53622201",
+  "frozen_completion_sha256_literal": "7b361c144d1201d80a9a19b5f831d7e744f1cf1aee5491a39b39b5d985cb0a15",
+  "bridge_source_sha256": "0f9d9292c14fa69139e9e0867a881f9736a6ddbb4991a6d7c63b59d180cf395e",
+  "gate_r0_source_sha256": "4b4c7e5a1c06dfac362e3a2c29a795249b4f4a783c2c5de7fcf18a7fa46a638f",
+  "dynamics_source_sha256": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8",
+  "environment_conforms": true,
+  "candidate_commit": "168cb80b96c3a6fd8edd76d9d9934b5511264867",
+  "candidate_worktree_dirty": true,
+  "candidate_dynamics_sha256": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8",
+  "dynamics_file_sha256_at_ast_check": "483b8a378ebc6186c49f8627dd5897ef59312ed953b5a33f507cdf5eb12ae7a8"
+ },
+ "checks_completed": {
+  "q1": 72
+ },
+ "stages_completed": [
+  "preflight",
+  "q1"
+ ],
+ "written_to": null,
+ "kind": "r0_failure"
+}
