@@ -25,10 +25,27 @@ that no Monte Carlo error exists; the certificates record what float64 evaluatio
 
 Thresholds: θ_P, θ_T = inf{x : F(x) ≥ 0.99} on the exact count grid — the same grid M2 computes
 production statistics on (integer counts recovered from rho; one sum; one division).
+
+AMENDMENT OF RECORD (2026-09-21; Mike's authorization on L2's M6 rulings, Findings 1 and 2):
+  PRIMARY SCORING OBJECT = the CONDITIONAL PER-SEED NULL. A production run's initialized bases
+  (v, u_base, r) are known exactly; its own no-neighbour p_act_i follow from them under the frozen
+  rule; its own θ_P/θ_T are certified by the same law. `conditional_thresholds` builds that object,
+  bound to the bases' identity and the seed. The frozen common-rank template survives ONLY as a
+  reference/stability object, an alternative-null sensitivity axis, and the numerical-validation
+  template (`reference_thresholds`) — it is NOT a production scoring threshold: the one-template
+  threshold prices only within-realization variation, and at high m between-base-draw variation of
+  the mean null activity exceeds it (M6 pricing, L2 ruling).
+  CONSERVATIVE CERTIFIED COVERAGE THRESHOLD. When the ordinary crossing k* = min{k : F̂(k) ≥ q}
+  cannot be certified (its margins lie inside the certified final-CDF error bound ε), the object is
+  k_safe = min{k : F̂(k) − ε ≥ q}, which guarantees the TRUE CDF at the selected grid point is ≥ q.
+  It is recorded with its ordinary index, uncertifiable status, displacement, and mode — it is not
+  called the exact quantile. If no support point clears the condition, the call halts.
+  The one-grid-step displacement observed on scanned levels is reported, never asserted globally.
 """
 from __future__ import annotations
 
 import hashlib
+import math
 from dataclasses import asdict, dataclass
 from itertools import product
 from typing import Dict, Optional, Sequence, Tuple
@@ -56,20 +73,34 @@ NULL_TEMPLATE_ROLE = 0xE10000
 NULL_TEMPLATE_SHA256_LITERAL = "a7411439c549776f26f4dc293d93c82b4c6feb488c06676007c71c960df15efc"   # established 2026-09-17
 NULL_ERROR_BOUND_FACTOR = 1000.0                 # conservative multiplier on measured float64 residual indicators
 NULL_ERROR_BOUND_FLOOR = 1e-9                    # never certify a crossing closer than this to the quantile
+SCORING_OBJECT_VERSION = "e1_conditional_null_v1"   # participates in the composite scoring identity; frozen in the declaration
+THRESHOLD_MODES_SET = ("exact_certified", "conservative_coverage")
 
 NULL_DECLARATION: Tuple[Tuple[str, object], ...] = (
     ("n_cells", N_CELLS), ("grid", E1_GRID), ("base_width_micro", E1_BASE_WIDTH_MICRO), ("f_dispatch", "F_canonical"),
     ("constants", E1_CONSTANTS_EXPECTED), ("density_terms", "zero"), ("quantile", NULL_QUANTILE),
     ("window", WINDOW), ("n_windows", N_WINDOWS), ("terminal_windows", TERMINAL_WINDOWS), ("term_ticks", TERM_TICKS),
-    ("template_master", NULL_TEMPLATE_MASTER), ("template_role", NULL_TEMPLATE_ROLE), ("template_sha256", NULL_TEMPLATE_SHA256_LITERAL),
+    ("template_master", NULL_TEMPLATE_MASTER), ("template_rng_role", NULL_TEMPLATE_ROLE), ("template_sha256", NULL_TEMPLATE_SHA256_LITERAL),
     ("law", "exact_poisson_binomial"), ("evaluation", "float64_fft"),
     ("error_bound_factor", NULL_ERROR_BOUND_FACTOR), ("error_bound_floor", NULL_ERROR_BOUND_FLOOR),
+    ("primary_scoring_object", "conditional_per_seed"), ("reference_template_use", "reference/sensitivity/validation only"),
+    ("quantile_modes", ("exact_certified", "conservative_coverage")), ("conservative_rule", "k_safe = min{k : F_hat(k) - eps >= q}"),
+    ("scoring_object_version", SCORING_OBJECT_VERSION), ("payload_identity", "sha256 of the canonical complete threshold payload, excluding the digest itself"),
 )
-NULL_DECLARATION_SHA256_LITERAL = "8aac1ef282b4bef4baa210124021729e863bb1e1f2fe94e1b64ee5fd7ac59ee0"   # established 2026-09-17; verified at every entry point
+NULL_DECLARATION_SHA256_LITERAL = "5304efb26ad4d15103e859a2ffb58af3ac3f57c7447052aca270e3ec36aa52d0"   # established 2026-09-21 (reopening round 3: scoring version + payload identity)
 
 
 def _digest(obj) -> str:
     return hashlib.sha256(repr(obj).encode()).hexdigest()
+
+
+def _frozen_mapping(decl: Tuple[Tuple[str, object], ...], name: str) -> Dict[str, object]:
+    """Tuple-to-mapping conversion that REFUSES duplicate field names (L2 C1): a duplicate key would
+    silently drop a field from field-by-field verification."""
+    keys = [k for k, _ in decl]
+    if len(set(keys)) != len(keys):
+        raise NullDomainError(f"{name}: duplicate declaration field names {sorted(k for k in keys if keys.count(k) > 1)}")
+    return dict(decl)
 
 
 def verify_frozen_identity() -> None:
@@ -79,17 +110,28 @@ def verify_frozen_identity() -> None:
     _C.verify_frozen_identity(); _K.verify_frozen_identity()
     if _digest(NULL_DECLARATION) != NULL_DECLARATION_SHA256_LITERAL:
         raise NullDomainError("null declaration differs from its frozen literal digest")
-    d = dict(NULL_DECLARATION)
+    d = _frozen_mapping(NULL_DECLARATION, "NULL_DECLARATION")
+    if len(d) != len(NULL_DECLARATION):
+        raise NullDomainError("null declaration lost a field in mapping")
     live = {"n_cells": N_CELLS, "grid": E1_GRID, "base_width_micro": E1_BASE_WIDTH_MICRO, "f_dispatch": "F_canonical",
             "constants": E1_CONSTANTS_EXPECTED, "density_terms": "zero", "quantile": NULL_QUANTILE, "window": WINDOW, "n_windows": N_WINDOWS,
             "terminal_windows": TERMINAL_WINDOWS, "term_ticks": TERM_TICKS, "template_master": NULL_TEMPLATE_MASTER,
-            "template_role": NULL_TEMPLATE_ROLE, "template_sha256": NULL_TEMPLATE_SHA256_LITERAL, "law": "exact_poisson_binomial",
-            "evaluation": "float64_fft", "error_bound_factor": NULL_ERROR_BOUND_FACTOR, "error_bound_floor": NULL_ERROR_BOUND_FLOOR}
+            "template_rng_role": NULL_TEMPLATE_ROLE, "template_sha256": NULL_TEMPLATE_SHA256_LITERAL, "law": "exact_poisson_binomial",
+            "evaluation": "float64_fft", "error_bound_factor": NULL_ERROR_BOUND_FACTOR, "error_bound_floor": NULL_ERROR_BOUND_FLOOR,
+            "primary_scoring_object": "conditional_per_seed", "reference_template_use": "reference/sensitivity/validation only",
+            "quantile_modes": ("exact_certified", "conservative_coverage"), "conservative_rule": "k_safe = min{k : F_hat(k) - eps >= q}",
+            "scoring_object_version": SCORING_OBJECT_VERSION, "payload_identity": "sha256 of the canonical complete threshold payload, excluding the digest itself"}
     for k, v in live.items():
         if d[k] != v or type(d[k]) is not type(v):
             raise NullDomainError(f"null declaration field {k} differs from the live global")
     if N_CELLS != E1_GRID * E1_GRID or N_CELLS != _K.N_CELLS or TERM_TICKS != 300 or NULL_QUANTILE != 0.99 or N_WINDOWS != 10:
         raise NullDomainError("null support/quantile/window count inconsistent with M1/M2 or the hard values")
+    if NULL_TEMPLATE_ROLE != 0xE10000 or NULL_TEMPLATE_MASTER != 202609171:          # the established template RNG identity, hard
+        raise NullDomainError("template RNG role/master differ from the established values")
+    if SCORING_OBJECT_VERSION != "e1_conditional_null_v1" or THRESHOLD_MODES_SET != ("exact_certified", "conservative_coverage"):
+        raise NullDomainError("scoring object version or mode set differs from the established values")
+    if len(live) != len(d):
+        raise NullDomainError("declaration and live verification sets differ in size")
     k = DynamicsConstants()
     for name, val in E1_CONSTANTS_EXPECTED:
         if getattr(k, name) != val:
@@ -114,7 +156,7 @@ _TEMPLATE_CACHE: Optional[np.ndarray] = None
 
 
 def rank_template() -> np.ndarray:
-    """The frozen production template: regenerated once, digest-verified at EVERY call (L2 M3-2),
+    """The frozen REFERENCE template (never a production scoring object): regenerated once, digest-verified at EVERY call (L2 M3-2),
     returned as a read-only copy so the cache can never be mutated through a returned reference."""
     global _TEMPLATE_CACHE
     if _TEMPLATE_CACHE is None:
@@ -159,7 +201,7 @@ def null_bases(level_micro: int) -> np.ndarray:
 
 
 def null_p_act(level_micro: int) -> np.ndarray:
-    """PRODUCTION: the frozen template and the declared E1 constants only (no override parameters)."""
+    """REFERENCE chain: the frozen template and the declared E1 constants only (no override parameters). Not production."""
     verify_frozen_identity()
     return _p_act_with(level_micro, DynamicsConstants(), rank_template())
 
@@ -176,6 +218,37 @@ class PmfCertificate:
     clip_renorm_correction: float      # L1 distance between the raw real pmf and the cleaned pmf
     tick_l1_bound: float               # conservative L1 error bound of the per-tick pmf this sum was built from
     sum_l1_bound: float                # final L1 bound of THIS pmf: reps·tick_l1_bound + own residual bound (convolution is L1-contractive)
+
+    def __post_init__(self) -> None:
+        validate_pmf_certificate(self)
+
+
+def validate_pmf_certificate(c) -> None:
+    """PMF-certificate semantic validator (L2 r5 §6.1): exact type; exact non-Boolean integral reps and support;
+    finite residual/bound fields with admissible signs; the certificate's OWN residual bound recomputed through
+    `_own_bound`; the reps-1 identity (tick == sum == own); the repeated-convolution identity
+    (sum == reps × tick + own, exact float). Called at construction, by the complete object validator for every
+    carried PMF certificate, and therefore at the production guard."""
+    if type(c) is not PmfCertificate:
+        raise NullDomainError("validate_pmf_certificate requires an exact PmfCertificate")
+    for name in ("reps", "support"):
+        x = getattr(c, name)
+        if isinstance(x, bool) or not isinstance(x, int) or x <= 0:
+            raise NullDomainError(f"PMF certificate {name} must be an exact positive non-Boolean integer")
+    vals = (c.max_imag_residual, c.total_negative_mass, c.most_negative_coefficient, c.raw_normalisation_error, c.clip_renorm_correction, c.tick_l1_bound, c.sum_l1_bound)
+    if not all(isinstance(x, float) and math.isfinite(x) for x in vals):
+        raise NullDomainError("PMF certificate residual/bound fields must be finite floats")
+    if c.max_imag_residual < 0.0 or c.total_negative_mass < 0.0 or c.most_negative_coefficient > 0.0 or c.clip_renorm_correction < 0.0 or c.tick_l1_bound <= 0.0 or c.sum_l1_bound <= 0.0:
+        raise NullDomainError("PMF certificate residual/bound fields have inadmissible signs")
+    if c.support % c.reps != 0:
+        raise NullDomainError("PMF certificate support must be a multiple of reps")
+    own = _own_bound(c.max_imag_residual, c.total_negative_mass, c.raw_normalisation_error, c.clip_renorm_correction)
+    if c.reps == 1:
+        if not (c.tick_l1_bound == own and c.sum_l1_bound == own):
+            raise NullDomainError("per-tick PMF certificate must carry tick == sum == its own recomputed residual bound")
+    else:
+        if c.sum_l1_bound != c.reps * c.tick_l1_bound + own:
+            raise NullDomainError("repeated-convolution PMF certificate must satisfy sum == reps x tick + own recomputed residual bound")
 
 
 def _validate_p(p) -> np.ndarray:
@@ -230,11 +303,18 @@ def per_tick_count_pmf_dp(p) -> np.ndarray:
 def poisson_binomial_pmf(p, reps) -> Tuple[np.ndarray, PmfCertificate]:
     """Sum over `reps` i.i.d. per-tick counts: reps-fold convolution via FFT power on the zero-padded
     per-tick pmf (support 0..reps·n). Returns (cleaned pmf, certificate)."""
+    pmf, cert, _ = poisson_binomial_pmf_with_tick(p, reps)
+    return pmf, cert
+
+
+def poisson_binomial_pmf_with_tick(p, reps) -> Tuple[np.ndarray, PmfCertificate, PmfCertificate]:
+    """As `poisson_binomial_pmf`, also returning the per-tick certificate the sum's bound inherits from."""
     reps = _exact_pos_int(reps, "reps")
     base, cert_base = per_tick_count_pmf(p)
     n = reps * (base.size - 1)
     padded = np.zeros(n + 1); padded[:base.size] = base
-    return _clean(np.fft.ifft(np.fft.fft(padded) ** reps), reps, tick_l1_bound=cert_base.sum_l1_bound)
+    pmf, cert = _clean(np.fft.ifft(np.fft.fft(padded) ** reps), reps, tick_l1_bound=cert_base.sum_l1_bound)
+    return pmf, cert, cert_base
 
 
 def direct_convolution_pmf(p, reps) -> np.ndarray:
@@ -275,7 +355,7 @@ def f_min_derivative_bound() -> float:
     """d/dF [1 − (1 − F)^n] = n(1 − F)^(n−1) ≤ n on [0,1]. DERIVED from the frozen N_WINDOWS at call time
     (L2 r4: no independent mutable constant may weaken the θ_P certificate); the frozen identity
     verifier requires N_WINDOWS == 10 and the declaration's n_windows to agree."""
-    if N_WINDOWS != 10 or dict(NULL_DECLARATION)["n_windows"] != N_WINDOWS:
+    if N_WINDOWS != 10 or _frozen_mapping(NULL_DECLARATION, "NULL_DECLARATION")["n_windows"] != N_WINDOWS:
         raise NullDomainError("N_WINDOWS differs from the frozen value 10")
     return float(N_WINDOWS)
 
@@ -288,22 +368,107 @@ def final_cdf_bounds(cert_w: PmfCertificate, cert_t: PmfCertificate) -> Tuple[fl
 
 @dataclass(frozen=True)
 class QuantileCertificate:
-    index: int                       # k* = inf{k : F(k) ≥ q}
-    value: float                     # float64 of k*/denominator (the grid value)
-    cdf_below: float                 # F(k*−1)
-    cdf_at: float                    # F(k*)
-    margin_below: float              # q − F(k*−1)
-    margin_at: float                 # F(k*) − q
-    error_bound: float
-    certified: bool                  # both margins exceed the error bound
+    index: int                       # the SELECTED index: k* in exact mode, k_safe in conservative mode
+    value: float                     # float64 of index/denominator (the grid value)
+    cdf_below: float                 # F̂(k*−1) at the ORDINARY crossing
+    cdf_at: float                    # F̂(k*)
+    margin_below: float              # q − F̂(k*−1)
+    margin_at: float                 # F̂(k*) − q
+    error_bound: float               # ε: the certified final-CDF error bound
+    certified: bool                  # True in either mode once a certified object exists
+    mode: str = "exact_certified"    # "exact_certified" | "conservative_coverage"
+    ordinary_index: int = -1         # k* = min{k : F̂(k) ≥ q}
+    ordinary_certifiable: bool = True
+    conservative_index: int = -1     # k_safe = min{k : F̂(k) − ε ≥ q}
+    displacement: int = 0            # conservative_index − ordinary_index (reported; never a global claim)
+    cdf_at_selected: float = 0.0     # F̂(selected index)
+    denominator: int = 0             # the count-grid denominator; value == float64(index / denominator)
+
+    def __post_init__(self) -> None:
+        validate_quantile_certificate(self)
+
+
+def validate_quantile_certificate(self) -> None:
+    """Certificate-level fail-closed invariants (L2 r2 §7; r4 §5): a reusable validator called at
+    construction, by the parent object's validator for BOTH certificates, and by the production guard —
+    so a nested post-construction mutation cannot hide behind mutually consistent parent fields."""
+    if type(self) is not QuantileCertificate:
+        raise NullDomainError("validate_quantile_certificate requires an exact QuantileCertificate")
+    if True:
+        q = NULL_QUANTILE
+        if isinstance(self.denominator, bool) or not isinstance(self.denominator, int) or self.denominator <= 0:
+            raise NullDomainError("certificate denominator must be a positive integer")
+        if self.value != float(np.float64(self.index) / np.float64(self.denominator)):
+            raise NullDomainError("certificate value must equal float64(index / denominator)")
+        vals = (self.value, self.cdf_below, self.cdf_at, self.margin_below, self.margin_at, self.error_bound, self.cdf_at_selected)
+        if not all(isinstance(x, float) and math.isfinite(x) for x in vals):
+            raise NullDomainError("certificate fields must be finite floats")
+        if not (0.0 <= self.value <= 1.0 and 0.0 <= self.cdf_below <= 1.0 and 0.0 <= self.cdf_at <= 1.0 and 0.0 <= self.cdf_at_selected <= 1.0 and self.error_bound > 0.0):
+            raise NullDomainError("certificate values out of range")
+        if self.mode not in THRESHOLD_MODES_SET:
+            raise NullDomainError(f"unknown certificate mode {self.mode!r}")
+        if any(isinstance(i, bool) or not isinstance(i, int) for i in (self.index, self.ordinary_index, self.conservative_index, self.displacement)):
+            raise NullDomainError("certificate indices must be exact integers")
+        if self.displacement != self.conservative_index - self.ordinary_index:
+            raise NullDomainError("displacement must equal conservative_index - ordinary_index")
+        if self.margin_below != q - self.cdf_below or self.margin_at != self.cdf_at - q:
+            raise NullDomainError("margins must be derived from the ordinary crossing's CDF values")
+        if not (self.cdf_below < q <= self.cdf_at):
+            raise NullDomainError("the ordinary crossing must straddle q: cdf_below < q <= cdf_at")
+        # ordinary certifiability is a COMPUTED semantic fact (L2 r3 §6.1), never a trusted Boolean
+        ordinary_ok = bool(self.margin_below > self.error_bound and self.margin_at > self.error_bound)
+        if self.ordinary_certifiable is not ordinary_ok:
+            raise NullDomainError("ordinary_certifiable must equal the computed margin test")
+        if self.mode == "exact_certified":
+            if not (ordinary_ok and self.index == self.ordinary_index and self.cdf_at_selected == self.cdf_at):
+                raise NullDomainError("exact mode must select the certified ordinary crossing")
+        else:
+            if ordinary_ok or self.index != self.conservative_index or not (self.cdf_at_selected - self.error_bound >= q):
+                raise NullDomainError("conservative mode requires an uncertifiable ordinary crossing and F_hat(k_safe) - eps >= q")
+        if not self.certified:
+            raise NullDomainError("a constructed certificate is certified by construction")
+
+
+def validate_null_thresholds(th) -> None:
+    """THE COMPLETE OBJECT VALIDATOR: exact types; both nested certificates re-validated; the object's own
+    invariants; the statistic geometry. Called by NullThresholds.__post_init__ and by the production guard."""
+    if type(th) is not NullThresholds:
+        raise NullDomainError("validate_null_thresholds requires an exact NullThresholds")
+    for c in (th.theta_p_certificate, th.theta_t_certificate):
+        validate_quantile_certificate(c)
+    if th.tick_pmf_certificate is None:
+        raise NullDomainError("the per-tick PMF certificate must be carried")
+    for pc in (th.tick_pmf_certificate, th.window_pmf_certificate, th.terminal_pmf_certificate):
+        validate_pmf_certificate(pc)
+    tk = th.tick_pmf_certificate
+    if tk.reps != 1 or tk.support != N_CELLS:
+        raise NullDomainError("the carried per-tick certificate must have reps 1 and support N_CELLS")
+    # the inherited per-tick bound is bound by IDENTITY to the carried per-tick certificate (never an inequality)
+    for pc in (th.window_pmf_certificate, th.terminal_pmf_certificate):
+        if pc.tick_l1_bound != tk.sum_l1_bound:
+            raise NullDomainError("window/terminal certificates must inherit the carried per-tick certificate's bound exactly")
+    th._validate_own_invariants()
+    validate_threshold_geometry(th)
 
 
 def _quantile(cdf: np.ndarray, denom: int, final_cdf_bound: float) -> QuantileCertificate:
-    """The quantile of a FINAL CDF with the FINAL-CDF error bound (never a component pmf's)."""
-    k = int(np.searchsorted(cdf, NULL_QUANTILE, side="left"))
+    """The threshold of a FINAL CDF with the FINAL-CDF error bound ε (never a component pmf's).
+    EXACT mode when the ordinary crossing k* certifies (both margins > ε). Otherwise the CONSERVATIVE
+    CERTIFIED COVERAGE THRESHOLD k_safe = min{k : F̂(k) − ε ≥ q} (L2 M6 Finding-2 formulation), which
+    guarantees true F(k_safe) ≥ q; if no support point satisfies it, HALT."""
+    q = NULL_QUANTILE
+    k = int(np.searchsorted(cdf, q, side="left"))
     below = float(cdf[k - 1]) if k > 0 else 0.0; at = float(cdf[k])
-    mb, ma = NULL_QUANTILE - below, at - NULL_QUANTILE
-    return QuantileCertificate(k, float(np.float64(k) / np.float64(denom)), below, at, mb, ma, final_cdf_bound, bool(mb > final_cdf_bound and ma > final_cdf_bound))
+    mb, ma = q - below, at - q
+    ordinary_ok = bool(mb > final_cdf_bound and ma > final_cdf_bound)
+    k_safe = int(np.searchsorted(cdf, q + final_cdf_bound, side="left"))
+    if k_safe >= cdf.size or not (float(cdf[k_safe]) - final_cdf_bound >= q):
+        raise NullDomainError("no support point clears the conservative coverage condition F_hat(k) - eps >= q")
+    if ordinary_ok:
+        return QuantileCertificate(k, float(np.float64(k) / np.float64(denom)), below, at, mb, ma, final_cdf_bound, True,
+                                   "exact_certified", k, True, k_safe, k_safe - k, at, int(denom))
+    return QuantileCertificate(k_safe, float(np.float64(k_safe) / np.float64(denom)), below, at, mb, ma, final_cdf_bound, True,
+                               "conservative_coverage", k, False, k_safe, k_safe - k, float(cdf[k_safe]), int(denom))
 
 
 @dataclass(frozen=True)
@@ -321,30 +486,237 @@ class NullThresholds:
     evaluation: str
     sampling_ci_half_width: float    # 0.0: no Monte Carlo error exists
     numerically_certified: bool
+    role: str = "reference_template"         # "conditional_per_seed" (PRODUCTION SCORING) | "reference_template" (never production scoring)
+    seed: Optional[int] = None               # the production seed the conditional object belongs to
+    bases_sha256: Optional[str] = None       # component-array identity of the exact initialized (v, u_base, r)
+    threshold_modes: Tuple[str, str] = ("exact_certified", "exact_certified")
+    config_hash: Optional[str] = None        # the frozen production RunConfig hash the bases were replayed from
+    scoring_identity: Optional[str] = None   # composite CONTEXT identity: version | level | seed | components | dtype/shape | bases | config
+    payload_sha256: Optional[str] = None     # identity of the canonical complete THRESHOLD PAYLOAD (every scoring-relevant field, nested certificates included)
+    tick_pmf_certificate: Optional[PmfCertificate] = None   # the per-tick certificate the window/terminal bounds INHERIT from (L2 r5 §6.2, preferred)
+
+    def __post_init__(self) -> None:
+        validate_null_thresholds(self)
+        if self.payload_sha256 != threshold_payload_identity(self):
+            raise NullDomainError("threshold payload identity does not match the object's payload")
+
+    def _validate_own_invariants(self) -> None:
+        """Fail-closed internal invariants (L2 §11, r2 §5/§7): semantic agreement between the object and its
+        certificates; frozen law/evaluation fields; role-specific metadata; the context identity recomputes.
+        (Nested certificate validation and geometry are applied by validate_null_thresholds.)"""
+        if self.role not in ("reference_template", "conditional_per_seed", "analysis_bases"):
+            raise NullDomainError(f"unknown threshold role {self.role!r}")
+        if self.level_id != level_id(self.level_micro):
+            raise NullDomainError("level_id does not match level_micro")
+        if self.theta_p != self.theta_p_certificate.value or self.theta_t != self.theta_t_certificate.value:
+            raise NullDomainError("theta values differ from their certificates")
+        if self.threshold_modes != (self.theta_p_certificate.mode, self.theta_t_certificate.mode):
+            raise NullDomainError("threshold_modes differ from the certificates' modes")
+        if self.numerically_certified != (self.theta_p_certificate.certified and self.theta_t_certificate.certified):
+            raise NullDomainError("numerically_certified differs from the certificates")
+        if (self.law, self.evaluation, self.sampling_ci_half_width) != ("exact_poisson_binomial", "float64_fft", 0.0):
+            raise NullDomainError("law/evaluation/sampling fields differ from the frozen definitions")
+        if not (isinstance(self.p_act_mean, float) and math.isfinite(self.p_act_mean) and 0.0 <= self.p_act_mean <= 1.0):
+            raise NullDomainError("p_act_mean must be a finite float in [0, 1]")
+        if self.role in ("reference_template", "analysis_bases") and not (self.seed is None and self.bases_sha256 is None and self.config_hash is None and self.scoring_identity is None):
+            raise NullDomainError("non-production object must carry no seed, bases, config, or scoring identity")
+        if self.role == "conditional_per_seed":
+            if self.seed not in _C.E1_SEED_PANEL or not self.bases_sha256 or not self.config_hash or not self.scoring_identity:
+                raise NullDomainError("conditional object requires a frozen production seed, bases identity, config hash, and scoring identity")
+            if self.scoring_identity != composite_scoring_identity(self.level_micro, self.seed, self.bases_sha256, self.config_hash):
+                raise NullDomainError("scoring identity does not match the object's level/seed/bases/config")
 
     def as_dict(self) -> Dict[str, object]:
         return asdict(self)
 
 
-def null_thresholds(level_micro: int) -> NullThresholds:
-    """PRODUCTION thresholds for one level: identity verified; frozen template and declared constants
-    only; both quantiles certified or the call is REFUSED."""
-    verify_frozen_identity()
-    p = null_p_act(level_micro)
-    pmf_w, cert_w = poisson_binomial_pmf(p, WINDOW)
-    pmf_t, cert_t = poisson_binomial_pmf(p, TERM_TICKS)
+def validate_threshold_geometry(th) -> None:
+    """Bind the certificates to E1's statistic geometry (L2 r3 §6.2): θ_P on the window count grid, θ_T on
+    the terminal count grid; PMF certificates with the window/terminal reps and supports; certificate error
+    bounds EQUAL to final_cdf_bounds of the carried PMF certificates (exact float equality). Called by
+    __post_init__ AND by the production guard, so a mutation cannot bypass it by recomputing the digest."""
+    if th.theta_p_certificate.denominator != WINDOW * N_CELLS or th.theta_t_certificate.denominator != TERM_TICKS * N_CELLS:
+        raise NullDomainError("certificate denominators must be the E1 window and terminal count grids (250000 / 750000)")
+    w, tm = th.window_pmf_certificate, th.terminal_pmf_certificate
+    if (w.reps, w.support, tm.reps, tm.support) != (WINDOW, WINDOW * N_CELLS, TERM_TICKS, TERM_TICKS * N_CELLS):
+        raise NullDomainError("PMF certificate reps/support must be the window (100/250000) and terminal (300/750000) constructions")
+    b_min, b_term = final_cdf_bounds(w, tm)
+    if (th.theta_p_certificate.error_bound, th.theta_t_certificate.error_bound) != (b_min, b_term):
+        raise NullDomainError("certificate error bounds must equal final_cdf_bounds of the carried PMF certificates")
+
+
+def threshold_payload_identity(th) -> str:
+    """sha256 of the canonical complete threshold payload — every scoring-relevant output and every nested
+    certificate field — excluding only the payload digest itself (L2 r2 §5)."""
+    d = asdict(th); d.pop("payload_sha256", None)
+    canon = repr(sorted(d.items()))
+    return hashlib.sha256(canon.encode()).hexdigest()
+
+
+def composite_scoring_identity(level_micro: int, seed: int, bases_sha256: str, config_hash: str) -> str:
+    """The composite scoring identity carried into the run record (L2 C2/C3): version | level | seed |
+    component names | dtype/shape | base bytes identity | production config hash."""
+    canon = "|".join([SCORING_OBJECT_VERSION, level_id(level_micro), str(int(seed)), "v,u_base,r", f"float64/({E1_GRID},{E1_GRID})", bases_sha256, config_hash])
+    return hashlib.sha256(canon.encode()).hexdigest()
+
+
+def _thresholds_from_p(p: np.ndarray, level_micro: int, role: str, seed: Optional[int], bases_sha: Optional[str],
+                       config_hash: Optional[str] = None) -> NullThresholds:
+    pmf_w, cert_w, cert_tick = poisson_binomial_pmf_with_tick(p, WINDOW)
+    pmf_t, cert_t, cert_tick2 = poisson_binomial_pmf_with_tick(p, TERM_TICKS)
+    if cert_tick != cert_tick2:
+        raise NullDomainError("per-tick certificate differs between the window and terminal constructions")
     b_min, b_term = final_cdf_bounds(cert_w, cert_t)
     cdf_min = 1.0 - (1.0 - np.cumsum(pmf_w)) ** N_WINDOWS
     qp = _quantile(cdf_min, WINDOW * N_CELLS, b_min)
     qt = _quantile(np.cumsum(pmf_t), TERM_TICKS * N_CELLS, b_term)
     if not (qp.certified and qt.certified):
-        raise NullDomainError(f"quantile not numerically certified at level {level_id(level_micro)}: theta_P {qp}, theta_T {qt}")
-    return NullThresholds(int(level_micro), level_id(level_micro), qp.value, qt.value, qp, qt, cert_w, cert_t, float(np.mean(p)),
-                          "exact_poisson_binomial", "float64_fft", 0.0, True)
+        raise NullDomainError(f"threshold not certified at level {level_id(level_micro)}: theta_P {qp}, theta_T {qt}")
+    sid = composite_scoring_identity(level_micro, seed, bases_sha, config_hash) if role == "conditional_per_seed" else None
+    fields = (int(level_micro), level_id(level_micro), qp.value, qt.value, qp, qt, cert_w, cert_t, float(np.mean(p)),
+              "exact_poisson_binomial", "float64_fft", 0.0, True, role, seed, bases_sha, (qp.mode, qt.mode), config_hash, sid)
+    probe = object.__new__(NullThresholds)                    # compute the payload digest on the same field values, then construct fail-closed
+    for name, val in zip(NullThresholds.__dataclass_fields__, fields + (None, cert_tick)):
+        object.__setattr__(probe, name, val)
+    return NullThresholds(*fields, threshold_payload_identity(probe), cert_tick)
+
+
+def reference_thresholds(level_micro: int) -> NullThresholds:
+    """REFERENCE thresholds from the frozen common-rank template — a reference/stability object, an
+    alternative-null sensitivity axis, and the numerical-validation template. NEVER a production
+    scoring threshold (amendment of record). Role is marked on the object."""
+    verify_frozen_identity()
+    return _thresholds_from_p(null_p_act(level_micro), level_micro, "reference_template", None, None)
+
+
+def null_thresholds(level_micro: int) -> NullThresholds:
+    """RETIRED (L2 §10). The generic name preserved the historical misuse the amendment eliminates.
+    Call `reference_thresholds` (reference/sensitivity/validation) or `conditional_thresholds` (production)."""
+    raise NullDomainError("null_thresholds is retired: use reference_thresholds (reference) or conditional_thresholds (production)")
+
+
+def validate_bases(v, u_base, r, production_shape: bool = True) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Production bases must have the exact grid shape (E1_GRID, E1_GRID) (L2 §7); the reference/analysis
+    path may accept flat vectors when `production_shape=False`."""
+    out = []
+    for name, a in (("v", v), ("u_base", u_base), ("r", r)):
+        if not isinstance(a, np.ndarray) or a.dtype != np.float64:
+            raise NullDomainError(f"{name}: float64 ndarray required")
+        if production_shape and a.shape != (E1_GRID, E1_GRID):
+            raise NullDomainError(f"{name}: production bases must have shape ({E1_GRID}, {E1_GRID}), got {a.shape}")
+        if a.size != N_CELLS:
+            raise NullDomainError(f"{name}: {N_CELLS} cells required")
+        if not np.isfinite(a).all() or (a < 0.0).any() or (a > 1.0).any():
+            raise NullDomainError(f"{name}: values must be finite in [0, 1]")
+        out.append(np.ascontiguousarray(a.reshape(-1)))
+    return out[0], out[1], out[2]
+
+
+def bases_identity(v, u_base, r, production_shape: bool = True) -> str:
+    """Component-array identity only: NOT proof of the seed/level relationship (that is `_replay_initialization`)."""
+    v, u, r = validate_bases(v, u_base, r, production_shape)
+    return hashlib.sha256(v.tobytes() + u.tobytes() + r.tobytes()).hexdigest()
+
+
+def _replay_initialization(level_micro: int, seed: int):
+    """Initialization ONLY, from the frozen production RunConfig for (level, seed), on the ancestor-faithful
+    stream, stopping before any dynamics draw. Returns (config_hash, v, u_base, r)."""
+    from ..init import initialize
+    from ..rng import SeedRegistry
+    cfg = _C.e1_run_config(int(level_micro), int(seed))            # production shape; refuses off-panel seeds
+    st = initialize(cfg.init, cfg.grid_scale, SeedRegistry(cfg.seed).dynamics())
+    return cfg.config_hash(), st.v, st.u_base, st.r
+
+
+def _p_act_from_bases(v: np.ndarray, u: np.ndarray, r: np.ndarray) -> np.ndarray:
+    k = DynamicsConstants()
+    lam = v * u * r                                          # F_canonical
+    p_base = 1.0 / (1.0 + np.exp(-(k.alpha * lam - k.gamma_offset)))
+    p = np.clip(p_base + k.eta_floor * (1.0 - p_base), 0.0, 1.0)
+    if not np.isfinite(p).all():
+        raise NullDomainError("nonfinite conditional probability")
+    return p
+
+
+def conditional_p_act(v, u_base, r) -> np.ndarray:
+    """The run's OWN no-neighbour chain from its exact initialized bases under the frozen rule.
+    Verifies the frozen identity itself (L2 §7)."""
+    verify_frozen_identity()
+    v, u, r = validate_bases(v, u_base, r)
+    return _p_act_from_bases(v, u, r)
+
+
+def conditional_thresholds(level_micro: int, seed: int, v, u_base, r) -> NullThresholds:
+    """THE PRIMARY PRODUCTION SCORING OBJECT (amendment of record), PROVEN to belong to its run (L2 C2):
+    the seed must be a frozen production seed; the frozen production RunConfig for (level, seed) is
+    rebuilt; initialization is replayed on the ancestor-faithful stream; the supplied (v, u_base, r) —
+    exact (50, 50) float64 — must equal the replayed arrays RAW-BIT; only then are the run's own θ_P/θ_T
+    certified (exact or conservative coverage mode, recorded) and bound to a composite scoring identity."""
+    verify_frozen_identity()
+    m = _level(level_micro)
+    if isinstance(seed, bool) or not isinstance(seed, (int, np.integer)):
+        raise NullDomainError("seed must be an exact non-Boolean integer")
+    if int(seed) not in _C.E1_SEED_PANEL:
+        raise NullDomainError("seed is not one of the frozen E1 production seeds")
+    v_, u_, r_ = validate_bases(v, u_base, r, production_shape=True)
+    chash, rv, ru, rr = _replay_initialization(m, int(seed))
+    for name, got, want in (("v", v_, rv), ("u_base", u_, ru), ("r", r_, rr)):
+        w = np.ascontiguousarray(want.reshape(-1))
+        if got.dtype != w.dtype or got.view(np.uint64).tobytes() != w.view(np.uint64).tobytes():
+            raise NullDomainError(f"{name}: supplied bases are not the replayed initialization for level {level_id(m)} seed {int(seed)}")
+    p = _p_act_from_bases(v_, u_, r_)
+    return _thresholds_from_p(p, m, "conditional_per_seed", int(seed), bases_identity(v, u_base, r), chash)
+
+
+def conditional_thresholds_for_analysis(level_micro: int, v, u_base, r) -> NullThresholds:
+    """NON-PRODUCTION constructor for audit/qualification code needing arbitrary base arrays (L2 C2).
+    Returns an object with the DISTINCT non-production role "analysis_bases" (seed None, no bases identity,
+    not the frozen template): it can never pass the production guard and is never mistaken for a reference object."""
+    verify_frozen_identity()
+    m = _level(level_micro)
+    v_, u_, r_ = validate_bases(v, u_base, r, production_shape=False)
+    return _thresholds_from_p(_p_act_from_bases(v_, u_, r_), m, "analysis_bases", None, None)
+
+
+def require_production_scoring_object(th, expected_level_micro: int, expected_seed: int, expected_bases_sha256: str,
+                                      expected_config_hash: str) -> NullThresholds:
+    """Context-aware production guard (L2 C3): the object must be a NullThresholds, conditional, certified,
+    internally consistent, and must agree EXACTLY with the run being scored on level, seed, bases identity,
+    config hash, and composite scoring identity. Consumers scoring production runs call THIS, never a
+    role check alone."""
+    verify_frozen_identity()
+    if not isinstance(th, NullThresholds):
+        raise NullDomainError("production scoring requires a NullThresholds object")
+    lvl = _level(expected_level_micro)
+    if isinstance(expected_seed, bool) or not isinstance(expected_seed, (int, np.integer)) or int(expected_seed) not in _C.E1_SEED_PANEL:
+        raise NullDomainError("expected seed must be an exact non-Boolean frozen production seed")
+    for name, h in (("expected_bases_sha256", expected_bases_sha256), ("expected_config_hash", expected_config_hash)):
+        if not isinstance(h, str) or len(h) != 64 or any(c not in "0123456789abcdef" for c in h):
+            raise NullDomainError(f"{name} must be a 64-hex-character sha256 string")
+    validate_null_thresholds(th)                                # the COMPLETE semantic surface incl. nested certificates and exact types, FIRST
+    if th.payload_sha256 != threshold_payload_identity(th):
+        raise NullDomainError("production scoring object payload identity does not recompute")
+    if th.role != "conditional_per_seed":
+        raise NullDomainError("production scoring requires the conditional per-seed null (reference-template thresholds refused)")
+    if not (th.numerically_certified and th.theta_p_certificate.certified and th.theta_t_certificate.certified):
+        raise NullDomainError("production scoring object is not certified")
+    if th.threshold_modes != (th.theta_p_certificate.mode, th.theta_t_certificate.mode):
+        raise NullDomainError("production scoring object modes inconsistent with its certificates")
+    expected = composite_scoring_identity(lvl, int(expected_seed), expected_bases_sha256, expected_config_hash)
+    if (th.level_micro, th.seed, th.bases_sha256, th.config_hash, th.scoring_identity) != \
+            (lvl, int(expected_seed), expected_bases_sha256, expected_config_hash, expected):
+        raise NullDomainError("production scoring object does not belong to the run being scored (level/seed/bases/config identity mismatch)")
+    return th
 
 
 # ----------------------------------------------------------------------------- validation program (frozen)
 VALIDATION_LEVELS_MICRO: Tuple[int, ...] = (150000, 515217, 850000)      # low, middle, high pass-1 levels
+CONSERVATIVE_MODE_LEVELS_MICRO: Tuple[int, ...] = (508454,)             # declared ambiguous-crossing surface (L2 Q1): θ_P conservative
+DIRECT_ALLOWANCE_RULE = ("direct allowance = primary final-CDF bound + max absolute FFT/direct CDF discrepancy + discarded mass; "
+                         "direct path re-selects under it; ordinary index, selected index, mode, and coverage condition must agree")
+DIRECT_ALLOWANCE_RULE_SHA256_LITERAL = "e69a87dc6398112dcb0f7978e139a0a3381b63e42eaaa2e70e0c6500745b7170"       # independent hardcoded identity of the EXACT rule string (L2 r4 §6)
+DIRECT_ALLOWANCE_TERMS = ("primary final-CDF bound", "max absolute FFT/direct CDF discrepancy", "discarded mass")
+DIRECT_AGREEMENTS = ("ordinary index", "selected index", "mode", "coverage condition")
 VALIDATION_REPLICATES = 400
 VALIDATION_REPLICATE_MASTER = 202609172
 VALIDATION_DKW_ALPHA = 0.05
@@ -355,10 +727,11 @@ VALIDATION_DECLARATION: Tuple[Tuple[str, object], ...] = (
     ("dkw_alpha", VALIDATION_DKW_ALPHA), ("statistics", ("S_min", "S_term")), ("comparisons", ("empirical_cdf_sup", "quantile", "exceedance", "direct_path")),
     ("dkw_rule", "sup_dev <= dkw_bound"), ("quantile_allowance", VALIDATION_QUANTILE_ALLOWANCE), ("quantile_rule", "abs(mc - exact) < allowance"),
     ("exceedance_cap", VALIDATION_EXCEEDANCE_CAP), ("exceedance_rule", "frac <= cap"),
-    ("direct_path_rule", "final-CDF max abs diff (+ discarded mass) <= final-CDF bound; identical quantile indices"),
+    ("direct_path_rule", "final-CDF max abs diff (+ discarded mass) <= final-CDF bound; identical selected indices AND modes under the direct path's own selection"),
+    ("conservative_mode_levels_micro", CONSERVATIVE_MODE_LEVELS_MICRO), ("conservative_mode_rule", DIRECT_ALLOWANCE_RULE),
     ("completion", "all three declared levels, both statistics, every comparison"),
 )
-VALIDATION_SHA256_LITERAL = "3cf3da8003ed73328c02b45af42a2ebe920d92bc866bef35ed42715a57fa5445"   # established 2026-09-18 (amended: frozen acceptance values)
+VALIDATION_SHA256_LITERAL = "5a430205c033e4c47497d6eab33b5b087375da7746a70a222b5f0900b1970c55"   # established 2026-09-21 (round 4: full triangle allowance declared)
 
 
 def brute_force_pmf(p, reps: int) -> np.ndarray:
@@ -408,7 +781,7 @@ def _sup_dev(sample: np.ndarray, cdf_grid: np.ndarray, denom: int) -> float:
 
 
 def validate_level(level_micro: int, n_replicates: int, replicate_master: int) -> Dict[str, float]:
-    thr = null_thresholds(level_micro); p = null_p_act(level_micro)
+    thr = reference_thresholds(level_micro); p = null_p_act(level_micro)
     pmf_w, _ = poisson_binomial_pmf(p, WINDOW); cdf_min = 1.0 - (1.0 - np.cumsum(pmf_w)) ** N_WINDOWS
     pmf_t, _ = poisson_binomial_pmf(p, TERM_TICKS); cdf_t = np.cumsum(pmf_t)
     s_min, s_term = monte_carlo_tail_statistics(level_micro, n_replicates, replicate_master)
@@ -424,20 +797,47 @@ def validate_numerics(level_micro: int) -> Dict[str, float]:
     """The independent direct path against the FFT path at one level, on the TWO FINAL CDFs (L2 r3
     M3-3): F_min (through the min-of-ten map) and the 300-tick F_term; the direct path's own
     discarded mass is added to the comparison; both paths must select the SAME quantile indices."""
-    thr = null_thresholds(level_micro); p = null_p_act(level_micro)
+    thr = reference_thresholds(level_micro); p = null_p_act(level_micro)
     fft_tick, cert_tick = per_tick_count_pmf(p); dp_tick = per_tick_count_pmf_dp(p)
     fft_w, cert_w = poisson_binomial_pmf(p, WINDOW); fft_t, cert_t = poisson_binomial_pmf(p, TERM_TICKS)
     dir_w, disc_w = direct_convolution_pmf_truncated(p, WINDOW); dir_t, disc_t = direct_convolution_pmf_truncated(p, TERM_TICKS)
     cdf_min_fft = 1.0 - (1.0 - np.cumsum(fft_w)) ** N_WINDOWS; cdf_min_dir = 1.0 - (1.0 - np.cumsum(dir_w)) ** N_WINDOWS
     cdf_t_fft = np.cumsum(fft_t); cdf_t_dir = np.cumsum(dir_t)
     b_min, b_term = final_cdf_bounds(cert_w, cert_t)
-    k_min_dir = int(np.searchsorted(cdf_min_dir, NULL_QUANTILE, side="left")); k_t_dir = int(np.searchsorted(cdf_t_dir, NULL_QUANTILE, side="left"))
+    # INDEPENDENT selection on the direct path (L2 Q1): the direct path applies the SAME selection rule under a
+    # prospectively stated allowance — the FFT path's certified final-CDF bound plus the direct path's own
+    # discarded mass — and reports its own mode, ordinary index, and selected index. A conservative selected
+    # index is compared only with the direct path's conservative selection, never with an ordinary crossing.
+    delta_p = float(np.max(np.abs(cdf_min_fft - cdf_min_dir))); delta_t = float(np.max(np.abs(cdf_t_fft - cdf_t_dir)))
+    # FULL TRIANGLE ALLOWANCE (L2 r2 §11.1): |F − F̂_dir| ≤ ε_FFT + ‖F̂_dir − F̂_FFT‖∞ + discarded mass
+    dsel_p = _direct_selection(cdf_min_dir, b_min + delta_p + disc_w); dsel_t = _direct_selection(cdf_t_dir, b_term + delta_t + disc_t)
     return {"tick_max_abs_diff": float(np.max(np.abs(fft_tick - dp_tick))), "tick_error_bound": error_bound(cert_tick),
             "fmin_cdf_max_abs_diff": float(np.max(np.abs(cdf_min_fft - cdf_min_dir))) + disc_w, "fmin_final_bound": b_min,
             "fterm_cdf_max_abs_diff": float(np.max(np.abs(cdf_t_fft - cdf_t_dir))) + disc_t, "fterm_final_bound": b_term,
             "direct_discarded_mass_w": disc_w, "direct_discarded_mass_t": disc_t,
-            "theta_p_index_fft": float(thr.theta_p_certificate.index), "theta_p_index_direct": float(k_min_dir),
-            "theta_t_index_fft": float(thr.theta_t_certificate.index), "theta_t_index_direct": float(k_t_dir)}
+            "theta_p_index_fft": float(thr.theta_p_certificate.index), "theta_p_index_direct": float(dsel_p["selected"]),
+            "theta_t_index_fft": float(thr.theta_t_certificate.index), "theta_t_index_direct": float(dsel_t["selected"]),
+            "theta_p_mode_fft": thr.theta_p_certificate.mode, "theta_p_mode_direct": dsel_p["mode"],
+            "theta_t_mode_fft": thr.theta_t_certificate.mode, "theta_t_mode_direct": dsel_t["mode"],
+            "theta_p_ordinary_direct": float(dsel_p["ordinary"]), "theta_t_ordinary_direct": float(dsel_t["ordinary"]),
+            "theta_p_ordinary_fft": float(thr.theta_p_certificate.ordinary_index), "theta_t_ordinary_fft": float(thr.theta_t_certificate.ordinary_index),
+            "direct_allowance_p": b_min + delta_p + disc_w, "direct_allowance_t": b_term + delta_t + disc_t,
+            "theta_p_coverage_ok_direct": bool(dsel_p["coverage_ok"]), "theta_t_coverage_ok_direct": bool(dsel_t["coverage_ok"])}
+
+
+def _direct_selection(cdf: np.ndarray, allowance: float) -> Dict[str, object]:
+    """The selection rule re-implemented on the direct path: ordinary crossing; certifiable iff both margins
+    exceed the allowance; else the conservative selection min{k : F(k) − allowance ≥ q}; halt if none."""
+    q = NULL_QUANTILE
+    k = int(np.searchsorted(cdf, q, side="left"))
+    below = float(cdf[k - 1]) if k > 0 else 0.0; at = float(cdf[k])
+    ordinary_ok = (q - below > allowance) and (at - q > allowance)
+    k_safe = int(np.searchsorted(cdf, q + allowance, side="left"))
+    if k_safe >= cdf.size or not (float(cdf[k_safe]) - allowance >= q):
+        raise NullDomainError("direct path: no support point clears the conservative coverage condition")
+    sel = k if ordinary_ok else k_safe
+    return {"ordinary": k, "selected": sel, "mode": "exact_certified" if ordinary_ok else "conservative_coverage",
+            "coverage_ok": float(cdf[sel]) - allowance >= q if not ordinary_ok else True}
 
 
 @dataclass
@@ -461,7 +861,15 @@ def run_validation(execution_levels: Optional[Sequence[int]] = None) -> Validati
     out, nums = [], []
     for m in levels:
         out.append(validate_level(m, VALIDATION_REPLICATES, VALIDATION_REPLICATE_MASTER)); nums.append(validate_numerics(m))
-    d = dict(VALIDATION_DECLARATION)
+    d = _frozen_mapping(VALIDATION_DECLARATION, "VALIDATION_DECLARATION")
+    if d["conservative_mode_rule"] != DIRECT_ALLOWANCE_RULE:
+        raise NullDomainError("declared direct-allowance rule differs from the live rule (full triangle)")
+    if hashlib.sha256(DIRECT_ALLOWANCE_RULE.encode()).hexdigest() != DIRECT_ALLOWANCE_RULE_SHA256_LITERAL:
+        raise NullDomainError("direct-allowance rule differs from its independent exact identity (full triangle)")
+    if not all(term in DIRECT_ALLOWANCE_RULE for term in DIRECT_ALLOWANCE_TERMS + DIRECT_AGREEMENTS) or \
+            DIRECT_ALLOWANCE_TERMS != ("primary final-CDF bound", "max absolute FFT/direct CDF discrepancy", "discarded mass") or \
+            DIRECT_AGREEMENTS != ("ordinary index", "selected index", "mode", "coverage condition"):
+        raise NullDomainError("direct-allowance rule terms differ from the established full triangle (three terms, four agreements)")
     if (d["quantile_allowance"], d["exceedance_cap"], d["dkw_alpha"], d["replicates"]) != (VALIDATION_QUANTILE_ALLOWANCE, VALIDATION_EXCEEDANCE_CAP, VALIDATION_DKW_ALPHA, VALIDATION_REPLICATES) \
             or (VALIDATION_QUANTILE_ALLOWANCE, VALIDATION_EXCEEDANCE_CAP, VALIDATION_DKW_ALPHA, VALIDATION_REPLICATES) != (5e-4, 0.03, 0.05, 400):
         raise NullDomainError("validation acceptance values differ from the frozen declaration or the hard contract values")
@@ -470,7 +878,20 @@ def run_validation(execution_levels: Optional[Sequence[int]] = None) -> Validati
              and v["frac_term_exceeding"] <= d["exceedance_cap"] and v["frac_min_exceeding"] <= d["exceedance_cap"] for v in out)
     ok = ok and all(n["tick_max_abs_diff"] <= n["tick_error_bound"] and n["fmin_cdf_max_abs_diff"] <= n["fmin_final_bound"]
                     and n["fterm_cdf_max_abs_diff"] <= n["fterm_final_bound"]
-                    and n["theta_p_index_fft"] == n["theta_p_index_direct"] and n["theta_t_index_fft"] == n["theta_t_index_direct"] for n in nums)
+                    and n["theta_p_index_fft"] == n["theta_p_index_direct"] and n["theta_t_index_fft"] == n["theta_t_index_direct"]
+                    and n["theta_p_mode_fft"] == n["theta_p_mode_direct"] and n["theta_t_mode_fft"] == n["theta_t_mode_direct"]
+                    and n["theta_p_ordinary_fft"] == n["theta_p_ordinary_direct"] and n["theta_t_ordinary_fft"] == n["theta_t_ordinary_direct"]
+                    and n["theta_p_coverage_ok_direct"] and n["theta_t_coverage_ok_direct"] for n in nums)
+    # the declared conservative-mode surface: at least one final CDF must actually be in conservative mode on BOTH paths
+    if d.get("conservative_mode_levels_micro") != CONSERVATIVE_MODE_LEVELS_MICRO:
+        raise NullDomainError("conservative-mode validation surface differs from the declaration")
+    cons = [validate_numerics(m) for m in CONSERVATIVE_MODE_LEVELS_MICRO]
+    ok = ok and all(("conservative_coverage" in (c["theta_p_mode_fft"], c["theta_t_mode_fft"]))
+                    and c["theta_p_mode_fft"] == c["theta_p_mode_direct"] and c["theta_t_mode_fft"] == c["theta_t_mode_direct"]
+                    and c["theta_p_index_fft"] == c["theta_p_index_direct"] and c["theta_t_index_fft"] == c["theta_t_index_direct"]
+                    and c["theta_p_ordinary_fft"] == c["theta_p_ordinary_direct"] and c["theta_t_ordinary_fft"] == c["theta_t_ordinary_direct"]
+                    and c["theta_p_coverage_ok_direct"] and c["theta_t_coverage_ok_direct"] for c in cons)
+    nums = list(nums) + cons
     return ValidationRecord(bool(ok), tuple(out), tuple(nums), VALIDATION_SHA256_LITERAL)
 
 
