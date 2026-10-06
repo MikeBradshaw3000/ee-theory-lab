@@ -42,10 +42,12 @@ E1's prior assignment of core-architecture jeopardy is **superseded** by this ve
 
 All canonical jobs retain value under E1-R (L2 §3.2) and are named here as authorizable, in this order (L2 §3.3), each only after M7 binds the exact placed identities and only under a separate committed authorization record:
 1. dense reference census (701 points) and reference-stability audit;
-2. projection-sweep (200) and tolerance-ensemble (1,000-replicate) jobs;
+2. projection-sweep (200), tolerance-ensemble (1,000-replicate), and tolerance-program finalization jobs;
 3. M6 design and held-out morphology audits and their mechanical qualification;
 4. resource benchmark, calibration tranche, and the stage-1 package;
 5. the spatial production/recovery program, under its own production authorization.
+
+**Tolerance-program closure.** The tolerance obligation is closed only by a complete canonical `ToleranceProgram` covering the full declared program level set. That record is a required Stage-1 package item. An incomplete tolerance program is an incomplete execution obligation, not an adverse scientific result.
 
 This amendment authorizes nothing by itself. Each act requires its own `AUTHORIZATION_nnn.json`.
 
@@ -78,14 +80,3 @@ The primary Flight 8 endpoint is **a fixed-point/stability change in the zero-fl
 ## 10. Status of the Overview §10 transcritical rewrite (item 9)
 
 **Accepted as a §15-sanctioned revision of the committed working hypothesis, conditionally** (L2 §5): the rewrite is carried out on the theory-development track, not in this amendment, and the third-order lattice-versus-ODE comparison stays **held** until the §10 normal form, the floor/noise distinction, the discrete-to-continuous bridge, and the successor substrate rule are settled (L2 §5.5).
-
----
-
-## Decision note for Mike (remove before ratification)
-
-The draft takes these positions; each is yours to change:
-- **§4** names all canonical jobs as authorizable (L2 §3.2 says all retain value).
-- **§5 / governance:** no branch-stopping results are declared. Candidates you might declare: a REFERENCE-UNRESOLVED dense reference (T2-S cannot speak), or a NOT_DESIGN-STABLE design gate. L2 held that spatial production and T1/T3 retain value even then, which is why none is declared.
-- **§8** adopts the skeleton/realization split (L2 recommended; it is a Flight 8 commitment).
-- **§10** records the §10 rewrite as conditionally accepted and deferred to the theory track.
-- **Package:** the tolerance ensembles are canonical jobs but not stage-1 package items (they serve T1/T3 after production), matching the design note's §5 list.
