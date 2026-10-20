@@ -33,9 +33,9 @@
 
 ---
 
-### 6c. Final Open Element 14 arbitration
+### 6c. Final F-form selection arbitration (F_LR vs F_2_symmetric)
 
-**What.** Final architectural arbitration of F-form selection (F_LR vs F_2_symmetric) for Open Element 14. Per Phase 4B v1.1 §7.2 item 5, this is `outside_phase_4b_scope` — architectural arbitration is not a Phase 4B procedure. Item 6c waits for sufficient evidence from items 6a, 6b, 13, 14 to inform the arbitration.
+**What.** Final architectural arbitration of F-form selection (F_LR vs F_2_symmetric). *(Retitled 2026-10-20 to the committed restatement per `vocabulary_quarantine.md` §3 and Gemini audit finding F3; the numeric label is retained unchanged where it appears in committed pre-registration language.)* Per Phase 4B v1.1 §7.2 item 5, this is `outside_phase_4b_scope` — architectural arbitration is not a Phase 4B procedure. Item 6c waits for sufficient evidence from items 6a, 6b, 13, 14 to inform the arbitration.
 
 **Trigger.** When item 6a Phase 4B characterization is complete (Layer 3 execution complete with confirmatory outputs); item 6b substrate work is in hand (if required); items 13 (Ψ-operationalization) and 14 (Q-form commitment) are sufficiently advanced if their evidence is needed for the arbitration. Mike's substantive read on readiness.
 

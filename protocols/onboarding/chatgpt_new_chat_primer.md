@@ -1,5 +1,8 @@
 # EE Theory Lab — New Chat Primer for ChatGPT
 
+> **Currency note (2026-10-20).** This primer predates the registration of the Overview of the Theory v1.8.1 (`theory/overview/`, 2026-10-15), which is the statement of record. Its architectural passages were conformed to v1.8.1 on 2026-10-20 (Gemini audit finding S2b); where any remaining passage and v1.8.1 differ, v1.8.1 governs. For the current state of the flight program, read the latest session handoff in `flights/mfa_fidelity/build_records/` and `flights/mfa_fidelity/governance/`; the Phase 4B material below is historical context.
+
+
 **Purpose:** Orient a fresh ChatGPT instance to the EE Theory Lab project so substantive Layer 2 analytical work can begin without lengthy reconstruction. Pairs with the GitHub repository (ee-theory-lab) where canonical artifacts live. This primer is comprehensive; the repository has the texture.
 
 **How to use this primer:** Read it once at the start of a new chat. Then ask Mike which working documents are in play for the current conversation. Don't try to engage architectural questions from this primer alone — it orients; the documents adjudicate.
@@ -29,10 +32,10 @@ The current work builds on the 2018 paper as the seed of the formal generative t
 **Three structural bases per cell:** v (viability), c (transition cost; u = 1 − c indicates favorable conditions), r (social reinforcement).
 
 **Two-stage cascade:**
-- Stage 1: Λ → ρ via supercritical pitchfork bifurcation at Λ*. Activation density emerges when control parameter exceeds threshold.
+- Stage 1: Λ → ρ via a **transcritical** bifurcation at Λ* (Overview v1.8.1 §10): an exchange of stability between the inactive state ρ = 0 and an active state, continuous, with no jump and no hysteresis. Activation density emerges when the control parameter exceeds threshold. The symmetric (pitchfork) form for a density was withdrawn at v1.8.
 - Stage 2: μ(ρ) sign change drives Ψ (coherence) emergence. Stage 2 transitions from activated-but-incoherent (Regime II) to coherent (Regime III).
 
-Both bifurcations are **supercritical pitchforks** — continuous, second-order, reversible. Subcritical formulations are not architectural candidates.
+Both transitions are **continuous** — second-order, reversible — with different normal forms: transcritical for activation, supercritical pitchfork for coherence (v1.8.1 §18). Subcritical formulations are not architectural candidates.
 
 **Three regimes:** Inactive / Activated-but-incoherent (Regime II) / Coherent (Regime III). Regime II is the theory's central empirical prediction.
 
@@ -149,7 +152,7 @@ The Damasio biological language wrapper was scrubbed early in the project; the H
 
 ## 7. Architectural commitments that constrain Layer 2 work
 
-**Both bifurcations are supercritical pitchforks** — continuous, second-order, reversible. Subcritical formulations are not architectural candidates. The supercritical commitment constrains the space of mean-field equations that can be engaged as candidates.
+**Both transitions are continuous** — second-order, reversible — with different normal forms: **transcritical** for activation (Λ → ρ; v1.8.1 §10) and **supercritical pitchfork** for coherence (ρ → Ψ; §12, §14). Subcritical formulations are not architectural candidates. The continuity commitment constrains the space of mean-field equations that can be engaged as candidates.
 
 **Path dependence lives entirely in Q, not in bifurcation topology.** The cascade is reversible; the terrain is not. Layer 2 analytical work must preserve this distinction. Hysteresis-like phenomenology in observations is produced by Q's effect on bases, not by bifurcation geometry.
 

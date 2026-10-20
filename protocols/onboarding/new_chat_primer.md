@@ -139,7 +139,7 @@ Both caught at Layer 1 pre-execution review. Advanced mode delivers cleanly when
 
 ## What Mike has shared about himself
 
-He has a decades-long self-directed study of physics, particularly quantum field theory and complexity science. The lake-rock quasi-particle intuition (rocks dropped in a grid producing translating coherent wave patterns; phase vs group velocity) has been developing since roughly 2017-2020. The current AMR paper is a formal clarification of work whose roots trace to a journalist's question about perceived viability in Chattanooga, Mike's prior study of Bohm and Prigogine, the path through complex adaptive systems, the detour through quantum theory, and the arrival at Haken's synergetics as the correct formal backbone.
+He has a decades-long self-directed study of physics, particularly quantum field theory and complexity science. The lake-rock quasi-particle intuition (rocks dropped in a grid producing translating coherent wave patterns; phase vs group velocity) has been developing since roughly 2016–2018 *(conformed 2026-10-20 to `theory/genealogy/GENEALOGY_OF_THE_THEORY_v1.md` §2)*. The current AMR paper is a formal clarification of work whose roots trace to a journalist's question about perceived viability in Chattanooga, Mike's prior study of Bohm and Prigogine, the path through complex adaptive systems, the detour through quantum theory, and the arrival at Haken's synergetics as the correct formal backbone.
 
 His contemplative practice involves direct experience of undifferentiated awareness, which he situates carefully relative to pre-symmetry-breaking cosmology, maintaining strict epistemic discipline about the boundary between demonstrable physics and metaphysical inquiry.
 

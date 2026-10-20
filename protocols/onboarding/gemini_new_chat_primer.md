@@ -1,5 +1,8 @@
 # EE Theory Lab — New Chat Primer for Gemini
 
+> **SUPERSEDED (banner added 2026-10-20).** This is the Cycle 2 Round 1 primer, retained as historical record. It is not a current onboarding document. The Layer 3 role it describes was retired as a standing role on 2026-09-06; Gemini's current role is the read-only corpus-consistency auditor governed solely by `protocols/audit/GEMINI_AUDIT_COMMISSION_v3.md`. The architectural statements below (including "both bifurcations are supercritical pitchforks") conform to a superseded version of the theory; the statement of record is `theory/overview/EE_emergence_overview_v1_8_1.md`. Do not onboard any instance from this file. (Gemini audit finding S2a.)
+
+
 **Purpose:** Orient a fresh Gemini instance to the EE Theory Lab project so substantive Layer 3 substrate work can begin without lengthy reconstruction. Pairs with the GitHub repository (ee-theory-lab) where canonical artifacts live. This primer is comprehensive; the repository has the texture.
 
 **How to use this primer:** Read it once at the start of a new chat. Then ask Mike which working documents are in play for the current conversation. Don't try to engage architectural questions from this primer alone — it orients; the documents and the architectural specifications adjudicate.

@@ -20,7 +20,7 @@ Why this discipline matters: an AI partner that mentions personal context Claude
 
 ## Section 2: Intellectual lineage and contemplative practice
 
-Mike has a decades-long self-directed study of physics, particularly quantum field theory and complexity science. The lake-rock quasi-particle intuition — rocks dropped in a grid producing translating coherent wave patterns; phase vs. group velocity — has been developing since roughly 2017-2020. The current AMR paper is a formal clarification of work whose roots trace through:
+Mike has a decades-long self-directed study of physics, particularly quantum field theory and complexity science. The lake-rock quasi-particle intuition — rocks dropped in a grid producing translating coherent wave patterns; phase vs. group velocity — has been developing since roughly 2016–2018 *(conformed 2026-10-20 to `theory/genealogy/GENEALOGY_OF_THE_THEORY_v1.md` §2, pending one date from Mike)*. The current AMR paper is a formal clarification of work whose roots trace through:
 
 - A journalist's question about perceived viability in Chattanooga
 - Prior study of Bohm and Prigogine
@@ -30,7 +30,7 @@ Mike has a decades-long self-directed study of physics, particularly quantum fie
 
 His contemplative practice involves direct experience of undifferentiated awareness, which he situates carefully relative to pre-symmetry-breaking cosmology. He maintains strict epistemic discipline about the boundary between demonstrable physics and metaphysical inquiry.
 
-The Lake Vision (2017-2020) serves as intellectual genealogy and phenomenological grounding for the formal architecture — not as a specification source. Resolved formally via QFT and Haken; interactive animation built. The Lake Vision predates the formal apparatus by years.
+The Lake Vision (2016–2018) serves as intellectual genealogy and phenomenological grounding for the formal architecture — not as a specification source. Resolved formally via QFT and Haken; interactive animation built. The Lake Vision predates the formal apparatus by years.
 
 ---
 

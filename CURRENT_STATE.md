@@ -6,6 +6,8 @@
 
 **Maintenance discipline.** Updated when project-level state changes — typically less frequently than the foundational current_state.md, which updates each session end. This document updates when: a stage of the restructure closes; a manuscript milestone is reached; a theoretical-architecture commitment changes; the next-analytical-phase decision is made.
 
+**Refresh note (2026-10-20).** Sections 1–2 below were written as of session 9 (2026-05-20) and are retained as the dated statement they were. Two facts have changed since and are corrected in place, each marked *[refreshed 2026-10-20]*: (i) the architectural statement of record is now the Overview of the Theory v1.8.1, registered at `theory/overview/` (commit `18e86cd`, 2026-10-15), which supersedes State of the Theory v1.1 as the citable statement; v1.8.1 §10 states the first transition in the **transcritical** form and withdraws the symmetric (pitchfork) form for a density — the second transition remains a supercritical pitchfork (§12, §14, §18); (ii) the Phase 4B restructure Stages 1–4 closed in sessions 9–14, and the active computational workstream since then is the MFA-fidelity flight program (`flights/mfa_fidelity/`; E1-R stage 1 closed adversely 2026-10-15; Flight 8 is the successor direction). This refresh discharges Gemini audit findings F4 and S1 (`protocols/audit/`). The section bodies are otherwise unchanged.
+
 **Cross-reference discipline.**
 - For protocol state, Phase 4B analytical state, working-pattern state, open standing items, next anticipated session work → see `protocols/foundational/current_state.md`.
 - For canonical-artifact locations → see `protocols/foundational/canonical_artifacts_index.md`.
@@ -22,7 +24,7 @@ The EE Theory Lab project produces a formal generative theory of entrepreneurial
 The project is currently in:
 
 - **Architectural state:** committed. Hard core stable. Four open elements identified (μ(ρ), F(v,c,r), Q, nucleation mechanism). Theoretical work happens at the open-element level, not the hard-core level.
-- **Empirical state:** Phase 4B mid-restructure. The substrate (Flight 6 v1.1) is implemented and committed. The Tier 3 analytical pipeline is implemented and committed. One pre-registered regression (reg_01) has executed; identity-recovery interpretation verified. Next analytical phase decision deferred until restructure complete.
+- **Empirical state:** *[as of session 9]* Phase 4B mid-restructure. The substrate (Flight 6 v1.1) is implemented and committed. The Tier 3 analytical pipeline is implemented and committed. One pre-registered regression (reg_01) has executed; identity-recovery interpretation verified. Next analytical phase decision deferred until restructure complete. *[refreshed 2026-10-20: restructure Stages 1–4 closed (sessions 9–14); the MFA-fidelity flight program is the active computational workstream — see `flights/mfa_fidelity/` and the session handoffs in `flights/mfa_fidelity/build_records/`.]*
 - **Manuscript state:** Phil drafting against v1.4 MFA, with v1.5 absorbing back-flow. Phil's timing independent.
 
 ---
@@ -31,9 +33,9 @@ The project is currently in:
 
 **As of session 9 (2026-05-20):**
 
-The committed architecture is specified in State of the Theory v1.1 (Mike's local file; requires Mike-provided attachment for verification per `canonical_artifacts_index.md` Section 1). The hard core comprises:
+The committed architecture is specified in State of the Theory v1.1 (Mike's local file; requires Mike-provided attachment for verification per `canonical_artifacts_index.md` Section 1). *[refreshed 2026-10-20: the citable statement of record is now `theory/overview/EE_emergence_overview_v1_8_1.md`; where this section and v1.8.1 differ, v1.8.1 governs.]* The hard core comprises:
 
-- **Two-stage Landau cascade.** Structural conduciveness Λ=F(v,c,r) → activation density ρ → coherence Ψ. Supercritical pitchfork bifurcations at both stages.
+- **Two-stage Landau cascade.** Structural conduciveness Λ=F(v,c,r) → activation density ρ → coherence Ψ. *[refreshed 2026-10-20: per Overview v1.8.1 §10 the first transition (Λ → ρ) is **transcritical** — an exchange of stability between the inactive state and an active one, continuous, no hysteresis; the symmetric pitchfork form for a density is withdrawn. The second transition (ρ → Ψ) remains a **supercritical pitchfork** (§12, §14). The earlier "supercritical pitchfork at both stages" wording is superseded.]*
 - **Critical ontological constraint.** Primitive observable is ACTION, not decision. Agents do not optimize, evaluate utility, or decide; their action streams are shaped by structural conditions.
 - **Q operator.** Slow-timescale base evolution that reads coherence patterns and writes to per-cell structural bases. Operates on a different timescale than the cascade itself.
 - **Four open elements** (architectural elements requiring further specification): μ(ρ) functional form, F(v,c,r) functional form (current candidates F_LR, F_2_symmetric, F_baseline), Q operator detailed structure, nucleation mechanism.
