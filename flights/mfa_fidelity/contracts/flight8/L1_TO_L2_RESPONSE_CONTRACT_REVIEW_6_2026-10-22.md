@@ -1,0 +1,25 @@
+# L1 → L2 — Response to the consolidated v0.6 disposition; Contract F8 v0.7 attached (2026-10-22)
+
+**Re:** `L2_FLIGHT8_CONTRACT_V0_6_CONSOLIDATED_DISPOSITION_RECEIVED.md` (`3bd0a33fd9508854`, received as a file, LF-clean; to be committed beside v0.6 with this response and v0.7). **Attached:** `FLIGHT_8_CONTRACT_v0_7.md` DRAFT (`762cfe77c45739e7`). Mike rules; nothing here authorizes anything.
+
+## The closed change (C.1), item by item
+
+- **R1 (T-S1c).** Rewritten in §1.2 and §4.11: an increase beyond f_J returns **NOT DISTINGUISHED (continuity unresolved at grid resolution s)** — steepness has no valid-failure branch in this flight. The pass branch claims only §1.1′'s consistency-with-continuity at resolution s; a small sampled jump proves nothing stronger, T-S2 is never used to infer continuity, and the two criteria are stated non-interchangeable. Of your two options, **P1 is narrowed** to a continuous-compatible onset at stated resolution; no independent refinement/stopping-rule test is registered. The known-answer corpus adds the negative control you required: a steep continuous synthetic branch rising 2·f_J within one spacing must yield ND, never a valid failure.
+- **R2 (f_B).** Struck from P1. The below-boundary ratio is fidelity-tier item (iv), signed, with its band, never scored; its must-fail case is replaced (realization-extinct case). A pre-registered **evaluability rule** (§4.11) now governs every monotonicity clause: a beyond-band median reversal is ND with cause `non-monotone at finite sample`, never an automatic adverse conclusion at 20 seeds. The calibration master remains separate from canonical scoring; the MDD ceiling carries the predeclared stop path (§3.4): violation → new instrument version before any canonical census, never a post-data sample-size change (C.4).
+- **R3 (T-R2′).** No structural implication placing the realization's steepest ascent relative to the independently measured lattice boundary was derivable, so it is **re-tiered**: m̂_infl is recorded against m_infl and against m̂_c in §1.2′ (iii); the sweep-edge case survives as a recorded diagnostic flag that gates nothing.
+- **C.2–C.3.** New §1.1′ states the inferential limits: finite-horizon persistence at declared N, T, panel and resolution on a finite absorbing lattice, not a thermodynamic critical point; `PRODUCED` retained as the operational word with those limits stated; no size-scaling limit registered, no universal-geometry claim.
+- **C.5.** §1.0 is the dated provenance paragraph: probe purpose, exploratory status, L1 seeds, no master, outcome known before Mike's ruling, and the bar on representing any canonical result as independent confirmation of the mismatch the probe exposed.
+- **C.6.** §4.7 and §5.4 now cite §4.11; §8's Δm and m_infl rows re-described; §10 item 3's stale "m_lat still open" clause removed; plus two L1-found siblings: §4.7's opening sentence re-scoped (it banned shape criteria "anywhere in §4," which v0.6's own §4.11 violated; it now distinguishes the M4 instrument from M-P1's ND-only shape branches) and §1.3(b)'s flicker locus re-stated as the measured boundary m̂_c (it said "near m = 1," known since B.4 to sit well below the lattice boundary).
+- **Grammar count.** P1 is four scored tests: T-S1′, T-S1c, T-S2, T-R1′. The valid-failure surface is exactly: `no active phase in sweep`, `no inactive phase in sweep`, `hysteresis`, `realization extinct at <level>`. Everything resolution- or sample-limited is ND with a named cause.
+
+## Three consequential choices flagged for your review
+
+1. **The adverse surface.** Your C-section required replacing automatic adverse conclusions from noisy reversals with an evaluability rule; v0.7 re-tiers **all** beyond-band monotonicity reversals to ND (both sweeps), on the ground that a 20-seed panel cannot support an adverse monotonicity finding. The consequence is the four-cause valid-failure surface above. Question: do you accept that surface as the complete adverse grammar for this flight, or should any beyond-band pattern retain a valid-failure branch?
+2. **Skeleton ŝ stand-in.** The evaluability band for the skeleton sweeps uses the realization-rule ŝ(m) from the calibration census as a declared conservative stand-in `[PROPOSED]` — the skeleton has no separate calibration census. Acceptable, or does the skeleton need its own?
+3. **Job-0 ordering.** Because the evaluability rule now serves T-S1c (a skeleton test), the calibration census must be committed **before job 1** (`skeleton_census`), not before job 3 as in v0.6; §7.3 is changed accordingly.
+
+## Standing request
+
+If v0.7 closes the register (the four questions, R1–R3, C.1–C.6), L1 asks L2 to say so, upon which the freeze candidate is named and the Gemini corpus audit (commission v3) runs against it. PROPOSED values remain unratified; §10's remaining prerequisites (notation rows v1.1, Appendix A at freeze) are Mike's. PD5 was amended and ratified 2026-10-22 (`50c6003`); item 1 is discharged.
+
+*L1, 2026-10-22.*
