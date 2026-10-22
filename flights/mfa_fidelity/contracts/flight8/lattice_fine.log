@@ -1,0 +1,3 @@
+m=1.35: tail density per seed [np.float64(0.0), np.float64(0.0), np.float64(0.0), np.float64(0.0), np.float64(0.0), np.float64(0.0)]  survived 0.0/6
+m=1.40: tail density per seed [np.float64(0.0328), np.float64(0.0), np.float64(0.0), np.float64(0.0), np.float64(0.0079), np.float64(0.0)]  survived 1.0/6
+m=1.45: tail density per seed [np.float64(0.0629), np.float64(0.066), np.float64(0.0502), np.float64(0.067), np.float64(0.0402), np.float64(0.0805)]  survived 6.0/6
