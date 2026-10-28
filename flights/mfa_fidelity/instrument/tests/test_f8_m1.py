@@ -183,7 +183,7 @@ def test_extinction_is_a_valid_observation_and_absorbing_thereafter():
     r = D.run(C.f8_run_spec(C.F8_LEVELS_MICRO[0], 99, "skeleton_low", grid=10, ticks=200))     # m = 0.25: skeleton dies quickly
     assert r.extinction_tick is not None and r.ticks_advanced == r.extinction_tick < 200
     assert not r.survival and not r.active_counts[r.extinction_tick:].any()
-    assert r.rho_tail_mean == float(r.rho[1:].mean()) and r.draws_consumed == r.extinction_tick   # tail = whole run below production shape
+    assert r.rho_tail_mean == float(np.float64(int(r.active_counts[1:].sum())) / np.float64(200 * 100)) and r.draws_consumed == r.extinction_tick   # tail = whole run below production shape
     # at production tail length an extinction before the tail contributes exactly 0 (§4.11: a valid observation)
     r2 = D.run(C.f8_run_spec(C.F8_LEVELS_MICRO[0], C.F8_SEED_PANEL[1], "skeleton_low", grid=50, ticks=3000))
     assert r2.extinction_tick is not None and r2.extinction_tick < 2001 and r2.rho_tail_mean == 0.0 and r2.tail_window_means == (0.0,) * 10
@@ -192,8 +192,9 @@ def test_run_is_deterministic_and_tail_windows_are_ordered_and_complete():
     sp = C.f8_run_spec(C.F8_LEVELS_MICRO[23], 5, "realization", grid=12, ticks=400)
     r1, r2 = D.run(sp), D.run(sp)
     assert np.array_equal(r1.rho, r2.rho) and r1.rho_sha256() == r2.rho_sha256()
-    assert len(r1.tail_window_means) == 4 and sp.tail_ticks == 400 and r1.tail_window_means == tuple(float(r1.rho[1 + i * 100:1 + (i + 1) * 100].mean()) for i in range(4))
-    assert r1.rho_tail_mean == float(r1.rho[1:].mean())
+    n = sp.n_cells; ac = r1.active_counts
+    assert len(r1.tail_window_means) == 4 and sp.tail_ticks == 400 and r1.tail_window_means == tuple(float(np.float64(int(ac[1 + i * 100:1 + (i + 1) * 100].sum())) / np.float64(100 * n)) for i in range(4))
+    assert r1.rho_tail_mean == float(np.float64(int(ac[1:].sum())) / np.float64(400 * n))
 
 def test_rho_table_roundtrip(tmp_path):
     import pandas as pd

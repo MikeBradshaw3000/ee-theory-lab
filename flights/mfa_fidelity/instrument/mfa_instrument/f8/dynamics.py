@@ -132,13 +132,15 @@ def run(spec: F8RunSpec) -> F8RunResult:
     rho = counts.astype(np.float64) / np.float64(n)
     tail = rho[T - spec.tail_ticks + 1:]
     nwin = spec.tail_ticks // spec.window
-    wins = tuple(float(tail[i * spec.window:(i + 1) * spec.window].mean()) for i in range(nwin))
     tail_counts = counts[T - spec.tail_ticks + 1:]
+    # window means on the COUNT GRID — one integer sum, one division — so M2's tail statistics and this record agree
+    # bit for bit (M1 r3: a float mean over 100 densities differed from the count-grid value by one ulp)
+    wins = tuple(float(np.float64(int(tail_counts[i * spec.window:(i + 1) * spec.window].sum())) / np.float64(spec.window * n)) for i in range(nwin))
     # survival (§4.11): active count > 0 throughout every tail window — the MINIMUM over each window, so a run extinct
     # inside the last window does not survive (L1 r2 D5; for the absorbing skeleton this is exactly counts[T] > 0)
     survival = all(int(tail_counts[i * spec.window:(i + 1) * spec.window].min()) > 0 for i in range(nwin))
     return F8RunResult(spec.spec_hash(), spec.level_micro, spec.level_id, spec.seed, spec.obj, rho, counts, extinction, advanced,
-                       wins, bool(survival), float(tail.mean()), spec.stream_key, draws)
+                       wins, bool(survival), float(np.float64(int(tail_counts.sum())) / np.float64(spec.tail_ticks * n)), spec.stream_key, draws)
 
 
 def write_rho_table(res: F8RunResult, path: str) -> str:
