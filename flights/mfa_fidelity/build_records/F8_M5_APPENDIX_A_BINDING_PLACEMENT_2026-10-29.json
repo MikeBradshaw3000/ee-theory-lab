@@ -1,0 +1,20 @@
+{
+  "appendix_a_sha256": "94d527624beafa7c81decce4be21470d75dc31e232fc5277df41a5fd60f87653",
+  "bind_tol": 1e-12,
+  "bit_equal": false,
+  "closure_declaration_digest": "11074edcacbe26d2fe3b33eff4f7fca4a328a5d7b9dcd84786d2f115206ce204",
+  "closure_py_sha256": "9452dd11396350abfcbff4c48133a49cf31bac65879c34a254142d97300f3278",
+  "delta_m": 0.120126265992375,
+  "levels_match": true,
+  "m_infl": 1.1764999999999999,
+  "m_lat": 1.1414478323100217,
+  "max_abs_deviation": 5.551115123125783e-17,
+  "not_bit_equal": [
+    "rho_sk[1.619565]"
+  ],
+  "numpy": "2.4.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.4",
+  "record": "F8_M5_APPENDIX_A_BINDING_PLACEMENT",
+  "test_f8_m5_py_sha256": "27cb5c965242ad2bde9aa61c5403eb97473190b67b1d232a2d801c5bd2097b41"
+}
