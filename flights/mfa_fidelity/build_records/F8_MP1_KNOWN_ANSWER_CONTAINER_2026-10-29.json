@@ -1,0 +1,92 @@
+{
+ "kind": "F8_MP1_KNOWN_ANSWER_QUALIFICATION_CONTAINER",
+ "role": "development record (container; the qualification of record is the M7-issued run on the canonical machine)",
+ "evaluator_sha256": "61179c7670ea8db30471d0087baaffb287868258a28bfa0181e25f7648499c3a",
+ "evaluator_declaration_sha256": "cc1f176eb12dde347351f77ddf661dfa7fdb6f9662d83be28906155687a5d86f",
+ "closure_declaration_sha256": "11074edcacbe26d2fe3b33eff4f7fca4a328a5d7b9dcd84786d2f115206ce204",
+ "census_sha256": "c2ed98a5382bb1b8828cd527fd2d1b6e7492a94bdfb80f758528aeb4eec099e2",
+ "census_is_declared_synthetic": true,
+ "master": 520261028,
+ "sweeps_per_class": 100,
+ "pass_min": 95,
+ "per_class": [
+  [
+   "pass_crossing_0.8",
+   "PRODUCED",
+   "",
+   100,
+   0,
+   100
+  ],
+  [
+   "pass_crossing_1.0",
+   "PRODUCED",
+   "",
+   100,
+   0,
+   100
+  ],
+  [
+   "pass_crossing_1.25",
+   "PRODUCED",
+   "",
+   100,
+   0,
+   100
+  ],
+  [
+   "fail_no_inactive_phase",
+   "NOT PRODUCED",
+   "no inactive phase in sweep",
+   100,
+   0,
+   100
+  ],
+  [
+   "fail_no_active_phase",
+   "NOT PRODUCED",
+   "no active phase in sweep",
+   100,
+   0,
+   100
+  ],
+  [
+   "nd_steep_continuous",
+   "NOT DISTINGUISHED",
+   "continuity unresolved at grid resolution",
+   100,
+   0,
+   100
+  ],
+  [
+   "fail_hysteresis",
+   "NOT PRODUCED",
+   "hysteresis",
+   100,
+   0,
+   100
+  ],
+  [
+   "fail_realization_extinct",
+   "NOT PRODUCED",
+   "realization extinct",
+   100,
+   0,
+   100
+  ],
+  [
+   "nd_injected_reversal",
+   "NOT DISTINGUISHED",
+   "non-monotone at finite sample",
+   100,
+   0,
+   100
+  ]
+ ],
+ "passed": true,
+ "result_sha256": "58b338861232b2860e425060c75b4c2bd9a87e7691ef14d7793af0de34f24a11",
+ "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+ "python": "3.13.18",
+ "numpy": "2.5.3",
+ "elapsed_s": 813.3
+}
