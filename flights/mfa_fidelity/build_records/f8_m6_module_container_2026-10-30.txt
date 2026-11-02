@@ -1,0 +1,14 @@
+..........................................                               [100%]
+============================= slowest 10 durations =============================
+126.53s call     tests/test_f8_m6.py::test_smoke_audit_record_validates_and_production_paths_are_refused
+61.12s setup    tests/test_f8_m6.py::test_one_sweep_per_class_is_well_formed_and_scored_on_the_final_level_set
+4.75s call     tests/test_f8_m6.py::test_missing_adapter_key_is_an_apparatus_halt_not_a_derivation
+3.40s call     tests/test_f8_m6.py::test_adapter_covers_the_reachable_surface_and_binds_the_one_payload
+2.60s call     tests/test_f8_m6.py::test_null_source_is_e_at_zero_feedback_and_matches_m3_law_on_the_terminal_window
+1.20s call     tests/test_f8_m6.py::test_price_is_the_s_min_event_with_exact_cp_and_the_full_run_is_gated
+0.54s setup    tests/test_f8_m6.py::test_dip_is_unresolved_by_support_and_e1_terminal_dip_would_not_be
+0.17s call     tests/test_f8_m6.py::test_dip_is_unresolved_by_support_and_e1_terminal_dip_would_not_be
+0.10s call     tests/test_f8_m6.py::test_surrogate_level_stats_is_interpretation_001_tail_density
+0.03s call     tests/test_f8_m6.py::test_run_streams_are_per_level_and_seed_and_order_independent
+42 passed in 200.88s (0:03:20)
+--- other F8 modules (same working copy): 180 passed, 5 skipped in 323.22s (0:05:23) — pyarrow installed for test_f8_m4 collection

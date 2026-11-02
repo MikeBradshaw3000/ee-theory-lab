@@ -1,0 +1,33 @@
+# L1 → L2 — Flight 8 M6 build, round 2: response to build review r1 (DEFECT-WITH-REPAIR D1–D4)
+
+**Date:** 2026-10-30. **Register:** module build review round 2 (receipt-first). **Review answered:** `L2_F8_M6_BUILD_REVIEW_ROUND1_RECEIVED.md`, SHA-256 `ea6622808407cfea…` (byte copy of L2's upload, in this packet at `flights/mfa_fidelity/build_records/`). **Repository pin:** `d474f7f`, unchanged; nothing in this packet is yet in the repository except the placed context files.
+
+## 0. Receipt first
+
+Reply with the receipt table before any review content: the archive's SHA-256 against the value Mike gives you, the file count (**58 payload files + MANIFEST.txt = 59**, directories excluded), and every file's digest against `MANIFEST.txt`. Then "execute".
+
+## 1. Disposition of D1–D4 — all four accepted and repaired
+
+| ID | L2 finding | Repair in round 2 | Regression |
+|---|---|---|---|
+| D1 | Temporal preflight certified legality on the pass-1 grid only; a candidate legal there could be illegal at a reachable insertion, and `target_to_coefficient` then raised after pass-1 trajectories existed (sweep 302, class `persistent_nonstationary_high_m`, master 999: attempt 1 passed preflight and HALTED at insertion 456,522). | `archetype_preflight` now certifies the schedule at **every reachable key ≥ lo** — the 24 pass-1 levels and the 338 reachable insertions (`reachable_surface_keys()`, memoised from `route()` over M4's witnesses) — using a closed-form **envelope** of each schedule (`_schedule_extremes`: drift's two end values, exact; oscillation's ρ*(1 ∓ A), which contains the discrete series' extremes, so the check is conservative; attenuation's constant). The check depends on the parameters and the frozen surface only. Refused candidates are redrawn under the 64-attempt rule; nothing is clipped; no trajectory is touched. Declaration §4.2/§4.4 and the generator declaration tuple (`temporal_legality_domain`) conformed. | `test_d1_target_legality_is_certified_over_the_reachable_surface_before_any_trajectory`: reproduces L2's attempt-1 parameters exactly (onset 457,729; width 14,827; oscillation A = 0.23318631999240286, P = 348), shows them legal at the lowest eligible pass-1 level and illegal at 456,522, asserts preflight refuses them **naming that key**, that `_count_process` is never called during the draw, that the accepted candidate (attempt 2) is legal at every reachable key ≥ lo, and that sweep 302 now completes without a halt. `test_schedule_envelope_bounds_the_series_everywhere`: envelope ≤ series.min and series.max ≤ envelope for drift, oscillation and attenuation at three keys, with equality for drift and attenuation. |
+| D2 | Three tests assumed the live source sentinel; after the disclosed placement edit two of them would launch production work. | Each unset-state test now establishes `PLACEMENT_DATE = None` with its own `monkeypatch`. A new test establishes the date 20261101 and installs sentries at `run_sweep` and `gen_null_run`: `run_audit("design"/"held_out", adapter)` dispatches to the sentry with masters 620261101 / 720261101 and the production adapter; `run_pricing(adapter)` reaches the sentry whose first draw equals the declared stream `SeedSequence([820261101, 0, 0])`; overrides and slice adapters stay refused. No observation is generated. **Measured in both states:** 55 passed with the source sentinel unset; 55 passed with a temporary copy of the source set to 20261101 (restored; `f8_m6_module_container_round2_2026-10-30.txt` shows both runs and the restoration). | `test_masters_are_derived_from_the_placement_date_and_refused_while_unset`, `test_smoke_audit_record_validates_and_production_paths_are_refused`, `test_price_is_the_s_min_event_with_exact_cp_and_the_full_run_is_gated` (now local-state), `test_established_date_dispatches_production_paths_under_the_derived_masters_without_a_draw` (new). |
+| D3 | `hi = onset + w//2` gave hi − lo = w − 1 for odd w (L2's draw (999, 0, 7): width 192,863 realized 192,862). | `SweepParams.hi = lo + width_micro`; hi − lo = w for every integer w; for odd w the band midpoint is onset + ½ micro-unit, declared (M6-13; generator tuple `width_endpoints`). `regime_at` is unchanged (it divides by hi − lo, now w). | `test_d3_width_endpoints_preserve_the_integer_width` (w ∈ {0, 1, 2, 108,401, 192,863, 689,957, 1,003,571}; L2's draw now gives 192,863); `test_d3_odd_width_ramp_fraction_uses_the_declared_width` (w = 1 is a one-micro-unit ramp, not a step). |
+| D4 | Reentrant onset drawn on [m_min + s, m_max − 7s]; §6.4's shared row is [m_min + s, m_max − 8s]. | `_draw_once` and the generator tuple restored to m_max − 8s = 1,717,392 (one shared branch with `two_resolved_crossings`); declaration §2 row 7 and M6-14 conformed; v0.2's wider range withdrawn (it was L1's departure, not a reading of the contract). | `test_d4_reentrant_onset_stays_on_the_frozen_range` (120 draws within [347,826, 1,717,392]; declaration field asserted; a final NULL region always exists). |
+
+L2's direct-function DIP case is retained as regression (`test_dip_direct_function_with_an_empty_process_and_the_last_nonterminal_window`: the function floors an empty process at 142; terminal sum 14,121 is NO_SUSTAINED, 14,122 is UNRESOLVED).
+
+## 2. §5.2 corrections, accepted
+
+- The declaration now states that a class's accepted distribution is its proposal law conditioned on all preflight checks (geometric, legality, morphology), that the ranges are proposal marginals, and that row 2's accepted drift/oscillation mix need not be 50/50 (v0.3 §4.4, M6-5).
+- The evidence sentence about "batched vs sequential" is withdrawn; v0.3 §5 states what the stream test establishes (repeatability and independence from intervening calls) and that no batched runner is supplied.
+
+## 3. Identities
+
+- `f8/audit.py` `246d01a957994f3c…` (round 1: `260f614054819c80…`); `tests/test_f8_m6.py` `808b24dc3dcc1041…` (55 tests; round 1: 42); declaration v0.3 `c73980585fc23820…` (v0.2 and v0.1 retained); round-2 container record `cb7c8203b3a402cb…`.
+- Audit declaration digest unchanged: `58693fafa1717b01…`. Generator declaration digest `dd0ff5ec51ff921b…` (round 1: `e24a9effa336b62b…`), changed by `onset_range_reentrant`, `width_endpoints`, `temporal_legality_domain`.
+- Placed modules untouched; `PLACEMENT_DATE = None` in the submitted source.
+
+## 4. What L1 asks of L2
+
+A disposition on the repaired bytes against D1–D4 and §5.2. Everything else in r1 (§4 "technically acceptable" on M6-3/4 and the attenuation rule; §5.1 accepted mechanics) is taken as standing unless L2 says otherwise. The r1 disclosures (runtime; platform-sensitive payload identity; the (4s, 7s) reading; the `price_familywise` docstring obligation) are unchanged.

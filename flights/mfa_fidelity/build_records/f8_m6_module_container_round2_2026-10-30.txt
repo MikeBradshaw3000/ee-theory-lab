@@ -1,0 +1,17 @@
+=== round 2, source sentinel PLACEMENT_DATE = None ===
+.......................................................                  [100%]
+============================= slowest 8 durations ==============================
+130.28s call     tests/test_f8_m6.py::test_smoke_audit_record_validates_and_production_paths_are_refused
+60.49s setup    tests/test_f8_m6.py::test_one_sweep_per_class_is_well_formed_and_scored_on_the_final_level_set
+5.57s call     tests/test_f8_m6.py::test_d1_target_legality_is_certified_over_the_reachable_surface_before_any_trajectory
+4.87s call     tests/test_f8_m6.py::test_missing_adapter_key_is_an_apparatus_halt_not_a_derivation
+3.90s call     tests/test_f8_m6.py::test_established_date_dispatches_production_paths_under_the_derived_masters_without_a_draw
+3.21s call     tests/test_f8_m6.py::test_adapter_covers_the_reachable_surface_and_binds_the_one_payload
+2.66s call     tests/test_f8_m6.py::test_null_source_is_e_at_zero_feedback_and_matches_m3_law_on_the_terminal_window
+1.18s call     tests/test_f8_m6.py::test_price_is_the_s_min_event_with_exact_cp_and_the_full_run_is_gated
+55 passed in 213.70s (0:03:33)
+
+=== round 2, temporary copy with PLACEMENT_DATE = 20261101 (D2 safety; restored afterwards) ===
+.......................................................                  [100%]
+55 passed in 211.17s (0:03:31)
+restored: 1 sentinel line
