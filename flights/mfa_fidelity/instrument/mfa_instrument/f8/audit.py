@@ -114,7 +114,7 @@ CP_CONFIDENCE = 0.95                                        # idem (one-sided up
 MAX_REDRAWS = 64                                            # [PROPOSED] declaration M6-6 (E1's budget)
 PRICING_REPLICATES = 10_000                                 # [PROPOSED] declaration M6-9
 COMPARISON_REPLICATES = 200                                 # [PROPOSED] declaration M6-10
-PLACEMENT_DATE: Optional[int] = None                        # YYYYMMDD of the commit placing the complete generator (declaration §9)
+PLACEMENT_DATE: Optional[int] = 20261102                        # YYYYMMDD of the commit placing the complete generator (declaration §9)
 MASTER_PREFIXES = (6, 7, 8)                                 # design, held-out, pricing
 DECLARED_MASTERS = (C.F8_SEED_PANEL_MASTER, C.F8_CALIBRATION_MASTER, N.VALIDATION_REPLICATE_MASTER,
                     N.VALIDATION_PROTOCOL_ATTEMPT_2.replicate_master, CL.PROJECTION_MASTER, 520261028)
