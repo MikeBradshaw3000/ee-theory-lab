@@ -1,0 +1,31 @@
+F8 M7 — module container run record, ROUND 2 (L1), 2026-11-02
+Repository: ee-theory-lab at 2c8827bef2eea612fdf8b33f4c4ec23033361526 (fresh clone copy) with the NEW/TOUCHED objects placed in the working tree:
+9d8b8378efb51ac403acf746dbe0640205f6a9bbfe2edc7436d40d7769df332b  mfa_instrument/f8/runner.py
+cfe308bb99f2c6f539e091e26d6524f54c1bdf71619e179a6af6d9dcd73dc725  tests/test_f8_m7.py
+2525b1c6df1a5029fa05c08bf2f041680f7fd5220ab8df0b0be41640b3e7d7bb  mfa_instrument/f8/null.py
+f8b25fafb619c849ce229476ea860d8661012710c1933fde459f54d6486f471e  mfa_instrument/f8/config.py
+857a1403f603b51bd2eea7ff5480fe5b89ef3b5d8de9c213f9b145540a393d20  tests/test_f8_m1.py
+Placed at HEAD: null.py 4ee3f239b27f772b64a3f31a6dfff73112c40386904e3bda50e826766cef0121; config.py 43ea8de23c0d718b246936c7ff6f18e4f8e5243f77ddb240d896e5d00bdf0e07; test_f8_m1.py 23d4260f5a2d996b56e748aada1e7ed5d5b6d35e57bc41be9fdc53b34b04bff0
+Declaration digests: runner 7697ded832a86942a00700682ebd7c840fc67a87ebc924602536304093fd27a9; config dfd8badf916aaf0a8e040e2ef90fbf23c931053ed3ddff226fe9c9a1c4093f9d (was 0d9657d79c8b1c63…)
+Platform: Linux-6.18.44-fc-v230-x86_64-with-glibc2.39 py3.13.18 np2.5.3
+
+== python3 -m pytest tests/test_f8_m7.py -q -p no:cacheprovider --durations=10   (the submitted bytes)
+................................                                         [100%]
+============================= slowest 10 durations =============================
+1419.08s setup    tests/test_f8_m7.py::test_chain_canonical_jobs_produced_authorized_records
+519.83s call     tests/test_f8_m7.py::test_chain_package_replays_and_refuses_forgery
+136.00s call     tests/test_f8_m7.py::test_d6_pricing_record_must_be_the_declared_experiment
+53.37s call     tests/test_f8_m7.py::test_chain_morphology_and_stability_records_rederive
+29.84s call     tests/test_f8_m7.py::test_d4c_morphology_refuses_copied_level_files
+14.63s call     tests/test_f8_m7.py::test_d1b_readiness_memo_observes_authorization_history
+8.47s call     tests/test_f8_m7.py::test_derived_records_rederive_and_refuse_tamper
+7.37s call     tests/test_f8_m7.py::test_chain_production_readiness_from_committed_prerequisites
+6.87s call     tests/test_f8_m7.py::test_chain_census_role_is_issued_only_by_m7_and_replays
+4.58s call     tests/test_f8_m7.py::test_tranche_and_benchmark_smoke_at_reduced_shape
+32 passed in 2219.24s (0:36:59)
+
+== python3 -m pytest tests/test_f8_m1.py tests/test_f8_m2_m3.py tests/test_f8_m4.py tests/test_f8_m5.py tests/test_f8_mp1.py tests/test_f8_m6.py -q -p no:cacheprovider   (regressions against the touched config.py and null.py)
+.........................                                                [100%]
+241 passed in 404.89s (0:06:44)
+
+Earlier round-2 runs on the container, same grammar, before the fixes disclosed in the response s2a: run 1 — 17 passed, 1 error (placed M1 two-panel guard → Mike's a' ruling); run 2 — 17 passed, 1 error (M-P1: synthetic sweep carries no run provenance); run 3 — 17 passed, 1 error (type-based producer resolution); run 4 — 17 passed, 1 error (adapter not passed to the pricing validator); run 5 — 32 passed in 2271.38 s (declaration literal still PENDING); this record — the run of the submitted bytes with the literal established.

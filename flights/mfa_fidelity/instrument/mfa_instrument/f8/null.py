@@ -16,7 +16,8 @@ of a single window's count. Then (§4.3):
   θ_P  = inf{x : F_W(x) ≥ 1 − α_P/N_WINDOWS}   the per-window marginal at 1 − 0.0001           [route (b), familywise]
 so that P_null(S_min > θ_P) ≤ P_null(some window > θ_P) ≤ N_WINDOWS·α_P/N_WINDOWS = α_P. The construction is
 conservative by design; its realized conservatism is PRICED at qualification by the empirical null rejection rate
-against α_P (`price_familywise`, run on the F8 stepper itself at g = 0, replicate master declared below).
+against α_P (`NullValidation.s_min_rejection_rate` from `validate_on_stepper`, run on the F8 stepper itself at g = 0 under the
+registered protocol; M6's `run_pricing` prices the same event on its NULL count process — Interpretation 002 pt 9a).
 
 TWO THINGS, KEPT SEPARATE (E1 M3's discipline, carried): the LAW is exact; its EVALUATION here is float64 — the
 per-cell pmf by the DP (checked against an EXACT RATIONAL evaluation of the same DP: a and q are the float64 values
@@ -579,10 +580,6 @@ class NullValidation:
             raise NullDomainError("production_scope_eligible must equal production scope")
         if self.protocol_id == "" and (self.protocol_sha256 != "" or self.qualification_passed):
             raise NullDomainError("an unregistered run carries no protocol identity and can never be qualification-passed")
-
-    def is_qualification_evidence(self) -> bool:
-        """DEPRECATED NAME kept for one round: eligibility only (H3). Use production_scope_eligible and qualification_passed."""
-        return self.production_scope_eligible
 
 
 def decide_under_protocol(v: "NullValidation", protocol: ValidationProtocol) -> bool:

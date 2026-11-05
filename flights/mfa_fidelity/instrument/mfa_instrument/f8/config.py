@@ -12,10 +12,14 @@ FROZEN OBJECTS (immutable literals bound to hardcoded digests, recomputed at eve
                       every canonical sweep (paired by seed). The E1 master 20260917 is retired.
   F8_CALIBRATION_SEED_PANEL — the 20 seeds of the two-part calibration census (contract §7.3 job 0),
                       drawn once from a SEPARATE declared master, never reused for a canonical job.
+  F8_STABILITY_SEED_PANEL — the 20 seeds of the stability jobs (contract §7.3 items 2 and 4: "alternative …
+                      seed panels"; F8 Interpretation 003 pt 6), drawn once (2026-11-02, the M7-round-2 touch
+                      of this module, disclosed) from a THIRD declared master by the same rule; disjoint from
+                      the other two panels and from E1's; never a canonical or calibration seed.
   Rule parameters   — mu = 0.2, g = 1 (not swept), eta0 = -ln(1 - 0.01) (RULED), grid 50, ticks
                       3000, tail 1000 in 10 windows of 100, rho0_low = 0.02, W_res = 3 spacings.
 
-Both masters are BUILD DECLARATIONS (contract §8 marks the masters DERIVED@BUILD): they are of
+All three masters are BUILD DECLARATIONS (contract §8 marks the masters DERIVED@BUILD): they are of
 record only when Flight 8's governance record names this module's identity. Nothing here runs a
 sweep; `f8_run_spec` builds the immutable specification of one (level, seed, object) run and the
 dynamics module executes it.
@@ -90,6 +94,7 @@ W_RES_MICRO = 293_478                             # declared resolution, 3 s (co
 # FROZEN SEED PANELS — BUILD DECLARATIONS (DERIVED@BUILD, contract §8): drawn once by the E1 rule from the masters below.
 F8_SEED_PANEL_MASTER = 20261026                   # canonical panel master (build date); E1's 20260917 retired
 F8_CALIBRATION_MASTER = 120261026                 # calibration-census master (contract §7.3 job 0), separate from all others
+F8_STABILITY_MASTER = 920261102                   # stability-panel master (Interpretation 003 pt 6): prefix 9 + the build date of this touch (2026-11-02)
 F8_SEED_PANEL: Tuple[int, ...] = (
     2601517389, 3379839832, 1589273066, 2703936042, 1530244675, 3901944897, 424388694, 2009899952,
     1635189879, 85538278, 49718904, 2287089062, 4211530381, 3340776081, 1475811144, 4160026138,
@@ -99,6 +104,11 @@ F8_CALIBRATION_SEED_PANEL: Tuple[int, ...] = (
     3655077383, 2434248556, 295943332, 572059033, 1457873450, 2522627012, 2556733859, 3004017565,
     1323250378, 1987703677, 706797421, 455734318, 1709291720, 2972779286, 1557256973, 3770476374,
     2468903748, 3687455893, 1937104091, 938334236,
+)
+F8_STABILITY_SEED_PANEL: Tuple[int, ...] = (
+    3002876981, 1438905895, 2988128556, 2043819940, 443459250, 1018161548, 2238758546, 2106947913,
+    3208986442, 268878851, 2785669857, 3880010726, 504327698, 3067796642, 3464745754, 705922160,
+    2756612268, 3820758702, 4057615113, 3843974843,
 )
 
 
@@ -182,6 +192,7 @@ F8_DECLARATION: Tuple[Tuple[str, object], ...] = (
     ("object_codes", tuple(sorted(OBJECT_CODES.items()))), ("init_low_code", INIT_LOW_CODE),
     ("seed_panel_master", F8_SEED_PANEL_MASTER), ("seed_panel", F8_SEED_PANEL),
     ("calibration_master", F8_CALIBRATION_MASTER), ("calibration_seed_panel", F8_CALIBRATION_SEED_PANEL),
+    ("stability_master", F8_STABILITY_MASTER), ("stability_seed_panel", F8_STABILITY_SEED_PANEL),
     ("e1_retired_panel_sha256", E1_RETIRED_SEED_PANEL_SHA256),
     ("reduced_shape_policy", ("grid>=3", "ticks>=window", "tail=min(1000,ticks)", "tail%window==0")),
 )
@@ -195,7 +206,8 @@ def frozen_digest(obj) -> str:
 F8_LEVELS_SHA256_LITERAL = "7eefeea75a3d8012afec5ebc6ab7243c56aaa7cbc0c061d27476c1a2e40bdcac"
 F8_SEED_PANEL_SHA256_LITERAL = "088c914cfb47682a06f68e8fdae895ad1c60b0f016a371d4c7c038c6f33a2cfe"
 F8_CALIBRATION_PANEL_SHA256_LITERAL = "8c12e7c2a942f63db313458c4eb5f5b57b8b20df4b0bfde41f9d4e996dcb8fe9"
-F8_DECLARATION_SHA256_LITERAL = "0d9657d79c8b1c63552db1e5b4e5859ebd6afecb8f77c44fca2f019ef60e0a55"
+F8_STABILITY_PANEL_SHA256_LITERAL = "c54f734570a58427c02626e9e031d7848886111e5853ef8a7f9cb0158803c956"
+F8_DECLARATION_SHA256_LITERAL = "dfd8badf916aaf0a8e040e2ef90fbf23c931053ed3ddff226fe9c9a1c4093f9d"   # re-established 2026-11-02 on the M7-round-2 touch (previously 0d9657d79c8b1c63…); checked unconditionally
 
 
 class F8ConfigError(ValueError):
@@ -226,15 +238,20 @@ def verify_frozen_identity() -> Dict[str, str]:
         raise F8ConfigError("frozen seed panel differs from its generating rule or is not 20 distinct seeds")
     if generate_seed_panel(F8_CALIBRATION_MASTER) != F8_CALIBRATION_SEED_PANEL or len(set(F8_CALIBRATION_SEED_PANEL)) != 20:
         raise F8ConfigError("frozen calibration panel differs from its generating rule or is not 20 distinct seeds")
-    if F8_SEED_PANEL_MASTER == F8_CALIBRATION_MASTER or 20260917 in (F8_SEED_PANEL_MASTER, F8_CALIBRATION_MASTER) or set(F8_SEED_PANEL) & set(F8_CALIBRATION_SEED_PANEL):
+    if generate_seed_panel(F8_STABILITY_MASTER) != F8_STABILITY_SEED_PANEL or len(set(F8_STABILITY_SEED_PANEL)) != 20:
+        raise F8ConfigError("frozen stability panel differs from its generating rule or is not 20 distinct seeds")
+    masters = (F8_SEED_PANEL_MASTER, F8_CALIBRATION_MASTER, F8_STABILITY_MASTER)
+    if len(set(masters)) != 3 or 20260917 in masters or set(F8_SEED_PANEL) & set(F8_CALIBRATION_SEED_PANEL) or set(F8_STABILITY_SEED_PANEL) & (set(F8_SEED_PANEL) | set(F8_CALIBRATION_SEED_PANEL)):
         raise F8ConfigError("masters not distinct from each other or from E1's retired master, or the panels overlap")
     if frozen_digest(E1_RETIRED_SEED_PANEL) != E1_RETIRED_SEED_PANEL_SHA256 or len(set(E1_RETIRED_SEED_PANEL)) != 20:
         raise F8ConfigError("E1 retired-panel literal differs from E1's frozen panel digest")
-    if set(E1_RETIRED_SEED_PANEL) & (set(F8_SEED_PANEL) | set(F8_CALIBRATION_SEED_PANEL)):
+    if set(E1_RETIRED_SEED_PANEL) & (set(F8_SEED_PANEL) | set(F8_CALIBRATION_SEED_PANEL) | set(F8_STABILITY_SEED_PANEL)):
         raise F8ConfigError("an F8 panel shares a seed with E1's retired panel")
-    d_levels, d_panel, d_cal = frozen_digest(F8_LEVELS_MICRO), frozen_digest(F8_SEED_PANEL), frozen_digest(F8_CALIBRATION_SEED_PANEL)
-    if d_levels != F8_LEVELS_SHA256_LITERAL or d_panel != F8_SEED_PANEL_SHA256_LITERAL or d_cal != F8_CALIBRATION_PANEL_SHA256_LITERAL:
+    d_levels, d_panel, d_cal, d_stab = frozen_digest(F8_LEVELS_MICRO), frozen_digest(F8_SEED_PANEL), frozen_digest(F8_CALIBRATION_SEED_PANEL), frozen_digest(F8_STABILITY_SEED_PANEL)
+    if d_levels != F8_LEVELS_SHA256_LITERAL or d_panel != F8_SEED_PANEL_SHA256_LITERAL or d_cal != F8_CALIBRATION_PANEL_SHA256_LITERAL or d_stab != F8_STABILITY_PANEL_SHA256_LITERAL:
         raise F8ConfigError("frozen literal digest mismatch (levels or a seed panel)")
+    if not (isinstance(F8_DECLARATION_SHA256_LITERAL, str) and len(F8_DECLARATION_SHA256_LITERAL) == 64 and all(c in "0123456789abcdef" for c in F8_DECLARATION_SHA256_LITERAL)):
+        raise F8ConfigError("F8 declaration digest literal is not a 64-hex sha256 (no sentinel or placeholder is accepted)")   # L2 M7 r2 R2-7: unconditional
     if frozen_digest(F8_DECLARATION) != F8_DECLARATION_SHA256_LITERAL:
         raise F8ConfigError("F8 declaration differs from its frozen literal digest")
     decl = dict(F8_DECLARATION)
@@ -242,7 +259,7 @@ def verify_frozen_identity() -> Dict[str, str]:
             "m_min_micro": F8_M_MIN_MICRO, "m_max_micro": F8_M_MAX_MICRO, "pass1_levels": F8_PASS1_LEVELS, "levels_micro": F8_LEVELS_MICRO,
             "s_p1_micro": S_P1_MICRO, "s_p1_max_micro": S_P1_MAX_MICRO, "w_res_micro": W_RES_MICRO, "mu": F8_MU, "g": F8_G, "eta0": F8_ETA0,
             "dt": F8_DT, "rho0_low_micro": F8_RHO0_LOW_MICRO, "seed_panel": F8_SEED_PANEL, "calibration_seed_panel": F8_CALIBRATION_SEED_PANEL,
-            "seed_panel_master": F8_SEED_PANEL_MASTER, "calibration_master": F8_CALIBRATION_MASTER, "version": F8_VERSION}
+            "seed_panel_master": F8_SEED_PANEL_MASTER, "calibration_master": F8_CALIBRATION_MASTER, "stability_master": F8_STABILITY_MASTER, "stability_seed_panel": F8_STABILITY_SEED_PANEL, "version": F8_VERSION}
     for key, val in live.items():
         if decl[key] != val or type(decl[key]) is not type(val):
             raise F8ConfigError(f"F8 declaration field {key} differs from the live execution global")
@@ -259,7 +276,7 @@ def verify_frozen_identity() -> Dict[str, str]:
         raise F8ConfigError("declaration does not name the frozen contract and Appendix A identities")
     for m in F8_LEVELS_MICRO:                       # every level's lambda_bar reachable by homogeneous bases in [0, 1]
         homogeneous_base_from_lambda(lambda_bar_from_level(m))
-    return {"levels_sha256": d_levels, "seed_panel_sha256": d_panel, "calibration_panel_sha256": d_cal,
+    return {"levels_sha256": d_levels, "seed_panel_sha256": d_panel, "calibration_panel_sha256": d_cal, "stability_panel_sha256": d_stab,
             "declaration_sha256": F8_DECLARATION_SHA256_LITERAL, "s_p1_max_micro": str(S_P1_MAX_MICRO)}
 
 
@@ -291,7 +308,7 @@ def verify_against_appendix_a(appendix_a_path: str) -> Dict[str, object]:
 @dataclass(frozen=True)
 class F8RunSpec:
     """The immutable specification of one run. Grid/ticks are parameters ONLY so controls and smoke tests can run at
-    reduced size; a production-shape run must use a panel seed (canonical or calibration) and a pass-1 level. A spec is
+    reduced size; a production-shape run must use a panel seed (canonical, calibration or stability) and a pass-1 level. A spec is
     trusted only after `validate_run_spec` has reconstructed it from its identity fields (L2 M1 r1 D2)."""
     level_micro: int
     level_id: str
@@ -344,12 +361,14 @@ def f8_run_spec(level_micro: int, seed: int, obj: str, *, grid: int = F8_GRID, t
     production_shape = (grid, ticks) == (F8_GRID, F8_TICKS)
     if production_shape and level_micro not in F8_LEVELS_MICRO:
         raise F8ConfigError(f"a production-shape run must use a frozen pass-1 level; {level_micro} is not one (L2 M1 r1 D1)")
-    allowed = F8_SEED_PANEL if panel == "canonical" else F8_CALIBRATION_SEED_PANEL if panel == "calibration" else None
-    if allowed is None: raise F8ConfigError("panel must be 'canonical' or 'calibration'")
+    allowed = F8_SEED_PANEL if panel == "canonical" else F8_CALIBRATION_SEED_PANEL if panel == "calibration" else F8_STABILITY_SEED_PANEL if panel == "stability" else None
+    if allowed is None: raise F8ConfigError("panel must be 'canonical', 'calibration' or 'stability'")
     if production_shape and seed not in allowed:
         raise F8ConfigError(f"a production-shape run must use a seed from the frozen {panel} panel")
     if production_shape and panel == "calibration" and obj not in ("realization", "skeleton_high"):
         raise F8ConfigError("the calibration census runs only the realization and skeleton-high objects (contract §7.3 job 0)")
+    if production_shape and panel == "stability" and obj not in ("realization", "skeleton_high"):
+        raise F8ConfigError("the stability panel runs only the realization and skeleton-high objects (contract §7.3 items 2 and 4; Interpretation 003 pt 7)")
     lam = lambda_bar_from_level(level_micro)
     g = 0.0 if obj == "null" else F8_G
     eta = 0.0 if obj.startswith("skeleton") else F8_ETA0

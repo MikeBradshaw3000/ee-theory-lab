@@ -36,6 +36,10 @@ def test_m1_binds_to_appendix_a_of_record():
 def test_seed_panels_rule_generated_distinct_and_disjoint():
     assert C.F8_SEED_PANEL == C.generate_seed_panel(C.F8_SEED_PANEL_MASTER) and len(set(C.F8_SEED_PANEL)) == 20
     assert C.F8_CALIBRATION_SEED_PANEL == C.generate_seed_panel(C.F8_CALIBRATION_MASTER) and len(set(C.F8_CALIBRATION_SEED_PANEL)) == 20
+    # M7-round-2 touch (Interpretation 003 pt 6): the third declared panel, rule-generated from its own master, disjoint from the other two and from E1's
+    assert C.F8_STABILITY_SEED_PANEL == C.generate_seed_panel(C.F8_STABILITY_MASTER) and len(set(C.F8_STABILITY_SEED_PANEL)) == 20 and C.F8_STABILITY_MASTER == 920261102
+    assert not set(C.F8_STABILITY_SEED_PANEL) & (set(C.F8_SEED_PANEL) | set(C.F8_CALIBRATION_SEED_PANEL) | set(C.E1_RETIRED_SEED_PANEL))
+    assert C.frozen_digest(C.F8_STABILITY_SEED_PANEL) == C.F8_STABILITY_PANEL_SHA256_LITERAL
     assert not set(C.F8_SEED_PANEL) & set(C.F8_CALIBRATION_SEED_PANEL)
     assert C.F8_SEED_PANEL_MASTER != C.F8_CALIBRATION_MASTER and 20260917 not in (C.F8_SEED_PANEL_MASTER, C.F8_CALIBRATION_MASTER)
     assert C.frozen_digest(C.F8_SEED_PANEL) == C.F8_SEED_PANEL_SHA256_LITERAL
@@ -48,7 +52,8 @@ def test_e1_frozen_panel_is_not_reused():
 
 @pytest.mark.parametrize("name,bad", [
     ("F8_LEVELS_SHA256_LITERAL", "0" * 64), ("F8_SEED_PANEL_SHA256_LITERAL", "0" * 64),
-    ("F8_CALIBRATION_PANEL_SHA256_LITERAL", "0" * 64), ("F8_DECLARATION_SHA256_LITERAL", "0" * 64),
+    ("F8_CALIBRATION_PANEL_SHA256_LITERAL", "0" * 64), ("F8_STABILITY_PANEL_SHA256_LITERAL", "0" * 64), ("F8_DECLARATION_SHA256_LITERAL", "0" * 64),
+    ("F8_DECLARATION_SHA256_LITERAL", "PENDING_M7_ROUND2"), ("F8_DECLARATION_SHA256_LITERAL", "PENDING"), ("F8_DECLARATION_SHA256_LITERAL", ""),   # L2 M7 r2 R2-7: a sentinel digest never passes preflight
     ("F8_MU", 0.25), ("W_RES_MICRO", 293479), ("F8_G", 2.0),
 ])
 def test_frozen_identity_tamper_blocks_spec_construction(monkeypatch, name, bad):
@@ -159,6 +164,12 @@ def test_spec_construction_policies():
     with pytest.raises(C.F8ConfigError, match="panel"): C.f8_run_spec(m, 12345, "realization")                 # production shape, non-panel seed
     with pytest.raises(C.F8ConfigError): C.f8_run_spec(m, C.F8_CALIBRATION_SEED_PANEL[0], "skeleton_low", panel="calibration")
     assert C.f8_run_spec(m, C.F8_CALIBRATION_SEED_PANEL[0], "skeleton_high", panel="calibration").obj == "skeleton_high"
+    # the stability panel (M7-round-2 touch): its own seeds only, realization and skeleton-high only, at production shape
+    assert C.f8_run_spec(m, C.F8_STABILITY_SEED_PANEL[0], "realization", panel="stability").panel == "stability"
+    with pytest.raises(C.F8ConfigError, match="frozen stability panel"): C.f8_run_spec(m, C.F8_SEED_PANEL[0], "realization", panel="stability")
+    with pytest.raises(C.F8ConfigError, match="frozen canonical panel"): C.f8_run_spec(m, C.F8_STABILITY_SEED_PANEL[0], "realization")
+    with pytest.raises(C.F8ConfigError, match="stability panel runs only"): C.f8_run_spec(m, C.F8_STABILITY_SEED_PANEL[0], "skeleton_low", panel="stability")
+    with pytest.raises(C.F8ConfigError, match="panel must be"): C.f8_run_spec(m, C.F8_SEED_PANEL[0], "realization", panel="neither")
     assert C.f8_run_spec(m, 12345, "realization", **SMOKE).grid == 8                                             # smoke shape: any seed
     with pytest.raises(C.F8ConfigError): C.f8_run_spec(m, s, "unknown_object")
     with pytest.raises(C.F8ConfigError): C.f8_run_spec(m, True, "realization")
@@ -270,7 +281,7 @@ def test_d4_panels_checked_against_the_actual_retired_e1_panel(monkeypatch):
     # discriminating collision: plant one retired E1 seed into the canonical panel (digest literal re-pointed so only the overlap can fail)
     planted = C.F8_SEED_PANEL[:-1] + (C.E1_RETIRED_SEED_PANEL[4],)
     monkeypatch.setattr(C, "F8_SEED_PANEL", planted)
-    monkeypatch.setattr(C, "generate_seed_panel", lambda master, n=20: planted if master == C.F8_SEED_PANEL_MASTER else C.F8_CALIBRATION_SEED_PANEL)
+    monkeypatch.setattr(C, "generate_seed_panel", lambda master, n=20: planted if master == C.F8_SEED_PANEL_MASTER else C.F8_STABILITY_SEED_PANEL if master == C.F8_STABILITY_MASTER else C.F8_CALIBRATION_SEED_PANEL)
     monkeypatch.setattr(C, "F8_SEED_PANEL_SHA256_LITERAL", C.frozen_digest(planted))
     with pytest.raises(C.F8ConfigError, match="retired panel"): C.verify_frozen_identity()
 

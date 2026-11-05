@@ -1,0 +1,34 @@
+F8 M7 — module container run record, ROUND 3 (L1), 2026-11-03
+Repository: ee-theory-lab at 1978a017cbbfaacfeda0568770621e3194e76588 (1978a01: Interpretation 003 ratified) with the NEW/TOUCHED objects placed in the working tree:
+da0b6e58623c947fd24ef4448469eccf682866514eb46586adcd86b2b1b9f473  mfa_instrument/f8/runner.py
+309e063fa24fb1b9457ed0663a12e5fb0f6cfbadc13345569bee8b3c3dbcbf66  tests/test_f8_m7.py
+2525b1c6df1a5029fa05c08bf2f041680f7fd5220ab8df0b0be41640b3e7d7bb  mfa_instrument/f8/null.py
+3b3c8c772937de110345814a2c8367258a1888202d57e344ea0c48a5d6d574e7  mfa_instrument/f8/config.py
+ca9a547286290aabc497fc228e10dd845711cd1b359bc21fcb125d92e8285007  tests/test_f8_m1.py
+Placed at HEAD: null.py 4ee3f239b27f772b64a3f31a6dfff73112c40386904e3bda50e826766cef0121; config.py 43ea8de23c0d718b246936c7ff6f18e4f8e5243f77ddb240d896e5d00bdf0e07; test_f8_m1.py 23d4260f5a2d996b56e748aada1e7ed5d5b6d35e57bc41be9fdc53b34b04bff0
+Declaration digests: runner 0ce2e7b5eaca1804b10cc68706380bd93f5efe007c34c7fe74a6eb878cd8b4b8; config dfd8badf916aaf0a8e040e2ef90fbf23c931053ed3ddff226fe9c9a1c4093f9d (unchanged from round 2; the check is now unconditional)
+Interpretation 003 bound: 6ebf0ad3efbe8e0e74b45e63d5f6ba550441897f3ff6898749230c064c993e9e
+Platform: Linux-6.18.44-fc-v230-x86_64-with-glibc2.39 py3.13.18 np2.5.3
+
+== python3 -m pytest tests/test_f8_m7.py -q -x -p no:cacheprovider --durations=12   (the submitted bytes; files last modified 12:38 local, run started 12:38:40, finished 13:39:07)
+.....................................                                    [100%]
+============================= slowest 12 durations =============================
+2269.04s setup    tests/test_f8_m7.py::test_chain_canonical_jobs_produced_authorized_records
+716.03s call     tests/test_f8_m7.py::test_chain_package_replays_and_refuses_forgery
+223.31s call     tests/test_f8_m7.py::test_r2_2_direct_route_requires_semantically_valid_predecessors
+171.66s call     tests/test_f8_m7.py::test_d6_pricing_record_must_be_the_declared_experiment
+61.74s call     tests/test_f8_m7.py::test_chain_morphology_and_stability_records_rederive
+44.64s call     tests/test_f8_m7.py::test_r2_1_dependency_paths_confined_and_dependency_edits_invalidate_warm_readiness
+32.16s call     tests/test_f8_m7.py::test_r2_5_stability_reproduction_is_same_crossing_index
+23.21s call     tests/test_f8_m7.py::test_d1b_readiness_memo_observes_authorization_history
+15.31s call     tests/test_f8_m7.py::test_d4c_morphology_refuses_copied_level_files
+13.28s call     tests/test_f8_m7.py::test_chain_production_readiness_from_committed_prerequisites
+11.71s call     tests/test_f8_m7.py::test_derived_records_rederive_and_refuse_tamper
+8.93s call     tests/test_f8_m7.py::test_chain_census_role_is_issued_only_by_m7_and_replays
+37 passed in 3627.84s (1:00:27)
+
+== python3 -m pytest tests/test_f8_m1.py tests/test_f8_m2_m3.py tests/test_f8_m4.py tests/test_f8_m5.py tests/test_f8_mp1.py tests/test_f8_m6.py -q -p no:cacheprovider
+............................                                             [100%]
+244 passed in 551.05s (0:09:11)
+
+Earlier round-3 runs on the container: run 1 — killed by L1 after 30+ min inside the chain (readiness key digesting the whole tracked prerequisites tree after the census commits; replaced by the exact read set, response s4 disclosure 3); run 2 — 17 passed, 1 error (an L1 edit had dropped _authorization_surface_digest; restored); this record — the run of the submitted bytes.

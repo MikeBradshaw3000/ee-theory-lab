@@ -1,0 +1,29 @@
+F8 M7 — module container run record, ROUND 4 (L1), 2026-11-03
+Repository: ee-theory-lab at 1978a017cbbfaacfeda0568770621e3194e76588 (1978a01) with the NEW/TOUCHED objects placed in the working tree:
+ef93cedbf5a3d8be55815c09782fc0f2bbf6f0973b4ce8a4fbf975756f826f31  mfa_instrument/f8/runner.py
+843a528045b9ee74ecec78f1c0091908188c415a120f68043987658354ff9ca8  tests/test_f8_m7.py
+2525b1c6df1a5029fa05c08bf2f041680f7fd5220ab8df0b0be41640b3e7d7bb  mfa_instrument/f8/null.py
+3b3c8c772937de110345814a2c8367258a1888202d57e344ea0c48a5d6d574e7  mfa_instrument/f8/config.py
+ca9a547286290aabc497fc228e10dd845711cd1b359bc21fcb125d92e8285007  tests/test_f8_m1.py
+config.py, test_f8_m1.py and null.py are BYTE-IDENTICAL to round 3 (L2 r3: M1 touch SOUND within a'); only runner.py and test_f8_m7.py changed. The round-3 regression record (244 passed) therefore stands for the touched modules; it is not re-run.
+Declaration digests: runner 0ce2e7b5eaca1804b10cc68706380bd93f5efe007c34c7fe74a6eb878cd8b4b8 (unchanged from round 3: the declaration tuple did not change); config dfd8badf916aaf0a8e040e2ef90fbf23c931053ed3ddff226fe9c9a1c4093f9d
+Platform: Linux-6.18.44-fc-v230-x86_64-with-glibc2.39 py3.13.18 np2.5.3
+
+== python3 -m pytest tests/test_f8_m7.py -q -p no:cacheprovider --durations=12   (the submitted bytes)
+........................................                                 [100%]
+============================= slowest 12 durations =============================
+1691.83s setup    tests/test_f8_m7.py::test_chain_canonical_jobs_produced_authorized_records
+497.43s call     tests/test_f8_m7.py::test_chain_package_replays_and_refuses_forgery
+240.87s call     tests/test_f8_m7.py::test_r2_2_direct_route_requires_semantically_valid_predecessors
+101.81s call     tests/test_f8_m7.py::test_d6_pricing_record_must_be_the_declared_experiment
+91.60s call     tests/test_f8_m7.py::test_r3_3_named_sweep_output_is_bound_to_its_object
+65.17s call     tests/test_f8_m7.py::test_chain_morphology_and_stability_records_rederive
+32.09s call     tests/test_f8_m7.py::test_r2_5_stability_reproduction_is_same_crossing_index
+30.21s call     tests/test_f8_m7.py::test_r2_1_dependency_paths_confined_and_dependency_edits_invalidate_warm_readiness
+24.98s call     tests/test_f8_m7.py::test_r3_1_directory_aliases_are_refused_before_any_cached_success
+18.16s call     tests/test_f8_m7.py::test_d4c_morphology_refuses_copied_level_files
+16.29s call     tests/test_f8_m7.py::test_d1b_readiness_memo_observes_authorization_history
+13.45s call     tests/test_f8_m7.py::test_chain_production_readiness_from_committed_prerequisites
+40 passed in 2863.57s (0:47:43)
+
+Earlier round-4 runs: run 1 — 39 passed, 1 failed (the R3-1 test's own teardown: the cold readiness check replays the tranche by re-execution and the test's execution sentinel was still patched; test fixed, no source change); run 2 — stopped by L1 to add the junction detection (response s3 disclosure 2); this record — the run of the submitted bytes.

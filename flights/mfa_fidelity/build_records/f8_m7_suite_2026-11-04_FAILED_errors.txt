@@ -1,0 +1,120 @@
+=================================== ERRORS ====================================
+___ ERROR at setup of test_chain_canonical_jobs_produced_authorized_records ___
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x00000267591DF360>, _basetemp=WindowsPath('C:/Users/vkz244/AppData/Local/Temp/pytest-of-vkz244/pytest-38'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def chain(tmp_path_factory):
+        mp = pytest.MonkeyPatch()
+        try:
+            root = str(tmp_path_factory.mktemp("chain")); inst = _base_repo(root); _git(root, "init", "-q"); _commit(root)
+            mp.setattr(R._ENV, "check_environment", lambda pr: _ConformingEnv()); pinned = str(tmp_path_factory.mktemp("pinned"))
+            mp.setattr(R._D, "run", _synthetic_run); mp.setattr(E, "known_answer_qualification", _fake_known_answer); mp.setattr(CL, "finite_n_counts", _fake_finite_n_counts)
+            _place_and_govern(root, inst)
+            stage = R.bind_stage(root, pinned); assert stage.role == "canonical"
+            adapter = R._stage_adapter(root, stage); mp.setattr(R._A, "run_audit", _fake_audit(adapter))
+            _publish_auth(root, _auth(stage, 1))
+            gov = os.path.join(root, R.GOVERNANCE_ROOT_REL); base = os.path.join(gov, "prerequisites"); out = os.path.join(base, "package")
+            R.validate_stage_identity(stage, root, pinned)
+            recs = {}
+            # s7.1 order is executable (D3d): the design audit needs the known-answer record; the held-out audit needs the design audit
+            with pytest.raises(R.RunnerDomainError, match="s7.3 order"): R.run_canonical_job("m6_design_audit", stage, root, out, pinned, 1)
+            recs["mp1_known_answer"], _ = R.run_canonical_job("mp1_known_answer", stage, root, out, pinned, 1)
+            with pytest.raises(R.RunnerDomainError, match="s7.3 order"): R.run_canonical_job("m6_held_out_audit", stage, root, out, pinned, 1)
+            for job in ("m6_design_audit", "m6_held_out_audit", "m6_audit_qualification", "m6_price", "calibration_census", "tolerance_program", "dense_reference", "reference_stability", "projection_sweeps", "resource_benchmark"):
+                if job == "m6_price":
+                    with pytest.raises(R.RunnerDomainError): R.run_canonical_job("m6_price", stage, root, out, pinned, 1)      # not in v1's authorized jobs (source literals grant nothing)
+                    _publish_auth(root, _auth(stage, 2, jobs=R.CANONICAL_JOBS)); recs[job], _ = R.run_canonical_job(job, stage, root, out, pinned, 2); continue
+                recs[job], _ = R.run_canonical_job(job, stage, root, out, pinned, 1)
+            q, qpath = R.run_tranche(base, stage, root, pinned, 1)
+            # a scientific job under v1 (no production flag) is refused BEFORE any run
+            with pytest.raises(R.RunnerDomainError, match="production flag"): R.run_canonical_job("skeleton_census", stage, root, out, pinned, 1)
+            # the produced records are COMMITTED (prerequisites are committed files), then the manifest (the governance record's exact set) \u2192 production authorization v2 \u2192 readiness
+            _commit(root, "apparatus records")
+            gsha = R._sha_file(os.path.join(gov, R.GOVERNANCE_REL))
+            def entry(name, rel, deps=()):
+                fp = os.path.join(base, rel); rec = R.load_record(fp, R.PREREQ_TYPES[name], stage, root, pinned, require_job=R.PREREQ_JOBS[name], **R._prereq_context(R.PrerequisiteEntry(name, R.PREREQ_TYPES[name], rel, R._sha_file(fp), "0" * 64, deps), base, stage, root, pinned, fp))[0]
+                return R.PrerequisiteEntry(name, R.PREREQ_TYPES[name], rel, R._sha_file(fp), R._item_identity(rec), deps)
+            entries = (entry("calibration_tranche", "calibration_tranche.json"), entry("resource_actuals", "package/resource_benchmark.json"), entry("mp1_known_answer", "package/mp1_known_answer.json"),
+                       entry("calibration_census", "package/calibration_census.json"), entry("dense_reference", "package/dense_reference.json"),
+                       entry("m6_audit_qualification", "package/m6_audit_qualification.json", (("design", "package/m6_design_audit.json", R._sha_file(os.path.join(base, "package/m6_design_audit.json"))), ("held_out", "package/m6_held_out_audit.json", R._sha_file(os.path.join(base, "package/m6_held_out_audit.json"))))))
+            man = _rehash(R.ProductionPrerequisiteManifest(gsha, entries), R._manifest_body); _write_canon(os.path.join(gov, R.PREREQ_MANIFEST_REL), man); _commit(root, "prerequisites")
+            _publish_auth(root, _auth(stage, 3, R._sha_file(os.path.join(gov, R.PREREQ_MANIFEST_REL))))
+            rd = R.validate_prerequisites(R.load_authorization(root, stage, 3)[0], stage, root, pinned)
+            # s7.3 order (D3b): realization cannot start before the skeleton census, its assessment AND the skeleton stability record exist — on the job route and the direct level route
+            with pytest.raises(R.RunnerDomainError, match="s7.3 order"): R.run_canonical_job("realization_census", stage, root, out, pinned, 3)
+            with pytest.raises(R.RunnerDomainError, match="s7.3 order"): R.run_level(L[0], "realization", "canonical", out, stage, "production", job="realization_census", adapter=adapter, repo_root=root, pinned_root=pinned, authorization_version=3)
+>           recs["skeleton_census"], _ = R.run_canonical_job("skeleton_census", stage, root, out, pinned, 3)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_f8_m7.py:398: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+mfa_instrument\f8\runner.py:2533: in run_canonical_job
+    levels(obj, "canonical")
+mfa_instrument\f8\runner.py:2504: in levels
+    run_level(m, obj, panel, out_dir, stage, "production", job=job, adapter=adapter, repo_root=repo_root, pinned_root=pinned_root, authorization_version=authorization_version)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+level_micro = 2402174, obj = 'skeleton_low', panel = 'canonical'
+out_dir = 'C:\\Users\\vkz244\\AppData\\Local\\Temp\\pytest-of-vkz244\\pytest-38\\chain1\\flights/mfa_fidelity/governance/f8_stage1\\prerequisites\\package'
+stage = StageIdentity(role='canonical', commit='553d39b6b7bd66694aae3f563f70f7d15c9bae96', head_commit='553d39b6b7bd66694aae3f...tag='Windows-AMD64-py3.14.4-np2.4.4', result_sha256='73da6edfe0cea5fac3fec584814fed0e442d2bbd14c3eac4b76c80ddfcbec34d')
+mode = 'production'
+
+    def run_level(level_micro: int, obj: str, panel: str, out_dir: str, stage: StageIdentity, mode: str, *, job: str = "", adapter=None, grid: int = F8_GRID, ticks: int = F8_TICKS,
+                  repo_root: Optional[str] = None, pinned_root: Optional[str] = None, authorization_version: Optional[int] = None) -> LevelRecord:
+        """One (level, object, panel), all-or-nothing, twenty runs. Production: canonical stage, the COMMITTED production authorization, prerequisites
+        READY, production shape, the stage's committed adapter; persisted canonically. Pass is derived from the grid; production-shape runs exist
+        on the pass-1 grid only (M1's guard), so a pass-2 request in production is an EvaluabilityHalt before any run."""
+        verify_frozen_identity()
+        if mode not in RUN_MODES or obj not in RUN_OBJECTS or panel not in PANELS: raise RunnerDomainError("unknown run mode, object or panel")
+        if type(stage) is not StageIdentity: raise RunnerDomainError("exact StageIdentity required")
+        on_grid = level_micro in F8_LEVELS_MICRO
+        auth = None; auth_file = ""; prereqs: Tuple = ()
+        if mode == "production":
+            if repo_root is None or authorization_version is None: raise RunnerDomainError("production requires the repository and an authorization version")
+            validate_stage_identity(stage, repo_root, pinned_root)
+            if stage.role != "canonical": raise RunnerDomainError("production requires a canonical stage")
+            if not on_grid: raise EvaluabilityHalt(f"level {level_micro} is off the pass-1 grid: M1's frozen production guard cannot execute it")
+            if not _job_permits(job, obj, panel): raise RunnerDomainError(f"job {job} does not run ({obj}, {panel}): refused before any run (L2 r1 D2)")
+            auth, auth_file = load_authorization(repo_root, stage, authorization_version)
+            if job not in auth.authorized_jobs: raise RunnerDomainError(f"job {job} is not authorized by record v{auth.version} (source literals grant nothing)")
+            if job in SCIENTIFIC_JOBS:
+                if not auth.production_authorized: raise RunnerDomainError(f"the scientific jobs are not authorized by record v{auth.version}: production flag absent (s7.1)")
+                rd = validate_prerequisites(auth, stage, repo_root, pinned_root)
+                if not rd.production_ready: raise RunnerDomainError(f"production is not READY: valid/complete={rd.all_valid_complete}, branch stops={[s for s in rd.branch_stops if s[2]]}")
+                prereqs = tuple((n, rid, auth.prerequisite_manifest_sha256) for n, _, _, rid, _, _ in rd.rows)
+            if (grid, ticks) != (F8_GRID, F8_TICKS): raise RunnerDomainError("production requires the frozen production shape")
+            if adapter is None or not _is_production_adapter(adapter) or adapter.body_sha256 != stage.adapter_body_sha256: raise ApparatusHalt("production requires the stage's committed production adapter")
+            require_job_dependencies(job, out_dir, stage, repo_root, pinned_root, adapter)    # the SAME semantic gate on the direct route (L2 r1 D3b; r2 R2-2, R2-6)
+        else:
+            if not on_grid and (grid, ticks) == (F8_GRID, F8_TICKS): raise RunnerDomainError("rehearsal at production shape runs only on the frozen pass-1 grid")
+            adapter = None
+        level_dir = os.path.join(out_dir, _level_dirname(level_micro, obj, panel)); partial = level_dir + ".partial"
+        if os.path.exists(partial): shutil.rmtree(partial)
+        os.makedirs(partial)
+        runs: List[RunProvenance] = []
+        for seed in _panel_seeds(panel):
+            prov, _ = _execute_run(level_micro, seed, obj, panel, grid, ticks, partial, adapter if mode == "production" else None)
+            runs.append(prov)
+        if os.path.exists(level_dir): shutil.rmtree(level_dir)
+>       os.replace(partial, level_dir)
+E       PermissionError: [WinError 5] Access is denied: 'C:\\Users\\vkz244\\AppData\\Local\\Temp\\pytest-of-vkz244\\pytest-38\\chain1\\flights/mfa_fidelity/governance/f8_stage1\\prerequisites\\package\\2.402174.skeleton_low.canonical.partial' -> 'C:\\Users\\vkz244\\AppData\\Local\\Temp\\pytest-of-vkz244\\pytest-38\\chain1\\flights/mfa_fidelity/governance/f8_stage1\\prerequisites\\package\\2.402174.skeleton_low.canonical'
+
+mfa_instrument\f8\runner.py:1248: PermissionError
+__ ERROR at setup of test_chain_census_role_is_issued_only_by_m7_and_replays __
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x00000267591DF360>, _basetemp=WindowsPath('C:/Users/vkz244/AppData/Local/Temp/pytest-of-vkz244/pytest-38'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def chain(tmp_path_factory):
+        mp = pytest.MonkeyPatch()
+        try:
+            root = str(tmp_path_factory.mktemp("chain")); inst = _base_repo(root); _git(root, "init", "-q"); _commit(root)
+            mp.setattr(R._ENV, "check_environment", lambda pr: _ConformingEnv()); pinned = str(tmp_path_factory.mktemp("pinned"))
+            mp.setattr(R._D, "run", _synthetic_run); mp.setattr(E, "known_answer_qualification", _fake_known_answer); mp.setattr(CL, "finite_n_counts", _fake_finite_n_counts)
+            _place_and_govern(root, inst)
+            stage = R.bind_stage(root, pinned); assert stage.role == "canonical"
+            adapter = R._stage_adapter(root, stage); mp.setattr(R._A, "run_audit", _fake_audit(adapter))
+            _publish_auth(root, _auth(stage, 1))
+            gov = os.path.join(root, R.GOVERNANCE_ROOT_REL); base = os.path.join(gov, "prerequisites"); out = os.path.join(base, "package")
+            R.validate_stage_identity(stage, root, pinned)

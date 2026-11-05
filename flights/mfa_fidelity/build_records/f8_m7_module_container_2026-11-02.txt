@@ -1,0 +1,23 @@
+F8 M7 — module container run record (L1), 2026-11-02
+Repository: ee-theory-lab at 2c8827bef2eea612fdf8b33f4c4ec23033361526 (fresh clone copy) with the NEW objects placed in the working tree:
+4fdabf422f17f0c6584d45067cfe2499bbd9e5ae28c0bce634e2ee9d878b098e  mfa_instrument/f8/runner.py
+93fdea33755b71a2ce72f4b57fd45ef489a3872194929e5b451b5779a1a04c8e  tests/test_f8_m7.py
+2525b1c6df1a5029fa05c08bf2f041680f7fd5220ab8df0b0be41640b3e7d7bb  mfa_instrument/f8/null.py
+Placed null.py at HEAD: 4ee3f239b27f772b64a3f31a6dfff73112c40386904e3bda50e826766cef0121
+Platform: Linux-6.18.44-fc-v185-x86_64-with-glibc2.39 py3.13.18 np2.5.3
+
+== python3 -m pytest tests/test_f8_m7.py -q -p no:cacheprovider --durations=6
+.......................                                                  [100%]
+============================= slowest 6 durations ==============================
+235.98s setup    tests/test_f8_m7.py::test_chain_canonical_jobs_produced_authorized_records
+69.06s call     tests/test_f8_m7.py::test_chain_package_replays_and_refuses_forgery
+25.99s call     tests/test_f8_m7.py::test_chain_morphology_and_stability_records_rederive
+6.28s call     tests/test_f8_m7.py::test_derived_records_rederive_and_refuse_tamper
+5.41s call     tests/test_f8_m7.py::test_chain_census_role_is_issued_only_by_m7_and_replays
+5.28s call     tests/test_f8_m7.py::test_chain_production_readiness_from_committed_prerequisites
+23 passed in 362.50s (0:06:02)
+
+== python3 -m pytest tests/test_f8_m2_m3.py tests/test_f8_m6.py -q -p no:cacheprovider -x (M2/M3 and M6 against the touched null.py)
+89 passed in 191.72s (0:03:11)
+
+Earlier runs on the container (same files before the fixes named in the packet s4 item 3 and the test corrections): run 1 — 16 passed, 1 error (realization_census wrote its MorphologyRecord over realization_sweep.json; chain setup 5893 s); run 2 — 21 passed, 1 failed (registry-tamper test left the shared fixture repository rewritten). Both faults are repaired in the submitted files; the record above is the run of the submitted bytes.
