@@ -1,0 +1,56 @@
+**1. Soundness of the Chain**
+The mechanical execution of the chain is sound and technically compliant with the frozen F8 v0.8.4 contract and its interpretations. The jobs were run sequentially on the canonical machine under the correct authorizations, and the package specification is complete. However, there is a massive structural defect in the evaluation logic of T-S1c that renders the `PRODUCED` determination scientifically unsafe for the core claim it supposedly tests.
+
+**2. Adversarial Reading of the Result (T-S1c)**
+T-S1c is structurally blind to the actual onset jump.
+
+* **The Math:** At $m = 1.423913$ (the level strictly below $\hat{m}_c$), 7 of 20 runs survive, meaning the seed-median density is $0$. At $m = 1.521739$ ($\hat{m}_c$), 20 of 20 runs survive with a median density of $0.1487$. The total sampled range of the branch is $\text{med}(m_{max}) - \text{med}(\hat{m}_c) = 0.5159 - 0.1487 = 0.3672$. The allowed jump fraction $f_J = 0.25$ gives a maximum allowed step of $0.0918$.
+
+
+* **The Jump:** The step from the inactive phase into $\hat{m}_c$ is $0.1487 - 0 = 0.1487$. This vastly exceeds the $0.0918$ threshold.
+
+
+* **The Loophole:** MP1-5 defines the T-S1c domain strictly as "$\hat{m}_c \dots m_{max}$ inclusive". This means the evaluator checks the step from $\hat{m}_c$ to $\hat{m}_c+1$ (which is $0.2262 - 0.1487 = 0.0775$, passing the check), but it entirely excludes the step from below $\hat{m}_c$ into $\hat{m}_c$.
+
+
+
+The instrument passed a massive, discontinuous jump at the onset simply because the jump occurred *at* the boundary, and the test only looks *above* the boundary. "Consistent with a continuous onset" is mathematically false on these data; the frozen rule shielded the discontinuity from being evaluated.
+
+**3. Ranked Disposition for Mike**
+
+* **Option 1 (Recommended): Reject the P1 determination on scientific grounds.** Close Stage 1 noting that while the instrument executed its frozen logic flawlessly, the lattice transition exhibits a massive discontinuity at the onset that falsifies the transcritical claim. This licenses the program to definitively state the ODE closure fails to capture the lattice onset dynamics, moving the theory forward with integrity.
+* **Option 2: Accept the P1 determination as a literal instrument artifact, but quarantine the claim.** Accept the `PRODUCED` verdict strictly as a measure of post-onset monotonicity, but immediately amend the claim grammar for Stage 2 to note that the F8 instrument cannot evaluate onset continuity. This licenses you to close the stage successfully on a technicality, but permanently blocks you from using this flight to claim the onset is continuous.
+
+
+
+**4. The Open Items in §5**
+
+* **D1 (Auth 003 timing):** Bears on neither. A process inversion, but no job ran before the commit. Must be logged in the final governance record.
+
+
+* **D2 (Contract §1.3(b) omission):** Bears on neither. Held for a successor flight via ruling. The interpretation draft must be placed before close.
+
+
+* **D3 (Job-0 supplement):** Bears on neither. Explicitly declared "when available" and not a prerequisite.
+
+
+* **D4 (Commit message errors):** Bears on neither. Immutable historical artifacts; no record required.
+
+
+* **D5 (Docstring repairs):** Bears on neither. Non-blocking technical debt tracked for next touch.
+
+
+* **D6 (Canonical suite anomalies):** Bears on neither. The gate passed.
+
+
+* **D7 (Working tree cruft):** Bears on neither. M7 read only the clean governance and prerequisite paths.
+
+
+* **D8 (M4 verdict notation):** Bears on neither. The distinction between the secondary morphology verdict and P1 is pre-registered and clear.
+
+
+
+**5. Claim Language**
+
+* **Strongest supported sentence:** "The F8 instrument, operating precisely under its frozen literal evaluation domain, returned `PRODUCED`, demonstrating that the realization maintains a continuous, monotonic branch *after* the initial onset boundary."
+* **Nearest unsupported sentence:** "The data demonstrate an onset consistent with a continuous transition." (The data explicitly show a massive discontinuity at the onset that the evaluator's domain structurally ignored).

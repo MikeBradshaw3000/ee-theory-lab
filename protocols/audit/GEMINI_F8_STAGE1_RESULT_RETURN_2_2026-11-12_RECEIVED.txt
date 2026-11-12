@@ -1,0 +1,8 @@
+**CROSS-DOCUMENT CONSISTENCY REPORT**
+
+**Tier:** Flight result record
+**Object under audit:** The committed Flight 8 stage-1 record of [github.com/MikeBradshaw3000/ee-theory-lab](https://www.google.com/search?q=https%3A%2F%2Fgithub.com%2FMikeBradshaw3000%2Fee-theory-lab), branch main, pinned commit abb927995d92faa37ca654ee8f3651c48a27f2e2.
+
+**Findings:**
+
+1. **Authorization Scope Violation (`calibration_tranche`):** The job `calibration_tranche` was executed and recorded under Authorization 002. This is evidenced by the git log (commit `5d566ce`) and the record `prerequisites/calibration_tranche.json`, which asserts `"authorization_version": 2` and binds to `AUTHORIZATION_002.json`'s hash. However, `"calibration_tranche"` is missing from the `"authorized_jobs"` array within `AUTHORIZATION_002.json`, which lists only 11 other jobs. The job was therefore executed without being granted execution authority in the governing authorization record.
