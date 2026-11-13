@@ -1,0 +1,97 @@
+{
+ "L2_missing_island_S": 6.569074694401837,
+ "L2_partial_patch_S": 5.0,
+ "components_strips_plus_island": [
+  40,
+  100,
+  100,
+  100,
+  100,
+  100,
+  100,
+  100,
+  100,
+  100,
+  100
+ ],
+ "diagonal_blocks_components": [
+  40,
+  40
+ ],
+ "block_with_hole_components": [
+  40,
+  120
+ ],
+ "timing": {
+  "TB.P": {
+   "family_own": 2600,
+   "family_rival": 50,
+   "sec_per_draw_both_indices": 0.138,
+   "own_within": 60,
+   "rival_within": 0,
+   "draws": 60,
+   "mean_adm_own": 130.58333333333334,
+   "mean_adm_rival": 0.0,
+   "point_S_pruned": 0.7071,
+   "point_S_brute": 0.7071,
+   "brute_sec": 43.18,
+   "pruned_equals_brute_decision": true
+  },
+  "TB.H": {
+   "family_own": 50,
+   "family_rival": 2600,
+   "sec_per_draw_both_indices": 0.0455,
+   "own_within": 60,
+   "rival_within": 0,
+   "draws": 60,
+   "mean_adm_own": 4.0,
+   "mean_adm_rival": 0.0,
+   "point_S_pruned": 1.0,
+   "point_S_brute": 1.0,
+   "brute_sec": 0.91,
+   "pruned_equals_brute_decision": true
+  },
+  "TA.P": {
+   "family_own": 1300,
+   "family_rival": 1300,
+   "sec_per_draw_both_indices": 0.2054,
+   "own_within": 60,
+   "rival_within": 60,
+   "draws": 60,
+   "mean_adm_own": 77.4,
+   "mean_adm_rival": 77.4,
+   "point_S_pruned": 0.7071,
+   "point_S_brute": 0.7071,
+   "brute_sec": 22.25,
+   "pruned_equals_brute_decision": true
+  },
+  "TD-4-2.P": {
+   "family_own": 250,
+   "family_rival": 250,
+   "sec_per_draw_both_indices": 0.1238,
+   "own_within": 60,
+   "rival_within": 60,
+   "draws": 60,
+   "mean_adm_own": 32.0,
+   "mean_adm_rival": 32.0,
+   "point_S_pruned": 0.0,
+   "point_S_brute": 0.0,
+   "brute_sec": 4.0,
+   "pruned_equals_brute_decision": true
+  },
+  "TC.P": {
+   "family_own": 1179,
+   "family_rival": 1164,
+   "sec_per_draw_both_indices": 0.0807,
+   "own_within": 60,
+   "rival_within": 60,
+   "draws": 60,
+   "mean_adm_own": 35.083333333333336,
+   "mean_adm_rival": 35.083333333333336,
+   "point_S_pruned": 0.7071,
+   "point_S_brute": 0.7071,
+   "brute_sec": 21.59,
+   "pruned_equals_brute_decision": true
+  }
+ }
+}
