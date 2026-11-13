@@ -1,0 +1,182 @@
+[
+ {
+  "variant": "1 disc",
+  "R": 25.3,
+  "w": 1.0,
+  "core": 2000,
+  "nearest_cell_to_edge": 0.0314,
+  "perim_cont": 159.0,
+  "perim_lat": 200,
+  "band": 344,
+  "band_core": 0.172,
+  "band_in": 156,
+  "band_out": 188,
+  "Smin": 0.0,
+  "Smax": 1.0,
+  "max_step": 0.2743,
+  "P": [
+   0.027,
+   0.729,
+   0.72639,
+   0.24955
+  ],
+  "P_core_ok": true,
+  "H": [
+   0.3,
+   0.9,
+   0.89694,
+   0.2021
+  ],
+  "H_core_ok": true
+ },
+ {
+  "variant": "1 disc",
+  "R": 25.3,
+  "w": 2.0,
+  "core": 2000,
+  "nearest_cell_to_edge": 0.0314,
+  "perim_cont": 159.0,
+  "perim_lat": 200,
+  "band": 676,
+  "band_core": 0.338,
+  "band_in": 328,
+  "band_out": 348,
+  "Smin": 0.0,
+  "Smax": 1.0,
+  "max_step": 0.1455,
+  "P": [
+   0.027,
+   0.729,
+   0.72589,
+   0.24972
+  ],
+  "P_core_ok": true,
+  "H": [
+   0.3,
+   0.9,
+   0.89652,
+   0.20219
+  ],
+  "H_core_ok": true
+ },
+ {
+  "variant": "1 disc",
+  "R": 25.3,
+  "w": 4.0,
+  "core": 2000,
+  "nearest_cell_to_edge": 0.0314,
+  "perim_cont": 159.0,
+  "perim_lat": 200,
+  "band": 1376,
+  "band_core": 0.688,
+  "band_in": 620,
+  "band_out": 756,
+  "Smin": 0.0,
+  "Smax": 1.0,
+  "max_step": 0.0742,
+  "P": [
+   0.027,
+   0.729,
+   0.72375,
+   0.25046
+  ],
+  "P_core_ok": true,
+  "H": [
+   0.3,
+   0.9,
+   0.89486,
+   0.20257
+  ],
+  "H_core_ok": true
+ },
+ {
+  "variant": "4 discs",
+  "R": 12.65,
+  "w": 1.0,
+  "core": 2000,
+  "nearest_cell_to_edge": 0.0603,
+  "perim_cont": 317.9,
+  "perim_lat": 416,
+  "band": 736,
+  "band_core": 0.368,
+  "band_in": 304,
+  "band_out": 432,
+  "Smin": 0.0,
+  "Smax": 1.0,
+  "max_step": 0.263,
+  "P": [
+   0.027,
+   0.729,
+   0.71801,
+   0.25246
+  ],
+  "P_core_ok": true,
+  "H": [
+   0.3,
+   0.9,
+   0.88773,
+   0.20419
+  ],
+  "H_core_ok": true
+ },
+ {
+  "variant": "4 discs",
+  "R": 12.65,
+  "w": 2.0,
+  "core": 2000,
+  "nearest_cell_to_edge": 0.0603,
+  "perim_cont": 317.9,
+  "perim_lat": 416,
+  "band": 1424,
+  "band_core": 0.712,
+  "band_in": 672,
+  "band_out": 752,
+  "Smin": 0.0,
+  "Smax": 1.0,
+  "max_step": 0.1425,
+  "P": [
+   0.027,
+   0.729,
+   0.71334,
+   0.25411
+  ],
+  "P_core_ok": true,
+  "H": [
+   0.3,
+   0.9,
+   0.88432,
+   0.20498
+  ],
+  "H_core_ok": true
+ },
+ {
+  "variant": "4 discs",
+  "R": 12.65,
+  "w": 4.0,
+  "core": 2000,
+  "nearest_cell_to_edge": 0.0603,
+  "perim_cont": 317.9,
+  "perim_lat": 416,
+  "band": 2816,
+  "band_core": 1.408,
+  "band_in": 1168,
+  "band_out": 1648,
+  "Smin": 0.0,
+  "Smax": 0.9975,
+  "max_step": 0.074,
+  "P": [
+   0.027,
+   0.7253,
+   0.69007,
+   0.26268
+  ],
+  "P_core_ok": true,
+  "H": [
+   0.3,
+   0.8985,
+   0.87,
+   0.20836
+  ],
+  "H_core_ok": true
+ }
+]
