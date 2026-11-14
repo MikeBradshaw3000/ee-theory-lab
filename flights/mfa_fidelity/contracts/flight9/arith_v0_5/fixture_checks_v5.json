@@ -1,0 +1,204 @@
+{
+ "strip_fixture": {
+  "38": {
+   "island_bonds": 38,
+   "contour_bonds": 1038,
+   "share": 0.036608863198458574,
+   "component_sizes": [
+    38,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "island_to_strips_min_distance": 3.0,
+   "absent": {
+    "informative": true,
+    "S": 0.0,
+    "within": true,
+    "region_cells": 2500,
+    "global_E": 0.0,
+    "global_C": 0.0,
+    "comp_C": [],
+    "comp_E": []
+   },
+   "present": {
+    "informative": true,
+    "S": 0.0,
+    "within": true,
+    "region_cells": 2586,
+    "global_E": 0.0,
+    "global_C": 0.0,
+    "comp_C": [],
+    "comp_E": []
+   }
+  },
+  "40": {
+   "island_bonds": 40,
+   "contour_bonds": 1040,
+   "share": 0.038461538461538464,
+   "component_sizes": [
+    40,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "island_to_strips_min_distance": 3.0,
+   "absent": {
+    "informative": true,
+    "S": 6.569074694401837,
+    "within": false,
+    "region_cells": 2500,
+    "global_E": 0.0,
+    "global_C": 0.0,
+    "comp_C": [
+     [
+      40,
+      6.569074694401837
+     ]
+    ],
+    "comp_E": []
+   },
+   "present": {
+    "informative": true,
+    "S": 0.7071067811865476,
+    "within": true,
+    "region_cells": 2595,
+    "global_E": 0.0,
+    "global_C": 0.0,
+    "comp_C": [
+     [
+      40,
+      0.7071067811865476
+     ]
+    ],
+    "comp_E": [
+     [
+      40,
+      0.7071067811865476
+     ]
+    ]
+   }
+  },
+  "42": {
+   "island_bonds": 42,
+   "contour_bonds": 1042,
+   "share": 0.04030710172744722,
+   "component_sizes": [
+    42,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "island_to_strips_min_distance": 3.0,
+   "absent": {
+    "informative": true,
+    "S": 6.519202405202649,
+    "within": false,
+    "region_cells": 2500,
+    "global_E": 0.0,
+    "global_C": 0.0,
+    "comp_C": [
+     [
+      42,
+      6.519202405202649
+     ]
+    ],
+    "comp_E": []
+   },
+   "present": {
+    "informative": true,
+    "S": 0.7071067811865476,
+    "within": true,
+    "region_cells": 2604,
+    "global_E": 0.0,
+    "global_C": 0.0,
+    "comp_C": [
+     [
+      42,
+      0.7071067811865476
+     ]
+    ],
+    "comp_E": [
+     [
+      42,
+      0.7071067811865476
+     ]
+    ]
+   }
+  }
+ },
+ "TD-4-2_translation_true_delta": {
+  "1,1": 1.4142135623730951,
+  "2,1": 2.1213203435596424,
+  "2,2": 2.8284271247461903,
+  "3,0": 3.0
+ },
+ "flat_low_map_max": 0.08,
+ "flat_low_informative": false,
+ "TD-1-2_raw_cut": {
+  "raw_cut": 0.30000000000000004,
+  "raw_min": 0.3,
+  "index_difference": 5.551115123125783e-17,
+  "raw_family": 861,
+  "registered_family": 681,
+  "region": 9772,
+  "bonds": 88,
+  "registered_min_S": 19.50640920313116,
+  "registered_min_level": 0.300000000001
+ },
+ "raw_vs_registered_family_sizes": {
+  "TA": {
+   "latent_unrounded": 2221,
+   "registered": 1300
+  },
+  "TC": {
+   "latent_unrounded": 1389,
+   "registered": 1180
+  },
+  "TD-1-2": {
+   "latent_unrounded": 861,
+   "registered": 681
+  },
+  "TD-1-4": {
+   "latent_unrounded": 920,
+   "registered": 920
+  },
+  "TD-4-2": {
+   "latent_unrounded": 250,
+   "registered": 250
+  },
+  "TD-4-4": {
+   "latent_unrounded": 250,
+   "registered": 250
+  },
+  "TB.P": {
+   "index_unrounded": 3840,
+   "registered": 2600
+  },
+  "TB.H": {
+   "index_unrounded": 59,
+   "registered": 50
+  }
+ }
+}

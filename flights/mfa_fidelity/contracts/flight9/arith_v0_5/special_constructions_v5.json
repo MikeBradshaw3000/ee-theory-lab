@@ -1,0 +1,200 @@
+{
+ "generic_sweep": {
+  "TA": {
+   "0,0": {
+    "levels": "ccccccccccccccccccccccccc",
+    "informative": 25,
+    "arm": "COMPATIBLE"
+   },
+   "3,0": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   },
+   "0,3": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   }
+  },
+  "TB.P": {
+   "0,0": {
+    "levels": "ccccccccccccccccccccccccc",
+    "informative": 25,
+    "arm": "COMPATIBLE"
+   },
+   "3,0": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   },
+   "0,3": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   }
+  },
+  "TB.H": {
+   "0,0": {
+    "levels": "ccccccccccccccccccccccccc",
+    "informative": 25,
+    "arm": "COMPATIBLE"
+   },
+   "3,0": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   },
+   "0,3": {
+    "levels": "ccccccccccccccccccccccccc",
+    "informative": 25,
+    "arm": "COMPATIBLE"
+   }
+  },
+  "TC": {
+   "0,0": {
+    "levels": "ccccccccccccccccccccccccc",
+    "informative": 25,
+    "arm": "COMPATIBLE"
+   },
+   "3,0": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   },
+   "0,3": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   }
+  },
+  "TD-1-2": {
+   "0,0": {
+    "levels": "ccccccccccccccccccccccccc",
+    "informative": 25,
+    "arm": "COMPATIBLE"
+   },
+   "3,0": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   },
+   "0,3": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   }
+  },
+  "TD-1-4": {
+   "0,0": {
+    "levels": "ccccccccccccccccccccccccc",
+    "informative": 25,
+    "arm": "COMPATIBLE"
+   },
+   "3,0": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   },
+   "0,3": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   }
+  },
+  "TD-4-2": {
+   "0,0": {
+    "levels": "ccccccccccccccccccccccccc",
+    "informative": 25,
+    "arm": "COMPATIBLE"
+   },
+   "3,0": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   },
+   "0,3": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   }
+  },
+  "TD-4-4": {
+   "0,0": {
+    "levels": "ccccccccccccccccccccccccc",
+    "informative": 25,
+    "arm": "COMPATIBLE"
+   },
+   "3,0": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   },
+   "0,3": {
+    "levels": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "informative": 25,
+    "arm": "ADVERSE"
+   }
+  }
+ },
+ "low_information_arm_over_24_positions": {
+  "TA": [
+   [
+    "NOT DISTINGUISHED",
+    2
+   ]
+  ],
+  "TB.P": [
+   [
+    "NOT DISTINGUISHED",
+    2
+   ]
+  ],
+  "TB.H": [
+   [
+    "NOT DISTINGUISHED",
+    2
+   ]
+  ],
+  "TC": [
+   [
+    "NOT DISTINGUISHED",
+    2
+   ]
+  ],
+  "TD-1-2": [
+   [
+    "NOT DISTINGUISHED",
+    2
+   ]
+  ],
+  "TD-1-4": [
+   [
+    "NOT DISTINGUISHED",
+    2
+   ]
+  ],
+  "TD-4-2": [
+   [
+    "NOT DISTINGUISHED",
+    2
+   ]
+  ],
+  "TD-4-4": [
+   [
+    "NOT DISTINGUISHED",
+    2
+   ]
+  ]
+ },
+ "TB_cross": {
+  "generated_from_P": {
+   "against_generating_index": "ccccccccccccccccccccccccc",
+   "against_other_index": "aaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "generated_from_H": {
+   "against_generating_index": "ccccccccccccccccccccccccc",
+   "against_other_index": "aaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ }
+}
