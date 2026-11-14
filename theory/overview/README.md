@@ -1,6 +1,6 @@
 # theory/overview — the Overview of the Theory, statement of record
 
-**Registered:** 2026-10-15, by Mike's commit of this directory, under the introduction plan Mike agreed 2026-10-11 (route after E1-R's terminal stage-1 record; that record was committed at `3ab65df` on 2026-10-15).
+**Registered:** v1.8.2 on the date of Mike's commit that adds it to this directory (drafted 2026-11-09); the directory itself 2026-10-15, by Mike's commit, under the introduction plan Mike agreed 2026-10-11 (route after E1-R's terminal stage-1 record; that record was committed at `3ab65df` on 2026-10-15).
 
 ## What this directory is
 
@@ -16,18 +16,23 @@ The citable statement of the theory of entrepreneurial ecosystem emergence at th
 
 | File | Version | Date | Identity (sha256, 16 hex) | Role |
 |---|---|---|---|---|
-| `EE_emergence_overview_v1_8_1.md` | **v1.8.1** | 2026-10-11 | `b2d67fac5efa3c73` | **statement of record** |
+| `EE_emergence_overview_v1_8_2.md` | **v1.8.2** | 2026-11-09 | `9c77bcd47385714c` | **statement of record** |
+| `EE_emergence_overview_v1_8_1.md` | v1.8.1 | 2026-10-11 | `b2d67fac5efa3c73` | provenance (statement of record 2026-10-15 until v1.8.2's registration; the version Flight 8's contract and the PD rulings record were written against) |
 | `EE_emergence_overview_v1_72.pdf` | v1.72 | 2026-09-06 | `e23ab63d06a538e5` | provenance (the version E1-R's pre-freeze consultation and amendment were written against) |
 
-The markdown is byte-identical to the file Mike placed in Dropbox (`/New EE literature/Annex/…/EE_emergence_overview_v1_8_1.md`, 48,177 bytes); the Word file of v1.8.1 is in Dropbox `/New EE literature/` and is not registered here. The committed LF blob is the identity of record.
+The v1.8.2 markdown is byte-identical to the Dropbox file `/New EE literature/EE_emergence_overview_v1_8_2.md` (53,759 bytes). The v1.8.1 markdown is byte-identical to the file Mike placed in Dropbox (`/New EE literature/Annex/…/EE_emergence_overview_v1_8_1.md`, 48,177 bytes); the Word file of v1.8.1 is in Dropbox `/New EE literature/` and is not registered here. The committed LF blob is the identity of record.
 
 ## Version line
 
-v1.5 (April 2026, Phil-commented) → v1.71 (May) → v1.72 (6 September; Claude-built conformance revision: consolidated participation definition D1–D6, two-space §7, orientation guards) → **v1.8** (11 October; §10 rewritten in the transcritical form, §5 participation as a realized event with the four questions, "a stream participates; a region activates", §12/§14/§15/§16/§18 adjusted) → **v1.8.1** (11 October; notation only — fluctuation term ξ_ρ(t), substrate objects named as the program names them; no claim altered). v1.8 was adopted by Mike as superseding v1.72.
+v1.5 (April 2026, Phil-commented) → v1.71 (May) → v1.72 (6 September; Claude-built conformance revision: consolidated participation definition D1–D6, two-space §7, orientation guards) → **v1.8** (11 October; §10 rewritten in the transcritical form, §5 participation as a realized event with the four questions, "a stream participates; a region activates", §12/§14/§15/§16/§18 adjusted) → **v1.8.1** (11 October; notation only — fluctuation term ξ_ρ(t), substrate objects named as the program names them; no claim altered) → **v1.8.2** (9 November; wording conformance — coherence stated as directional structure, defined per the ruling of 2026-10-24 as co-movement of participation, in place of "mutual reinforcement"; transition cost stated as a condition on the passage into participation, a matter of degree with one extreme; the independence claim narrowed to what a composition can honor; what each annihilating extreme annihilates; Q's writes differing by base; the participation window's standing per PD5 as amended, retiring "architectural parameter"; no equation, regime, or commitment altered). v1.8 was adopted by Mike as superseding v1.72.
 
 ## Relation to E1-R amendment item 9
 
 The E1-R amendment (`flights/mfa_fidelity/governance/e1_stage1/E1R_AMENDMENT.md` §10) accepted the §10 transcritical rewrite as a §15-sanctioned revision, conditionally, on four conditions: the §10 normal form, the floor/noise distinction, the discrete-to-continuous bridge, and the successor substrate rule. v1.8.1 settles the first two. The third and fourth are Flight 8's, and the third-order lattice-versus-ODE comparison stays HELD until they are settled.
+
+## What v1.8.2 does not change
+
+Flight 8's frozen contract, the PD rulings record, the notation-scope ruling and every other committed document that cites v1.8.1 cite it as the statement of record of their date, and stand as written. v1.8.2 alters no equation, regime, or commitment, and nothing in it binds a flight.
 
 ## Rules for changing it
 
