@@ -1,0 +1,77 @@
+{
+ "translation_true_delta": {
+  "TD-4-2.P": {
+   "axis0_k0": 0.0,
+   "axis0_k1": 1.0,
+   "axis0_k2": 2.0,
+   "axis0_k3": 3.0,
+   "axis0_k4": 4.0,
+   "axis0_k5": 5.0,
+   "axis1_k0": 0.0,
+   "axis1_k1": 1.0,
+   "axis1_k2": 2.0,
+   "axis1_k3": 3.0,
+   "axis1_k4": 4.0,
+   "axis1_k5": 5.0
+  },
+  "TB.H": {
+   "axis0_k0": 0.0,
+   "axis0_k1": 1.0,
+   "axis0_k2": 2.0,
+   "axis0_k3": 3.0,
+   "axis0_k4": 4.0,
+   "axis0_k5": 5.0,
+   "axis1_k0": 0.0,
+   "axis1_k1": 0.0,
+   "axis1_k2": 0.0,
+   "axis1_k3": 0.0,
+   "axis1_k4": 0.0,
+   "axis1_k5": 0.0
+  },
+  "TD-1-2.H": {
+   "axis0_k0": 0.0,
+   "axis0_k1": 1.0,
+   "axis0_k2": 2.0,
+   "axis0_k3": 3.0,
+   "axis0_k4": 4.0,
+   "axis0_k5": 5.0,
+   "axis1_k0": 0.0,
+   "axis1_k1": 1.0,
+   "axis1_k2": 2.0,
+   "axis1_k3": 3.0,
+   "axis1_k4": 4.0,
+   "axis1_k5": 5.0
+  },
+  "TC.P": {
+   "axis0_k0": 0.0,
+   "axis0_k1": 1.0,
+   "axis0_k2": 2.0,
+   "axis0_k3": 3.0,
+   "axis0_k4": 4.0,
+   "axis0_k5": 5.0,
+   "axis1_k0": 0.0,
+   "axis1_k1": 1.0,
+   "axis1_k2": 2.0,
+   "axis1_k3": 3.0,
+   "axis1_k4": 4.0,
+   "axis1_k5": 5.0
+  }
+ },
+ "timing": {
+  "TB.P": {
+   "sec_per_draw_both_indices": 0.087,
+   "own_within": 40,
+   "draws": 40
+  },
+  "TA.P": {
+   "sec_per_draw_both_indices": 0.1102,
+   "own_within": 40,
+   "draws": 40
+  },
+  "TD-4-2.P": {
+   "sec_per_draw_both_indices": 0.0872,
+   "own_within": 40,
+   "draws": 40
+  }
+ }
+}

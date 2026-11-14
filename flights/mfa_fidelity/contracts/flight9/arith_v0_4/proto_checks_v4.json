@@ -1,0 +1,137 @@
+{
+ "strips_plus_island_component_sizes": [
+  40,
+  100,
+  100,
+  100,
+  100,
+  100,
+  100,
+  100,
+  100,
+  100,
+  100
+ ],
+ "diagonal_blocks_component_sizes": [
+  40,
+  40
+ ],
+ "block_with_hole_component_sizes": [
+  40,
+  120
+ ],
+ "L2_r1_missing_island_S": 6.569074694401837,
+ "L2_r1_partial_patch_S": 5.0,
+ "L2_r2_zigzag_component_sizes_observed": [
+  100,
+  3900
+ ],
+ "L2_r2_zigzag_S": 10.0,
+ "L2_r2_zigzag_terms": {
+  "global_E": 0.0,
+  "global_C": 0.0,
+  "comp_E": [
+   [
+    3900,
+    0.0
+   ],
+   [
+    100,
+    10.0
+   ]
+  ],
+  "comp_C": [
+   [
+    3900,
+    0.0
+   ],
+   [
+    100,
+    10.0
+   ]
+  ]
+ },
+ "family_sizes": {
+  "TA": {
+   "P": 1300,
+   "H": 1300,
+   "identical_arrays": true,
+   "max_inversion_P": 5.551115123125783e-16,
+   "max_inversion_H": 3.3306690738754696e-16
+  },
+  "TB": {
+   "P": 2600,
+   "H": 50,
+   "identical_arrays": false
+  },
+  "TC": {
+   "P": 1180,
+   "H": 1180,
+   "identical_arrays": true,
+   "max_inversion_P": 6.937783680882603e-13,
+   "max_inversion_H": 2.8554936193359026e-13
+  },
+  "TD-1-2": {
+   "P": 681,
+   "H": 681,
+   "identical_arrays": true,
+   "max_inversion_P": 2.6536411956712413e-13,
+   "max_inversion_H": 9.828249325494198e-13
+  },
+  "TD-1-4": {
+   "P": 920,
+   "H": 920,
+   "identical_arrays": true,
+   "max_inversion_P": 0.0,
+   "max_inversion_H": 0.0
+  },
+  "TD-4-2": {
+   "P": 250,
+   "H": 250,
+   "identical_arrays": true,
+   "max_inversion_P": 0.0,
+   "max_inversion_H": 0.0
+  },
+  "TD-4-4": {
+   "P": 250,
+   "H": 250,
+   "identical_arrays": true,
+   "max_inversion_P": 0.0,
+   "max_inversion_H": 0.0
+  }
+ },
+ "L2_r2_TC_translation_common_masks": {
+  "P": {
+   "family": 1180,
+   "within": true,
+   "S_min": 2.0,
+   "latent_level": 0.9,
+   "label": 0.7290000000000001
+  },
+  "H": {
+   "family": 1180,
+   "within": true,
+   "S_min": 2.0,
+   "latent_level": 0.9,
+   "label": 0.9
+  }
+ },
+ "clip_mean_m0.03_s0.10": 0.056676124211720996,
+ "clip_mean_monte_carlo": 0.05666798516122506,
+ "max_fall_of_H_along_increasing_P": {
+  "T0": 0.0,
+  "TA": 0.0,
+  "TB": 0.08756097840204707,
+  "TC": 2.220446049250313e-16,
+  "TD-1-2": 0.0,
+  "TD-1-4": 0.0,
+  "TD-4-2": 0.0,
+  "TD-4-4": 0.0
+ },
+ "td_largest_base_step": {
+  "TD-1-2": 0.14548030289294434,
+  "TD-1-4": 0.07419898001067304,
+  "TD-4-2": 0.1424694872775394,
+  "TD-4-4": 0.0739669210234557
+ }
+}
