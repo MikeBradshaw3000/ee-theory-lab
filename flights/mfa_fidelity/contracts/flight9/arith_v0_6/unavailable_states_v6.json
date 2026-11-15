@@ -1,0 +1,108 @@
+{
+ "constant_map": {
+  "low_range_0.03_0.14": [
+   "empty"
+  ],
+  "high_range_0.26_0.40": [
+   "full"
+  ],
+  "near_threshold_0.14_0.26": [
+   "empty",
+   "full"
+  ]
+ },
+ "saturated_map_0.60_1.00": [
+  "full"
+ ],
+ "empty_region_low_map": {
+  "TA": {
+   "state": "empty",
+   "max": 0.08
+  },
+  "TB.P": {
+   "state": "empty",
+   "max": 0.08
+  },
+  "TB.H": {
+   "state": "empty",
+   "max": 0.08
+  },
+  "TC": {
+   "state": "empty",
+   "max": 0.08
+  },
+  "TD-1-2": {
+   "state": "empty",
+   "max": 0.08
+  },
+  "TD-1-4": {
+   "state": "empty",
+   "max": 0.08
+  },
+  "TD-4-2": {
+   "state": "empty",
+   "max": 0.08
+  },
+  "TD-4-4": {
+   "state": "empty",
+   "max": 0.08
+  }
+ },
+ "constant_index_family_size": 0,
+ "generic_level_map_informative_at_coefficient_corners": {
+  "TA": {
+   "c0=0.03,c1=0.2": true,
+   "c0=0.03,c1=0.6": true,
+   "c0=0.10,c1=0.2": true,
+   "c0=0.10,c1=0.6": true
+  },
+  "TB.P": {
+   "c0=0.03,c1=0.2": true,
+   "c0=0.03,c1=0.6": true,
+   "c0=0.10,c1=0.2": true,
+   "c0=0.10,c1=0.6": true
+  },
+  "TB.H": {
+   "c0=0.03,c1=0.2": true,
+   "c0=0.03,c1=0.6": true,
+   "c0=0.10,c1=0.2": true,
+   "c0=0.10,c1=0.6": true
+  },
+  "TC": {
+   "c0=0.03,c1=0.2": true,
+   "c0=0.03,c1=0.6": true,
+   "c0=0.10,c1=0.2": true,
+   "c0=0.10,c1=0.6": true
+  },
+  "TD-1-2": {
+   "c0=0.03,c1=0.2": true,
+   "c0=0.03,c1=0.6": true,
+   "c0=0.10,c1=0.2": true,
+   "c0=0.10,c1=0.6": true
+  },
+  "TD-1-4": {
+   "c0=0.03,c1=0.2": true,
+   "c0=0.03,c1=0.6": true,
+   "c0=0.10,c1=0.2": true,
+   "c0=0.10,c1=0.6": true
+  },
+  "TD-4-2": {
+   "c0=0.03,c1=0.2": true,
+   "c0=0.03,c1=0.6": true,
+   "c0=0.10,c1=0.2": true,
+   "c0=0.10,c1=0.6": true
+  },
+  "TD-4-4": {
+   "c0=0.03,c1=0.2": true,
+   "c0=0.03,c1=0.6": true,
+   "c0=0.10,c1=0.2": true,
+   "c0=0.10,c1=0.6": true
+  }
+ },
+ "clipped_mean_examples": {
+  "m=0.03,s=0.10": 0.05667612421172108,
+  "m=0.14,s=0.10": 0.1436668142708466,
+  "m=0.26,s=0.10": 0.2601463880372008,
+  "m=1.00,s=0.10": 0.9601057719598567
+ }
+}
