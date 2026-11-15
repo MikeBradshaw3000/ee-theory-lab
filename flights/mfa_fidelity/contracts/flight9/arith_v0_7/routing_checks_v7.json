@@ -1,0 +1,130 @@
+{
+ "zero_noise": {
+  "capped_low_max": 0.14,
+  "capped_high_min": 0.26,
+  "near_min": 0.14001,
+  "near_max": 0.25998999999999994,
+  "capped_fraction": 0.6757114672576416,
+  "near_fraction": 0.3242885327423583,
+  "endpoint_c_0_14": "capped",
+  "endpoint_c_0_26": "capped"
+ },
+ "witnesses": {
+  "c=0.13,s=0.31": {
+   "a": 0.19915902022567,
+   "row": "near",
+   "v0_6_row": "capped"
+  },
+  "c=0.25,s=0.35": {
+   "a": 0.29679941432848445,
+   "row": "capped",
+   "v0_6_row": "near"
+  },
+  "c=0.13,s=0.312351766810106": {
+   "a": 0.20000000000000018,
+   "row": "near",
+   "v0_6_row": "capped"
+  }
+ },
+ "routing_shares_at_constant_sigma": {
+  "s=0.00": {
+   "capped": 0.6757114672576416,
+   "near": 0.3242885327423583,
+   "a_min": 0.03,
+   "a_max": 0.4
+  },
+  "s=0.02": {
+   "capped": 0.6756844409610551,
+   "near": 0.3243155590389449,
+   "a_min": 0.030586135875252163,
+   "a_max": 0.3999999999999999
+  },
+  "s=0.05": {
+   "capped": 0.6756033620712953,
+   "near": 0.32439663792870466,
+   "a_min": 0.038433636612087874,
+   "a_max": 0.3999999999999999
+  },
+  "s=0.10": {
+   "capped": 0.6652522904786358,
+   "near": 0.3347477095213643,
+   "a_min": 0.05667612421172108,
+   "a_max": 0.4000007145102076
+  },
+  "s=0.20": {
+   "capped": 0.5966595497418988,
+   "near": 0.4033404502581011,
+   "a_min": 0.0956843733057201,
+   "a_max": 0.40162170965995647
+  },
+  "s=0.31": {
+   "capped": 0.501310775384449,
+   "near": 0.49868922461555093,
+   "a_min": 0.13917621211507014,
+   "a_max": 0.4112830796845184
+  },
+  "s=0.35": {
+   "capped": 0.5424177724926353,
+   "near": 0.45758222750736466,
+   "a_min": 0.1548493170253824,
+   "a_max": 0.4158695323115589
+  }
+ },
+ "needed_share": {
+  "capped": 0.02,
+  "near": 0.02
+ },
+ "saturated_min_population_value": {
+  "s=0.00": 0.6,
+  "s=0.10": 0.5999992854897924,
+  "s=0.20": 0.5983782903400438,
+  "s=0.35": 0.584130467688441
+ },
+ "row15_error_event": {
+  "empty sample, reported no edge": {
+   "output": "no edge at theta",
+   "reference": "no edge at theta",
+   "error": false
+  },
+  "empty sample, reported under-resolved (L2's witness)": {
+   "output": "under-resolved",
+   "reference": "no edge at theta",
+   "error": true
+  },
+  "60-cell sample region, reported under-resolved": {
+   "output": "under-resolved",
+   "reference": "under-resolved",
+   "error": false
+  },
+  "60-cell sample region, reported no edge": {
+   "output": "no edge at theta",
+   "reference": "under-resolved",
+   "error": true
+  },
+  "informative sample, 300 invalid draws, reported unstable edge": {
+   "output": "unstable edge",
+   "reference": "unstable edge",
+   "error": false
+  },
+  "informative sample, 20 invalid draws, reported unstable edge": {
+   "output": "unstable edge",
+   "reference": "finite resolution",
+   "error": true
+  },
+  "informative sample, neither count at 950, reported finite resolution": {
+   "output": "finite resolution",
+   "reference": "finite resolution",
+   "error": false
+  },
+  "non-constant family, reported no eligible contour": {
+   "output": "no eligible contour",
+   "reference": "no edge at theta",
+   "error": true
+  },
+  "informative sample, 960 adverse, reported adverse": {
+   "output": "adverse",
+   "reference": "adverse",
+   "error": true
+  }
+ }
+}
