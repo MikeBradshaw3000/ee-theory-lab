@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/claude/m3/records/l2_m3_round1_reproduce.py", line 8, in <module>
+    accepted = check_weights(w)  # MUST raise; currently returns
+  File "/home/claude/m2verify/flights/mfa_fidelity/instrument/mfa_instrument/f9/evaluator.py", line 143, in check_weights
+    raise F9EvaluatorError("weights are n_seeds non-negative integers summing to n_seeds")
+mfa_instrument.f9.evaluator.F9EvaluatorError: weights are n_seeds non-negative integers summing to n_seeds

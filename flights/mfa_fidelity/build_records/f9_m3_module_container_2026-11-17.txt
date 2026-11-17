@@ -1,0 +1,43 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+rootdir: /home/claude/m2verify/flights/mfa_fidelity/instrument
+plugins: platformdirs-4.13.5, anyio-4.15.1
+collecting ... collected 35 items
+
+tests/test_f9_m3.py::test_declaration_verifies_and_a_changed_literal_fails PASSED [  2%]
+tests/test_f9_m3.py::test_region_is_the_contracts_criterion_in_exact_rationals PASSED [  5%]
+tests/test_f9_m3.py::test_ties_at_theta_are_included_exactly PASSED      [  8%]
+tests/test_f9_m3.py::test_inputs_are_checked PASSED                      [ 11%]
+tests/test_f9_m3.py::test_step4_reasons PASSED                           [ 14%]
+tests/test_f9_m3.py::test_distance_grid_is_exact PASSED                  [ 17%]
+tests/test_f9_m3.py::test_quantile_rule PASSED                           [ 20%]
+tests/test_f9_m3.py::test_joint_discrepancy_on_hand_cases PASSED         [ 22%]
+tests/test_f9_m3.py::test_joint_discrepancy_against_pairwise_reference PASSED [ 25%]
+tests/test_f9_m3.py::test_families_from_the_bundle PASSED                [ 28%]
+tests/test_f9_m3.py::test_pruning_intervals_are_the_cells_within_reach PASSED [ 31%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-exact] PASSED [ 34%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-grown1] PASSED [ 37%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-grown2] PASSED [ 40%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-grown3] PASSED [ 42%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-noisy] PASSED [ 45%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-square] PASSED [ 48%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TD-4-2.P-exact] PASSED [ 51%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TD-4-2.P-grown2] PASSED [ 54%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TD-4-2.P-shrunk3] PASSED [ 57%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TD-4-2.P-noisy] PASSED [ 60%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TD-4-2.P-square] PASSED [ 62%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TA.P-noisy] PASSED [ 65%]
+tests/test_f9_m3.py::test_the_contour_cache_changes_no_result PASSED     [ 68%]
+tests/test_f9_m3.py::test_the_family_minimum_against_an_independent_search PASSED [ 71%]
+tests/test_f9_m3.py::test_the_lowest_level_keeps_a_tie PASSED            [ 74%]
+tests/test_f9_m3.py::test_epsilon_is_inclusive_and_not_enlarged PASSED   [ 77%]
+tests/test_f9_m3.py::test_the_resampling_stream_is_the_declared_one PASSED [ 80%]
+tests/test_f9_m3.py::test_result_table_at_its_boundaries PASSED          [ 82%]
+tests/test_f9_m3.py::test_a_level_on_its_own_contour_is_compatible_for_both_indices PASSED [ 85%]
+tests/test_f9_m3.py::test_a_region_off_the_family_is_adverse_and_tb_separates_its_indices PASSED [ 88%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree_on_every_resample PASSED [ 91%]
+tests/test_f9_m3.py::test_unavailable_states PASSED                      [ 94%]
+tests/test_f9_m3.py::test_invalid_draws_at_the_boundary_of_fifty PASSED  [ 97%]
+tests/test_f9_m3.py::test_everything_placed_before_m3_is_byte_unchanged PASSED [100%]
+
+======================== 35 passed in 138.57s (0:02:18) ========================

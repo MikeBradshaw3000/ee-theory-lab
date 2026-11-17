@@ -1,0 +1,45 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+rootdir: /home/claude/m2verify/flights/mfa_fidelity/instrument
+plugins: platformdirs-4.13.5, anyio-4.15.1
+collecting ... collected 37 items
+
+tests/test_f9_m3.py::test_declaration_verifies_and_a_changed_literal_fails PASSED [  2%]
+tests/test_f9_m3.py::test_region_is_the_contracts_criterion_in_exact_rationals PASSED [  5%]
+tests/test_f9_m3.py::test_ties_at_theta_are_included_exactly PASSED      [  8%]
+tests/test_f9_m3.py::test_inputs_are_checked PASSED                      [ 10%]
+tests/test_f9_m3.py::test_weights_are_bounded_before_they_are_summed_l2_m3_round1_d1 PASSED [ 13%]
+tests/test_f9_m3.py::test_the_float_decision_at_epsilon_is_the_exact_decision_for_every_possible_term PASSED [ 16%]
+tests/test_f9_m3.py::test_step4_reasons PASSED                           [ 18%]
+tests/test_f9_m3.py::test_distance_grid_is_exact PASSED                  [ 21%]
+tests/test_f9_m3.py::test_quantile_rule PASSED                           [ 24%]
+tests/test_f9_m3.py::test_joint_discrepancy_on_hand_cases PASSED         [ 27%]
+tests/test_f9_m3.py::test_joint_discrepancy_against_pairwise_reference PASSED [ 29%]
+tests/test_f9_m3.py::test_families_from_the_bundle PASSED                [ 32%]
+tests/test_f9_m3.py::test_pruning_intervals_are_the_cells_within_reach PASSED [ 35%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-exact] PASSED [ 37%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-grown1] PASSED [ 40%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-grown2] PASSED [ 43%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-grown3] PASSED [ 45%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-noisy] PASSED [ 48%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TB.H-square] PASSED [ 51%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TD-4-2.P-exact] PASSED [ 54%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TD-4-2.P-grown2] PASSED [ 56%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TD-4-2.P-shrunk3] PASSED [ 59%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TD-4-2.P-noisy] PASSED [ 62%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TD-4-2.P-square] PASSED [ 64%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree[TA.P-noisy] PASSED [ 67%]
+tests/test_f9_m3.py::test_the_contour_cache_changes_no_result PASSED     [ 70%]
+tests/test_f9_m3.py::test_the_family_minimum_against_an_independent_search PASSED [ 72%]
+tests/test_f9_m3.py::test_the_lowest_level_keeps_a_tie PASSED            [ 75%]
+tests/test_f9_m3.py::test_epsilon_is_inclusive_and_not_enlarged PASSED   [ 78%]
+tests/test_f9_m3.py::test_the_resampling_stream_is_the_declared_one PASSED [ 81%]
+tests/test_f9_m3.py::test_result_table_at_its_boundaries PASSED          [ 83%]
+tests/test_f9_m3.py::test_a_level_on_its_own_contour_is_compatible_for_both_indices PASSED [ 86%]
+tests/test_f9_m3.py::test_a_region_off_the_family_is_adverse_and_tb_separates_its_indices PASSED [ 89%]
+tests/test_f9_m3.py::test_pruned_and_exhaustive_search_agree_on_every_resample PASSED [ 91%]
+tests/test_f9_m3.py::test_unavailable_states PASSED                      [ 94%]
+tests/test_f9_m3.py::test_invalid_draws_at_the_boundary_of_fifty PASSED  [ 97%]
+tests/test_f9_m3.py::test_everything_placed_before_m3_is_byte_unchanged PASSED [100%]
+
+======================== 37 passed in 132.62s (0:02:12) ========================
