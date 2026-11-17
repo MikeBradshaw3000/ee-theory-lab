@@ -1,0 +1,112 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+rootdir: /home/claude/work/f9m1/ee-theory-lab/flights/mfa_fidelity/instrument
+plugins: platformdirs-4.13.5, anyio-4.15.1
+collecting ... collected 102 items
+
+tests/test_f9_m1.py::test_frozen_identity_and_the_committed_contract PASSED
+tests/test_f9_m1.py::test_levels_follow_the_rule_of_section_2_9 PASSED
+tests/test_f9_m1.py::test_declared_values_are_the_freeze_records PASSED
+tests/test_f9_m1.py::test_a_changed_literal_fails_the_preflight PASSED
+tests/test_f9_m1.py::test_floor_hazard_is_bound_to_its_rule_l2_m1_round1_r3 PASSED
+tests/test_f9_m1.py::test_bases_have_the_declared_form_and_ranges[T0] PASSED
+tests/test_f9_m1.py::test_bases_have_the_declared_form_and_ranges[TA] PASSED
+tests/test_f9_m1.py::test_bases_have_the_declared_form_and_ranges[TB] PASSED
+tests/test_f9_m1.py::test_bases_have_the_declared_form_and_ranges[TC] PASSED
+tests/test_f9_m1.py::test_bases_have_the_declared_form_and_ranges[TD-1-2] PASSED
+tests/test_f9_m1.py::test_bases_have_the_declared_form_and_ranges[TD-1-4] PASSED
+tests/test_f9_m1.py::test_bases_have_the_declared_form_and_ranges[TD-4-2] PASSED
+tests/test_f9_m1.py::test_bases_have_the_declared_form_and_ranges[TD-4-4] PASSED
+tests/test_f9_m1.py::test_t0_is_flat_and_its_identity_is_exact PASSED
+tests/test_f9_m1.py::test_axis_zero_is_x_and_formulas_match_cell_by_cell PASSED
+tests/test_f9_m1.py::test_tb_criterion_and_roles PASSED
+tests/test_f9_m1.py::test_td_core_and_margin_table[TD-1-2] PASSED
+tests/test_f9_m1.py::test_td_core_and_margin_table[TD-1-4] PASSED
+tests/test_f9_m1.py::test_td_core_and_margin_table[TD-4-2] PASSED
+tests/test_f9_m1.py::test_td_core_and_margin_table[TD-4-4] PASSED
+tests/test_f9_m1.py::test_td_cores_are_fixed_sets_independent_of_w PASSED
+tests/test_f9_m1.py::test_undeclared_objects_are_refused PASSED
+tests/test_f9_m1.py::test_serialization_is_little_endian_c_order_and_round_trips PASSED
+tests/test_f9_m1.py::test_comparison_arrays_follow_section_3_4_step_3 PASSED
+tests/test_f9_m1.py::test_level_labels_are_the_compositions_own_index PASSED
+tests/test_f9_m1.py::test_fixed_cases_of_the_component_convention PASSED
+tests/test_f9_m1.py::test_l2_two_loop_case_has_two_components PASSED
+tests/test_f9_m1.py::test_canonical_bond_order_and_midpoints PASSED
+tests/test_f9_m1.py::test_tracer_agrees_with_an_independent_walk_on_random_masks PASSED
+tests/test_f9_m1.py::test_a_region_and_its_complement_share_bonds_not_components PASSED
+tests/test_f9_m1.py::test_informative_level_thresholds PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TA-P] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TA-H] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TB-P] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TB-H] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TC-P] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TC-H] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TD-1-2-P] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TD-1-2-H] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TD-1-4-P] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TD-1-4-H] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TD-4-2-P] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TD-4-2-H] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TD-4-4-P] PASSED
+tests/test_f9_m1.py::test_family_is_every_level_set_of_the_comparison_array[TD-4-4-H] PASSED
+tests/test_f9_m1.py::test_constant_index_has_an_empty_family PASSED
+tests/test_f9_m1.py::test_same_family_terrains_share_masks_and_tb_does_not PASSED
+tests/test_f9_m1.py::test_family_identities_distinguish_levels_masks_and_components PASSED
+tests/test_f9_m1.py::test_component_identity_binds_membership_l2_m1_round1_r1 PASSED
+tests/test_f9_m1.py::test_family_level_bytes_are_little_endian_l2_m1_round1_r1 PASSED
+tests/test_f9_m1.py::test_family_refuses_malformed_arrays PASSED
+tests/test_f9_m1.py::test_spectral_values_agree_with_appendix_a[T0] PASSED
+tests/test_f9_m1.py::test_spectral_values_agree_with_appendix_a[TA] PASSED
+tests/test_f9_m1.py::test_spectral_values_agree_with_appendix_a[TB] PASSED
+tests/test_f9_m1.py::test_spectral_values_agree_with_appendix_a[TC] PASSED
+tests/test_f9_m1.py::test_spectral_values_agree_with_appendix_a[TD-1-2] PASSED
+tests/test_f9_m1.py::test_spectral_values_agree_with_appendix_a[TD-1-4] PASSED
+tests/test_f9_m1.py::test_spectral_values_agree_with_appendix_a[TD-4-2] PASSED
+tests/test_f9_m1.py::test_spectral_values_agree_with_appendix_a[TD-4-4] PASSED
+tests/test_f9_m1.py::test_power_iteration_agrees_with_a_dense_eigenvalue_computation PASSED
+tests/test_f9_m1.py::test_routine_agrees_with_lanczos_on_every_arm PASSED
+tests/test_f9_m1.py::test_flat_terrain_reduces_to_flight_8s_control PASSED
+tests/test_f9_m1.py::test_every_declared_arm_is_in_the_routines_domain PASSED
+tests/test_f9_m1.py::test_zero_index_has_no_level PASSED
+tests/test_f9_m1.py::test_record_covers_every_declared_object PASSED
+tests/test_f9_m1.py::test_bundle_round_trips_and_the_record_follows_from_the_stored_arrays PASSED
+tests/test_f9_m1.py::test_a_second_build_gives_the_same_record PASSED
+tests/test_f9_m1.py::test_byte_and_form_tampering_is_refused_by_the_loader PASSED
+tests/test_f9_m1.py::test_inconsistent_records_are_refused_l2_m1_round1_r2[empty_coverage] PASSED
+tests/test_f9_m1.py::test_inconsistent_records_are_refused_l2_m1_round1_r2[wrong_arm_binding] PASSED
+tests/test_f9_m1.py::test_inconsistent_records_are_refused_l2_m1_round1_r2[wrong_comparison] PASSED
+tests/test_f9_m1.py::test_inconsistent_records_are_refused_l2_m1_round1_r2[wrong_gain] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[an_extra_arm] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[an_extra_top_level_field] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[arm_composition_field_wrong] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[arm_terrain_field_wrong] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[component_identity_wrong] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[core_cells_wrong] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[environment_not_strings] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[family_count_wrong] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[int_where_a_float_belongs] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[levels_wrong] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[one_arm_missing] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[one_family_missing] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[q_wrong] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[same_family_assertion_false] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[same_family_entry_missing] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[spr_off_by_1e-6] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[t0_given_a_family] PASSED
+tests/test_f9_m1.py::test_the_record_must_equal_what_the_stored_arrays_give[tb_listed_as_same_family] PASSED
+tests/test_f9_m1.py::test_float_tolerance_is_for_another_machine_only PASSED
+tests/test_f9_m1.py::test_spectral_tolerance_is_pure_relative_l2_m1_round2[l2_coherent_pair_1.0003e-9] PASSED
+tests/test_f9_m1.py::test_spectral_tolerance_is_pure_relative_l2_m1_round2[l2_spectral_only_1.004e-9] PASSED
+tests/test_f9_m1.py::test_spectral_tolerance_is_pure_relative_l2_m1_round2[within_bound_coherent] PASSED
+tests/test_f9_m1.py::test_gain_must_follow_from_the_records_own_q_and_spr PASSED
+tests/test_f9_m1.py::test_a_last_place_difference_in_q_is_another_machines_libm PASSED
+tests/test_f9_m1.py::test_each_float_takes_the_rule_of_its_own_quantity PASSED
+tests/test_f9_m1.py::test_stored_bases_must_be_the_declared_terrains PASSED
+tests/test_f9_m1.py::test_record_from_bases_refuses_bases_that_break_a_declared_relation PASSED
+tests/test_f9_m1.py::test_array_paths_are_declared_literals PASSED
+tests/test_f9_m1.py::test_container_values_are_reported 
+F9 M1 registered family sizes (here vs contract, provisional): {"TA.shared": {"contract": [1300, 2221], "equal": true, "here": [1300, 2221]}, "TB.H": {"contract": [50, 59], "equal": true, "here": [50, 59]}, "TB.P": {"contract": [2600, 3840], "equal": true, "here": [2600, 3840]}, "TC.shared": {"contract": [1180, 1389], "equal": true, "here": [1180, 1389]}, "TD-1-2.shared": {"contract": [681, 861], "equal": true, "here": [681, 861]}, "TD-1-4.shared": {"contract": [920, 920], "equal": true, "here": [920, 920]}, "TD-4-2.shared": {"contract": [250, 250], "equal": true, "here": [250, 250]}, "TD-4-4.shared": {"contract": [250, 250], "equal": true, "here": [250, 250]}}
+PASSED
+tests/test_f9_m1.py::test_e1_and_f8_are_byte_unchanged PASSED
+
+======================= 102 passed in 481.39s (0:08:01) ========================

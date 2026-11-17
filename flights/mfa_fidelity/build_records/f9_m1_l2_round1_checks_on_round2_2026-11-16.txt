@@ -1,0 +1,10 @@
+R1 {"bonds": 2000, "components": 50, "different_labels": 1500, "summaries_equal": false, "component_hashes_equal": false}
+byteorder little
+scalar_requested_big_endian 000000000000f43f
+array_requested_big_endian 3ff4000000000000
+R3 {"outcome": "REJECTED"}
+R2 unchanged control: ACCEPTED
+R2 empty_coverage REJECTED
+R2 wrong_gain REJECTED
+R2 wrong_comparison REJECTED
+R2 wrong_arm_binding REJECTED
