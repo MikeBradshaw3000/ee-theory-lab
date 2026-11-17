@@ -1,0 +1,10 @@
+{"case": "R2_retired_master_accepted", "classification": "stage", "master": 202609221}
+{"case": "R2_retired_master_accepted", "classification": "stage", "master": 202609222}
+{"case": "R2_retired_master_accepted", "classification": "stage", "master": 202609223}
+{"case": "unaltered_control", "parse": "ACCEPTED", "replay": true}
+{"case": "R1a_first_endpoint", "cell": [0, 4], "count": 3200, "endpoint_total": 3199, "parse": "ACCEPTED", "replay": false, "tick": 2001}
+{"case": "R1a_last_endpoint", "cell": [0, 2], "count": 3160, "endpoint_total": 3159, "parse": "ACCEPTED", "replay": false, "tick": 3000}
+{"A_W1": 285, "A_W10": 63, "A_W100": 3, "case": "R1b_nested_windows", "cell": [0, 0], "maximum_W10_given_W100": 30, "parse": "ACCEPTED", "replay": false}
+{"case": "R1c_float_stream_key", "field": "stream_key", "parse": "ACCEPTED", "replay": false, "value": [7.0, 0.0, 0.0, 0.0, 0.0, 1500000.0, 0.0]}
+{"case": "R1c_bool_window", "field": "windows", "parse": "ACCEPTED", "replay": false, "value": [true, 10, 100]}
+{"all_malformed_records_rejected_by_replay": true, "case": "witnesses_complete", "malformed_records": 5, "retired_identities": 3}

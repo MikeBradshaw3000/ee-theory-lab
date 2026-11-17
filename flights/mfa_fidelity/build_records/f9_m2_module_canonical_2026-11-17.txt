@@ -1,0 +1,70 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.4, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\vkz244\EE_Theory_Lab\venv\Scripts\python.exe
+rootdir: C:\Users\vkz244\EE_Theory_Lab\ee-theory-lab\flights\mfa_fidelity\instrument
+collecting ... collected 63 items
+
+tests/test_f9_m2.py::test_stream_declaration_verifies_and_covers_the_frozen_configuration PASSED
+tests/test_f9_m2.py::test_a_changed_stream_literal_fails_the_preflight PASSED
+tests/test_f9_m2.py::test_the_key_is_the_contracts_tuple_in_order PASSED
+tests/test_f9_m2.py::test_every_declared_run_has_its_own_key PASSED
+tests/test_f9_m2.py::test_undeclared_runs_and_masters_are_refused PASSED
+tests/test_f9_m2.py::test_every_earlier_master_is_refused_l2_m2_round1_r2 PASSED
+tests/test_f9_m2.py::test_the_stream_is_pcg64_of_the_seed_sequence_of_the_key PASSED
+tests/test_f9_m2.py::test_step_is_the_written_rule_cell_by_cell[0.0] PASSED
+tests/test_f9_m2.py::test_step_is_the_written_rule_cell_by_cell[0.01005033585350145] PASSED
+tests/test_f9_m2.py::test_the_step_reads_the_state_at_t_only PASSED
+tests/test_f9_m2.py::test_floor_is_not_gated_and_zero_floor_is_absorbing PASSED
+tests/test_f9_m2.py::test_reduction_to_the_placed_flight8_step PASSED
+tests/test_f9_m2.py::test_reduction_check_can_fail PASSED
+tests/test_f9_m2.py::test_arm_context_takes_the_stored_index_and_the_records_gain PASSED
+tests/test_f9_m2.py::test_a_runs_record_is_the_rule_re_simulated[T0.P-realization-stationary_floor-1500000] PASSED
+tests/test_f9_m2.py::test_a_runs_record_is_the_rule_re_simulated[T0.P-skeleton-all_active-750000] PASSED
+tests/test_f9_m2.py::test_a_runs_record_is_the_rule_re_simulated[T0.P-skeleton-low-2000000] PASSED
+tests/test_f9_m2.py::test_a_runs_record_is_the_rule_re_simulated[TB.H-skeleton-all_active-1000000] PASSED
+tests/test_f9_m2.py::test_a_runs_record_is_the_rule_re_simulated[TC.P-realization-stationary_floor-1000000] PASSED
+tests/test_f9_m2.py::test_the_test_runs_cover_extinction_and_survival PASSED
+tests/test_f9_m2.py::test_window_record_on_fixed_sequences PASSED
+tests/test_f9_m2.py::test_runs_are_repeatable_and_separate PASSED
+tests/test_f9_m2.py::test_starts PASSED
+tests/test_f9_m2.py::test_record_round_trips_and_replays[T0.P-realization-stationary_floor-1500000] PASSED
+tests/test_f9_m2.py::test_record_round_trips_and_replays[T0.P-skeleton-all_active-750000] PASSED
+tests/test_f9_m2.py::test_record_round_trips_and_replays[T0.P-skeleton-low-2000000] PASSED
+tests/test_f9_m2.py::test_record_round_trips_and_replays[TB.H-skeleton-all_active-1000000] PASSED
+tests/test_f9_m2.py::test_record_round_trips_and_replays[TC.P-realization-stationary_floor-1000000] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[advanced] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[array_missing] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[bool_for_int] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[contract] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[declaration] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[draws] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[extinction] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[extra_field] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[floor] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[gain] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[identity_not_hex] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[int_for_float] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[level_id] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[master_class] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[missing_field] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[mu] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[retired_master] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[schema] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[seed] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[stream_declaration] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[stream_key] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[survival] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[tail_sum] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[terrain] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[ticks] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[type] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[undeclared_level] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[version] PASSED
+tests/test_f9_m2.py::test_a_changed_header_is_refused[windows] PASSED
+tests/test_f9_m2.py::test_changed_bytes_are_refused_with_and_without_restated_hashes PASSED
+tests/test_f9_m2.py::test_impossible_summaries_are_refused_by_the_parser_l2_m2_round1_r1 PASSED
+tests/test_f9_m2.py::test_undeclared_json_types_are_refused_l2_m2_round1_r1c PASSED
+tests/test_f9_m2.py::test_consistency_relations_hold_on_arbitrary_tails PASSED
+tests/test_f9_m2.py::test_a_consistent_forgery_is_refused_by_replay_only PASSED
+tests/test_f9_m2.py::test_m1_e1_and_f8_are_byte_unchanged PASSED
+
+============================= 63 passed in 39.41s =============================

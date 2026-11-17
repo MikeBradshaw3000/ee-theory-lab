@@ -1,0 +1,44 @@
+{
+  "scope": "deterministic window accumulation only; no dynamics, no run, no master",
+  "results": [
+    {
+      "W": 1,
+      "window_count": 12,
+      "exhaustive_binary_window_histories": 4096,
+      "checks": [
+        "A",
+        "R0 by maximal zero runs",
+        "first",
+        "last",
+        "window count"
+      ],
+      "passed": true
+    },
+    {
+      "W": 10,
+      "window_count": 12,
+      "exhaustive_binary_window_histories": 4096,
+      "checks": [
+        "A",
+        "R0 by maximal zero runs",
+        "first",
+        "last",
+        "window count"
+      ],
+      "passed": true
+    },
+    {
+      "W": 100,
+      "window_count": 10,
+      "exhaustive_binary_window_histories": 1024,
+      "checks": [
+        "A",
+        "R0 by maximal zero runs",
+        "first",
+        "last",
+        "window count"
+      ],
+      "passed": true
+    }
+  ]
+}

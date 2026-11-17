@@ -1,0 +1,9 @@
+{"case": "R2_retired_master", "check_master": "REFUSED: master 202609221 is retired and may not be used again", "master": 202609221}
+{"case": "R2_retired_master", "check_master": "REFUSED: master 202609222 is retired and may not be used again", "master": 202609222}
+{"case": "R2_retired_master", "check_master": "REFUSED: master 202609223 is retired and may not be used again", "master": 202609223}
+{"case": "unaltered_control", "parse": "ACCEPTED", "replay": true}
+{"case": "R1a_first_endpoint", "cell": [0, 4], "count": 3200, "endpoint_total": 3199, "parse": "REFUSED: the record is not consistent: W = 1: the first window's mask against the counts of its tic", "tick": 2001}
+{"case": "R1a_last_endpoint", "cell": [0, 2], "count": 3160, "endpoint_total": 3159, "parse": "REFUSED: the record is not consistent: W = 1: the last window's mask against the counts of its tick", "tick": 3000}
+{"A_W1": 285, "A_W10": 63, "A_W100": 3, "case": "R1b_nested_windows", "cell": [0, 0], "parse": "REFUSED: the record is not consistent: W = 10 and 100: active windows are not nested"}
+{"case": "R1c_float_stream_key", "field": "stream_key", "parse": "REFUSED: the record's stream key or labels do not follow from its run identity"}
+{"case": "R1c_bool_window", "field": "windows", "parse": "REFUSED: the record's lattice, horizon, windows or rule constants are not the declared ones"}

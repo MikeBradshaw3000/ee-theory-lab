@@ -1,0 +1,9 @@
+{"case": "R2_retired_master", "check_master": "ACCEPTED", "master": 202609221}
+{"case": "R2_retired_master", "check_master": "ACCEPTED", "master": 202609222}
+{"case": "R2_retired_master", "check_master": "ACCEPTED", "master": 202609223}
+{"case": "unaltered_control", "parse": "ACCEPTED", "replay": true}
+{"case": "R1a_first_endpoint", "cell": [0, 4], "count": 3200, "endpoint_total": 3199, "parse": "ACCEPTED", "tick": 2001}
+{"case": "R1a_last_endpoint", "cell": [0, 2], "count": 3160, "endpoint_total": 3159, "parse": "ACCEPTED", "tick": 3000}
+{"A_W1": 285, "A_W10": 63, "A_W100": 3, "case": "R1b_nested_windows", "cell": [0, 0], "parse": "ACCEPTED"}
+{"case": "R1c_float_stream_key", "field": "stream_key", "parse": "ACCEPTED"}
+{"case": "R1c_bool_window", "field": "windows", "parse": "ACCEPTED"}
