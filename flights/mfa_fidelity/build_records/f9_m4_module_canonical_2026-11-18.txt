@@ -1,0 +1,28 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.4, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\vkz244\EE_Theory_Lab\venv\Scripts\python.exe
+rootdir: C:\Users\vkz244\EE_Theory_Lab\ee-theory-lab\flights\mfa_fidelity\instrument
+collecting ... collected 21 items
+
+tests/test_f9_m4.py::test_declaration_verifies_and_the_labels_are_the_contracts PASSED
+tests/test_f9_m4.py::test_level_table_is_the_contracts_rows PASSED
+tests/test_f9_m4.py::test_level_causes_and_kinds PASSED
+tests/test_f9_m4.py::test_same_family_levels_are_not_adjudicable_and_must_agree PASSED
+tests/test_f9_m4.py::test_level_inputs_are_checked PASSED
+tests/test_f9_m4.py::test_level_from_the_evaluators_record PASSED
+tests/test_f9_m4.py::test_arm_rule_on_the_contracts_named_sweeps PASSED
+tests/test_f9_m4.py::test_arm_rule_against_the_reference_on_many_sweeps PASSED
+tests/test_f9_m4.py::test_a_missing_level_record_is_an_apparatus_cause PASSED
+tests/test_f9_m4.py::test_a_level_record_that_contradicts_itself_is_refused PASSED
+tests/test_f9_m4.py::test_genuine_arm_records_are_accepted PASSED
+tests/test_f9_m4.py::test_an_arm_record_that_contradicts_itself_is_refused_l2_m4_round1_d1 PASSED
+tests/test_f9_m4.py::test_flight_b_over_every_combination_of_seven_arms PASSED
+tests/test_f9_m4.py::test_flight_b_records_and_missing_inputs PASSED
+tests/test_f9_m4.py::test_flight_d PASSED
+tests/test_f9_m4.py::test_flight_d_against_a_reference_on_random_sweeps PASSED
+tests/test_f9_m4.py::test_clopper_pearson PASSED
+tests/test_f9_m4.py::test_persistence_profiles_on_named_sweeps PASSED
+tests/test_f9_m4.py::test_persistence_against_the_reference_on_many_sweeps PASSED
+tests/test_f9_m4.py::test_persistence_inputs_and_missing_levels PASSED
+tests/test_f9_m4.py::test_everything_placed_before_m4_is_byte_unchanged PASSED
+
+======================== 21 passed in 81.02s (0:01:21) ========================

@@ -1,0 +1,22 @@
+outcomes.py fac54ebd8de0953ce3c87d362b5a2263919af43d44eea85599f22ae73c1898d1
+declaration c94ec4bd7c9aa532264ab2adc91ab6d4948ebff652b5b58380e1befb54a35407
+genuine arms: B = PRODUCED
+apparatus level cause but COMPATIBLE:
+    _check_arm: REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+    flight_b:   REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+apparatus arm cause but COMPATIBLE:
+    _check_arm: REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+    flight_b:   REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+own-adverse cause but follows-own level:
+    _check_arm: REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+    flight_b:   REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+missing level_causes:
+    _check_arm: REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+    flight_b:   REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+non-dict level_causes:
+    _check_arm: REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+    flight_b:   REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+apparatus arm without any cause:
+    _check_arm: REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+    flight_b:   REFUSED (F9OutcomeError: an arm record's fields do not follow from the level records it carries)
+acceptances: 0 of 12

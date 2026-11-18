@@ -1,0 +1,22 @@
+outcomes.py 6523da486b8bd9af02e3635e80e1f67434eb7cc8995caa3f8f6a5247bc7319c7
+declaration c94ec4bd7c9aa532264ab2adc91ab6d4948ebff652b5b58380e1befb54a35407
+genuine arms: B = PRODUCED
+apparatus level cause but COMPATIBLE:
+    _check_arm: ACCEPTED -> 'valid arm record'
+    flight_b:   ACCEPTED -> 'B = PRODUCED'
+apparatus arm cause but COMPATIBLE:
+    _check_arm: ACCEPTED -> 'valid arm record'
+    flight_b:   ACCEPTED -> 'B = PRODUCED'
+own-adverse cause but follows-own level:
+    _check_arm: ACCEPTED -> 'valid arm record'
+    flight_b:   ACCEPTED -> 'B = PRODUCED'
+missing level_causes:
+    _check_arm: ACCEPTED -> 'valid arm record'
+    flight_b:   ACCEPTED -> 'B = PRODUCED'
+non-dict level_causes:
+    _check_arm: ACCEPTED -> 'valid arm record'
+    flight_b:   ACCEPTED -> 'B = PRODUCED'
+apparatus arm without any cause:
+    _check_arm: ACCEPTED -> 'valid arm record'
+    flight_b:   ACCEPTED -> 'B = no qualified scientific determination'
+acceptances: 12 of 12

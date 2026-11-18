@@ -1,0 +1,28 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+rootdir: /home/claude/m3verify/flights/mfa_fidelity/instrument
+plugins: platformdirs-4.13.5, anyio-4.15.1
+collecting ... collected 20 items
+
+tests/test_f9_m4.py::test_declaration_verifies_and_the_labels_are_the_contracts PASSED [  5%]
+tests/test_f9_m4.py::test_level_table_is_the_contracts_rows PASSED       [ 10%]
+tests/test_f9_m4.py::test_level_causes_and_kinds PASSED                  [ 15%]
+tests/test_f9_m4.py::test_same_family_levels_are_not_adjudicable_and_must_agree PASSED [ 20%]
+tests/test_f9_m4.py::test_level_inputs_are_checked PASSED                [ 25%]
+tests/test_f9_m4.py::test_level_from_the_evaluators_record PASSED        [ 30%]
+tests/test_f9_m4.py::test_arm_rule_on_the_contracts_named_sweeps PASSED  [ 35%]
+tests/test_f9_m4.py::test_arm_rule_against_the_reference_on_many_sweeps PASSED [ 40%]
+tests/test_f9_m4.py::test_a_missing_level_record_is_an_apparatus_cause PASSED [ 45%]
+tests/test_f9_m4.py::test_a_level_record_that_contradicts_itself_is_refused PASSED [ 50%]
+tests/test_f9_m4.py::test_an_arm_record_that_contradicts_itself_is_refused PASSED [ 55%]
+tests/test_f9_m4.py::test_flight_b_over_every_combination_of_seven_arms PASSED [ 60%]
+tests/test_f9_m4.py::test_flight_b_records_and_missing_inputs PASSED     [ 65%]
+tests/test_f9_m4.py::test_flight_d PASSED                                [ 70%]
+tests/test_f9_m4.py::test_flight_d_against_a_reference_on_random_sweeps PASSED [ 75%]
+tests/test_f9_m4.py::test_clopper_pearson PASSED                         [ 80%]
+tests/test_f9_m4.py::test_persistence_profiles_on_named_sweeps PASSED    [ 85%]
+tests/test_f9_m4.py::test_persistence_against_the_reference_on_many_sweeps PASSED [ 90%]
+tests/test_f9_m4.py::test_persistence_inputs_and_missing_levels PASSED   [ 95%]
+tests/test_f9_m4.py::test_everything_placed_before_m4_is_byte_unchanged PASSED [100%]
+
+============================= 20 passed in 10.98s ==============================

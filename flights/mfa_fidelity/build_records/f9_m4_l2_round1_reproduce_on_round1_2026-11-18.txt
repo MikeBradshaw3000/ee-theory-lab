@@ -1,0 +1,6 @@
+apparatus level cause but COMPATIBLE: accepted=True, B=PRODUCED
+apparatus arm cause but COMPATIBLE: accepted=True, B=PRODUCED
+own-adverse cause but follows-own level: accepted=True, B=PRODUCED
+missing level_causes: accepted=True, B=PRODUCED
+non-dict level_causes: accepted=True, B=PRODUCED
+apparatus arm without any cause: accepted=True
