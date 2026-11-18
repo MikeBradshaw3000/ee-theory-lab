@@ -1,0 +1,34 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.4, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\vkz244\EE_Theory_Lab\venv\Scripts\python.exe
+rootdir: C:\Users\vkz244\EE_Theory_Lab\ee-theory-lab\flights\mfa_fidelity\instrument
+collecting ... collected 27 items
+
+tests/test_f9_m5.py::test_closure_declaration_and_registered_solver_values PASSED
+tests/test_f9_m5.py::test_the_map_is_the_contracts_formula PASSED
+tests/test_f9_m5.py::test_flat_index_fixed_points_against_the_scalar_equation PASSED
+tests/test_f9_m5.py::test_skeleton_below_the_crossing_converges_to_a_small_positive_map_not_zero PASSED
+tests/test_f9_m5.py::test_nonconvergence_is_comparator_unavailable_with_no_map PASSED
+tests/test_f9_m5.py::test_the_crossing_is_where_the_zero_floor_map_loses_stability_at_zero PASSED
+tests/test_f9_m5.py::test_closure_inputs_are_checked PASSED
+tests/test_f9_m5.py::test_site_closure_records_on_contract_arms PASSED
+tests/test_f9_m5.py::test_skeleton_closure_at_the_crossing_is_unavailable_on_t0 PASSED
+tests/test_f9_m5.py::test_threshold_fidelity_cases PASSED
+tests/test_f9_m5.py::test_t0_declaration_and_registered_values PASSED
+tests/test_f9_m5.py::test_the_bracket_is_appendix_a4s_arithmetic PASSED
+tests/test_f9_m5.py::test_bracket_eligibility_is_the_fine_grid_rule PASSED
+tests/test_f9_m5.py::test_eligibility_governs_t_s2_l2_m5_round1_d1 PASSED
+tests/test_f9_m5.py::test_l2s_exact_boundary_witnesses PASSED
+tests/test_f9_m5.py::test_a_continuous_crossing_inside_the_fine_grid_is_produced PASSED
+tests/test_f9_m5.py::test_boundary_absent_or_non_monotone PASSED
+tests/test_f9_m5.py::test_hysteresis_and_the_bracket PASSED
+tests/test_f9_m5.py::test_the_continuity_criterion_is_a_slope_on_the_non_uniform_grid PASSED
+tests/test_f9_m5.py::test_a_reversal_within_the_band_is_disregarded_and_one_beyond_it_is_nd PASSED
+tests/test_f9_m5.py::test_realization_extinct_and_apparatus PASSED
+tests/test_f9_m5.py::test_t0_inputs_are_checked PASSED
+tests/test_f9_m5.py::test_exact_statistics_against_the_library PASSED
+tests/test_f9_m5.py::test_reference_object_alone PASSED
+tests/test_f9_m5.py::test_the_four_tests_against_the_second_implementation_on_random_sweeps PASSED
+tests/test_f9_m5.py::test_the_record_is_plain_data_and_states_its_scope PASSED
+tests/test_f9_m5.py::test_everything_placed_before_m5_is_byte_unchanged PASSED
+
+======================= 27 passed in 142.39s (0:02:22) ========================

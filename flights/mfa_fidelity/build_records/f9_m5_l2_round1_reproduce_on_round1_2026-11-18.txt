@@ -1,0 +1,7 @@
+high boundary: 1000000
+high eligible: False
+T-S1′ PASS None
+T-S1c PASS None
+T-S2 FAIL no active phase in sweep
+T-R1′ PASS None
+T0: NOT PRODUCED no active phase in sweep
