@@ -656,7 +656,9 @@ def _sha_lf(path):
 
 def test_m1_e1_and_f8_are_byte_unchanged():
     for rel, want in PLACED.items(): assert _sha_lf(os.path.join(PKG, *rel.split("/"))) == want, rel
-    assert sorted(fn for fn in os.listdir(os.path.join(PKG, "f9")) if fn.endswith(".py")) == sorted([r.split("/")[1] for r in PLACED] + ["dynamics.py", "streams.py"])
+    # The files this module added are present beside them. The folder is not required to hold nothing else: this line
+    # first required exactly that and failed as soon as a later module was placed (repaired 2026-11-18).
+    assert {r.split("/")[1] for r in PLACED} | set(["dynamics.py", "streams.py"]) <= {fn for fn in os.listdir(os.path.join(PKG, "f9")) if fn.endswith(".py")}
     h = hashlib.sha256()
     for sub in ("", "e1", "f8", "gates"):
         d = os.path.join(PKG, sub)

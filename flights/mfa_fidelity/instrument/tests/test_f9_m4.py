@@ -251,8 +251,10 @@ EXPECTED_REFUSED = 367     # 17 genuine arms x 23 changes, less the changes that
 
 
 def _genuine_arms():
-    """Every genuine arm shape: each rule, each set of A4 causes, and the level shapes L2 named (follows own with the
-    rival unresolved; own adverse with the rival unresolved), on TB so that the rival can differ."""
+    """Genuine arm shapes: each rule, five of the seven sets of A4 causes (each cause alone, `isolated adverse level`
+    with `finite resolution`, and all three; the two pairs that join `insufficient informative levels` with one other
+    cause are not here and occur in the 6,000-sweep test), and the level shapes L2 named (follows own with the rival
+    unresolved; own adverse with the rival unresolved), on TB so that the rival can differ."""
     n = "N" * 25
     def tb(codes): return O.arm_tier(_tb(codes))
     return {
@@ -556,7 +558,9 @@ def _sha_lf(path):
 
 def test_everything_placed_before_m4_is_byte_unchanged():
     for rel, want in PLACED.items(): assert _sha_lf(os.path.join(PKG, *rel.split("/"))) == want, rel
-    assert sorted(fn for fn in os.listdir(os.path.join(PKG, "f9")) if fn.endswith(".py")) == sorted([r.split("/")[1] for r in PLACED] + ["outcomes.py"])
+    # The files this module added are present beside them. The folder is not required to hold nothing else: this line
+    # first required exactly that and failed as soon as a later module was placed (repaired 2026-11-18).
+    assert {r.split("/")[1] for r in PLACED} | set(["outcomes.py"]) <= {fn for fn in os.listdir(os.path.join(PKG, "f9")) if fn.endswith(".py")}
     h = hashlib.sha256()
     for sub in ("", "e1", "f8", "gates"):
         d = os.path.join(PKG, sub)
