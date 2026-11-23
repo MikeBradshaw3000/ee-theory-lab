@@ -1,0 +1,73 @@
+{
+  "source_sha256": "f42f93c586288ee14ee11dfe8e2430e544e81529a2eaba17e73b0bf4345a92de",
+  "declaration_sha256": "169a8d62bb568388729d88f7cd80c4750fbe7cdb7955a67285fea490607aa1d9",
+  "round1_counterexample_refused": true,
+  "forged_stack_accepted": true,
+  "forged_tuples": [
+    [
+      20,
+      1,
+      true,
+      false
+    ],
+    [
+      20,
+      1,
+      true,
+      false
+    ],
+    [
+      2,
+      1,
+      true,
+      false
+    ]
+  ],
+  "tuples_forced_by_the_fine_prefix": [
+    [
+      20,
+      1,
+      true,
+      false
+    ],
+    [
+      2,
+      1,
+      true,
+      false
+    ],
+    [
+      1,
+      1,
+      true,
+      false
+    ]
+  ],
+  "forged_medians": [
+    980.0,
+    800.0,
+    800.0
+  ],
+  "actual_prefix_medians": [
+    980.0,
+    980.0,
+    900.0
+  ],
+  "floor_reference": {
+    "meaning": "floor-only probability that a window of W ticks holds any activity, 1 - (1 - pi_1)(1 - a)^(W - 1); an occupancy of windows, not a duration in ticks; enters no band, statistic or count",
+    "by_window": {
+      "1": {
+        "literal": "0.0523",
+        "value": 0.052282320137314486
+      },
+      "10": {
+        "literal": "0.1342",
+        "value": 0.1342435537002572
+      },
+      "100": {
+        "literal": "0.6496",
+        "value": 0.6496006856301298
+      }
+    }
+  }
+}

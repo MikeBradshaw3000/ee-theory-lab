@@ -1,0 +1,88 @@
+{
+  "declaration_sha256": "56bc9a108afdc347bcdae98f254de7f3072e091a46d607ed40a118ae887945d2",
+  "D1_impossible_stack_accepted": true,
+  "D1_low_occupancy_band": {
+    "band": "[0, 0.10)",
+    "cells": 10000,
+    "windows": {
+      "1": {
+        "records": 400000,
+        "defined": 400000,
+        "undefined_no_inactive_segment": 0,
+        "possibly_censored": 400000,
+        "q25": 1000.0,
+        "median": 1000.0,
+        "q75": 1000.0
+      },
+      "10": {
+        "records": 400000,
+        "defined": 0,
+        "undefined_no_inactive_segment": 400000,
+        "possibly_censored": 0,
+        "q25": null,
+        "median": null,
+        "q75": null
+      },
+      "100": {
+        "records": 400000,
+        "defined": 0,
+        "undefined_no_inactive_segment": 400000,
+        "possibly_censored": 0,
+        "q25": null,
+        "median": null,
+        "q75": null
+      }
+    }
+  },
+  "D1_targeted_cases_accepted": {
+    "coarse_A_exceeds_fine_A": true,
+    "fine_A_exceeds_10_times_coarse_A": true,
+    "coarse_R0_exceeds_fine_R0": true,
+    "coarse_Ra_exceeds_fine_Ra": true,
+    "first_endpoint_implication_fails": true,
+    "last_endpoint_implication_fails": true
+  },
+  "D2_flicker_top_level_keys": [
+    "record",
+    "kind",
+    "statistic",
+    "bands_by",
+    "bands",
+    "note",
+    "declaration_sha256"
+  ],
+  "D2_flicker_per_window_keys": [
+    "records",
+    "defined",
+    "undefined_no_inactive_segment",
+    "possibly_censored",
+    "q25",
+    "median",
+    "q75"
+  ],
+  "D2_floor_reference_present": false,
+  "D2_analytic_floor_window_occupancy": {
+    "1": 0.052282320137314486,
+    "10": 0.1342435537002572,
+    "100": 0.6496006856301298
+  },
+  "D3_shifted_u_accepted": true,
+  "D3_mask_symmetric_differences": [
+    54,
+    102
+  ],
+  "D3_correct_ratio": {
+    "value": 10.0,
+    "exact": "10/1"
+  },
+  "D3_shifted_ratio": {
+    "value": 9.5667963378106,
+    "exact": "2031337/212332"
+  },
+  "schema_empty_quantiles": [
+    null,
+    null,
+    null
+  ],
+  "schema_json_roundtrip_preserves_python_keys": false
+}

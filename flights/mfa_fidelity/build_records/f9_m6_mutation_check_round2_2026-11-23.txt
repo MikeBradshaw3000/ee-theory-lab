@@ -1,0 +1,36 @@
+reports.py f42f93c586288ee14ee11dfe8e2430e544e81529a2eaba17e73b0bf4345a92de
+CAUGHT  cut tie excluded
+CAUGHT  bin closes above 100
+CAUGHT  short final bin kept
+CAUGHT  noise divisor 40*40
+CAUGHT  noise on X_s, not the residual
+CAUGHT  censored needs both ends
+MISSED  censored counted among defined only (EQUIVALENT: an undefined record is all-active)
+CAUGHT  quartile weight r/3
+CAUGHT  statistic without W
+CAUGHT  statistic over R0 + 1
+CAUGHT  band edges one micro-unit up
+CAUGHT  0.20 band uses the 0.30 cut
+CAUGHT  outside set is everything not inside
+CAUGHT  ratio inverted
+CAUGHT  bins ordered by descending omega
+CAUGHT  margins on the unsmoothed map
+CAUGHT  record check dropped: R0 = 0 iff A = n
+CAUGHT  record check dropped: Ra <= A
+CAUGHT  record check dropped: Ra >= 0
+CAUGHT  record check dropped: R0 <= n - A
+CAUGHT  record check dropped: Ra = 0 iff A = 0
+CAUGHT  TC set sizes not asserted
+CAUGHT  nesting dropped: A_l <= A_s
+CAUGHT  nesting dropped: A_s <= k A_l
+MISSED  nesting dropped: R0_l <= R0_s (EQUIVALENT: implied by the Ra relation and the two end implications; L2 round 1, D1)
+CAUGHT  nesting dropped: Ra_l <= Ra_s
+CAUGHT  nesting dropped: first_s implies first_l
+CAUGHT  nesting dropped: last_s implies last_l
+MISSED  nesting skips the pair (1, 100) (EQUIVALENT: implied by the pairs (1, 10) and (10, 100), every relation being transitive)
+CAUGHT  floor reference exponent W
+CAUGHT  floor literals for W = 10 and 100 exchanged
+CAUGHT  flicker record without its floor reference
+CAUGHT  V_within without bin centring
+30 of 33 caught
+reports.py restored f42f93c586288ee14ee11dfe8e2430e544e81529a2eaba17e73b0bf4345a92de

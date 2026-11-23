@@ -1,0 +1,30 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+rootdir: /home/claude/govverify/flights/mfa_fidelity/instrument
+plugins: platformdirs-4.13.5, anyio-4.15.1
+collecting ... collected 22 items
+
+tests/test_f9_m6.py::test_declaration_and_registered_values PASSED       [  4%]
+tests/test_f9_m6.py::test_bins_on_named_arrays PASSED                    [  9%]
+tests/test_f9_m6.py::test_bins_on_random_tie_structures_and_on_the_contract_arms PASSED [ 13%]
+tests/test_f9_m6.py::test_bin_inputs_are_checked PASSED                  [ 18%]
+tests/test_f9_m6.py::test_constancy_against_the_float_reference_on_random_maps PASSED [ 22%]
+tests/test_f9_m6.py::test_constancy_is_exact PASSED                      [ 27%]
+tests/test_f9_m6.py::test_constancy_named_cases PASSED                   [ 31%]
+tests/test_f9_m6.py::test_v_noise_estimates_the_seed_noise_of_the_mean PASSED [ 36%]
+tests/test_f9_m6.py::test_margins_against_the_rational_reference_on_random_maps PASSED [ 40%]
+tests/test_f9_m6.py::test_margins_named_cases PASSED                     [ 45%]
+tests/test_f9_m6.py::test_margin_thresholds_are_decided_on_integers PASSED [ 50%]
+tests/test_f9_m6.py::test_the_statistic_is_the_mean_inactive_segment_length PASSED [ 54%]
+tests/test_f9_m6.py::test_flicker_against_the_reference PASSED           [ 59%]
+tests/test_f9_m6.py::test_flicker_named_cases PASSED                     [ 63%]
+tests/test_f9_m6.py::test_quartiles_are_linear_between_order_statistics PASSED [ 68%]
+tests/test_f9_m6.py::test_flicker_inputs_are_checked PASSED              [ 72%]
+tests/test_f9_m6.py::test_tc_patch_sets_are_the_terrains_geometry PASSED [ 77%]
+tests/test_f9_m6.py::test_suppression_contrast_cases PASSED              [ 81%]
+tests/test_f9_m6.py::test_map_inputs_are_checked PASSED                  [ 86%]
+tests/test_f9_m6.py::test_records_are_plain_data_and_reported_only PASSED [ 90%]
+tests/test_f9_m6.py::test_the_reports_do_not_touch_scored_modules PASSED [ 95%]
+tests/test_f9_m6.py::test_everything_placed_before_m6_is_byte_unchanged PASSED [100%]
+
+============================== 22 passed in 6.05s ==============================
