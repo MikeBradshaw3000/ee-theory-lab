@@ -1,0 +1,13 @@
+1c1
+< # Ruling Record — F9 Interpretation 002: the fidelity summaries of §1.2′ (ii) and (iii) and their uncertainty (Contract F9 v0.7 §1.2′, §5.7 row 4) — DRAFT 2 FOR L2 REVIEW
+---
+> # Ruling Record — F9 Interpretation 002: the fidelity summaries of §1.2′ (ii) and (iii) and their uncertainty (Contract F9 v0.7 §1.2′, §5.7 row 4)
+8c8,9
+< - **This text is L1's draft 2 of the ruling. It is not binding until L2 has reviewed it and Mike has accepted the record.** With the inclusion decided, the draft asks no further substantive choice of Mike; it makes one completion L2 left to L1 and marks it (Point 5, the regional cell counts).
+---
+> - L2 reviewed draft 2 (`c7d8b54901f021dcdbcaf69b5aa17abee2ae2e7d98c921259e80c6f910cbdb63`) and returned **FINAL VERDICT: SOUND** as a proposed interpretation record (`L2_F9_INTERPRETATION_002_DRAFT2_ROUND2_REVIEW_2026-11-24_RECEIVED.md`, `930642a329cff452b26818b0f2f350d39901d3611e49f0367a191abd46d3f1de`): D1 closed; no accepted point reversed; no further choice needed of Mike other than acceptance. The one completion L2 left to L1 (Point 5, that the regional cell counts are lattice fields) it found consistent and within what it had left open.
+> - **Mike accepted the record on 2026-11-24 ("accept").** This is the accepted text. It differs from the draft 2 L2 reviewed only in its title, in the last two entries of this authority statement, and in the status line beneath it ("Status when accepted" is now "Status"); `f9_interpretation_002_draft2_to_final.diff` is the whole difference.
+10c11
+< **Status when accepted:** an identified interpretation of the FROZEN contract (`FLIGHT_9_CONTRACT_v0_7.md`, SHA-256 `60cf50fc8936abef7f92ef20ad3ab7f6d12e6e1dbdbd2d8f963058c09e73d168`). The contract's bytes and identity are unchanged.
+---
+> **Status:** an identified interpretation of the FROZEN contract (`FLIGHT_9_CONTRACT_v0_7.md`, SHA-256 `60cf50fc8936abef7f92ef20ad3ab7f6d12e6e1dbdbd2d8f963058c09e73d168`). The contract's bytes and identity are unchanged.

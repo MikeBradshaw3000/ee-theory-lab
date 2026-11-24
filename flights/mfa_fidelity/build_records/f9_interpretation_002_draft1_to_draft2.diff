@@ -1,0 +1,84 @@
+1c1
+< # Ruling Record — F9 Interpretation 002: the fidelity summaries of §1.2′ (ii) and (iii) and their uncertainty (Contract F9 v0.7 §1.2′, §5.7 row 4) — DRAFT 1 FOR L2 REVIEW
+---
+> # Ruling Record — F9 Interpretation 002: the fidelity summaries of §1.2′ (ii) and (iii) and their uncertainty (Contract F9 v0.7 §1.2′, §5.7 row 4) — DRAFT 2 FOR L2 REVIEW
+6c6,8
+< - **This text is L1's draft of that ruling. It is not binding until L2 has reviewed it and Mike has accepted the record.** Where the draft goes beyond what Mike's three words settle, it says so (Point 6, "For Mike's confirmation").
+---
+> - L2 reviewed draft 1 (`b2efdeda1d063ccb6d46d66e0c8d0881d5131015221d1e4f20fb6bed943d1a07`) and returned NOT SOUND on one finding, D1: the sentence saying when the resamples are made left room for two builds that differ (`L2_F9_INTERPRETATION_002_DRAFT1_ROUND1_REVIEW_2026-11-23_RECEIVED.md`, `3d892d6ebbbbcecbb3c9241c7acd0d510232a806a22cef445a9684b895efa2d9`). It asked for five smaller completions and three editorial corrections, and confirmed that one inclusion remained Mike's to decide: the closure's own fit to the registered family and the fitted-level difference.
+> - **Mike, 2026-11-24, on that inclusion: "yes".** They are kept (Points 6 and 7).
+> - **This text is L1's draft 2 of the ruling. It is not binding until L2 has reviewed it and Mike has accepted the record.** With the inclusion decided, the draft asks no further substantive choice of Mike; it makes one completion L2 left to L1 and marks it (Point 5, the regional cell counts).
+18c20
+< §5.7 row 4: "Occupancy-based items: 2.5–97.5 percentile range over 1,000 seed resamples. κ̂_c: per §5.4. λ*: its range over the resamples with Δ ≤ ε, with their count; 'no compatible resample' where there is none."
+---
+> §5.7 row 4, in full: "Occupancy-based items: 2.5–97.5 percentile range over 1,000 seed resamples. κ̂_c: per §5.4. λ*: its range over the resamples with Δ ≤ ε, with the number of such resamples; "no compatible resample" if there is none. That range is conditional on compatibility and is not a confidence interval."
+24c26
+< 3. The skeleton's seed mean is unconditional: all 40 runs, an extinct run contributing its recorded tail.
+---
+> 3. The skeleton's seed mean is unconditional: all 40 runs, an extinct run contributing its recorded tail, zeros after extinction.
+65c67,68
+< - **Supplementary:** U = the region R (p̃ ≥ 0.20) and U = its complement, each with its cell count. A subset needs only to be non-empty; step 4's minimums do not apply to these. An empty subset is unavailable while the other and the whole remain.
+---
+> - **Supplementary:** U = the region R (p̃ ≥ 0.20) and U = its complement. A subset needs only to be non-empty; step 4's minimums do not apply to these. The three statistics on an empty subset are unavailable while those on the other subset and on the whole remain.
+> - **The two regional cell counts,** n_R = |R| and N − n_R, are reported beside them. A count of zero is a defined count, not a missing one. **They are fields of the lattice map alone** and do not depend on the closure: they are reported, with their ranges, when the closure is unavailable. (L2 left this to L1 to state one way or the other; the alternative is to treat the counts as part of the closure comparison and drop them with it. L1 chose this because a count is defined whatever the comparator's state.)
+77c80
+< **For Mike's confirmation (L2 called this optional; L1's proposal included it; "include" was said of the edge comparison).** The closure edge is also fitted to the arm's registered family, once per arm, object, level and index, by the placed fit and its tie rule. A closure λ* exists only when that fit is within ε; otherwise its descriptive diagnostic is kept and is not called λ*. If Mike prefers the smaller report, this paragraph and the fitted-level lines of Point 7 are struck and nothing else changes.
+---
+> **The closure's own fit (kept: Mike, 2026-11-24, "yes").** The closure edge is fitted to the arm's registered family, once per arm, object, level and index, by the placed fit and its tie rule. A closure λ* for index Y exists only when all three hold: **the closure map itself passes step 4's minimums**; the family of Y is not empty; and the fit is within ε. (The placed low-level fit applies no step-4 test of its own; the rule here is §5.5's, in which step 4 precedes the fit.) Otherwise its cause is kept, and a least-S diagnostic outside ε is not called λ*.
+92c95,99
+< **Fitted levels (subject to Point 6's confirmation).** The lattice λ* exists when its own point fit is within ε; the closure λ* when its own is. Their difference exists when both do and is taken between labels of the **same index** on the same arm, level and object (on a shared family, P's label is never subtracted from H's). An absent fitted level does not remove an available S.
+---
+> **Fitted levels.** Each fitted level stands on its own map: the lattice λ* for index Y exists when the lattice map passes step 4 and its own point fit is within ε; the closure λ* for Y as in Point 6. Neither depends on the other map's geometry. Their difference, for the **same index Y** on the same arm, level and object (on a shared family, P's label is never subtracted from H's), is
+> 
+>   d_Y = λ*_lattice,Y − λ*_closure,Y,
+> 
+> and exists for the observed map when both labels do. An absent fitted level does not remove an available S, and an absent S does not remove a fitted level.
+107c114,116
+< **The resamples.** 1,000 draws of 40 whole seed maps with replacement, by the declared evaluator stream of the arm, object and level (the realization's is the scored evaluation's; the skeleton's is the skeleton stream of the second reports module). One draw matrix serves every summary of that arm, object and level. The draws are made whenever any summary of the level is defined; in particular whole-lattice Point 5 is resampled at a level with no informative edge. On each draw the lattice mean, its smoothed map, region, edge and edge cells are re-formed; the m field, the terrain and spectral quantities and the closure map are fixed.
+---
+> **The resamples.** 1,000 draws of 40 whole seed maps with replacement, by the declared evaluator stream of the arm, object and level. For the realization that is the scored evaluation's stream. For the skeleton it is the stream declaration accepted for the second reports module; the third module's build record binds that declaration and its source identity before any output, and a later change to it does not silently change this report's stream. One draw matrix serves every summary of an arm, object and level; it is generated from the key alone and needs no fit, so it exists for T0 as for any arm.
+> 
+> **When the draws are made (L2 round 1, D1).** For complete valid inputs, the 1,000 draws are made for every summary that applies to the arm, object and level under the coverage table, **whether or not its observed value exists**. In particular the edge-cell summaries of every non-T0 realization level are assessed on all 1,000 draws even when the observed region is empty or full and even when the matching closure is unavailable: a draw can have an edge where the observed map has none. The absence of an observed edge, an observed region or an observed value is never a reason to skip the draws.
+109c118,122
+< **What gets a range.** The numeric scalars: Point 2's six numbers per side; Point 3's two contrasts per side; Point 5's three per set, with the two regional cell counts; Point 7's S and its two global terms. For each: the observed value, the 1,000 attempts, the number of draws on which it is defined, the causes of the others with their counts, and the 2.5 and 97.5 percentiles over the defined draws.
+---
+> **Fixed dependencies.** Some things a summary needs do not change from draw to draw, and two of them can be scientifically unavailable: the closure map (with its own geometry and fit) and κ̂_c,T0. Where one of these is unavailable the summary is blocked on every draw, and its record says **"not assessed on the draws", with the fixed cause**, which is kept distinct from "assessed on 1,000 draws, defined on none". A blocked summary does not stop the draws for the others.
+> 
+> On each draw the lattice mean is re-formed, and, **where the summary needs them**, its smoothed map, region, edge and edge cells. The m field, the terrain and spectral quantities and the closure map are fixed. No contour-family fit is made on a draw for these summaries, and none is added to the evaluator's: where the placed evaluator did not resample a level, item (iv) has no draw labels and none are created here.
+> 
+> **What gets a range.** The numeric scalars: Point 2's six numbers per side; Point 3's two contrasts per side; Point 5's three per set, and the two regional cell counts (zero included); Point 7's S and its two global terms. For each: the observed value, the 1,000 attempts, the number of draws on which it is defined, the causes of the others with their counts, and the 2.5 and 97.5 percentiles over the defined draws.
+117c130
+< **λ* keeps its own recipe (constraint 6).** If a closure λ* exists, the fitted-level difference's uncertainty is the lattice range shifted by that fixed label, with its count.
+---
+> **λ* keeps its own recipe (constraint 6).** Where the evaluator's draws give index Y a compatible range [L_Y, U_Y] with its count, and the closure label c_Y = λ*_closure,Y exists, the fitted-level difference's uncertainty is that range shifted, [L_Y − c_Y, U_Y − c_Y], with the same count. It can exist where the observed difference d_Y does not (compatible draws beside an observed map without λ*). It is never a percentile range.
+120a134,135
+> The rows about geometry describe the **observed** value. Whether a summary is assessed on the draws follows Point 8, independently: an observed value that is unavailable for want of an edge can stand beside a range.
+> 
+123c138
+< | The matching closure did not converge | Points 5, 6 and 7 are `comparator unavailable` for that arm, object and level, as measured there. Points 1 to 4 and the lattice λ* remain |
+---
+> | The matching closure did not converge | The residual statistics of Point 5, and Points 6 and 7, are `comparator unavailable` for that arm, object and level, as measured there. Points 1 to 4 and the lattice λ* remain |
+130c145,147
+< | A scalar with no defined draw | No percentile endpoints; counts and causes kept; the observed value kept if it exists |
+---
+> | A scalar assessed on the draws and defined on none | No percentile endpoints; counts and causes kept; the observed value kept if it exists |
+> | A scalar blocked on every draw by a fixed dependency | "Not assessed on the draws", with the fixed cause; distinct from the row above |
+> | Closure unavailable | The regional cell counts of Point 5 remain, with their ranges (they are lattice fields) |
+138c155
+< No new calculation. (i) is the placed `closure.threshold_fidelity`; its assembly keeps the profile, brackets and absent-endpoint causes beside the shifts, and its uncertainty is §5.4's. (iv) is the placed evaluator's point λ*, typed draws and compatible-draw range; its assembly keeps these apart: a point without λ* beside draws that have one; a final label that is adverse, unresolved or unstable beside compatible draws; a level that was not resampled against one resampled with no compatible draw; a least-S contour outside ε, which is not λ*.
+---
+> No new calculation. (i) is the placed `closure.threshold_fidelity`; its assembly keeps the profile, brackets and absent-endpoint causes beside the shifts, and its uncertainty is §5.4's. (iv) is the placed evaluator's point λ*, typed draws and compatible-draw range; its assembly keeps these apart: a point without λ* beside draws that have one; a final label that is adverse, unresolved or unstable beside compatible draws; a level that was not resampled against one resampled with no compatible draw; the least S among the contours examined when none is within ε, which need not be the family minimum and is not λ*.
+143,146c160,163
+< - **Left to that build's declarations** (ratified with the governance record, not interpretations): field names and encoding; the order of floating-point accumulation in the 3×3 mean of p* and in the summaries; the interpolation rule for spatial quantiles and for percentiles; the tie rule for the location of a maximum; the exact cause strings; the stream-key and source-identity bindings; what is computed once and reused.
+< - **A dependency.** The skeleton stream named in Point 8 is declared in the second reports module, which is in review and not placed. If that declaration changes, Point 8 follows it.
+< - **Cost is not a reason** to use fewer draws, survivor-only skeleton means, frozen edge membership or fewer levels. None of these summaries needs a contour-family search per draw.
+< - **Each assembled record binds** the map and closure identities, the raw-index and normalization identities, object and floor, arm and level, the seed and resample streams, θ, ε, m and the evaluator identity (§5.9).
+---
+> - **Left to that build's declarations** (ratified with the governance record, not interpretations): field names and encoding; the order of floating-point accumulation in the 3×3 mean of p* and in the summaries; the interpolation rule for the new spatial quantiles and for the new percentile ranges; the tie rule for the location of a maximum; the encoding of causes; the stream-key and source-identity bindings; what is computed once and reused. **Their bounds:** the interpolation already fixed for the 0.95 quantiles inside S (§5.5 step 6) is not reopened; the encoding of causes implements the dependencies ruled here and may add detail, and it replaces no cause the contract names and recasts no apparatus failure; a build declaration cannot choose another availability domain or another uncertainty target.
+> - **A dependency.** The skeleton stream named in Point 8 is declared in the second reports module, which is in review and not placed. This record binds no particular bytes of it: the third module's build record binds the accepted declaration and its source identity before output (Point 8). The same holds for the evaluator, whose cause precedence was repaired on 2026-11-23 in a separate cycle: the build uses the placed, accepted identities of its day, not the reference copies of any review packet.
+> - **Cost is not a reason** to use fewer draws, survivor-only skeleton means, frozen edge membership or fewer levels. None of these summaries needs an additional contour-family search per draw; the evaluator's own step-9 work, where it applies, stands as it is. Nothing here is a timing result.
+> - **Each assembled record carries every binding §5.9 requires that exists at its stage,** among them the map and closure identities, the raw-index and normalization identities, object and floor, arm and level, the seed and resample streams, the summary schema, θ, ε, m, the evaluator identity, and the qualification protocol and result identities once they exist. This list is not a replacement for §5.9.
+149c166
+< *Drafted by L1, 2026-11-23, from L2's consultation advice and Mike's ruling of the same day. Points 1, 3 (the fixed reference), 4, 5 (rebuilding the region), 7 (both maps under step 4; no component ranges), 8 and 9 follow L2's advice where it differed from or sharpened L1's proposal.*
+---
+> *Drafted by L1, 2026-11-23, from L2's consultation advice and Mike's ruling of the same day; draft 2, 2026-11-24, after L2's round-1 review and Mike's word on the closure fit. Points 1, 3 (the fixed reference), 4, 5 (rebuilding the region), 7 (both maps under step 4; no component ranges), 8 and 9 follow L2's advice where it differed from or sharpened L1's proposal. Draft 1's sentence on when the draws are made was L1's and was ambiguous; Point 8 replaces it.*
