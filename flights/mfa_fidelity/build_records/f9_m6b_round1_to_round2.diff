@@ -1,0 +1,144 @@
+--- round1/evaluator_reports.py
++++ round2/evaluator_reports.py
+@@ -19,7 +19,17 @@
+   functions (`evaluate_map_at`, `evaluate_level_at`) that call the placed building blocks unchanged:
+   `box_sum`, `geometry.edge`, `step4`, `_Traced`, `fit`, `resample_multiplicities`,
+   `result_from_counts`. At θ = 0.20 the copy must return the placed evaluator's record, field for field
+-  (tested); it accepts 0.20 for that test only and is never the scored path.
++  (tested); it accepts 0.20 for that test only and is never the scored path. Before anything else the
++  copy verifies this module's declaration (and with it the evaluator's, the outcome module's and the
++  stream's) and validates θ. A damaged declaration among those, or a θ outside the three accepted, is
++  refused here; that is a difference from the placed evaluator in what is refused and not in any
++  returned record (L2 M6B round 1, Q1).
++  Cause precedence (L2 M6B round 1, D1). The copy carries the placed evaluator's order as repaired at
++  `7a1094a`: an index whose family is empty is `no eligible contour` whatever the observed map is (§7:
++  L2 above L3 and L4; §6.2 row 15: "the cause does not depend on the sample"), and only then does a
++  non-informative map give its own cause. Round 1 of this module copied the earlier, wrong order from
++  the evaluator as then placed, and its equality tests could not see an error both sides shared. The
++  point record describes the map in every case.
+   The resamples (reading 1). The outputs at 0.10 and 0.30 use the declared evaluator stream of the same
+   arm and level as the scored evaluation, so the three thresholds are evaluated on the same 1,000
+   resampled maps.
+@@ -34,8 +44,8 @@
+   Reading 3: its resamples come from a stream of its own, the arm-and-level key with the skeleton's
+   object code appended, (master, terrain code, composition code, κ in micro-units, 1). The contract
+   names no stream for it.
+-  Where the map has no edge the record is the evaluator's `no edge at theta`; on T0 the family is empty
+-  and the record is `no eligible contour`.
++  On T0 the family is empty and every index's cause is `no eligible contour`, whatever the map (§7). On
++  the other arms a map with no edge gives the evaluator's `no edge at theta`.
+ 
+ (h) COMPONENT COVERAGE (§1.3 (h); §5.7 row 6). "For every scored level, the number of components on each
+ side, how many are resolved, and each one's 95th-percentile distance." Computed from the level's maps
+@@ -73,8 +83,9 @@
+ dicts are components of the eventual §5.9 records, not bound job records.
+ 
+ NOT HERE. The fidelity items of §1.2′ (ii) and (iii) and their uncertainties (§5.7 row 4): local m on the
+-observed edge, and occupancy and edges against the closure's map. The contract names them and does not
+-fix their summaries; they go to a third reports module after those summaries are declared.
++observed edge, and occupancy and edges against the closure's map. The contract names them; F9
++Interpretation 002 (accepted 2026-11-24) fixes their summaries; they are built as a third reports
++module. That interpretation takes the skeleton's resample stream from this module's reading 3.
+ 
+ READINGS THIS MODULE MAKES, each for Mike's ratification with the governance record (nothing in the
+ contract is changed). The wrapper of (f) and readings 1 and 2 were L1's recommendations, which Mike
+@@ -121,6 +132,7 @@
+     ("thetas_reported_micro", THETAS_REPORTED_MICRO), ("thetas_accepted_micro", THETAS_ACCEPTED_MICRO),
+     ("criterion_at_theta", "box_sum * 10^6 >= theta_micro * 9 * n_seeds * tail"),
+     ("orchestration", "the placed evaluator's evaluate_map and evaluate_level with theta as an argument; building blocks called unchanged"),
++    ("unavailable_precedence", "an empty family first (no eligible contour), then a non-informative map's cause: contract section 7, L2 above L3 and L4"),
+     ("reported_theta_stream", "the scored evaluation's: evaluator.arm_level_key"),
+     ("skeleton_rule", "evaluator.evaluate_level (steps 1 to 9) at the registered theta on the 40 skeleton maps"),
+     ("skeleton_stream", "arm-and-level key + (skeleton object code,)"), ("skeleton_object_code", SKELETON_OBJECT_CODE),
+@@ -130,7 +142,7 @@
+     ("persistence", "outcomes.persistence_record per arm of the fifteen, from survivor counts"),
+     ("kind", KIND),
+ )
+-EVALUATOR_REPORTS_DECLARATION_SHA256_LITERAL = "f3fe3fcf1954bb6addd18e94a793593490fef18cb77910f94dda1c25b799337e"
++EVALUATOR_REPORTS_DECLARATION_SHA256_LITERAL = "a9227f81c1b088dfdcd86d625747b3b2c26323cf25c3092cbc4d4e6fe071e979"
+ 
+ 
+ class F9EvaluatorReportError(F9ConfigError):
+@@ -193,11 +205,11 @@
+                                  "declared_stream": True, "point": point, "indices": {}, "resampled": False}
+     applicable = {}
+     for name, fam in families.items():
+-        if not point["informative"]:
++        if len(fam) == 0:                                                   # §7: L2 (constant index) before L3 and L4 (the map's state)
++            record["indices"][name] = {"result": E.RESULT_NOT_INFORMATIVE, "cause": E.CAUSE_NO_CONTOUR, "resampled": False}
++        elif not point["informative"]:
+             cause = E.CAUSE_NO_EDGE if point["reason"].startswith("no edge") else E.CAUSE_BELOW_MINIMUM
+             record["indices"][name] = {"result": E.RESULT_NOT_INFORMATIVE, "cause": cause, "resampled": False}
+-        elif len(fam) == 0:
+-            record["indices"][name] = {"result": E.RESULT_NOT_INFORMATIVE, "cause": E.CAUSE_NO_CONTOUR, "resampled": False}
+         else:
+             applicable[name] = fam
+     if not applicable: return record
+--- round1/test_f9_m6b.py
++++ round2/test_f9_m6b.py
+@@ -160,6 +160,47 @@
+     assert _refused(X.evaluate_level_at, half, {}, (M, 0, 0, 1_500_000), 100_000) and _refused(X.evaluate_level_at, half, t0, [M], 100_000)
+ 
+ 
++# ======================= cause precedence on every route (L2 M6B round 1, D1) =======================
++def test_a_constant_index_outranks_the_maps_state_on_every_route():
++    """§7: a constant index (L2) is above an empty or full region (L3) and an under-resolved one (L4); §6.2 row 15: "the
++    cause does not depend on the sample". In round 1 all twelve routes of L2's Appendix R returned the map's cause: three
++    through the evaluator as then placed, nine through this module. Here: L2's three maps and a small-complement map, through the placed evaluator, the copy at θ = 0.20, both
++    reported thresholds and the skeleton boundary, with constant, non-constant and mixed families."""
++    t0, tb = _families("T0"), _families("TB")
++    assert len(t0["P"]) == 0 == len(t0["H"]) and len(tb["H"]) == 50
++    no_contour = {"result": "not informative", "cause": "no eligible contour", "resampled": False}
++    key = E.arm_level_key(M, "T0", "P", 1_000_000); skey = X.skeleton_level_key(M, "T0", "P", 1_000_000)
++    empty = np.zeros((S, L, L), dtype=np.int64); full = np.full((S, L, L), 1000, dtype=np.int64)
++    small = empty.copy(); small[:, 10:16, 10:16] = 1000                       # L2's patch
++    hole = full.copy(); hole[:, 10:16, 10:16] = 0                             # a complement under 100 cells
++    # (map, map cause, {θ: (region cells, bonds)})
++    cases = {"empty": (empty, "no edge at theta", {100_000: (0, 0), 200_000: (0, 0), 300_000: (0, 0)}),
++             "full": (full, "no edge at theta", {100_000: (N, 0), 200_000: (N, 0), 300_000: (N, 0)}),
++             "under_minimum": (small, "below the informative minimum", {100_000: (64, 32), 200_000: (60, 32), 300_000: (52, 32)}),
++             "small complement": (hole, "below the informative minimum", {100_000: (N - 16, 16), 200_000: (N - 16, 16), 300_000: (N - 16, 16)})}
++    for name, (counts, map_cause, geometry) in cases.items():
++        map_entry = {"result": "not informative", "cause": map_cause, "resampled": False}
++        routes = {"placed 0.20": (E.evaluate_level(counts, t0, key), 200_000), "copy 0.20": (X.evaluate_level_at(counts, t0, key, 200_000), 200_000),
++                  "skeleton 0.20": (X.skeleton_boundary(counts, t0, skey)["evaluation"], 200_000)}
++        rep = X.reported_thresholds(counts, t0, key)
++        for t in (100_000, 300_000): routes[f"reported {t}"] = (rep["theta_micro"][t], t)
++        for route, (rec, theta) in routes.items():
++            assert rec["indices"] == {"P": no_contour, "H": no_contour} and rec["resampled"] is False, (name, route)
++            p = rec["point"]                                                  # the point still describes the map
++            assert not p["informative"] and (p["region_cells"], p["bonds"]) == geometry[theta], (name, route, p["region_cells"], p["bonds"])
++        assert _same(routes["copy 0.20"][0], routes["placed 0.20"][0])
++        mixed = {"P": t0["P"], "H": tb["H"]}                                  # each index its own cause
++        mkey = E.arm_level_key(M, "TB", "H", 1_000_000); mskey = X.skeleton_level_key(M, "TB", "H", 1_000_000)
++        mrep = X.reported_thresholds(counts, mixed, mkey)
++        for rec in (mrep["theta_micro"][100_000], mrep["theta_micro"][300_000], X.skeleton_boundary(counts, mixed, mskey)["evaluation"],
++                    X.evaluate_level_at(counts, mixed, mkey, 200_000)):
++            assert rec["indices"] == {"P": no_contour, "H": map_entry}, name
++        assert _same(X.evaluate_level_at(counts, mixed, mkey, 200_000), E.evaluate_level(counts, mixed, mkey))
++        ordinary = X.reported_thresholds(counts, tb, mkey)                    # non-constant families keep the map's cause
++        for t in (100_000, 300_000): assert ordinary["theta_micro"][t]["indices"] == {"P": map_entry, "H": map_entry}, name
++    assert geometry is not None and cases["under_minimum"][2][200_000] == (60, 32)
++
++
+ # ======================= (g) the skeleton's boundary =======================
+ def test_skeleton_key_and_boundary():
+     key = X.skeleton_level_key(M, "TA", "H", 1_250_000)
+@@ -351,7 +392,7 @@
+     assert C.F9_THETA_MICRO == theta_before == 200_000
+ 
+ 
+-PLACED = {  # LF identities at c6c21c4 (the M6 part 1 placement)
++PLACED = {  # LF identities at ff136d7: the M6 part 1 placement, with evaluator.py as repaired at 7a1094a (cause precedence)
+     "f9/__init__.py": "7bc7272e9c9226abced656ecda88f05f843565ffce52f2ad0730d227c5ed914e",
+     "f9/config.py": "5295fef5e21e8350a41d5a57d11f8589272714dc75a179a282043f989f6bf6bb",
+     "f9/terrain.py": "b8328f8acf51e7da67ae5674796c003914ecc6d07ed00c9dc3ad90607af381f9",
+@@ -361,7 +402,7 @@
+     "f9/identities.py": "0da42ae7baf70084cb072b1d28a0415816588a1f357a9b13ef9f5bca7153d577",
+     "f9/streams.py": "5e6bb8afad20530d06a91f2cf6d0c937ac22aa004b207c0c14ce4f00d0981b06",
+     "f9/dynamics.py": "34bc6843c9a354746a2cccd4f32c7422456aff9acc17b1cb6df1b48a21d1f82e",
+-    "f9/evaluator.py": "73197bfb6dee6fce72dd4f3a7b296c6bc8690dae4a5da3bc442e40668c833acc",
++    "f9/evaluator.py": "ddfa49b11955de42d5b6638d892af4c75756ff6b1b5f35ea0884c4de7b2a07a1",
+     "f9/outcomes.py": "fac54ebd8de0953ce3c87d362b5a2263919af43d44eea85599f22ae73c1898d1",
+     "f9/closure.py": "7c20206595b7a518a149fa170a9c9f8b1e28bbfd395582b7859c72b2bfc9aef9",
+     "f9/t0.py": "a2ce76e8b3e8c5b9319414f5fdfdcf7d3341a69b05f38240ef5bc3320f63a472",

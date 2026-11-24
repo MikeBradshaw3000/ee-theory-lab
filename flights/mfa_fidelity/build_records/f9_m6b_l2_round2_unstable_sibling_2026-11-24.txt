@@ -1,0 +1,11 @@
+mfa_instrument.f9.evaluator ddfa49b11955de42d5b6638d892af4c75756ff6b1b5f35ea0884c4de7b2a07a1
+mfa_instrument.f9.evaluator_reports 9c60717553a8419fd248f587845499792e79c73b97f5728f662ab1ca58521606
+family sizes 0 1
+placed 4800 200 {'result': 'not informative', 'cause': 'no eligible contour', 'resampled': False} {'result': 'not informative', 'cause': 'unstable edge'}
+copy 4800 200 {'result': 'not informative', 'cause': 'no eligible contour', 'resampled': False} {'result': 'not informative', 'cause': 'unstable edge'}
+skeleton 4800 200 {'result': 'not informative', 'cause': 'no eligible contour', 'resampled': False} {'result': 'not informative', 'cause': 'unstable edge'}
+['cause', 'delta', 'lambda_star_range', 'level_index', 'n_A', 'n_C', 'n_I', 'resampled', 'result', 'types']
+placed {'result': 'not informative', 'cause': 'unstable edge', 'resampled': True, 'n_C': 684, 'n_A': 0, 'n_I': 316}
+copy {'result': 'not informative', 'cause': 'unstable edge', 'resampled': True, 'n_C': 684, 'n_A': 0, 'n_I': 316}
+skeleton {'result': 'not informative', 'cause': 'unstable edge', 'resampled': True, 'n_C': 673, 'n_A': 0, 'n_I': 327}
+copy equals placed, every field: True

@@ -1,0 +1,36 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+rootdir: /home/claude/i2verify/flights/mfa_fidelity/instrument
+plugins: platformdirs-4.13.5, anyio-4.15.1
+collecting ... collected 14 items
+
+tests/test_f9_m6b.py::test_declaration_and_registered_values PASSED      [  7%]
+tests/test_f9_m6b.py::test_the_criterion_at_theta_is_the_contracts_inequality PASSED [ 14%]
+tests/test_f9_m6b.py::test_at_the_scored_threshold_the_wrapper_is_the_placed_evaluator PASSED [ 21%]
+tests/test_f9_m6b.py::test_the_reported_thresholds_against_the_placed_evaluator_on_scaled_maps PASSED [ 28%]
+tests/test_f9_m6b.py::test_the_wrapper_on_two_families_and_on_unavailable_states PASSED [ 35%]
+tests/test_f9_m6b.py::test_a_constant_index_outranks_the_maps_state_on_every_route PASSED [ 42%]
+tests/test_f9_m6b.py::test_skeleton_key_and_boundary PASSED              [ 50%]
+tests/test_f9_m6b.py::test_component_coverage_on_a_constructed_map PASSED [ 57%]
+tests/test_f9_m6b.py::test_a_component_of_exactly_forty_bonds_is_resolved PASSED [ 64%]
+tests/test_f9_m6b.py::test_component_coverage_unavailable_states PASSED  [ 71%]
+tests/test_f9_m6b.py::test_design_margins_reproduce_the_contracts_table PASSED [ 78%]
+tests/test_f9_m6b.py::test_persistence_report_assembles_the_placed_records PASSED [ 85%]
+tests/test_f9_m6b.py::test_the_reports_reach_the_scored_modules_one_way PASSED [ 92%]
+tests/test_f9_m6b.py::test_everything_placed_before_m6b_is_byte_unchanged PASSED [100%]
+
+============================= slowest 14 durations =============================
+77.43s call     tests/test_f9_m6b.py::test_the_wrapper_on_two_families_and_on_unavailable_states
+64.84s setup    tests/test_f9_m6b.py::test_at_the_scored_threshold_the_wrapper_is_the_placed_evaluator
+25.46s call     tests/test_f9_m6b.py::test_skeleton_key_and_boundary
+13.18s call     tests/test_f9_m6b.py::test_at_the_scored_threshold_the_wrapper_is_the_placed_evaluator
+0.39s call     tests/test_f9_m6b.py::test_component_coverage_on_a_constructed_map
+0.17s call     tests/test_f9_m6b.py::test_the_criterion_at_theta_is_the_contracts_inequality
+0.10s call     tests/test_f9_m6b.py::test_a_constant_index_outranks_the_maps_state_on_every_route
+0.06s call     tests/test_f9_m6b.py::test_a_component_of_exactly_forty_bonds_is_resolved
+0.04s call     tests/test_f9_m6b.py::test_component_coverage_unavailable_states
+0.02s call     tests/test_f9_m6b.py::test_design_margins_reproduce_the_contracts_table
+0.01s call     tests/test_f9_m6b.py::test_persistence_report_assembles_the_placed_records
+
+(3 durations < 0.005s hidden.  Use -vv to show these durations.)
+======================== 14 passed in 181.98s (0:03:01) ========================

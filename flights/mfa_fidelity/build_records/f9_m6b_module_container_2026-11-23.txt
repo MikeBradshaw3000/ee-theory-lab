@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+rootdir: /home/claude/m6verify/flights/mfa_fidelity/instrument
+plugins: platformdirs-4.13.5, anyio-4.15.1
+collecting ... collected 13 items
+
+tests/test_f9_m6b.py::test_declaration_and_registered_values PASSED      [  7%]
+tests/test_f9_m6b.py::test_the_criterion_at_theta_is_the_contracts_inequality PASSED [ 15%]
+tests/test_f9_m6b.py::test_at_the_scored_threshold_the_wrapper_is_the_placed_evaluator PASSED [ 23%]
+tests/test_f9_m6b.py::test_the_reported_thresholds_against_the_placed_evaluator_on_scaled_maps PASSED [ 30%]
+tests/test_f9_m6b.py::test_the_wrapper_on_two_families_and_on_unavailable_states PASSED [ 38%]
+tests/test_f9_m6b.py::test_skeleton_key_and_boundary PASSED              [ 46%]
+tests/test_f9_m6b.py::test_component_coverage_on_a_constructed_map PASSED [ 53%]
+tests/test_f9_m6b.py::test_a_component_of_exactly_forty_bonds_is_resolved PASSED [ 61%]
+tests/test_f9_m6b.py::test_component_coverage_unavailable_states PASSED  [ 69%]
+tests/test_f9_m6b.py::test_design_margins_reproduce_the_contracts_table PASSED [ 76%]
+tests/test_f9_m6b.py::test_persistence_report_assembles_the_placed_records PASSED [ 84%]
+tests/test_f9_m6b.py::test_the_reports_reach_the_scored_modules_one_way PASSED [ 92%]
+tests/test_f9_m6b.py::test_everything_placed_before_m6b_is_byte_unchanged PASSED [100%]
+
+======================== 13 passed in 282.90s (0:04:42) ========================

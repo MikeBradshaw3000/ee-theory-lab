@@ -1,0 +1,15 @@
+mfa_instrument.f9.evaluator ddfa49b11955de42d5b6638d892af4c75756ff6b1b5f35ea0884c4de7b2a07a1
+mfa_instrument.f9.evaluator_reports 9c60717553a8419fd248f587845499792e79c73b97f5728f662ab1ca58521606
+empty placed_020 0 0 False 'no edge at theta: the region is empty' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+empty skeleton_020 0 0 False 'no edge at theta: the region is empty' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+empty reported_100000 0 0 False 'no edge at theta: the region is empty' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+empty reported_300000 0 0 False 'no edge at theta: the region is empty' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+full placed_020 10000 0 False 'no edge at theta: the region is full' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+full skeleton_020 10000 0 False 'no edge at theta: the region is full' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+full reported_100000 10000 0 False 'no edge at theta: the region is full' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+full reported_300000 10000 0 False 'no edge at theta: the region is full' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+under_minimum placed_020 60 32 False 'the region has under 100 cells' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+under_minimum skeleton_020 60 32 False 'the region has under 100 cells' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+under_minimum reported_100000 64 32 False 'the region has under 100 cells' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+under_minimum reported_300000 52 32 False 'the region has under 100 cells' {'P': 'no eligible contour', 'H': 'no eligible contour'}
+All 12 routes: both index entries are 'no eligible contour'; the point records still describe the maps.
