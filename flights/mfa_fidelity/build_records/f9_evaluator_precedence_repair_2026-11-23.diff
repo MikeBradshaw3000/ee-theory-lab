@@ -1,0 +1,162 @@
+diff --git a/flights/mfa_fidelity/instrument/mfa_instrument/f9/evaluator.py b/flights/mfa_fidelity/instrument/mfa_instrument/f9/evaluator.py
+index 9f7545f..ece32ec 100644
+--- a/flights/mfa_fidelity/instrument/mfa_instrument/f9/evaluator.py
++++ b/flights/mfa_fidelity/instrument/mfa_instrument/f9/evaluator.py
+@@ -54,7 +54,11 @@ WHAT THE EVALUATOR RETURNS, AND WHAT IT DOES NOT DO. `evaluate_level` returns th
+ observed map and, per index, the typed counts and the result. It applies step 9 only when the observed
+ level is informative and the index's family is not empty; otherwise the index's result is the
+ unavailable state with its cause (`no edge at θ`, `below the informative minimum`, `no eligible
+-contour`). It does not combine indices, levels or arms (§5.6), read a run record, hold a master, or
++contour`). The empty family is tested first: §7 ranks a constant index (L2) above an empty or full
++region (L3) and an under-resolved one (L4), so a constant index's cause is `no eligible contour`
++whatever the observed map is (§6.2: "the cause does not depend on the sample"). The point record still
++describes the map (L2 M6B round 1, D1; before this repair the map's cause was given first).
++It does not combine indices, levels or arms (§5.6), read a run record, hold a master, or
+ write a file. A runtime fault or a malformed input raises: that is an apparatus failure (§7), never an
+ invalid draw.
+ """
+@@ -423,11 +427,11 @@ def evaluate_level(counts, families: Dict[str, IndexFamily], key, brute: bool =
+                                  "declared_stream": multiplicities is None, "point": point, "indices": {}, "resampled": False}
+     applicable = {}
+     for name, fam in families.items():
+-        if not point["informative"]:
++        if len(fam) == 0:                                                   # §7: L2 (constant index) before L3 and L4 (the map's state)
++            record["indices"][name] = {"result": RESULT_NOT_INFORMATIVE, "cause": CAUSE_NO_CONTOUR, "resampled": False}
++        elif not point["informative"]:
+             cause = CAUSE_NO_EDGE if point["reason"].startswith("no edge") else CAUSE_BELOW_MINIMUM
+             record["indices"][name] = {"result": RESULT_NOT_INFORMATIVE, "cause": cause, "resampled": False}
+-        elif len(fam) == 0:
+-            record["indices"][name] = {"result": RESULT_NOT_INFORMATIVE, "cause": CAUSE_NO_CONTOUR, "resampled": False}
+         else:
+             applicable[name] = fam
+     if not applicable: return record
+diff --git a/flights/mfa_fidelity/instrument/tests/test_f9_m3.py b/flights/mfa_fidelity/instrument/tests/test_f9_m3.py
+index b73a70f..f0a4094 100644
+--- a/flights/mfa_fidelity/instrument/tests/test_f9_m3.py
++++ b/flights/mfa_fidelity/instrument/tests/test_f9_m3.py
+@@ -487,6 +487,39 @@ def test_unavailable_states(fams):
+     assert mixed["indices"]["P"]["cause"] == "no eligible contour" and mixed["indices"]["H"]["resampled"] and mixed["resampled"]
+ 
+ 
++def test_a_constant_index_outranks_the_maps_state_l2_m6b_round1_d1(fams):
++    """§7: a constant index (L2) is above an empty or full region (L3) and an under-resolved one (L4). §6.2, row 15: "For
++    the constant index the cause does not depend on the sample, and every output other than `no eligible contour` is an
++    error." Before this repair the map's cause was returned for a constant index on such maps."""
++    ta, t0, tb = fams["TA"], fams["T0"], fams["TB"]
++    assert len(t0["P"]) == 0 and len(ta["P"]) > 0
++    no_contour = {"result": "not informative", "cause": "no eligible contour", "resampled": False}
++    dot = np.zeros((L, L), dtype=bool); dot[20:29, 20:29] = True
++    edge_dot = np.zeros((L, L), dtype=bool); edge_dot[10:16, 10:16] = True    # L2's patch: 60 cells and 32 bonds after the 3×3 mean
++    maps = {"empty": (np.zeros((S, L, L), dtype=np.int64), "no edge at theta", "no edge at theta: the region is empty"),
++            "below theta": (np.full((S, L, L), 50, dtype=np.int64), "no edge at theta", "no edge at theta: the region is empty"),
++            "full": (np.full((S, L, L), 1000, dtype=np.int64), "no edge at theta", "no edge at theta: the region is full"),
++            "under 100 cells": (flat_counts(dot), "below the informative minimum", "the region has under 100 cells"),
++            "L2's patch": (np.where(edge_dot, 1000, 0)[None].repeat(S, axis=0).astype(np.int64), "below the informative minimum", "the region has under 100 cells")}
++    for name, (counts, map_cause, reason) in maps.items():
++        const = E.evaluate_level(counts, t0, (1,))                            # both indices constant
++        assert const["indices"] == {"P": no_contour, "H": no_contour} and not const["resampled"], name
++        assert not const["point"]["informative"] and const["point"]["reason"] == reason, name       # the point still describes the map
++        ordinary = E.evaluate_level(counts, ta, (1,))                         # a non-constant family keeps the map's cause
++        assert all(x == {"result": "not informative", "cause": map_cause, "resampled": False} for x in ordinary["indices"].values()), name
++        assert _same_point(const["point"], ordinary["point"]), name
++        mixed = E.evaluate_level(counts, {"P": t0["P"], "H": tb["H"]}, (1,))  # each index its own cause
++        assert mixed["indices"] == {"P": no_contour, "H": {"result": "not informative", "cause": map_cause, "resampled": False}} and not mixed["resampled"], name
++        swapped = E.evaluate_level(counts, {"P": tb["P"], "H": t0["H"]}, (1,))
++        assert swapped["indices"]["H"] == no_contour and swapped["indices"]["P"]["cause"] == map_cause, name
++    patch = E.evaluate_level(maps["L2's patch"][0], t0, (1,))["point"]
++    assert (patch["region_cells"], patch["bonds"]) == (60, 32)               # it has an edge, and the index is still not scored
++
++
++def _same_point(a, b):
++    return all(a[k] == b[k] for k in ("region_cells", "bonds", "component_sizes", "informative", "reason"))
++
++
+ def test_invalid_draws_at_the_boundary_of_fifty(fams):
+     """Constructed resample sets (§6.1): a region carried by eight seeds exists at p̃ = 0.20 with all 40 seeds and
+     vanishes when one of the eight is dropped. Exactly 50 such rows keep the result; 51 make the edge unstable."""
+diff --git a/flights/mfa_fidelity/instrument/tests/test_f9_m4.py b/flights/mfa_fidelity/instrument/tests/test_f9_m4.py
+index ba83f91..8acde5c 100644
+--- a/flights/mfa_fidelity/instrument/tests/test_f9_m4.py
++++ b/flights/mfa_fidelity/instrument/tests/test_f9_m4.py
+@@ -537,7 +537,7 @@ def test_persistence_inputs_and_missing_levels():
+ 
+ 
+ # ======================= nothing placed before M4 is touched =======================
+-PLACED = {  # LF identities at 80306ab (the M3 placement)
++PLACED = {  # LF identities at 80306ab (the M3 placement); evaluator.py as repaired for §7's cause precedence (L2 M6B round 1, D1)
+     "f9/__init__.py": "7bc7272e9c9226abced656ecda88f05f843565ffce52f2ad0730d227c5ed914e",
+     "f9/config.py": "5295fef5e21e8350a41d5a57d11f8589272714dc75a179a282043f989f6bf6bb",
+     "f9/terrain.py": "b8328f8acf51e7da67ae5674796c003914ecc6d07ed00c9dc3ad90607af381f9",
+@@ -547,7 +547,7 @@ PLACED = {  # LF identities at 80306ab (the M3 placement)
+     "f9/identities.py": "0da42ae7baf70084cb072b1d28a0415816588a1f357a9b13ef9f5bca7153d577",
+     "f9/streams.py": "5e6bb8afad20530d06a91f2cf6d0c937ac22aa004b207c0c14ce4f00d0981b06",
+     "f9/dynamics.py": "34bc6843c9a354746a2cccd4f32c7422456aff9acc17b1cb6df1b48a21d1f82e",
+-    "f9/evaluator.py": "73197bfb6dee6fce72dd4f3a7b296c6bc8690dae4a5da3bc442e40668c833acc",
++    "f9/evaluator.py": "ddfa49b11955de42d5b6638d892af4c75756ff6b1b5f35ea0884c4de7b2a07a1",
+ }
+ UNTOUCHED = "c80d494aea4e5e452b4a96536f0bc68515918e4ac8c7f37e84d66bad7c7a3289"   # root, e1, f8, gates: the digest test_f9_m1.py holds
+ 
+diff --git a/flights/mfa_fidelity/instrument/tests/test_f9_m5.py b/flights/mfa_fidelity/instrument/tests/test_f9_m5.py
+index b48f4c8..8273237 100644
+--- a/flights/mfa_fidelity/instrument/tests/test_f9_m5.py
++++ b/flights/mfa_fidelity/instrument/tests/test_f9_m5.py
+@@ -762,7 +762,7 @@ def test_the_record_is_plain_data_and_states_its_scope():
+ 
+ 
+ # ======================= nothing placed before M5 is touched =======================
+-PLACED = {  # LF identities at 6823c41 (the M4 placement)
++PLACED = {  # LF identities at 6823c41 (the M4 placement); evaluator.py as repaired for §7's cause precedence (L2 M6B round 1, D1)
+     "f9/__init__.py": "7bc7272e9c9226abced656ecda88f05f843565ffce52f2ad0730d227c5ed914e",
+     "f9/config.py": "5295fef5e21e8350a41d5a57d11f8589272714dc75a179a282043f989f6bf6bb",
+     "f9/terrain.py": "b8328f8acf51e7da67ae5674796c003914ecc6d07ed00c9dc3ad90607af381f9",
+@@ -772,7 +772,7 @@ PLACED = {  # LF identities at 6823c41 (the M4 placement)
+     "f9/identities.py": "0da42ae7baf70084cb072b1d28a0415816588a1f357a9b13ef9f5bca7153d577",
+     "f9/streams.py": "5e6bb8afad20530d06a91f2cf6d0c937ac22aa004b207c0c14ce4f00d0981b06",
+     "f9/dynamics.py": "34bc6843c9a354746a2cccd4f32c7422456aff9acc17b1cb6df1b48a21d1f82e",
+-    "f9/evaluator.py": "73197bfb6dee6fce72dd4f3a7b296c6bc8690dae4a5da3bc442e40668c833acc",
++    "f9/evaluator.py": "ddfa49b11955de42d5b6638d892af4c75756ff6b1b5f35ea0884c4de7b2a07a1",
+     "f9/outcomes.py": "fac54ebd8de0953ce3c87d362b5a2263919af43d44eea85599f22ae73c1898d1",
+ }
+ UNTOUCHED = "c80d494aea4e5e452b4a96536f0bc68515918e4ac8c7f37e84d66bad7c7a3289"   # root, e1, f8, gates: the digest test_f9_m1.py holds
+diff --git a/flights/mfa_fidelity/instrument/tests/test_f9_m6.py b/flights/mfa_fidelity/instrument/tests/test_f9_m6.py
+index 885f1ea..78d9722 100644
+--- a/flights/mfa_fidelity/instrument/tests/test_f9_m6.py
++++ b/flights/mfa_fidelity/instrument/tests/test_f9_m6.py
+@@ -453,7 +453,7 @@ def test_flicker_named_cases():
+                                                "q25": None, "median": None, "q75": None}
+         return rep["bands"][band]["windows"]
+ 
+-    for pattern in ([True] * 1000, [False] * 1000):                         # no defined record anywhere; three empty bands
++    for pattern in ([True] * 1000, [False] * 1000):                         # three empty bands each; all-active has no defined record, all-inactive has every record defined
+         _check_floor(R.flicker(_uniform_windows(pattern)))
+     w = only(R.flicker(_uniform_windows([True] * 1000)), 3)                 # all active: undefined, never censored
+     for W in (1, 10, 100):
+@@ -490,7 +490,9 @@ def _tuple_of(seq, W):
+ 
+ 
+ def test_records_at_different_widths_must_be_of_one_sequence():
+-    """L2 M6 round 1, D1. The three widths describe one tick sequence; a stack whose widths contradict each other is refused."""
++    """L2 M6 round 1, D1. The three widths describe one tick sequence; a stack that breaks one of the declared between-width
++    relations is refused. The relations are necessary and not sufficient: L2's round-2 stack (20, 1, True, False) at W = 1
++    and 10 with (2, 1, True, False) at W = 100 passes them and is the record of no sequence."""
+     # L2's counterexample: never active at W = 1, always active at W = 10 and W = 100
+     assert _refused(R.flicker, _stack_of((0, 1, False, False), (100, 0, True, True), (10, 0, True, True)))
+     # L2's six targeted cases (W = 1, W = 10), with W = 100 all active; each tuple is possible at its own width
+@@ -760,7 +762,7 @@ def test_the_reports_do_not_touch_scored_modules():
+             assert "import reports" not in other and "from .reports" not in other, fn
+ 
+ 
+-PLACED = {  # LF identities at 67aa10c (main after the M5 placement, the test repair and the governance records)
++PLACED = {  # LF identities at 67aa10c (main after the M5 placement, the test repair and the governance records); evaluator.py as repaired for §7's cause precedence (L2 M6B round 1, D1)
+     "f9/__init__.py": "7bc7272e9c9226abced656ecda88f05f843565ffce52f2ad0730d227c5ed914e",
+     "f9/config.py": "5295fef5e21e8350a41d5a57d11f8589272714dc75a179a282043f989f6bf6bb",
+     "f9/terrain.py": "b8328f8acf51e7da67ae5674796c003914ecc6d07ed00c9dc3ad90607af381f9",
+@@ -770,7 +772,7 @@ PLACED = {  # LF identities at 67aa10c (main after the M5 placement, the test re
+     "f9/identities.py": "0da42ae7baf70084cb072b1d28a0415816588a1f357a9b13ef9f5bca7153d577",
+     "f9/streams.py": "5e6bb8afad20530d06a91f2cf6d0c937ac22aa004b207c0c14ce4f00d0981b06",
+     "f9/dynamics.py": "34bc6843c9a354746a2cccd4f32c7422456aff9acc17b1cb6df1b48a21d1f82e",
+-    "f9/evaluator.py": "73197bfb6dee6fce72dd4f3a7b296c6bc8690dae4a5da3bc442e40668c833acc",
++    "f9/evaluator.py": "ddfa49b11955de42d5b6638d892af4c75756ff6b1b5f35ea0884c4de7b2a07a1",
+     "f9/outcomes.py": "fac54ebd8de0953ce3c87d362b5a2263919af43d44eea85599f22ae73c1898d1",
+     "f9/closure.py": "7c20206595b7a518a149fa170a9c9f8b1e28bbfd395582b7859c72b2bfc9aef9",
+     "f9/t0.py": "a2ce76e8b3e8c5b9319414f5fdfdcf7d3341a69b05f38240ef5bc3320f63a472",

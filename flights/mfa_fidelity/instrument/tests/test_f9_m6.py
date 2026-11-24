@@ -453,7 +453,7 @@ def test_flicker_named_cases():
                                                "q25": None, "median": None, "q75": None}
         return rep["bands"][band]["windows"]
 
-    for pattern in ([True] * 1000, [False] * 1000):                         # no defined record anywhere; three empty bands
+    for pattern in ([True] * 1000, [False] * 1000):                         # three empty bands each; all-active has no defined record, all-inactive has every record defined
         _check_floor(R.flicker(_uniform_windows(pattern)))
     w = only(R.flicker(_uniform_windows([True] * 1000)), 3)                 # all active: undefined, never censored
     for W in (1, 10, 100):
@@ -490,7 +490,9 @@ def _tuple_of(seq, W):
 
 
 def test_records_at_different_widths_must_be_of_one_sequence():
-    """L2 M6 round 1, D1. The three widths describe one tick sequence; a stack whose widths contradict each other is refused."""
+    """L2 M6 round 1, D1. The three widths describe one tick sequence; a stack that breaks one of the declared between-width
+    relations is refused. The relations are necessary and not sufficient: L2's round-2 stack (20, 1, True, False) at W = 1
+    and 10 with (2, 1, True, False) at W = 100 passes them and is the record of no sequence."""
     # L2's counterexample: never active at W = 1, always active at W = 10 and W = 100
     assert _refused(R.flicker, _stack_of((0, 1, False, False), (100, 0, True, True), (10, 0, True, True)))
     # L2's six targeted cases (W = 1, W = 10), with W = 100 all active; each tuple is possible at its own width
@@ -760,7 +762,7 @@ def test_the_reports_do_not_touch_scored_modules():
             assert "import reports" not in other and "from .reports" not in other, fn
 
 
-PLACED = {  # LF identities at 67aa10c (main after the M5 placement, the test repair and the governance records)
+PLACED = {  # LF identities at 67aa10c (main after the M5 placement, the test repair and the governance records); evaluator.py as repaired for §7's cause precedence (L2 M6B round 1, D1)
     "f9/__init__.py": "7bc7272e9c9226abced656ecda88f05f843565ffce52f2ad0730d227c5ed914e",
     "f9/config.py": "5295fef5e21e8350a41d5a57d11f8589272714dc75a179a282043f989f6bf6bb",
     "f9/terrain.py": "b8328f8acf51e7da67ae5674796c003914ecc6d07ed00c9dc3ad90607af381f9",
@@ -770,7 +772,7 @@ PLACED = {  # LF identities at 67aa10c (main after the M5 placement, the test re
     "f9/identities.py": "0da42ae7baf70084cb072b1d28a0415816588a1f357a9b13ef9f5bca7153d577",
     "f9/streams.py": "5e6bb8afad20530d06a91f2cf6d0c937ac22aa004b207c0c14ce4f00d0981b06",
     "f9/dynamics.py": "34bc6843c9a354746a2cccd4f32c7422456aff9acc17b1cb6df1b48a21d1f82e",
-    "f9/evaluator.py": "73197bfb6dee6fce72dd4f3a7b296c6bc8690dae4a5da3bc442e40668c833acc",
+    "f9/evaluator.py": "ddfa49b11955de42d5b6638d892af4c75756ff6b1b5f35ea0884c4de7b2a07a1",
     "f9/outcomes.py": "fac54ebd8de0953ce3c87d362b5a2263919af43d44eea85599f22ae73c1898d1",
     "f9/closure.py": "7c20206595b7a518a149fa170a9c9f8b1e28bbfd395582b7859c72b2bfc9aef9",
     "f9/t0.py": "a2ce76e8b3e8c5b9319414f5fdfdcf7d3341a69b05f38240ef5bc3320f63a472",

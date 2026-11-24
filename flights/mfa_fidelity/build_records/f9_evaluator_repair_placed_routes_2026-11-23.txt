@@ -1,0 +1,10 @@
+== before: the instrument at the pin c6c21c4 (M6B packet's copy)
+evaluator.py 73197bfb6dee6fce72dd4f3a7b296c6bc8690dae4a5da3bc442e40668c833acc
+empty 0 0 'no edge at theta: the region is empty' {'P': 'no edge at theta', 'H': 'no edge at theta'} resampled False
+full 10000 0 'no edge at theta: the region is full' {'P': 'no edge at theta', 'H': 'no edge at theta'} resampled False
+under_minimum 60 32 'the region has under 100 cells' {'P': 'below the informative minimum', 'H': 'below the informative minimum'} resampled False
+== after: the repaired bytes
+evaluator.py ddfa49b11955de42d5b6638d892af4c75756ff6b1b5f35ea0884c4de7b2a07a1
+empty 0 0 'no edge at theta: the region is empty' {'P': 'no eligible contour', 'H': 'no eligible contour'} resampled False
+full 10000 0 'no edge at theta: the region is full' {'P': 'no eligible contour', 'H': 'no eligible contour'} resampled False
+under_minimum 60 32 'the region has under 100 cells' {'P': 'no eligible contour', 'H': 'no eligible contour'} resampled False

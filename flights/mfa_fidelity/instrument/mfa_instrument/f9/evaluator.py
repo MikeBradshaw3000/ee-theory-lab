@@ -54,7 +54,11 @@ WHAT THE EVALUATOR RETURNS, AND WHAT IT DOES NOT DO. `evaluate_level` returns th
 observed map and, per index, the typed counts and the result. It applies step 9 only when the observed
 level is informative and the index's family is not empty; otherwise the index's result is the
 unavailable state with its cause (`no edge at θ`, `below the informative minimum`, `no eligible
-contour`). It does not combine indices, levels or arms (§5.6), read a run record, hold a master, or
+contour`). The empty family is tested first: §7 ranks a constant index (L2) above an empty or full
+region (L3) and an under-resolved one (L4), so a constant index's cause is `no eligible contour`
+whatever the observed map is (§6.2: "the cause does not depend on the sample"). The point record still
+describes the map (L2 M6B round 1, D1; before this repair the map's cause was given first).
+It does not combine indices, levels or arms (§5.6), read a run record, hold a master, or
 write a file. A runtime fault or a malformed input raises: that is an apparatus failure (§7), never an
 invalid draw.
 """
@@ -423,11 +427,11 @@ def evaluate_level(counts, families: Dict[str, IndexFamily], key, brute: bool = 
                                  "declared_stream": multiplicities is None, "point": point, "indices": {}, "resampled": False}
     applicable = {}
     for name, fam in families.items():
-        if not point["informative"]:
+        if len(fam) == 0:                                                   # §7: L2 (constant index) before L3 and L4 (the map's state)
+            record["indices"][name] = {"result": RESULT_NOT_INFORMATIVE, "cause": CAUSE_NO_CONTOUR, "resampled": False}
+        elif not point["informative"]:
             cause = CAUSE_NO_EDGE if point["reason"].startswith("no edge") else CAUSE_BELOW_MINIMUM
             record["indices"][name] = {"result": RESULT_NOT_INFORMATIVE, "cause": cause, "resampled": False}
-        elif len(fam) == 0:
-            record["indices"][name] = {"result": RESULT_NOT_INFORMATIVE, "cause": CAUSE_NO_CONTOUR, "resampled": False}
         else:
             applicable[name] = fam
     if not applicable: return record

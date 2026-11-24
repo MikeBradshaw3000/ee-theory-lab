@@ -487,6 +487,39 @@ def test_unavailable_states(fams):
     assert mixed["indices"]["P"]["cause"] == "no eligible contour" and mixed["indices"]["H"]["resampled"] and mixed["resampled"]
 
 
+def test_a_constant_index_outranks_the_maps_state_l2_m6b_round1_d1(fams):
+    """§7: a constant index (L2) is above an empty or full region (L3) and an under-resolved one (L4). §6.2, row 15: "For
+    the constant index the cause does not depend on the sample, and every output other than `no eligible contour` is an
+    error." Before this repair the map's cause was returned for a constant index on such maps."""
+    ta, t0, tb = fams["TA"], fams["T0"], fams["TB"]
+    assert len(t0["P"]) == 0 and len(ta["P"]) > 0
+    no_contour = {"result": "not informative", "cause": "no eligible contour", "resampled": False}
+    dot = np.zeros((L, L), dtype=bool); dot[20:29, 20:29] = True
+    edge_dot = np.zeros((L, L), dtype=bool); edge_dot[10:16, 10:16] = True    # L2's patch: 60 cells and 32 bonds after the 3×3 mean
+    maps = {"empty": (np.zeros((S, L, L), dtype=np.int64), "no edge at theta", "no edge at theta: the region is empty"),
+            "below theta": (np.full((S, L, L), 50, dtype=np.int64), "no edge at theta", "no edge at theta: the region is empty"),
+            "full": (np.full((S, L, L), 1000, dtype=np.int64), "no edge at theta", "no edge at theta: the region is full"),
+            "under 100 cells": (flat_counts(dot), "below the informative minimum", "the region has under 100 cells"),
+            "L2's patch": (np.where(edge_dot, 1000, 0)[None].repeat(S, axis=0).astype(np.int64), "below the informative minimum", "the region has under 100 cells")}
+    for name, (counts, map_cause, reason) in maps.items():
+        const = E.evaluate_level(counts, t0, (1,))                            # both indices constant
+        assert const["indices"] == {"P": no_contour, "H": no_contour} and not const["resampled"], name
+        assert not const["point"]["informative"] and const["point"]["reason"] == reason, name       # the point still describes the map
+        ordinary = E.evaluate_level(counts, ta, (1,))                         # a non-constant family keeps the map's cause
+        assert all(x == {"result": "not informative", "cause": map_cause, "resampled": False} for x in ordinary["indices"].values()), name
+        assert _same_point(const["point"], ordinary["point"]), name
+        mixed = E.evaluate_level(counts, {"P": t0["P"], "H": tb["H"]}, (1,))  # each index its own cause
+        assert mixed["indices"] == {"P": no_contour, "H": {"result": "not informative", "cause": map_cause, "resampled": False}} and not mixed["resampled"], name
+        swapped = E.evaluate_level(counts, {"P": tb["P"], "H": t0["H"]}, (1,))
+        assert swapped["indices"]["H"] == no_contour and swapped["indices"]["P"]["cause"] == map_cause, name
+    patch = E.evaluate_level(maps["L2's patch"][0], t0, (1,))["point"]
+    assert (patch["region_cells"], patch["bonds"]) == (60, 32)               # it has an edge, and the index is still not scored
+
+
+def _same_point(a, b):
+    return all(a[k] == b[k] for k in ("region_cells", "bonds", "component_sizes", "informative", "reason"))
+
+
 def test_invalid_draws_at_the_boundary_of_fifty(fams):
     """Constructed resample sets (§6.1): a region carried by eight seeds exists at p̃ = 0.20 with all 40 seeds and
     vanishes when one of the eight is dropped. Exactly 50 such rows keep the result; 51 make the edge unstable."""

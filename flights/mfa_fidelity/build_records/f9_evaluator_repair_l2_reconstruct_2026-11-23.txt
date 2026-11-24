@@ -1,0 +1,40 @@
+{
+  "archive_sha256": "e82a62ed1dacd0d79cfbf72a9f866ae38002791d53d1220253f094e97dcf37f9",
+  "reconstructions": [
+    {
+      "file": "flights/mfa_fidelity/instrument/mfa_instrument/f9/evaluator.py",
+      "repaired_sha256": "ddfa49b11955de42d5b6638d892af4c75756ff6b1b5f35ea0884c4de7b2a07a1",
+      "reconstructed_sha256": "73197bfb6dee6fce72dd4f3a7b296c6bc8690dae4a5da3bc442e40668c833acc",
+      "before_sha256": "73197bfb6dee6fce72dd4f3a7b296c6bc8690dae4a5da3bc442e40668c833acc",
+      "byte_equal": true
+    },
+    {
+      "file": "flights/mfa_fidelity/instrument/tests/test_f9_m3.py",
+      "repaired_sha256": "d167f77229fa87cd4aca2fe06dfc051182d068cd95699e2a710f2ac19da312f5",
+      "reconstructed_sha256": "b09f3026c2a2af4da941f8c3c27df9a366d72d45e2d1c7c0f5978d10ece04aa6",
+      "before_sha256": "b09f3026c2a2af4da941f8c3c27df9a366d72d45e2d1c7c0f5978d10ece04aa6",
+      "byte_equal": true
+    },
+    {
+      "file": "flights/mfa_fidelity/instrument/tests/test_f9_m4.py",
+      "repaired_sha256": "751c808680521a0ac7ae088cd0edd1635a48eda7d5f7fabd15fec179fca1ab61",
+      "reconstructed_sha256": "ed487a29067084cc6ff21e6e04f5b5bd5be6f527a44429c7dafd7095f061c63b",
+      "before_sha256": "ed487a29067084cc6ff21e6e04f5b5bd5be6f527a44429c7dafd7095f061c63b",
+      "byte_equal": true
+    },
+    {
+      "file": "flights/mfa_fidelity/instrument/tests/test_f9_m5.py",
+      "repaired_sha256": "5843bec1a35be64da87b31fb72eb223d54cbf323b8db02177d218ba716532954",
+      "reconstructed_sha256": "bf8e7989f756c76deb10deb76ebfc05e05ff3f727785c9251114a82174f312d8",
+      "before_sha256": "bf8e7989f756c76deb10deb76ebfc05e05ff3f727785c9251114a82174f312d8",
+      "byte_equal": true
+    },
+    {
+      "file": "flights/mfa_fidelity/instrument/tests/test_f9_m6.py",
+      "repaired_sha256": "606b079793b064b646a3c2565486566d00e4464fd90574f57fea4493a4c6e16b",
+      "reconstructed_sha256": "74a2a8a6d818aa92f9d66a9b543f21a319c1068e14f07f00c19085594d472c56",
+      "before_sha256": "74a2a8a6d818aa92f9d66a9b543f21a319c1068e14f07f00c19085594d472c56",
+      "byte_equal": true
+    }
+  ]
+}
